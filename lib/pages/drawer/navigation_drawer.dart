@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/widgets/custom_shape.dart';
 import 'package:flutter_app/pages/widgets/oval_right_clipper.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
@@ -11,7 +12,19 @@ class SideDrawer extends StatefulWidget{
 
 }
 class _SideDrawer extends State <SideDrawer> {
-  bool isSwiched=false;
+  bool isDark=false;
+  _SideDrawer(){
+    getTheme();
+  }
+  getTheme() {
+    getSettingPref("dark").then((value)async{
+      setState(() {
+        isDark=value;
+      });
+    });
+    print(isDark);
+  }
+
   String firstName,lastName,email,photo;
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final Color primary = Colors.white;
@@ -214,11 +227,18 @@ class _SideDrawer extends State <SideDrawer> {
                                 "Dark mode",
                               ),
                               Switch(
-                                value: isSwiched,
-                                onChanged: (value) {
+                                value: isDark,
+                                onChanged: (value) async {
                       setState(() {
-                        isSwiched=!isSwiched;
+                        isDark=!isDark;
+                        setSettingPref(
+                          key: "dark",
+                           value: isDark,
+
+                        );
+
                       });
+
                                 },
                                 activeTrackColor: PRIMARY_COLOR,
                                 activeColor: SECONDARY_COLOR,

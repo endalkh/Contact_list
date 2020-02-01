@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
-
-class SettingScreen extends StatelessWidget {
-  static final String path = "lib/src/pages/settings/settings3.dart";
+class SettingScreen extends StatefulWidget{
+  _SettingScreen createState()=>_SettingScreen();
+}
+class _SettingScreen extends State<SettingScreen> {
+  bool isThemeOn=false;
   final TextStyle headerStyle = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 20.0,
@@ -38,18 +40,22 @@ class SettingScreen extends StatelessWidget {
                   ListTile(
                     leading: CircleAvatar(
                         backgroundImage: AssetImage('assets/images/adis2.png'),
-
-
                     ),
                     title: Text("Endalk Belete"),
                     onTap: () {},
                   ),
                   _buildDivider(),
                   SwitchListTile(
-                    activeColor: Colors.blue,
-                    value: true,
-                    title: Text("Private Account"),
-                    onChanged: (val) {},
+                    activeColor: PRIMARY_COLOR,
+                    value: isThemeOn,
+                    title: Text("Use app Primary theme",style: TextStyle(
+                      color: PRIMARY_COLOR
+                    ),),
+                    onChanged: (val) {
+                      setState(() {
+                        isThemeOn=!isThemeOn;
+                      });
+                    },
                   ),
                 ],
               ),

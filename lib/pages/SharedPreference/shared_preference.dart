@@ -25,6 +25,33 @@ savePref( {id,name,  email,photo})  async {
     return false;
   }
 }
+
+setSettingPref( {key,value}) async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  try{
+    preferences.setBool(key, value);
+    return true;
+
+
+  }
+  catch(ex){
+print("result $ex");
+    return false;
+  }
+}
+
+Future<bool> getSettingPref(key) async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  try{
+    return  preferences.getBool(key);
+  }
+  catch(ex){
+    print("result $ex");
+    return false;
+  }
+}
+
+
 signOut() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setString("name", null);

@@ -114,6 +114,7 @@ bottomAppBarTheme: BottomAppBarTheme(
     backgroundColor: darkBG,
     primaryColor: darkPrimary,
     accentColor: darkAccent,
+
 //    scaffoldBackgroundColor: darkBG,
     cursorColor: darkAccent,
     appBarTheme: AppBarTheme(

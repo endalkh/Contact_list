@@ -272,7 +272,6 @@ class _SignInScreenState extends State<SignUpScreen> {
 
 
 
-          Positioned(top: 40, left: 0, child: backButton(context)),
           Positioned(
               top: -MediaQuery.of(context).size.height * .15,
               right: -MediaQuery.of(context).size.width * .4,
