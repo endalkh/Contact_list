@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/appbar/subAppBar.dart';
 import 'package:flutter_app/pages/drawer/navigation_drawer.dart';
-import 'package:flutter_app/pages/progress/circularProgressBar.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 
 class Home extends StatefulWidget {
@@ -100,7 +98,7 @@ class Dashboard extends State<Home>{
                       child:Text(
                         "Jhon Tomson $index",
                         style: TextStyle(
-                            fontSize: 22.0,
+                            fontSize: Constant.fontSize(Constant.L),
                         color: COLOR_LINK
                         ),
 
@@ -109,7 +107,8 @@ class Dashboard extends State<Home>{
                         Expanded(
                           flex:1,
                           child:Text(
-                            "Jan 20", style: TextStyle(fontSize: 17.0),
+                            "Jan 20",
+                            style: TextStyle(fontSize: Constant.fontSize(Constant.M)),
 //
                           ),
                         )
@@ -143,10 +142,7 @@ class Dashboard extends State<Home>{
         child: Column(
           children: <Widget>[
         Padding(
-        padding: EdgeInsets.only(
-          top: 14,
-          bottom: 14
-        ),
+        padding: EdgeInsets.all(14),
             child:Container(
               height: get_height(context),
               child: ListView.builder(
@@ -162,7 +158,7 @@ class Dashboard extends State<Home>{
                               child:Text(
                                 "Old Contact Smith",
                                 style: TextStyle(
-                                    fontSize: 22.0,
+                                    fontSize: Constant.fontSize(Constant.L),
                                     color: COLOR_LINK
                                 ),
                               ),
@@ -523,27 +519,32 @@ class Dashboard extends State<Home>{
          child:pageTaped(_page),
         ),
       ),
-        bottomNavigationBar:  CurvedNavigationBar(
-          backgroundColor: PRIMARY_COLOR,
-          key: _bottomNavigationKey,
-          index: 0,
-          height: 50.0,
-          items: <Widget>[
-            Icon(Icons.event, size: 20),
-            Icon(Icons.contact_mail, size: 20),
-            Icon(Icons.add, size: 20),
-          ],
-          color: COLOR_CREAM,
-          buttonBackgroundColor: Colors.white,
-          animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 600),
-            onTap: (index) {
+        bottomNavigationBar:BottomNavigationBar(
+            currentIndex: _page,
+  selectedItemColor: PRIMARY_COLOR,
+            items:[
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.event),
+                title: new Text('Birthdays'),
+              ),
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.contact_mail),
+                title: new Text('last contact'),
+              ),
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.add),
+                title: new Text('Person'),
+              )
+            ],
+  onTap: (index) {
               setState(() {
                 _page = index;
               });
 
           },
-        ),
+        )
+
+
       ),
     );
 

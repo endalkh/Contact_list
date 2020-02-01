@@ -91,7 +91,11 @@ class Constant{
     primaryColor: lightPrimary,
     accentColor:  lightAccent,
     cursorColor: lightAccent,
-    scaffoldBackgroundColor: lightBG,
+brightness: Brightness.light,
+bottomAppBarTheme: BottomAppBarTheme(
+  elevation: 0,
+),
+//    scaffoldBackgroundColor: lightBG,
     appBarTheme: AppBarTheme(
       elevation: 0,
       textTheme: TextTheme(
@@ -105,12 +109,12 @@ class Constant{
     ),
   );
   static ThemeData darkTheme = ThemeData(
-    fontFamily: "TimesNewRoman",
+//    cardColor:COLOR_CREAM ,
     brightness: Brightness.dark,
     backgroundColor: darkBG,
     primaryColor: darkPrimary,
     accentColor: darkAccent,
-    scaffoldBackgroundColor: darkBG,
+//    scaffoldBackgroundColor: darkBG,
     cursorColor: darkAccent,
     appBarTheme: AppBarTheme(
       elevation: 0,
@@ -120,6 +124,7 @@ class Constant{
           color: lightBG,
           fontSize: 20,
           fontWeight: FontWeight.w800,
+
         ),
       ),
     ),

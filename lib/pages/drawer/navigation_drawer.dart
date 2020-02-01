@@ -40,7 +40,7 @@ class SideDrawer extends StatelessWidget {
           ),
         ),
         Opacity(
-          opacity: 0.5,
+          opacity: 0.6,
           child: ClipPath(
             clipper: CustomShapeClipper2(),
             child: Container(
@@ -66,8 +66,7 @@ class SideDrawer extends StatelessWidget {
 
 
    navigationDrawer(context){
-    return
-      Drawer(
+    return Drawer(
           child: Column(
               mainAxisAlignment: MainAxisAlignment
                   .spaceBetween,
@@ -83,7 +82,7 @@ class SideDrawer extends StatelessWidget {
                             children: <Widget>[
                               clipShape(context),
                               Container(
-                                color: Colors.transparent,
+//                                color: Colors.transparent,
                                 child: Container(
 
   child: Column(
@@ -218,37 +217,18 @@ class SideDrawer extends StatelessWidget {
     );
   }
   _buildRow(IconData icon, String title, {bool showBadge = false}) {
-    final TextStyle tStyle = TextStyle(color: active, fontSize: 16.0);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 15),
       child: Row(children: [
         Icon(
-          icon,
-          color: active,
+          icon
         ),
         SizedBox(width: 10.0),
         Text(
           title,
-          style: tStyle,
         ),
         Spacer(),
-        if (showBadge)
-          Material(
-            color: Colors.deepOrange,
-            elevation: 5.0,
-            shadowColor: Colors.red,
-            borderRadius: BorderRadius.circular(5.0),
-            child: Container(
-              width: 25,
-              height: 25,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.deepOrange,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
 
-            ),
-          )
       ]),
     );
   }

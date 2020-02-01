@@ -6,7 +6,6 @@ import 'package:flutter_app/constants/constant.dart';
 AppBar SubHeaderNav({context,String title}){
   return AppBar(
     automaticallyImplyLeading: false,
-    backgroundColor: PRIMARY_COLOR.withOpacity(0.5),
 
     title: Text(title,
       style: TextStyle(

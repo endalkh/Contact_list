@@ -5,7 +5,6 @@ import 'package:flutter_app/constants/constant.dart';
 
 AppBar headerNav({context,String title}){
   return AppBar(
-    backgroundColor: PRIMARY_COLOR,
     title: Text(title,
       style: TextStyle(
         fontSize: Constant.fontSize(Constant.XL),
