@@ -5,7 +5,7 @@ import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/back_button.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
-import 'package:flutter_app/utilities/validation/get_height.dart';
+import 'package:flutter_app/utilities/validation/get_size.dart';
 class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

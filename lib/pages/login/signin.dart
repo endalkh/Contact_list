@@ -6,7 +6,7 @@ import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/back_button.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
-import 'package:flutter_app/utilities/validation/get_height.dart';
+import 'package:flutter_app/utilities/validation/get_size.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key key, this.title}) : super(key: key);
@@ -194,6 +194,7 @@ Navigator.pushNamed(context, Constant.HOME);
     @override
     Widget build(BuildContext context) {
       return Scaffold(
+
         body: Stack(
           children: <Widget>[
             Container(

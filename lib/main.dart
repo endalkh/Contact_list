@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
 
   @override
   build(context) {
-    return MaterialApp(initialRoute:Constant.SIGN_UP,
-        theme: Constant.darkTheme,
+    return MaterialApp(initialRoute:Constant.SIGN_IN,
+        theme: Constant.lightTheme,
         routes: {
       Constant.SPLASH_SCREEN: (context) => SplashScreen(),
       Constant.SIGN_IN: (context) => SignInPage(title: "hello",),

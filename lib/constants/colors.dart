@@ -9,6 +9,8 @@ final Color darkAccent = Color(0xff06d6a7);
 final Color lightBG = Colors.white;
 final Color darkBG = Colors.black;
 final Color COLOR_LINK = Colors.blue;
+final Color COLOR_CREAM = Colors.grey[50];
+
 
 
 

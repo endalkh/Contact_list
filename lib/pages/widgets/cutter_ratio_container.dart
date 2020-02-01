@@ -19,11 +19,7 @@ class CutterRatioContainer extends StatelessWidget {
               height: MediaQuery.of(context).size.height *.5,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors:[PRIMARY_COLOR,SECONDARY_COLOR]
-                  )
+
               ),
             ),
           ),

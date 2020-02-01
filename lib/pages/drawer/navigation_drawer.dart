@@ -1,12 +1,11 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/widgets/custom_shape.dart';
 import 'package:flutter_app/pages/widgets/oval_right_clipper.dart';
+import 'package:flutter_app/utilities/validation/get_size.dart';
 
 class SideDrawer extends StatelessWidget {
   String firstName,lastName,email,photo;
@@ -14,32 +13,16 @@ class SideDrawer extends StatelessWidget {
   final Color primary = Colors.white;
   final Color active = Colors.grey.shade800;
   final Color divider = Colors.grey.shade600;
-  double _height;
-  double _width;
-  double _pixelRatio;
-  bool _large;
-  bool _medium;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
 
   @override
    build(BuildContext context) {
-    _height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    _width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    _pixelRatio = MediaQuery
-        .of(context)
-        .devicePixelRatio;
     return _buildDrawer(context);
   }
 
-   clipShape() {
+   clipShape(context) {
     return Stack(
       children: <Widget>[
         Opacity(
@@ -47,11 +30,10 @@ class SideDrawer extends StatelessWidget {
           child: ClipPath(
             clipper: CustomShapeClipper(),
             child: Container(
-              height:_large? _height/4 : (_medium? _height : _height),
+              height:get_height(context),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-//                  colors: [Colors.orange[200], Colors.pinkAccent],
-                    colors: [Colors.black,Colors.blue]
+                    colors: [PRIMARY_COLOR,SECONDARY_COLOR]
                 ),
               ),
             ),
@@ -62,10 +44,10 @@ class SideDrawer extends StatelessWidget {
           child: ClipPath(
             clipper: CustomShapeClipper2(),
             child: Container(
-              height: _large? _height : (_medium? _height : _height),
+              height: get_height(context),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [Colors.black,Colors.blue]
+                    colors: [PRIMARY_COLOR,SECONDARY_COLOR]
                 ),
               ),
             ),
@@ -99,7 +81,7 @@ class SideDrawer extends StatelessWidget {
                           height: 280.0,
                           child: Stack(
                             children: <Widget>[
-                              clipShape(),
+                              clipShape(context),
                               Container(
                                 color: Colors.transparent,
                                 child: Container(
@@ -132,14 +114,14 @@ class SideDrawer extends StatelessWidget {
       ),
       SizedBox(height: 5.0),
       Text(
-     "endalk",
+     "Samuel kassa",
         style: TextStyle(
             color: Colors.white,
             fontSize: 18.0,
             fontWeight: FontWeight.w600),
       ),
       Text(
-        "james",
+        "sami_k@gmail.com",
         style: TextStyle(color: Colors.white, fontSize: 16.0),
       ),
     ],
@@ -164,18 +146,13 @@ class SideDrawer extends StatelessWidget {
 
 
 
-                  GestureDetector(
-                    onTap: () {
-                           Navigator.pushNamed(context, Constant.DIALOGE_PAGE);
-                    },
-                    child: _buildRow(Icons.save, "Saved", showBadge: false),
-                  ),
+
 
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, Constant.DIALOGE_PAGE);
                     },
-                    child: _buildRow(Icons.timeline, "My Post", showBadge: false),
+                    child: _buildRow(Icons.timeline, "My Note", showBadge: false),
                   ),
                   Divider(thickness: 1,),
                   GestureDetector(
@@ -212,7 +189,12 @@ class SideDrawer extends StatelessWidget {
                     },
                     child: _buildRow(Icons.email, "Contact us"),
                   ),
-
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, Constant.SETTING);
+                          },
+                          child: _buildRow(Icons.help, "Help"),
+                        ),
 
 
 
@@ -229,7 +211,6 @@ class SideDrawer extends StatelessWidget {
 
   }
   _buildDrawer(context) {
-    final String image = Constant.images[0];
     return ClipPath(
       clipper: OvalRightBorderClipper(),
       child: navigationDrawer(context),
@@ -265,13 +246,7 @@ class SideDrawer extends StatelessWidget {
                 color: Colors.deepOrange,
                 borderRadius: BorderRadius.circular(5.0),
               ),
-              child: Text(
-                "10+",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold),
-              ),
+
             ),
           )
       ]),
