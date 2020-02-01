@@ -13,11 +13,6 @@ class Constant{
   static String HOME_CATAGORY='Homecatagory';
   static String SEARCH="search";
   static String SETTING="SETTING";
-  static String MESSAGE="MESSAGE";
-  static String CHAT="CHAT";
-  static String CHAT_LIST="CHAT_LIST";
-  static String POST="POST";
-  static String NOTIFIACTION_SCREEN="NOTIFIACTION_SCREEN";
   static String DIALOGE_PAGE="DIALOGEPAGE";
   static String PROFILE="Profile";
   static String ABOUT_US="ABOUT_US";
