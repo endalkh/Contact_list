@@ -6,8 +6,12 @@ import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/widgets/custom_shape.dart';
 import 'package:flutter_app/pages/widgets/oval_right_clipper.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+class SideDrawer extends StatefulWidget{
+  _SideDrawer createState()=>_SideDrawer();
 
-class SideDrawer extends StatelessWidget {
+}
+class _SideDrawer extends State <SideDrawer> {
+  bool isSwiched=false;
   String firstName,lastName,email,photo;
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final Color primary = Colors.white;
@@ -195,7 +199,70 @@ class SideDrawer extends StatelessWidget {
                           child: _buildRow(Icons.help, "Help"),
                         ),
 
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, Constant.SETTING);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 15),
+                            child: Row(children: [
+                              Icon(
+                                  Icons.wb_sunny
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                "Dark mode",
+                              ),
+                              Switch(
+                                value: isSwiched,
+                                onChanged: (value) {
+                      setState(() {
+                        isSwiched=!isSwiched;
+                      });
+                                },
+                                activeTrackColor: PRIMARY_COLOR,
+                                activeColor: SECONDARY_COLOR,
+                              ),
+                              Spacer(),
 
+
+                            ]),
+                          ),
+
+//                          child:Container(
+////                          padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 15),
+//                         child: Row(
+//                           children: <Widget>[
+//                             Icon(
+//                                 Icons.add
+//                             ),
+//                             SizedBox(width: 10.0),
+//                             Text(
+//                               "hello",
+//                             ),
+//                             SizedBox(width: 10.0),
+//                             SwitchListTile(
+//                               activeColor: Colors.blue,
+//                               value: true,
+//                               onChanged: (val) {},
+//                             ),
+//                           ],
+//                         ),
+//                          )
+
+
+
+
+
+//                          SwitchListTile(
+//                            activeColor: Colors.blue,
+//                            value: true,
+//                            title: Text("P"),
+//                            onChanged: (val) {},
+//                          ),
+
+//                          _buildRow(Icons.wb_sunny, "Night mode"),
+                        ),
 
                       ],
                     ),

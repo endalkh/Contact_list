@@ -1,19 +1,17 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants/colors.dart';
 
 class SettingScreen extends StatelessWidget {
   static final String path = "lib/src/pages/settings/settings3.dart";
   final TextStyle headerStyle = TextStyle(
-    color: Colors.grey.shade800,
     fontWeight: FontWeight.bold,
     fontSize: 20.0,
   );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        backgroundColor: Colors.green,
         title: Text(
           'Settings',
         ),
@@ -58,48 +56,45 @@ class SettingScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20.0),
             Text(
-              "PUSH NOTIFICATIONS",
+              "ACCOUNT SETTING",
               style: headerStyle,
             ),
             Card(
               margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0,),
               child: Column(
                 children: <Widget>[
-                  SwitchListTile(
-                    activeColor: Colors.blue,
-                    value: true,
-                    title: Text("Received notification"),
-                    onChanged: (val) {},
+              Card(
+                child:  ListTile(
+                  title: Text("Change password",
+                    style: TextStyle(
+                        color: COLOR_LINK
+                    ),
                   ),
-                  _buildDivider(),
-                  SwitchListTile(
-                    activeColor: Colors.blue,
-                    value: false,
-                    title: Text("Received newsletter"),
-                    onChanged: null,
+                ) ,
+              ),
+                  Card(
+                    child:  ListTile(
+                      title: Text("Change user name",
+                        style: TextStyle(
+                            color: COLOR_LINK
+                        ),
+                      ),
+                    ) ,
                   ),
-                  _buildDivider(),
-                  SwitchListTile(
-                    activeColor: Colors.blue,
-                    value: true,
-                    title: Text("Received Offer Notification"),
-                    onChanged: (val) {},
-                  ),
-                  _buildDivider(),
-                  SwitchListTile(
-                    activeColor: Colors.blue,
-                    value: true,
-                    title: Text("Received App Updates"),
-                    onChanged: null,
-                  ),
+
+
                 ],
               ),
             ),
             Card(
               margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0,),
               child: ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text("Logout"),
+              leading: Icon(Icons.exit_to_app,color: COLOR_LINK,),
+              title: Text("Logout",
+                style: TextStyle(
+                  color: COLOR_LINK,
+                ),
+              ),
               onTap: (){},
             ),
               
@@ -119,7 +114,7 @@ class SettingScreen extends StatelessWidget {
       ),
       width: double.infinity,
       height: 1.0,
-      color: Colors.grey.shade300,
+     // color: Colors.grey.shade300,
     );
   }
 }
