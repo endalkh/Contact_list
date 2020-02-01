@@ -3,10 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/main.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/widgets/custom_shape.dart';
 import 'package:flutter_app/pages/widgets/oval_right_clipper.dart';
+import 'package:flutter_app/theme/theme.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
 class SideDrawer extends StatefulWidget{
   _SideDrawer createState()=>_SideDrawer();
 
@@ -83,6 +86,8 @@ class _SideDrawer extends State <SideDrawer> {
 
 
    navigationDrawer(context){
+
+     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return Drawer(
           child: Column(
               mainAxisAlignment: MainAxisAlignment
@@ -97,7 +102,7 @@ class _SideDrawer extends State <SideDrawer> {
                           height: 280.0,
                           child: Stack(
                             children: <Widget>[
-                              clipShape(context),
+                              isDark?Container():clipShape(context),
                               Container(
 //                                color: Colors.transparent,
                                 child: Container(
@@ -238,6 +243,12 @@ class _SideDrawer extends State <SideDrawer> {
                         );
 
                       });
+                      if(isDark){
+                        themeNotifier.setTheme(Constant.darkTheme);
+                      }
+                      else{
+                        themeNotifier.setTheme(Constant.lightTheme);
+                      }
 
                                 },
                                 activeTrackColor: PRIMARY_COLOR,

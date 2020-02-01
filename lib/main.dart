@@ -8,30 +8,50 @@ import 'package:flutter_app/pages/register/signup.dart';
 import 'package:flutter_app/pages/register/termsAndCondition.dart';
 import 'package:flutter_app/pages/settings/settings.dart';
 import 'package:flutter_app/pages/splash/splash_screen.dart';
+import 'package:flutter_app/theme/theme.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+void main() => runApp(
+  ChangeNotifierProvider<ThemeNotifier>(
+    create: (_) => ThemeNotifier(Constant.darkTheme),
+    child: MyApp(),
+  ),
+);
 
-void main() => runApp(MyApp());
+
+
+
+
+
+
 class MyApp extends StatefulWidget{
   _MyApp createState()=>_MyApp();
 }
+
 class _MyApp extends State<MyApp> {
-  bool isDark=false;
+  var themeNotifier;
+  bool isDark=true;
   _MyApp(){
     getTheme();
   }
- getTheme() {
+
+ getTheme() async {
+
    getSettingPref("dark").then((value)async{
-     setState(() {
-       isDark=value;
+     setState(()  {
+        isDark= value;
      });
+
+     print("results $isDark");
    });
-print(isDark);
 }
   @override
   build(context) {
 
+     themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return MaterialApp(initialRoute:Constant.SIGN_IN,
-        theme: isDark==true?
-        Constant.darkTheme:Constant.lightTheme,
+        theme: themeNotifier.getTheme(),
 
         routes: {
       Constant.SPLASH_SCREEN: (context) => SplashScreen(),

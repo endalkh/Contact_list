@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/back_button.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
@@ -19,6 +20,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<SignInPage> {
+
     bool isLoading = false;
   bool showError=false;
   bool showBackendError=false;
@@ -26,6 +28,20 @@ class _LoginPageState extends State<SignInPage> {
   TextEditingController passwordController = TextEditingController();
   bool _secureText = true;
 
+    bool isDark=false;
+
+    _LoginPageState(){
+      getTheme();
+    }
+    getTheme() {
+      getSettingPref("dark").then((value)async{
+        setState(() {
+          isDark=value;
+        });
+      });
+      getTheme;
+      print(isDark);
+    }
   showHide() {
     setState(() {
       _secureText = !_secureText;
@@ -242,7 +258,7 @@ Navigator.pushNamed(context, Constant.HOME);
                 ],
               ),
             ),
-
+isDark==true?Container():
             Positioned(
                 top: -MediaQuery.of(context).size.height * .15,
                 right: -MediaQuery.of(context).size.width * .4,
