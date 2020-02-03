@@ -74,7 +74,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun>{
 
 
   /*==== upcoming Birthdays   on the first tap=======*/
-  upcomingBirthDays(){
+  notes(){
     return Scaffold(
 
       body:SingleChildScrollView(
@@ -82,7 +82,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun>{
           children: <Widget>[
 
             Padding(
-              padding: EdgeInsets.all(14),
+              padding: EdgeInsets.all(2.0),
               child:Container(
                 height: get_height(context),
                 child: ListView.builder(
@@ -90,28 +90,26 @@ class _PersonHeaderFun extends State<PersonHeaderFun>{
                   itemBuilder: (context, index) {
                     return Card(
                       child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(1.0),
                           child: Row(
                             children: <Widget>[
                               Expanded(
                                 flex:1,
-                                child:Text(
-                                  "Jhon Tomson $index",
-                                  style: TextStyle(
-                                      fontSize: Constant.fontSize(Constant.L),
-                                      color: COLOR_LINK
+                                child:ListTile(
+                                  title:  ExpansionTile(
+                                    title:  Text(Constant.PASSWORDRESETDESC.substring(1,36),),
+                                    children: <Widget>[
+                                      ListTile(
+                                        leading: Icon(Icons.delete),
+                                      ),
+                                      ListTile(
+                                        leading: Icon(Icons.edit),
+                                      ),
+                                  ],
                                   ),
-
-                                ),
+                                )
                               ),
-                              Expanded(
-                                flex:1,
-                                child:Text(
-                                  "Jan 20",
-                                  style: TextStyle(fontSize: Constant.fontSize(Constant.M)),
-//
-                                ),
-                              )
+
                             ],
                           )
 //
@@ -495,7 +493,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun>{
   pageTaped(page){
     switch(page){
       case 0:
-        return upcomingBirthDays();
+        return notes();
         break;
       case 1:
         return lastContact();
@@ -539,7 +537,7 @@ getTitle(){
 //                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                         Expanded(
-                          flex:2,
+                          flex:6,
                           child: Text("Name",
                             style: TextStyle(
                               fontSize: 20,
@@ -555,15 +553,15 @@ getTitle(){
                           )
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      Divider(),
                       Row(
                         mainAxisSize: MainAxisSize.max,
 //                        mainAxisAlignment: MainAxisAlignment.center,
 //                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            flex:2,
-                            child: Text("Name",
+                            flex:6,
+                            child: Text("BirthDay",
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w900
@@ -573,16 +571,40 @@ getTitle(){
                           ),
                           Expanded(
                             flex:8,
-                            child: Text("Endalk Belete"),
+                            child: Text("1995-01-20"),
                           )
                         ],
                       ),
+                      Divider(),
+                Row(
+                mainAxisSize: MainAxisSize.max,
+//                        mainAxisAlignment: MainAxisAlignment.center,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    flex:6,
+                    child: Text("Last Contact",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w900
+                      ),
+
+                    ),
+                  ),
+                  Expanded(
+                    flex:8,
+                    child: Text("1995-01-20"),
+                  )
+                ],
+              ),
                     ],
                   )
 
               ),
             ),
-              Divider(),
+              Divider(thickness: 3,),
+              SizedBox(height: 10,),
+
               Expanded(
                 child:  Center(
                   child:Container(
