@@ -4,24 +4,21 @@ import 'package:flutter_app/constants/colors.dart';
 class Constant{
 
   String appName = "Contact Managment";
-
-  static String SIGN_IN = 'sign in';
-  static String SIGN_UP ='sign up';
+ // routes constant
+  static String SIGN_IN ='signIn';
+  static String SIGN_UP ='signUp';
   static String SUBMIT ='Submit';
   static String SPLASH_SCREEN ='splashscreen';
   static String HOME ='home';
-  static String HOME_CATAGORY='Homecatagory';
   static String SEARCH="search";
   static String SETTING="SETTING";
   static String DIALOGE_PAGE="DIALOGEPAGE";
   static String PROFILE="Profile";
   static String ABOUT_US="ABOUT_US";
-  static String PAYMENT="PAYMENT";
   static String PICK_PROFILE_PICHTURE="PICK_PROFILE_PICHTURE";
   static String TERMS_AND_CONDTION="TERMS_AND_CONDTION";
-  static String FAIL_TO_UPLOAD_IMAGE="Failed to upload image";
   static String SUCCESS="Success";
-  static String CONTACT_INFO="Contact Information";
+  static String CONTACT_INFO="ContactInformation";
   static String NOTES="Notes";
   static String DASHBOARD="Dashboard";
   static String ADD_NEW_PERSON="Add new Person";

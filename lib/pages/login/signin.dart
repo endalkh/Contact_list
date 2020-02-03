@@ -6,14 +6,14 @@ import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/back_button.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
+import 'package:flutter_app/theme/theme.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
-  SignInPage({Key key, this.title}) : super(key: key);
-
   final String title;
-
+  SignInPage({this.title});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -29,18 +29,16 @@ class _LoginPageState extends State<SignInPage> {
   bool _secureText = true;
 
     bool isDark=false;
-
     _LoginPageState(){
       getTheme();
     }
+
     getTheme() {
       getSettingPref("dark").then((value)async{
         setState(() {
           isDark=value;
         });
       });
-      getTheme;
-      print(isDark);
     }
   showHide() {
     setState(() {

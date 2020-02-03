@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/back_button.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
@@ -30,7 +31,19 @@ class _SignInScreenState extends State<SignUpScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _secureText = true;
+  bool isDark=false;
 
+  _SignInScreenState(){
+    getTheme();
+  }
+
+  getTheme() {
+    getSettingPref("dark").then((value)async{
+      setState(() {
+        isDark=value;
+      });
+    });
+  }
   showHide() {
     setState(() {
       _secureText = !_secureText;
@@ -271,7 +284,7 @@ class _SignInScreenState extends State<SignUpScreen> {
           ),
 
 
-
+          isDark==true?Container():
           Positioned(
               top: -MediaQuery.of(context).size.height * .15,
               right: -MediaQuery.of(context).size.width * .4,

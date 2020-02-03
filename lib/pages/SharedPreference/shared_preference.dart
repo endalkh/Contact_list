@@ -26,6 +26,8 @@ savePref( {id,name,  email,photo})  async {
   }
 }
 
+
+
 setSettingPref( {key,value}) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   try{

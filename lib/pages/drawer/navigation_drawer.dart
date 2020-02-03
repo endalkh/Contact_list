@@ -7,6 +7,7 @@ import 'package:flutter_app/main.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/widgets/custom_shape.dart';
 import 'package:flutter_app/pages/widgets/oval_right_clipper.dart';
+import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/theme/theme.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
@@ -87,7 +88,7 @@ class _SideDrawer extends State <SideDrawer> {
 
    navigationDrawer(context){
 
-     final themeNotifier = Provider.of<ThemeNotifier>(context);
+     final themeNotifier = Provider.of<AppState>(context);
     return Drawer(
           child: Column(
               mainAxisAlignment: MainAxisAlignment
@@ -243,11 +244,12 @@ class _SideDrawer extends State <SideDrawer> {
                         );
 
                       });
-                      if(isDark){
-                        themeNotifier.setTheme(Constant.darkTheme);
+
+                      if(isDark==true){
+                        themeNotifier.setDark();
                       }
                       else{
-                        themeNotifier.setTheme(Constant.lightTheme);
+                        themeNotifier.setLight();
                       }
 
                                 },

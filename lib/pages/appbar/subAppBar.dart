@@ -5,7 +5,7 @@ import 'package:flutter_app/constants/constant.dart';
 
 AppBar SubHeaderNav({context,String title}){
   return AppBar(
-//    automaticallyImplyLeading: false,
+    automaticallyImplyLeading: false,
 
     title: Text(title,
       style: TextStyle(

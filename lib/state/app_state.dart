@@ -1,50 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_app/constants/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppState extends ChangeNotifier {
+class AppState with ChangeNotifier {
+  ThemeData _themeData;
+
   AppState() {
     findTheme();
   }
+//  Future<bool> getSettingPref() async {
+//    SharedPreferences preferences = await SharedPreferences.getInstance();
+//    try{
+//      if(preferences.getBool("dark")) {
+//        _themeData=Constant.darkTheme;
+//      }
+//      else{
+//        _themeData=Constant.lightTheme;
+//      }
+//    }
+//    catch(ex){
+//      return false;
+//    }
+//  }
+
 
   Future findTheme() async {
     final pref = await SharedPreferences.getInstance();
-    final dark = pref.getBool("dark") ?? false;
-    final tokenP = pref.getString('token') ?? "";
-    if (tokenP != "") _token = tokenP;
+    final dark = pref.getBool("dark");
+//    final tokenP = pref.getString('token') ?? "";
+//    if (tokenP != "") _token = tokenP;
     if (dark)
       setDark();
     else
       setLight();
   }
 
-  String _token = "";
-  ThemeData currentTheme = ThemeData(fontFamily: "Rubik");
-
-  void setToken(String val) {
-    _token = val;
-    notifyListeners();
+  getTheme() {
+    return _themeData;
   }
 
+
   void setDark() {
-    currentTheme = ThemeData(fontFamily: 'Rubik', brightness: Brightness.dark);
+    _themeData = Constant.darkTheme;
     notifyListeners();
   }
 
   void setLight() {
-    currentTheme = ThemeData(fontFamily: 'Rubik', brightness: Brightness.light);
+    _themeData =Constant.lightTheme;
     notifyListeners();
   }
-
-  void toggleTheme() {
-    currentTheme = ThemeData(
-      fontFamily: 'Rubik',
-      brightness: currentTheme.brightness == Brightness.dark
-          ? Brightness.light
-          : Brightness.dark,
-    );
-    notifyListeners();
-  }
-
-  String get token => _token;
 }
