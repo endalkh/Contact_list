@@ -3,7 +3,9 @@ import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/home.dart';
 import 'package:flutter_app/pages/login/signin.dart';
+import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/profile/Profile.dart';
+import 'package:flutter_app/pages/recover_password/recover_password.dart';
 import 'package:flutter_app/pages/register/signup.dart';
 import 'package:flutter_app/pages/register/termsAndCondition.dart';
 import 'package:flutter_app/pages/settings/settings.dart';
@@ -60,6 +62,8 @@ class _MyApp extends State<MyApp> {
           Constant.SETTING:(context)=>SettingScreen(),
           Constant.PROFILE:(context)=>ProfileOnePage(),
           Constant.TERMS_AND_CONDTION:(context)=>TermsAndConditions(),
+          Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
+          Constant.PERSON_HEADER:(context)=>PersonHeaderFun(),
 
         });
 

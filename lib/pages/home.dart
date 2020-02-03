@@ -542,7 +542,17 @@ class Dashboard extends State<Home>{
               });
 
           },
-        )
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: ()=>{
+Navigator.pushNamed(context, Constant.PERSON_HEADER)
+          },
+          backgroundColor: PRIMARY_COLOR,
+          child: Icon(Icons.add,
+          color: lightBG,
+          ),
+
+        ),
 
 
       ),

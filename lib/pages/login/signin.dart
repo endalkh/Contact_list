@@ -149,12 +149,13 @@ Navigator.pushNamed(context, Constant.HOME);
           ),
           GestureDetector(
             onTap: () {
-              print("Routing");
+              Navigator.pushNamed(context, Constant.RECOVER_PASSWORD);
             },
             child: Text(
               "Recover",
               style: TextStyle(
                   fontWeight: FontWeight.w800, ),
+
             ),
           )
         ],

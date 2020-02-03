@@ -21,9 +21,22 @@ class Constant{
   static String CONTACT_INFO="ContactInformation";
   static String NOTES="Notes";
   static String DASHBOARD="Dashboard";
+  static String RECOVER_PASSWORD="RecoverPassword";
+  static String PERSON_HEADER="personHeader";
+
+
+
+// labels
   static String ADD_NEW_PERSON="Add new Person";
   static String LAST_CONTACT="Last Contact";
   static String UPCOMING_BIRTHDAYS="Upcoming Birthdays";
+  static String RESETPASSWORD="Reset Password";
+  static String RECOVERPASSWORD="Recover Password";
+  static String SIGNIN="Sign in";
+  static String SIGNUP ="Sign up";
+  static String PASSWORDRESETDESC ="It's ok, we all forget out password sometimes. "
+      "Fill out your email to get a reset link sent to your email. "
+      "You also might consider getting a password manager like 1Password or Bitwarden";
 
   //font
   static const String XS="XS";
@@ -38,6 +51,9 @@ class Constant{
   static const String H5="H1";
   static const String H6="H1";
   static const String HX="HX";
+
+
+
 
 
 
@@ -83,12 +99,15 @@ class Constant{
   );
 
   static ThemeData lightTheme = ThemeData(
+
     fontFamily: "TimesNewRoman",
     backgroundColor: lightBG,
     primaryColor: lightPrimary,
     accentColor:  lightAccent,
     cursorColor: lightAccent,
+indicatorColor: PRIMARY_COLOR,
 brightness: Brightness.light,
+    iconTheme: IconThemeData(color: Colors.white),
 bottomAppBarTheme: BottomAppBarTheme(
   elevation: 0,
 ),
