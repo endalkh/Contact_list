@@ -21,10 +21,9 @@ class Constant{
   static String CONTACT_INFO="ContactInformation";
   static String NOTES="Notes";
   static String DASHBOARD="Dashboard";
-  static String RECOVER_PASSWORD="RecoverPassword";
-  static String PERSON_HEADER="personHeader";
-
-
+  static String RECOVER_PASSWORD="Recover_password";
+  static String PERSON_HEADER="person_header";
+  static String SEARCH_DISPLAY="search_display";
 
 // labels
   static String ADD_NEW_PERSON="Add new Person";

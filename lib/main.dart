@@ -8,6 +8,9 @@ import 'package:flutter_app/pages/profile/Profile.dart';
 import 'package:flutter_app/pages/recover_password/recover_password.dart';
 import 'package:flutter_app/pages/register/signup.dart';
 import 'package:flutter_app/pages/register/termsAndCondition.dart';
+import 'package:flutter_app/pages/search/search.dart';
+import 'package:flutter_app/pages/search/search_display.dart';
+import 'package:flutter_app/pages/search/search_result.dart';
 import 'package:flutter_app/pages/settings/settings.dart';
 import 'package:flutter_app/pages/splash/splash_screen.dart';
 import 'package:flutter_app/state/app_state.dart';
@@ -64,6 +67,8 @@ class _MyApp extends State<MyApp> {
           Constant.TERMS_AND_CONDTION:(context)=>TermsAndConditions(),
           Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
           Constant.PERSON_HEADER:(context)=>PersonHeaderFun(),
+          Constant.SEARCH:(context)=>MaterialSearchResult(),
+          Constant.SEARCH_DISPLAY:(context)=>SearchDisplayScreen(),
 
         });
 
