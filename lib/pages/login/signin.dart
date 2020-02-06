@@ -1,15 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
-import 'package:flutter_app/pages/widgets/back_button.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
-import 'package:flutter_app/theme/theme.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
-import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   final String title;
@@ -20,17 +19,29 @@ class SignInPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<SignInPage> {
-
     bool isLoading = false;
   bool showError=false;
   bool showBackendError=false;
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _secureText = true;
+  bool isDark=false;
+  String emailError="",passwordError="";
+  var login;
 
-    bool isDark=false;
-    _LoginPageState(){
+
+  _LoginPageState(){
       getTheme();
+    }
+    @override
+    void initState() {
+      super.initState();
+    }
+    @override
+    void dispose() {
+      usernameController.dispose();
+      passwordController.dispose();
+      super.dispose();
     }
 
     getTheme() {
@@ -40,18 +51,49 @@ class _LoginPageState extends State<SignInPage> {
         });
       });
     }
+
   showHide() {
     setState(() {
       _secureText = !_secureText;
     });
   }
+submitForm(){
+  setState(() {
+    showError=true;
+    emailError=validateEmail(usernameController.text);
+    passwordError=validatePassword(passwordController.text);
+  });
+
+  if(emailError.isEmpty  && passwordError.isEmpty && showError){
+    setState(() {
+      isLoading=true;
+    });
+    login=loginApi(
+      userId:usernameController.text,
+      password:passwordController.text,
+      context:context,
+    );
+    setState(() {
+      isLoading=false;
+    });
+    Navigator.pushNamed(context, Constant.HOME);
+    print("$login");
+
+
+  }
+}
+
   button() {
       return RaisedButton(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        onPressed: () {
-Navigator.pushNamed(context, Constant.HOME);
-        },
+     onPressed: (){
+
+
+submitForm();
+
+
+       },
         textColor: Colors.white,
         padding: EdgeInsets.all(0.0),
         child: Container(
@@ -64,12 +106,11 @@ Navigator.pushNamed(context, Constant.HOME);
             ),
           ),
           padding: const EdgeInsets.all(15.0),
-          child: Text('SIGN IN',style: TextStyle(fontSize: 12)),
+          child: Text('SIGN IN',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w900,color: lightPrimary)),
         ),
       );
     }
   emailTextFormField() {
-    var checkEmail=validateEmail(usernameController.text);
     return Column(
       children: <Widget>[
         Material(
@@ -78,9 +119,8 @@ Navigator.pushNamed(context, Constant.HOME);
           child: TextFormField(
             controller: usernameController,
             keyboardType: TextInputType.text,
-
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email, size: 20),
+              prefixIcon: Icon(Icons.email, size: 20,color: PRIMARY_COLOR,),
               hintText: "Email",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
@@ -91,16 +131,16 @@ Navigator.pushNamed(context, Constant.HOME);
           ),
 
         ),
-        checkEmail.isNotEmpty && showError?
 
-        Text(checkEmail,style: TextStyle(
-            color: Colors.red
-        )):Container()
+        SizedBox(height: 5,),
+        (showError==true && emailError.isNotEmpty)?
+         Text(emailError,style: TextStyle(
+             color: Colors.red)
+        ):Container(),
       ],
     );
   }
   passwordTextFormField() {
-    var checkPassword=validatePassword(passwordController.text);
     return Column(
       children: <Widget>[
         Material(
@@ -110,9 +150,8 @@ Navigator.pushNamed(context, Constant.HOME);
             obscureText:_secureText ,
             controller: passwordController,
             keyboardType: TextInputType.text,
-
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.lock, size: 20),
+              prefixIcon: Icon(Icons.lock, size: 20,color: PRIMARY_COLOR),
               hintText: "Password",
               suffixIcon: IconButton(
               onPressed: showHide,
@@ -127,11 +166,10 @@ Navigator.pushNamed(context, Constant.HOME);
             ),
           ),
         ),
-        checkPassword.isNotEmpty && showError?
-
-        Text(checkPassword,style: TextStyle(
-            color: Colors.red
-        )):Container()
+        (showError==true && passwordError.isNotEmpty)?
+        Text(passwordError,style: TextStyle(
+            color: Colors.red)
+        ):Container(),
       ],
     );
   }
@@ -206,11 +244,14 @@ Navigator.pushNamed(context, Constant.HOME);
       ),
     );
   }
+
     @override
     Widget build(BuildContext context) {
       return Scaffold(
 
-        body: Stack(
+        body: isLoading==true?CircularIndicator()
+
+        :Stack(
           children: <Widget>[
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),

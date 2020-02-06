@@ -100,6 +100,7 @@ getTitle(){
         return "Person Setting";
 
     }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

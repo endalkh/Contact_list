@@ -1,4 +1,4 @@
- validateEmail(String value) {
+ validateEmail(value) {
   if (value.isEmpty) {
     // The form is empty
     return "Enter email address";
@@ -39,14 +39,11 @@
 
  validatePassword(String value) {
    if (value.isEmpty) {
-     return "Enter Password address";
+     return "Enter Password field";
    }
-   String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}";
-   RegExp regExp = new RegExp(p);
+  if(value.length<6){
+    return 'Your password is too weak';
+  }
 
-   if (regExp.hasMatch(value)) {
-     return "";
-   }
-   // The pattern of the email didn't match the regex above.
-   return 'Password is not valid';
+   return '';
  }

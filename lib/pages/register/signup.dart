@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
@@ -28,6 +29,8 @@ class _SignInScreenState extends State<SignUpScreen> {
   bool showError=false;
   bool showBackendError=false;
   bool checkBoxValue = false;
+  bool isCheckBoxSelected=true;
+  String emailError="",passwordError="";
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _secureText = true;
@@ -44,6 +47,46 @@ class _SignInScreenState extends State<SignUpScreen> {
       });
     });
   }
+
+  submitForm(){
+    setState(() {
+      showError=true;
+      emailError=validateEmail(usernameController.text);
+      passwordError=validatePassword(passwordController.text);
+    });
+
+    if(emailError.isEmpty  && passwordError.isEmpty && showError){
+      if(checkBoxValue==false){
+setState(() {
+  isCheckBoxSelected=false;
+});
+      }
+      else if(checkBoxValue==true) {
+        setState(() {
+          isCheckBoxSelected = true;
+        });
+      }
+        else{
+          Navigator.pushNamed(context, Constant.HOME);
+      }
+
+
+//      setState(() {
+//        isLoading=true;
+//      });
+//      loginApi(
+//        userId:usernameController.text,
+//        password:passwordController.text,
+//        context:context,
+//      );
+//      setState(() {
+//        isLoading=false;
+//      });
+
+
+
+    }
+  }
   showHide() {
     setState(() {
       _secureText = !_secureText;
@@ -58,7 +101,6 @@ class _SignInScreenState extends State<SignUpScreen> {
   }
 
   emailTextFormField() {
-    var checkEmail=validateEmail(usernameController.text);
     return Column(
       children: <Widget>[
         Material(
@@ -68,7 +110,7 @@ class _SignInScreenState extends State<SignUpScreen> {
             controller: usernameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email, size: 20),
+              prefixIcon: Icon(Icons.email, size: 20,color: PRIMARY_COLOR,),
               hintText: "Email",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
@@ -79,16 +121,16 @@ class _SignInScreenState extends State<SignUpScreen> {
           ),
 
         ),
-        checkEmail.isNotEmpty && showError?
 
-        Text(checkEmail,style: TextStyle(
-            color: Colors.red
-        )):Container()
+        SizedBox(height: 5,),
+        (showError==true && emailError.isNotEmpty)?
+        Text(emailError,style: TextStyle(
+            color: Colors.red)
+        ):Container(),
       ],
     );
   }
   passwordTextFormField() {
-    var checkPassword=validatePassword(passwordController.text);
     return Column(
       children: <Widget>[
         Material(
@@ -99,7 +141,7 @@ class _SignInScreenState extends State<SignUpScreen> {
             controller: passwordController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.lock, size: 20),
+              prefixIcon: Icon(Icons.lock, size: 20,color: PRIMARY_COLOR),
               hintText: "Password",
               suffixIcon: IconButton(
                 onPressed: showHide,
@@ -114,11 +156,10 @@ class _SignInScreenState extends State<SignUpScreen> {
             ),
           ),
         ),
-        checkPassword.isNotEmpty && showError?
-
-        Text(checkPassword,style: TextStyle(
-            color: Colors.red
-        )):Container()
+        (showError==true && passwordError.isNotEmpty)?
+        Text(passwordError,style: TextStyle(
+            color: Colors.red)
+        ):Container(),
       ],
     );
   }
@@ -196,18 +237,21 @@ class _SignInScreenState extends State<SignUpScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
-
+       submitForm();
       },
       padding: EdgeInsets.all(0.0),
       child: Container(
+
         alignment: Alignment.center,
         width:  get_width(context),
         decoration: BoxDecoration(
-          color: PRIMARY_COLOR,
+         gradient: LinearGradient(
+           colors: [PRIMARY_COLOR,SECONDARY_COLOR]
+         ),
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
         padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN IN',style: TextStyle(fontSize: 12)),
+        child: Text('SIGN Up',style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.w900)),
       ),
     );
   }
@@ -228,7 +272,12 @@ class _SignInScreenState extends State<SignUpScreen> {
               Navigator.pushNamed(context, Constant.TERMS_AND_CONDTION),
             },
             child: Text("I accept all terms and conditions",
-              style: TextStyle(fontWeight: FontWeight.w400, fontSize:12),
+              style: TextStyle(fontWeight: FontWeight.w400,
+                  color: isCheckBoxSelected==false?Colors.red:PRIMARY_COLOR,
+                  fontSize:12,
+
+
+              ),
             ),
           ),
         ],
@@ -268,6 +317,7 @@ class _SignInScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: 20,
                 ),
+
            acceptTermsTextRow(),
                 button(),
                 SizedBox(
