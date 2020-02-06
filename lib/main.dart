@@ -58,13 +58,13 @@ class _MyApp extends State<MyApp> {
         theme:  themeNotifier.getTheme(),
 
         routes: {
-          Constant.SPLASH_SCREEN: (context) => SplashScreen(),
+          Constant.SPLASH_SCREEN: (context) => ConcaveShadow(),
           Constant.SIGN_IN: (context) => SignInPage(title: "hello",),
           Constant.SIGN_UP: (context) => SignUpScreen(),
           Constant.HOME: (context) => Home(),
           Constant.SETTING:(context)=>SettingScreen(),
           Constant.PROFILE:(context)=>ProfileOnePage(),
-          Constant.TERMS_AND_CONDTION:(context)=>TermsAndConditions(),
+          Constant.TERMS_AND_CONDTION:(context)=>ConcaveShadow(),
           Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
           Constant.PERSON_HEADER:(context)=>PersonHeaderFun(),
           Constant.SEARCH:(context)=>MaterialSearchResult(),

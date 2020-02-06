@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/constants/constant.dart';
 
 class ProfileOnePage extends StatelessWidget {
   static final String path = "lib/src/pages/profile/profile1.dart";
@@ -22,8 +24,8 @@ class ProfileOnePage extends StatelessWidget {
                     end: Alignment.centerRight,
                     stops: [0.0, 0.9],
                     colors: [
-                      Colors.black,
-                      Colors.black
+                      PRIMARY_COLOR,
+                      SECONDARY_COLOR
                     ]
                 )
             ),
@@ -31,83 +33,62 @@ class ProfileOnePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    CircleAvatar(
-                      child: Icon(Icons.call, size: 30.0,),
-                      minRadius: 30.0,
-                      backgroundColor: Colors.red.shade600,),
-//                    CircleAvatar(
-//                      minRadius: 60,
-//                      backgroundColor: Colors.deepOrange.shade300,
-//                      child: CircleAvatar(
-//                        backgroundImage: CachedNetworkImageProvider(images[0]),
-//                        minRadius: 50,
-//
-//                      ),
-//                    ),
-                    CircleAvatar(
-                      child: Icon(Icons.message, size: 30.0,),
-                      minRadius: 30.0,
-                      backgroundColor: Colors.red.shade600,),
-                  ],
-                ),
                 SizedBox(height: 10,),
                 Text("Stefan Belete", style: TextStyle(fontSize: 22.0, color: Colors.white),),
-                Text("Addis Abaaba, Ethiopia", style: TextStyle(fontSize: 14.0, color: Colors.red.shade700),)
+                Text("Addis Abaaba, Ethiopia", style: TextStyle(fontSize: 14.0,
+
+                                                                fontWeight: FontWeight.w900),)
               ],
             ),
           ),
-//          Container(
-//            // height: 50,
-//            child: Row(
-//              children: <Widget>[
-//                Expanded(
-//                  child: Container(
-//                    color: Colors.deepOrange.shade300,
-//                    child: ListTile(
-//                      title: Text("50895",textAlign: TextAlign.center, style: TextStyle(
-//                          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24.0
-//                      ),),
-//                      subtitle: Text("FOLLOWERS", textAlign: TextAlign.center, style: TextStyle(color: Colors.red),),
-//                    ),
-//                  ),
-//                ),
-//                Expanded(
-//                  child: Container(
-//                    color: Colors.red,
-//                    child: ListTile(
-//                      title: Text("34524",textAlign: TextAlign.center, style: TextStyle(
-//                          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24.0
-//                      ),),
-//                      subtitle: Text("FOLLOWING", textAlign: TextAlign.center, style: TextStyle(color: Colors.white70),),
-//                    ),
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
-//          ListTile(
-//            title: Text("Email", style: TextStyle(color: COLOR_PRIMARY, fontSize: 12.0),),
-//            subtitle: Text("endalkhbel@gmail.com", style: TextStyle(fontSize: 18.0),),
-//          ),
-//          Divider(),
-//          ListTile(
-//            title: Text("Phone", style: TextStyle(color: COLOR_PRIMARY, fontSize: 12.0),),
-//            subtitle: Text("0937383805", style: TextStyle(fontSize: 18.0),),
-//          ),
-//          Divider(),
-//          ListTile(
-//            title: Text("Twitter", style: TextStyle(color: COLOR_PRIMARY, fontSize: 12.0),),
-//            subtitle: Text("@endalk", style: TextStyle(fontSize: 18.0),),
-//          ),
-//          Divider(),
-//          ListTile(
-//            title: Text("Facebook", style: TextStyle(color: COLOR_PRIMARY, fontSize: 12.0),),
-//            subtitle: Text("facebook.com/stefan", style: TextStyle(fontSize: 18.0),),
-//          ),
+          Container(
+            // height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    color: SECONDARY_COLOR,
+                    child: ListTile(
+                      title: Text("1000",textAlign: TextAlign.center, style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold, fontSize: Constant.fontSize(Constant.XL),
+                      ),),
+                      subtitle: Text("Persons", textAlign: TextAlign.center, style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: Constant.fontSize(Constant.M),
+
+                      ),),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: PRIMARY_COLOR,
+                    child: ListTile(
+                      title: Text("10000",textAlign: TextAlign.center, style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold, fontSize: Constant.fontSize(Constant.XL),
+                      ),),
+                      subtitle: Text("Notes", textAlign: TextAlign.center, style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: Constant.fontSize(Constant.M),
+
+                      ),),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListTile(
+            title: Text("Email", style: TextStyle(color: PRIMARY_COLOR, fontSize: 12.0),),
+            subtitle: Text("endalkhbel@gmail.com", style: TextStyle(fontSize: 18.0),),
+          ),
           Divider(),
+          ListTile(
+            title: Text("Phone", style: TextStyle(color: PRIMARY_COLOR, fontSize: 12.0),),
+            subtitle: Text("0937383805", style: TextStyle(fontSize: 18.0),),
+          ),
+          Divider(),
+
         ],
       ),
     );

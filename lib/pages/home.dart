@@ -89,31 +89,65 @@ class Dashboard extends State<Home>{
               itemCount: 4,
               itemBuilder: (context, index) {
                 return Card(
+                    child:Container(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: <Widget>[
-                    Expanded(
-                      flex:1,
-                      child:Text(
-                        "Jhon Tomson $index",
-                        style: TextStyle(
-                            fontSize: Constant.fontSize(Constant.L),
-                        color: COLOR_LINK
-                        ),
+                        child:Container(
+                            decoration:BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.grey.shade400,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey[400],
+                                    offset: Offset(-7.0, -4.0),
+                                    blurRadius: 30.0,
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.grey[100],
+                                    offset: Offset(4.0, 7.0),
+                                    blurRadius: get_height(context),
+                                  ),
+                                ],
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.grey[300],
+                                    Colors.grey[200],
+                                    Colors.grey[50],
+                                    Colors.grey[50],
+                                  ],
+                                  stops: [0.1, 0.35, 0.7, 1],
+                                )),
+                           child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex:1,
+                                  child:Text(
+                                    "Jhon Tomson $index",
+                                    style: TextStyle(
+                                        fontSize: Constant.fontSize(Constant.L),
+                                        color: COLOR_LINK
+                                    ),
 
-                      ),
-                    ),
-                        Expanded(
-                          flex:1,
-                          child:Text(
-                            "Jan 20",
-                            style: TextStyle(fontSize: Constant.fontSize(Constant.M)),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex:1,
+                                  child:Text(
+                                    "Jan 20",
+                                    style: TextStyle(fontSize: Constant.fontSize(Constant.M)),
 //
-                          ),
+                                  ),
+                                )
+                              ],
+                            )
                         )
-                      ],
+
+
                     )
+
+
 //
                   ),
                 );
@@ -515,6 +549,7 @@ class Dashboard extends State<Home>{
         appBar: headerNav(title: Constant.DASHBOARD,context: context),
         drawer: SideDrawer(),
         body: Container(
+
         child: Center(
          child:pageTaped(_page),
         ),
