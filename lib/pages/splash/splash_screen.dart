@@ -1,50 +1,152 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/widgets/custom_shape.dart';
+import 'package:flutter_app/utilities/validation/get_size.dart';
 
-class ConcaveShadow extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
+  @override
+  SplashScreenState createState() => new SplashScreenState();
+}
+
+class SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  var _visible = true;
+
+  AnimationController animationController;
+  Animation<double> animation;
+
+  startTime() async {
+    var _duration = new Duration(seconds: 2);
+    return new Timer(_duration, navigationPage);
+  }
+
+  void navigationPage() {
+    Navigator.pushNamed(context, Constant.SIGN_IN);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = new AnimationController(
+        vsync: this, duration: new Duration(seconds: 2));
+    animation =
+    new CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+
+    animation.addListener(() => this.setState(() {}));
+    animationController.forward();
+
+    setState(() {
+      _visible = !_visible;
+    });
+    startTime();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Container(
-          child: Opacity(
-            opacity: 0.6,
-            child: Icon(
-              Icons.add,
-              size: 50.0,
-              color: Colors.grey.shade500,
+      body: Stack(
+
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.white, Colors.blue]
+
+                )
             ),
           ),
-          width: 200.0,
-          height: 200.0,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey.shade400,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey[400],
-                    offset: Offset(-7.0, -4.0),
-                    blurRadius: 30.0,
-                    spreadRadius: 20.0),
-                BoxShadow(
-                    color: Colors.grey[100],
-                    offset: Offset(4.0, 7.0),
-                    blurRadius: 40.0,
-                    spreadRadius: 50),
-              ],
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.grey[300],
-                  Colors.grey[200],
-                  Colors.grey[50],
-                  Colors.grey[50],
-                ],
-                stops: [0.1, 0.35, 0.7, 1],
-              )),
+
+          new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Image.asset(
+                'assets/logo.jpg',
+                width: animation.value * 250,
+                height: animation.value * 250,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+}
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreen createState() => _HomeScreen();
+}
+
+class _HomeScreen extends State<HomeScreen> {
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Material(
+      child: Container(
+        height: get_height(context),
+        width: get_width(context),
+        padding: EdgeInsets.only(bottom: 5),
+        child: SingleChildScrollView(
+          child: Column(
+
+            children: <Widget>[
+
+              clipShape(),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  Widget clipShape() {
+    return Stack(
+      children: <Widget>[
+        Opacity(
+          opacity: 0.75,
+          child: ClipPath(
+            clipper: CustomShapeClipper(),
+            child: Container(
+              height:get_height(context)/4,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+//                  colors: [Colors.orange[200], Colors.pinkAccent],
+                    colors: [Colors.blue,Colors.black]
+                ),
+              ),
+            ),
+          ),
+        ),
+        Opacity(
+          opacity: 0.5,
+          child: ClipPath(
+            clipper: CustomShapeClipper2(),
+            child: Container(
+              height:get_height(context)/4,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.blue,Colors.black]
+                ),
+              ),
+            ),
+          ),
+        ),
+//        Container(
+//          child: SizedBox.expand(child: RadialMenu()),
+//
+//        ),
+
+      ],
+    );
+
+  }
+
 }

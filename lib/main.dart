@@ -45,26 +45,22 @@ class _MyApp extends State<MyApp> {
      print("results $isDark");
    });
 
-
-
 }
-
 
   @override
   build(context) {
 
     AppState themeNotifier = Provider.of<AppState>(context);
-    return MaterialApp(initialRoute:Constant.SIGN_IN,
+    return MaterialApp(initialRoute:Constant.SPLASH_SCREEN,
         theme:  themeNotifier.getTheme(),
-
         routes: {
-          Constant.SPLASH_SCREEN: (context) => ConcaveShadow(),
+          Constant.SPLASH_SCREEN: (context) => SplashScreen(),
           Constant.SIGN_IN: (context) => SignInPage(title: "hello",),
           Constant.SIGN_UP: (context) => SignUpScreen(),
           Constant.HOME: (context) => Home(),
           Constant.SETTING:(context)=>SettingScreen(),
           Constant.PROFILE:(context)=>ProfileOnePage(),
-          Constant.TERMS_AND_CONDTION:(context)=>ConcaveShadow(),
+          Constant.TERMS_AND_CONDTION:(context)=>TermsAndConditions(),
           Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
           Constant.PERSON_HEADER:(context)=>PersonHeaderFun(),
           Constant.SEARCH:(context)=>MaterialSearchResult(),
