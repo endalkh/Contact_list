@@ -85,7 +85,8 @@ submitForm(){
 }
 
   button() {
-      return RaisedButton(
+      return  FadeIn(5,
+        RaisedButton(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
      onPressed: (){
@@ -108,6 +109,7 @@ submitForm();
           ),
           padding: const EdgeInsets.all(15.0),
           child: Text('SIGN IN',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w900,color: lightPrimary)),
+        ),
         ),
       );
     }
@@ -308,7 +310,7 @@ isDark==true?Container():
             Positioned(
                 top: -MediaQuery.of(context).size.height * .15,
                 right: -MediaQuery.of(context).size.width * .4,
-                child: CutterRatioContainer())
+                child: FadeIn(0.25,CutterRatioContainer()))
 
           ],
         ),
