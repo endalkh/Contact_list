@@ -4,6 +4,7 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:flutter_app/pages/animation/animate.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
@@ -263,25 +264,29 @@ submitForm();
                     flex: 1,
                     child: SizedBox(),
                   ),
-                  logo(),
+//                  logo(),
+                  FadeIn(2,logo()),
                   SizedBox(
                     height: 20,
                   ),
-                  headerTextRow(),
+
+                  FadeIn(2.5,headerTextRow(),),
                   SizedBox(
                     height: 20,
                   ),
-                  emailTextFormField(),
+                  FadeIn(3,emailTextFormField()),
                   SizedBox(
                     height: 20,
                   ),
-                  passwordTextFormField(),
+                  FadeIn(3.5,passwordTextFormField(),),
+
 
                   SizedBox(
                     height: 20,
                   ),
 
-                  forgetPassTextRow(),
+
+                  FadeIn(4.0,forgetPassTextRow(),),
                   SizedBox(
                     height: 10,
                   ),
@@ -290,7 +295,8 @@ submitForm();
                   SizedBox(
                     height: 10,
                   ),
-                  signUpTextRow(),
+
+                  FadeIn(4.5,  signUpTextRow(),),
                   Expanded(
                     flex: 1,
                     child: SizedBox(),

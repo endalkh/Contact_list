@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/animation/animate.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/appbar/subAppBar.dart';
 import 'package:flutter_app/pages/drawer/navigation_drawer.dart';
@@ -88,69 +89,72 @@ class Dashboard extends State<Home>{
             child: ListView.builder(
               itemCount: 4,
               itemBuilder: (context, index) {
-                return Card(
-                    child:Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                        child:Container(
-                            decoration:BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey.shade400,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey[400],
-                                    offset: Offset(-7.0, -4.0),
-                                    blurRadius: 30.0,
-                                  ),
-                                  BoxShadow(
-                                    color: Colors.grey[100],
-                                    offset: Offset(4.0, 7.0),
-                                    blurRadius: get_height(context),
-                                  ),
-                                ],
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.grey[300],
-                                    Colors.grey[200],
-                                    Colors.grey[50],
-                                    Colors.grey[50],
-                                  ],
-                                  stops: [0.1, 0.35, 0.7, 1],
-                                )),
-                           child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex:1,
-                                  child:Text(
-                                    "Jhon Tomson $index",
-                                    style: TextStyle(
-                                        fontSize: Constant.fontSize(Constant.L),
-                                        color: COLOR_LINK
-                                    ),
+                return FadeIn(index*0.3,
+                    Card(
+                      child:Container(
+                          child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child:Container(
+                                  decoration:BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.grey.shade400,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey[400],
+                                          offset: Offset(-7.0, -4.0),
+                                          blurRadius: 30.0,
+                                        ),
+                                        BoxShadow(
+                                          color: Colors.grey[100],
+                                          offset: Offset(4.0, 7.0),
+                                          blurRadius: get_height(context),
+                                        ),
+                                      ],
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Colors.grey[300],
+                                          Colors.grey[200],
+                                          Colors.grey[50],
+                                          Colors.grey[50],
+                                        ],
+                                        stops: [0.1, 0.35, 0.7, 1],
+                                      )),
+                                  child: Row(
+                                    children: <Widget>[
 
-                                  ),
-                                ),
-                                Expanded(
-                                  flex:1,
-                                  child:Text(
-                                    "Jan 20",
-                                    style: TextStyle(fontSize: Constant.fontSize(Constant.M)),
+                                      Expanded(
+                                        flex:1,
+                                        child:Text(
+                                          "Jhon Tomson $index",
+                                          style: TextStyle(
+                                              fontSize: Constant.fontSize(Constant.L),
+                                              color: COLOR_LINK
+                                          ),
+
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex:1,
+                                        child:Text(
+                                          "Jan 20",
+                                          style: TextStyle(fontSize: Constant.fontSize(Constant.M)),
 //
-                                  ),
-                                )
-                              ],
-                            )
-                        )
+                                        ),
+                                      )
+                                    ],
+                                  )
+                              )
 
 
-                    )
+                          )
 
 
 //
-                  ),
-                );
+                      ),
+                    ));
+
               },
             ),
           ),
@@ -181,7 +185,9 @@ class Dashboard extends State<Home>{
               height: get_height(context),
               child: ListView.builder(
                 itemBuilder: (context, position) {
-                  return Card(
+                  return FadeIn(position*0.3,
+
+                    Card(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
 //                      child: Text(position.toString(), style: TextStyle(fontSize: 22.0),),
@@ -206,6 +212,7 @@ class Dashboard extends State<Home>{
                             )
                           ],
                         )
+                    ),
                     ),
                   );
                 },
@@ -261,7 +268,7 @@ class Dashboard extends State<Home>{
   nameTextFormField() {
 
 //    var checkEmail=validateEmail(usernameController.text);
-    return Column(
+    return FadeIn(0.5, Column(
       children: <Widget>[
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -283,10 +290,11 @@ class Dashboard extends State<Home>{
         ),
 
       ],
+    ),
     );
   }
   BirthDatePicker() {
-    return Column(
+    return FadeIn(0.75,Column(
       children: <Widget>[
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -317,6 +325,7 @@ class Dashboard extends State<Home>{
     ),
     ),
     ]
+    ),
     );
 
   }
@@ -328,6 +337,7 @@ class Dashboard extends State<Home>{
           padding: EdgeInsets.all(15),
         child:Column(
           children: <Widget>[
+          FadeIn(1,
             Text(Constant.CONTACT_INFO,
               style: TextStyle(
                 color: PRIMARY_COLOR,
@@ -336,14 +346,18 @@ class Dashboard extends State<Home>{
               ),
 
             ),
+          ),
 
             SizedBox(height: 15,),
-            phoneNumberButton(),
+
+          FadeIn(1.25,phoneNumberButton()),
             SizedBox(height: 15,),
-            EmailTypeButton(),
+
+            FadeIn(1.5, EmailTypeButton(),),
 
             SizedBox(height: 15,),
-            enterNotes(),
+
+            FadeIn(1.75,   enterNotes(),),
 
           ],
         ),
@@ -506,7 +520,9 @@ class Dashboard extends State<Home>{
     );
   }
   submitButton() {
-    return RaisedButton(
+    return   FadeIn(2,
+
+      RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
@@ -525,6 +541,7 @@ class Dashboard extends State<Home>{
         ),
         padding: const EdgeInsets.all(15.0),
         child: Text(Constant.SUBMIT,style: TextStyle(fontSize: 12)),
+      ),
       ),
     );
   }

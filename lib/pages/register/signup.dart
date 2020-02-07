@@ -301,6 +301,7 @@ setState(() {
                   child: SizedBox(),
                 ),
                 logo(),
+
                 SizedBox(
                   height: 20,
                 ),
