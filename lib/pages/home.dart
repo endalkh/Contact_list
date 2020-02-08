@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/animation/animate.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/appbar/subAppBar.dart';
@@ -72,13 +73,19 @@ class Dashboard extends State<Home>{
       selectEmail = email;
     });
   }
+  getTitle(){
+    if(_page==0)
+      return "Upcoming Birthdays";
+    else if(_page==1)
+      return "last Contact";
+    else
+      return "Person Setting";
 
+  }
 
   /*==== upcoming Birthdays   on the first tap=======*/
   upcomingBirthDays(){
   return Scaffold(
-    appBar:  SubHeaderNav(title: Constant.UPCOMING_BIRTHDAYS),
-
     body:SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -89,7 +96,7 @@ class Dashboard extends State<Home>{
             child: ListView.builder(
               itemCount: 4,
               itemBuilder: (context, index) {
-                return FadeIn(index*0.3,
+                return
                     Card(
                       child:Container(
                           child: Padding(
@@ -127,7 +134,7 @@ class Dashboard extends State<Home>{
 
 
 //
-                      ),
+
                     ));
 
               },
@@ -148,7 +155,6 @@ class Dashboard extends State<Home>{
   /*==== last  Contact on the second tap=======*/
   lastContact(){
     return Scaffold(
-      appBar: SubHeaderNav(title: Constant.LAST_CONTACT),
 
       body:SingleChildScrollView(
 
@@ -160,7 +166,7 @@ class Dashboard extends State<Home>{
               height: get_height(context),
               child: ListView.builder(
                 itemBuilder: (context, position) {
-                  return FadeIn(position*0.3,
+                  return
 
                     Card(
                     child: Padding(
@@ -187,7 +193,7 @@ class Dashboard extends State<Home>{
                             )
                           ],
                         )
-                    ),
+
                     ),
                   );
                 },
@@ -205,7 +211,6 @@ class Dashboard extends State<Home>{
  /*==== Adding new Contact on the third tap=======*/
   addNewPerson(){
     return Scaffold(
-      appBar: SubHeaderNav(title: Constant.ADD_NEW_PERSON),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -243,7 +248,7 @@ class Dashboard extends State<Home>{
   nameTextFormField() {
 
 //    var checkEmail=validateEmail(usernameController.text);
-    return FadeIn(0.5, Column(
+    return  Column(
       children: <Widget>[
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -251,9 +256,12 @@ class Dashboard extends State<Home>{
           child: TextFormField(
             controller: nameController,
             keyboardType: TextInputType.text,
+
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.person, size: 20),
+
+              prefixIcon: Icon(Icons.person, size: 20,color: PRIMARY_COLOR,),
               hintText: "Name",
+
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none
@@ -265,11 +273,11 @@ class Dashboard extends State<Home>{
         ),
 
       ],
-    ),
+
     );
   }
   BirthDatePicker() {
-    return FadeIn(0.75,Column(
+    return Column(
       children: <Widget>[
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -277,7 +285,7 @@ class Dashboard extends State<Home>{
           child: TextFormField(
             controller: birthdayController,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.timer, size: 20),
+              prefixIcon: Icon(Icons.timer, size: 20,color: PRIMARY_COLOR,),
               hintText: "Date of Birth",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
@@ -300,7 +308,7 @@ class Dashboard extends State<Home>{
     ),
     ),
     ]
-    ),
+
     );
 
   }
@@ -312,7 +320,7 @@ class Dashboard extends State<Home>{
           padding: EdgeInsets.all(15),
         child:Column(
           children: <Widget>[
-          FadeIn(1,
+
             Text(Constant.CONTACT_INFO,
               style: TextStyle(
                 color: PRIMARY_COLOR,
@@ -321,18 +329,18 @@ class Dashboard extends State<Home>{
               ),
 
             ),
-          ),
+
 
             SizedBox(height: 15,),
 
-          FadeIn(1.25,phoneNumberButton()),
+          phoneNumberButton(),
             SizedBox(height: 15,),
 
-            FadeIn(1.5, EmailTypeButton(),),
+             EmailTypeButton(),
 
             SizedBox(height: 15,),
 
-            FadeIn(1.75,   enterNotes(),),
+             enterNotes(),
 
           ],
         ),
@@ -352,7 +360,7 @@ class Dashboard extends State<Home>{
             controller: nameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.note, size: 20),
+              prefixIcon: Icon(Icons.note, size: 20,color: PRIMARY_COLOR,),
               hintText: "Enter Notes",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
@@ -378,6 +386,7 @@ class Dashboard extends State<Home>{
                     color: PRIMARY_COLOR,
                     fontSize: Constant.fontSize(Constant.L),
                   fontWeight: FontWeight.w900
+
 
                 ),
 
@@ -495,7 +504,7 @@ class Dashboard extends State<Home>{
     );
   }
   submitButton() {
-    return   FadeIn(2,
+    return
 
       RaisedButton(
       elevation: 0,
@@ -517,7 +526,7 @@ class Dashboard extends State<Home>{
         padding: const EdgeInsets.all(15.0),
         child: Text(Constant.SUBMIT,style: TextStyle(fontSize: 12)),
       ),
-      ),
+
     );
   }
  pageTaped(page){
@@ -534,11 +543,12 @@ class Dashboard extends State<Home>{
  }
  }
 
+
 @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: headerNav(title: Constant.DASHBOARD,context: context),
+        appBar: SubHeaderNav(title:getTitle() ,context: context),
         drawer: SideDrawer(),
         body: Container(
         child: Center(
@@ -547,6 +557,7 @@ class Dashboard extends State<Home>{
       ),
 
         bottomNavigationBar:BottomNavigationBar(
+
             currentIndex: _page,
             selectedItemColor: PRIMARY_COLOR,
             items:[

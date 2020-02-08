@@ -174,13 +174,13 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
         .take(widget.limit)
         .toList();
 
-    IconThemeData iconTheme = Theme.of(context).iconTheme.copyWith(color: widget.iconColor);
+
 
     return new Scaffold(
       appBar: new AppBar(
         leading: widget.leading,
-        backgroundColor: widget.barBackgroundColor,
-        iconTheme: iconTheme,
+
+//        iconTheme: iconTheme,
         title: new TextField(
           controller: _controller,
           autofocus: true,

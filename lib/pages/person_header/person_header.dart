@@ -109,6 +109,7 @@ getTitle(){
 
               SizedBox(height: 10,),
             Material(
+
               child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
                   child:Column(

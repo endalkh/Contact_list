@@ -8,19 +8,19 @@ AppBar headerNav({context,String title}){
   return AppBar(
     title: Text(title,
       style: TextStyle(
-        fontSize: Constant.fontSize(Constant.XL),
-        fontWeight: FontWeight.w900
+          fontSize: Constant.fontSize(Constant.XL),
+          fontWeight: FontWeight.w900
       ),
     ),
-          actions: <Widget>[
-        new IconButton(
-          onPressed: () {
-         Search(context);
-          },
-          tooltip: 'Search',
-          icon: new Icon(Icons.search,color: PRIMARY_COLOR,),
-        )
-      ],
+    actions: <Widget>[
+      new IconButton(
+        onPressed: () {
+          Search(context);
+        },
+        tooltip: 'Search',
+        icon: new Icon(Icons.search,color: PRIMARY_COLOR,),
+      )
+    ],
   );
 }
 

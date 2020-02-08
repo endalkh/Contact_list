@@ -47,7 +47,7 @@ class _MyApp extends State<MyApp> {
   build(context) {
     AppState themeNotifier = Provider.of<AppState>(context);
     return MaterialApp(initialRoute:Constant.SPLASH_SCREEN,
-        theme:  themeNotifier.getTheme(),
+        theme: themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),
           Constant.SIGN_IN: (context) => SignInPage(title: "hello",),
@@ -61,8 +61,6 @@ class _MyApp extends State<MyApp> {
           Constant.SEARCH:(context)=>MaterialSearchResult(),
           Constant.SEARCH_DISPLAY:(context)=>SearchDisplayScreen(),
         });
-
-
 
 
   }

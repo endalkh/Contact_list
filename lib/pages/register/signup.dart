@@ -3,6 +3,7 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:flutter_app/pages/animation/animate.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/back_button.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
@@ -300,36 +301,47 @@ setState(() {
                   flex: 1,
                   child: SizedBox(),
                 ),
-                logo(),
-
-                SizedBox(
-                  height: 20,
-                ),
-                headerTextRow(),
-                SizedBox(
-                  height: 20,
-                ),
-                emailTextFormField(),
-                SizedBox(
-                  height: 20,
-                ),
-                passwordTextFormField(),
-
+                FadeIn(2,logo()),
                 SizedBox(
                   height: 20,
                 ),
 
-           acceptTermsTextRow(),
-                button(),
+                FadeIn(2.5,headerTextRow(),),
+                SizedBox(
+                  height: 20,
+                ),
+                FadeIn(3,emailTextFormField()),
+                SizedBox(
+                  height: 20,
+                ),
+                FadeIn(3.5,passwordTextFormField(),),
+
+
+                SizedBox(
+                  height: 20,
+                ),
+
+
+                FadeIn(4.0,acceptTermsTextRow(),),
                 SizedBox(
                   height: 10,
                 ),
-                signUpTextRow(),
 
+                FadeIn(4.5, button(),),
+
+                SizedBox(
+                  height: 10,
+                ),
+
+                FadeIn(4.5,  signUpTextRow(),),
                 Expanded(
                   flex: 1,
                   child: SizedBox(),
                 ),
+
+
+
+
               ],
             ),
           ),

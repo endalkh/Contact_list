@@ -105,8 +105,6 @@ class Constant{
     cursorColor: lightAccent,
 indicatorColor: PRIMARY_COLOR,
 brightness: Brightness.light,
-
-    iconTheme: IconThemeData(color: Colors.white),
 bottomAppBarTheme: BottomAppBarTheme(
 
   color: Colors.red,
@@ -114,11 +112,12 @@ bottomAppBarTheme: BottomAppBarTheme(
 ),
 //    scaffoldBackgroundColor: lightBG,
     appBarTheme: AppBarTheme(
+      color: PRIMARY_COLOR,
       elevation: 0,
       textTheme: TextTheme(
         title: TextStyle(
           fontFamily: "TimesNewRoman",
-          color: Colors.black,
+          color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.w800,
         ),
@@ -148,6 +147,29 @@ bottomAppBarTheme: BottomAppBarTheme(
     ),
   );
 
+
+  static ThemeData primaryTheme = ThemeData(
+//    cardColor:COLOR_CREAM ,
+//    brightness: Brightness.light,
+//    backgroundColor: darkBG,
+//    primaryColor: darkPrimary,
+//    accentColor: darkAccent,
+//bottomAppBarColor: PRIMARY_COLOR,
+    scaffoldBackgroundColor: PRIMARY_COLOR,
+    cursorColor: darkAccent,
+    appBarTheme: AppBarTheme(
+      elevation: 0,
+      textTheme: TextTheme(
+        title: TextStyle(
+          fontFamily: "TimesNewRoman",
+          color: lightBG,
+          fontSize: 20,
+          fontWeight: FontWeight.w800,
+
+        ),
+      ),
+    ),
+  );
 static  fontSize(type){
   switch(type){
     case XS:
