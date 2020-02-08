@@ -106,8 +106,11 @@ class Constant{
     cursorColor: lightAccent,
 indicatorColor: PRIMARY_COLOR,
 brightness: Brightness.light,
+
     iconTheme: IconThemeData(color: Colors.white),
 bottomAppBarTheme: BottomAppBarTheme(
+
+  color: Colors.red,
   elevation: 0,
 ),
 //    scaffoldBackgroundColor: lightBG,

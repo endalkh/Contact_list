@@ -8,13 +8,11 @@ import 'package:flutter_app/pages/profile/Profile.dart';
 import 'package:flutter_app/pages/recover_password/recover_password.dart';
 import 'package:flutter_app/pages/register/signup.dart';
 import 'package:flutter_app/pages/register/termsAndCondition.dart';
-import 'package:flutter_app/pages/search/search.dart';
 import 'package:flutter_app/pages/search/search_display.dart';
 import 'package:flutter_app/pages/search/search_result.dart';
 import 'package:flutter_app/pages/settings/settings.dart';
 import 'package:flutter_app/pages/splash/splash_screen.dart';
 import 'package:flutter_app/state/app_state.dart';
-import 'package:flutter_app/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -44,12 +42,9 @@ class _MyApp extends State<MyApp> {
 
      print("results $isDark");
    });
-
 }
-
   @override
   build(context) {
-
     AppState themeNotifier = Provider.of<AppState>(context);
     return MaterialApp(initialRoute:Constant.SPLASH_SCREEN,
         theme:  themeNotifier.getTheme(),
@@ -65,7 +60,6 @@ class _MyApp extends State<MyApp> {
           Constant.PERSON_HEADER:(context)=>PersonHeaderFun(),
           Constant.SEARCH:(context)=>MaterialSearchResult(),
           Constant.SEARCH_DISPLAY:(context)=>SearchDisplayScreen(),
-
         });
 
 
