@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 
 class Constant{
-
   String appName = "Contact Managment";
  // routes constant
   static String SIGN_IN ='signIn';
