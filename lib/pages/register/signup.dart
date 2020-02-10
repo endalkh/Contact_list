@@ -90,7 +90,7 @@ class _SignInScreenState extends State<SignUpScreen> {
   passwordTextFormField() {
     var checkPassword=validatePassword(passwordController.text);
     return Column(
-      children: <Widget>[
+      children:[
         Material(
           borderRadius: BorderRadius.circular(30.0),
           elevation: 11,
@@ -168,7 +168,7 @@ class _SignInScreenState extends State<SignUpScreen> {
             child: Text(
               "Sign in",
               style: TextStyle(
-                  fontWeight: FontWeight.w800, fontSize:  17),
+                  fontWeight: FontWeight.w600, fontSize:  17),
             ),
           )
         ],
@@ -180,9 +180,9 @@ class _SignInScreenState extends State<SignUpScreen> {
       child: Row(
         children: <Widget>[
           Text(
-            "REGISTER",
+            "Register",
             style: TextStyle(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 fontSize: 30),
           ),
 
@@ -196,18 +196,19 @@ class _SignInScreenState extends State<SignUpScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
-
+        Navigator.pushNamed(context, Constant.HOME);
       },
+      textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
-        width:  get_width(context),
+        width: get_width(context),
         decoration: BoxDecoration(
-          color: PRIMARY_COLOR,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          color: PRIMARY_COLOR
         ),
-        padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN IN',style: TextStyle(fontSize: 12)),
+        padding: const EdgeInsets.all(15.0),
+        child: Text('SIGN IN', style: TextStyle(fontSize: 12)),
       ),
     );
   }
@@ -240,36 +241,44 @@ class _SignInScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: <Widget>[
+        children:[
           Container(
+            margin: EdgeInsets.only(top: 40, left: 20, right: 20),
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+              children:[
                 Expanded(
                   flex: 1,
                   child: SizedBox(),
                 ),
                 logo(),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-                headerTextRow(),
+                Container(
+                  padding: EdgeInsets.only(left: 30),
+child:                 headerTextRow(),
+
+                ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 emailTextFormField(),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 passwordTextFormField(),
 
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-           acceptTermsTextRow(),
-                button(),
+                acceptTermsTextRow(),
+                Container(
+                  width: 150,
+                  child: button(),
+                ),
                 SizedBox(
                   height: 10,
                 ),

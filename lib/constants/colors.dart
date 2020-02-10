@@ -11,11 +11,14 @@ final Color lightBG = Colors.white;
 final Color darkBG = Color(0xFF0A0E21);
 final Color COLOR_LINK = Colors.blue;
 final Color COLOR_CREAM = Colors.grey[50];
+// final Color TRIAL_COLOR = Colors.blue[50];
+
+final Color TRIAL_COLOR = Colors.grey[200];
 
 
 
 final Color PRIMARY_COLOR=Colors.blue;
-final Color SECONDARY_COLOR=Color(0xff06d6a7);
+final Color SECONDARY_COLOR=Colors.white;
 
 
 

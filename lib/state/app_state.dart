@@ -30,9 +30,11 @@ class AppState with ChangeNotifier {
 //    final tokenP = pref.getString('token') ?? "";
 //    if (tokenP != "") _token = tokenP;
     if (dark)
-      setDark();
+              setDark();
     else
-      setLight();
+          setLight();
+
+
   }
 
   getTheme() {

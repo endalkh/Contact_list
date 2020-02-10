@@ -1,15 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
-import 'package:flutter_app/pages/widgets/back_button.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
-import 'package:flutter_app/theme/theme.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
-import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   final String title;
@@ -20,56 +16,56 @@ class SignInPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<SignInPage> {
-
-    bool isLoading = false;
-  bool showError=false;
-  bool showBackendError=false;
+  bool isLoading = false;
+  bool showError = false;
+  bool showBackendError = false;
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _secureText = true;
 
-    bool isDark=false;
-    _LoginPageState(){
-      getTheme();
-    }
+  bool isDark = false;
+  _LoginPageState() {
+    getTheme();
+  }
 
-    getTheme() {
-      getSettingPref("dark").then((value)async{
-        setState(() {
-          isDark=value;
-        });
+  getTheme() {
+    getSettingPref("dark").then((value) async {
+      setState(() {
+        isDark = value;
       });
-    }
+    });
+  }
+
   showHide() {
     setState(() {
       _secureText = !_secureText;
     });
   }
+
   button() {
-      return RaisedButton(
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        onPressed: () {
-Navigator.pushNamed(context, Constant.HOME);
-        },
-        textColor: Colors.white,
-        padding: EdgeInsets.all(0.0),
-        child: Container(
-          alignment: Alignment.center,
-          width:  get_width(context),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            gradient: LinearGradient(
-                colors: [PRIMARY_COLOR,SECONDARY_COLOR]
-            ),
-          ),
-          padding: const EdgeInsets.all(15.0),
-          child: Text('SIGN IN',style: TextStyle(fontSize: 12)),
+    return RaisedButton(
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      onPressed: () {
+        Navigator.pushNamed(context, Constant.HOME);
+      },
+      textColor: Colors.white,
+      padding: EdgeInsets.all(0.0),
+      child: Container(
+        alignment: Alignment.center,
+        width: get_width(context),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          color: PRIMARY_COLOR
         ),
-      );
-    }
+        padding: const EdgeInsets.all(15.0),
+        child: Text('SIGN IN', style: TextStyle(fontSize: 12)),
+      ),
+    );
+  }
+
   emailTextFormField() {
-    var checkEmail=validateEmail(usernameController.text);
+    var checkEmail = validateEmail(usernameController.text);
     return Column(
       children: <Widget>[
         Material(
@@ -78,63 +74,54 @@ Navigator.pushNamed(context, Constant.HOME);
           child: TextFormField(
             controller: usernameController,
             keyboardType: TextInputType.text,
-
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.email, size: 20),
               hintText: "Email",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none
-              ),
+                  borderSide: BorderSide.none),
             ),
-
           ),
-
         ),
-        checkEmail.isNotEmpty && showError?
-
-        Text(checkEmail,style: TextStyle(
-            color: Colors.red
-        )):Container()
+        checkEmail.isNotEmpty && showError
+            ? Text(checkEmail, style: TextStyle(color: Colors.red))
+            : Container()
       ],
     );
   }
+
   passwordTextFormField() {
-    var checkPassword=validatePassword(passwordController.text);
+    var checkPassword = validatePassword(passwordController.text);
     return Column(
       children: <Widget>[
         Material(
           borderRadius: BorderRadius.circular(30.0),
           elevation: 11,
           child: TextFormField(
-            obscureText:_secureText ,
+            obscureText: _secureText,
             controller: passwordController,
             keyboardType: TextInputType.text,
-
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.lock, size: 20),
               hintText: "Password",
               suffixIcon: IconButton(
-              onPressed: showHide,
-             icon: Icon(_secureText
-             ? Icons.visibility_off
-                 : Icons.visibility),
-    ),
+                onPressed: showHide,
+                icon:
+                    Icon(_secureText ? Icons.visibility_off : Icons.visibility),
+              ),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none
-              ),
+                  borderSide: BorderSide.none),
             ),
           ),
         ),
-        checkPassword.isNotEmpty && showError?
-
-        Text(checkPassword,style: TextStyle(
-            color: Colors.red
-        )):Container()
+        checkPassword.isNotEmpty && showError
+            ? Text(checkPassword, style: TextStyle(color: Colors.red))
+            : Container()
       ],
     );
   }
+
   forgetPassTextRow() {
     return Container(
       child: Row(
@@ -142,7 +129,7 @@ Navigator.pushNamed(context, Constant.HOME);
         children: <Widget>[
           Text(
             "Forgot your password?",
-            style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12),
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
           ),
           SizedBox(
             width: 5,
@@ -154,22 +141,23 @@ Navigator.pushNamed(context, Constant.HOME);
             child: Text(
               "Recover",
               style: TextStyle(
-                  fontWeight: FontWeight.w800, ),
-
+                fontWeight: FontWeight.w600,
+              ),
             ),
           )
         ],
       ),
     );
   }
+
   signUpTextRow() {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: [
           Text(
             "Don't have an account?",
-            style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12),
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
           ),
           SizedBox(
             width: 5,
@@ -181,94 +169,88 @@ Navigator.pushNamed(context, Constant.HOME);
             },
             child: Text(
               "Sign up",
-              style: TextStyle(
-                  fontWeight: FontWeight.w800, fontSize:  17),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
             ),
           )
         ],
       ),
     );
   }
+
   headerTextRow() {
     return Container(
       margin: EdgeInsets.only(left: 15.0),
       child: Row(
         children: <Widget>[
           Text(
-            "LOGIN",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 30),
-            ),
-
-
+            "Login",
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 30),
+          ),
         ],
       ),
     );
   }
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
 
-        body: Stack(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(),
-                  ),
-                  logo(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  headerTextRow(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  emailTextFormField(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  passwordTextFormField(),
-
-                  SizedBox(
-                    height: 20,
-                  ),
-
-                  forgetPassTextRow(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  button(),
-
-                  SizedBox(
-                    height: 10,
-                  ),
-                  signUpTextRow(),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(),
-                  ),
-                ],
-              ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
+      body: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.all(30),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: SizedBox(),
+                ),
+                logo(),
+                SizedBox(
+                  height: 20,
+                ),
+                headerTextRow(),
+                SizedBox(
+                  height: 10,
+                ),
+                emailTextFormField(),
+                SizedBox(
+                  height: 10,
+                ),
+                passwordTextFormField(),
+                SizedBox(
+                  height: 10,
+                ),
+                forgetPassTextRow(),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  width: 150,
+                  child: button(),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                signUpTextRow(),
+                Expanded(
+                  flex: 1,
+                  child: SizedBox(),
+                ),
+              ],
             ),
-isDark==true?Container():
-            Positioned(
-                top: -MediaQuery.of(context).size.height * .15,
-                right: -MediaQuery.of(context).size.width * .4,
-                child: CutterRatioContainer())
-
-          ],
-        ),
-      );
-
-
-    }
-
-
+          ),
+          isDark == true
+              ? Container()
+              : Positioned(
+                  top: -MediaQuery.of(context).size.height * .15,
+                  right: -MediaQuery.of(context).size.width * .4,
+                  child: CutterRatioContainer())
+        ],
+      ),
+    );
+  }
 }

@@ -11,12 +11,12 @@ class Constant{
   static String SPLASH_SCREEN ='splashscreen';
   static String HOME ='home';
   static String SEARCH="search";
-  static String SETTING="SETTING";
-  static String DIALOGE_PAGE="DIALOGEPAGE";
+  static String SETTING="Settings";
+  static String DIALOGE_PAGE="Dialogue Page";
   static String PROFILE="Profile";
-  static String ABOUT_US="ABOUT_US";
-  static String PICK_PROFILE_PICHTURE="PICK_PROFILE_PICHTURE";
-  static String TERMS_AND_CONDTION="TERMS_AND_CONDTION";
+  static String ABOUT_US="About Us";
+  static String PICK_PROFILE_PICHTURE="Pick Profile Picture";
+  static String TERMS_AND_CONDTION="Terms and Conditions";
   static String SUCCESS="Success";
   static String CONTACT_INFO="ContactInformation";
   static String NOTES="Notes";
@@ -30,15 +30,13 @@ class Constant{
   static String ADD_NEW_PERSON="Add new Person";
   static String LAST_CONTACT="Last Contact";
   static String UPCOMING_BIRTHDAYS="Upcoming Birthdays";
-  static String RESETPASSWORD="Reset Password";
+  static String RESETPASSWORD="Reset Your Password";
   static String RECOVERPASSWORD="Recover Password";
   static String SIGNIN="Sign in";
   static String SIGNUP ="Sign up";
   static String PASSWORDRESETDESC ="It's ok, we all forget out password sometimes. "
       "Fill out your email to get a reset link sent to your email. "
       "You also might consider getting a password manager like 1Password or Bitwarden";
-
-  //font
   static const String XS="XS";
   static const String S="S";
   static const String M="M";
@@ -194,11 +192,11 @@ class PhoneType {
   static List<PhoneType> getPhones() {
     return <PhoneType>[
       PhoneType(0, 'Type'),
-      PhoneType(1, 'Apple'),
-      PhoneType(2, 'Google'),
-      PhoneType(3, 'Samsung'),
-      PhoneType(4, 'Sony'),
-      PhoneType(5, 'LG'),
+      PhoneType(1, 'Home'),
+      PhoneType(2, 'Work'),
+      PhoneType(3, 'Fax'),
+      PhoneType(4, 'Mobile'),
+      PhoneType(5, 'Line'),
     ];
   }
 }
@@ -213,11 +211,10 @@ class EmailType {
   static List<EmailType> getEmails() {
     return <EmailType>[
       EmailType(0, 'Type'),
-      EmailType(1, 'Apple'),
-      EmailType(2, 'Google'),
-      EmailType(3, 'Samsung'),
-      EmailType(4, 'Sony'),
-      EmailType(5, 'LG'),
+      EmailType(1, 'Gmail'),
+      EmailType(2, 'Icloud'),
+      EmailType(3, 'Yahoo'),
+      EmailType(4, 'Hotbird'),
     ];
   }
 }

@@ -5,21 +5,25 @@ import 'package:flutter_app/constants/constant.dart';
 
 AppBar headerNav({context,String title}){
   return AppBar(
+        // backgroundColor: Colors.grey[400],
+
+        // backgroundColor: PRIMARY_COLOR,
+
     title: Text(title,
       style: TextStyle(
         fontSize: Constant.fontSize(Constant.XL),
-        fontWeight: FontWeight.w900
+        fontWeight: FontWeight.w500
       ),
     ),
-          actions: <Widget>[
-        new IconButton(
-          onPressed: () {
-//            Search(context);
-          },
-          tooltip: 'Search',
-          icon: new Icon(Icons.search),
-        )
-      ],
+//           actions:[
+//         new IconButton(
+//           onPressed: () {
+// //            Search(context);
+//           },
+//           tooltip: 'Search',
+//           icon: new Icon(Icons.search),
+//         )
+//       ],
   );
 }
 
