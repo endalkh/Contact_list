@@ -20,7 +20,8 @@ final Color TRIAL_COLOR = Colors.grey[200];
 final Color PRIMARY_COLOR=Colors.blue;
 final Color SECONDARY_COLOR=Colors.white;
 
-final List<Color> MixedColor=[PRIMARY_COLOR,SECONDARY_COLOR];
+
+
 
 
 

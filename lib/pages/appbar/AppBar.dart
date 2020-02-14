@@ -6,8 +6,6 @@ import 'package:flutter_app/pages/search/search.dart';
 
 AppBar headerNav({context,String title}){
   return AppBar(
-        // backgroundColor: Colors.grey[400],
-
 
     title: Text(title,
       style: TextStyle(
@@ -27,6 +25,8 @@ AppBar headerNav({context,String title}){
           color: Colors.white,),
         )
       ],
+
+   
   );
 }
 

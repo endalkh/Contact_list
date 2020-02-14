@@ -1,5 +1,5 @@
-import 'dart:ui';
 
+import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -165,11 +165,13 @@ class Dashboard extends State<Home> {
                                   fontSize: 20,
                                   borderWidth: 1,
                                   borderColor: Color.fromARGB(255, 0, 0, 0),
+
                                 ),
                                 title: Text(
                                   'John Doe',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
+
                                       fontSize: 20,
                                       ),
                                 ),
@@ -180,6 +182,7 @@ class Dashboard extends State<Home> {
                                       fontStyle: FontStyle.italic,
                                   fontSize: 15
                                   ),
+
                                 ),
                               ),
                             )
@@ -320,6 +323,7 @@ class Dashboard extends State<Home> {
               ),
             ],
           ),
+
         ),
       ),
 
@@ -362,6 +366,7 @@ class Dashboard extends State<Home> {
               style: TextStyle(color: Colors.red)):Container(),
         ),
         SizedBox(height: 10,),
+
         Material(
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
@@ -382,7 +387,9 @@ class Dashboard extends State<Home> {
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
           child: TextFormField(
+
              controller: lNameController,
+
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.person, size: 20),
@@ -402,10 +409,12 @@ class Dashboard extends State<Home> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.timer, size: 20),
                     hintText: "Date of Birth",
+
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
                   ),
+
                   onTap: () async {
                     DateTime date = DateTime(1900);
                     FocusScope.of(context).requestFocus(new FocusNode());
@@ -421,6 +430,7 @@ class Dashboard extends State<Home> {
 
             ),
             Padding(padding: EdgeInsets.all(5)),
+
 
 
       ],
@@ -445,22 +455,12 @@ class Dashboard extends State<Home> {
 
   contacts() {
     return Scaffold(
-      // backgroundColor: TRIAL_COLOR,
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 10,right: 10),
           child: Column(
             children: [
               SizedBox(height: 5,),
-//              Container(
-//                width: 40,
-//                child: Card(
-//                  child: Text(
-//                    'A',
-//                    textAlign: TextAlign.center,
-//                  ),
-//                ),
-//              ),
               Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -486,6 +486,7 @@ class Dashboard extends State<Home> {
                           subtitle: Text('Migrated From Phone Contacts',
                           style: TextStyle(fontSize: 15),
                           )),
+
                     ),
                   )),
               Card(
@@ -508,15 +509,6 @@ class Dashboard extends State<Home> {
                 ),
               ),
 
-//              Container(
-//                width: 40,
-//                child: Card(
-//                  child: Text(
-//                    'B',
-//                    textAlign: TextAlign.center,
-//                  ),
-//                ),
-//              ),
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
@@ -537,15 +529,6 @@ class Dashboard extends State<Home> {
                 ),
               ),
 
-//              Container(
-//                width: 40,
-//                child: Card(
-//                  child: Text(
-//                    'C',
-//                    textAlign: TextAlign.center,
-//                  ),
-//                ),
-//              ),
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
@@ -637,7 +620,9 @@ class Dashboard extends State<Home> {
                   controller: phoneController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
+
                     hintText: "+1(424) 341-3346",
+
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -790,5 +775,6 @@ class Dashboard extends State<Home> {
         ),
       ),
     );
+
   }
 }

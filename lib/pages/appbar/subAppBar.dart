@@ -7,12 +7,13 @@ import 'package:flutter_app/pages/search/search.dart';
 AppBar SubHeaderNav({context,String title}){
   return AppBar(
 
+
     title: Text(title,
       style: TextStyle(
           fontSize: Constant.fontSize(Constant.L),
           fontWeight: FontWeight.w500,
-      ),
 
+      ),
     ),
               actions: <Widget>[
         new IconButton(

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/login.dart';
@@ -11,9 +10,9 @@ import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/state/app_state.dart';
+
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
-import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   final String title;
@@ -49,6 +48,7 @@ class _LoginPageState extends State<SignInPage> {
     passwordController.dispose();
     super.dispose();
   }
+
 
   getTheme() {
     getSettingPref("dark").then((value) async {
@@ -130,11 +130,13 @@ class _LoginPageState extends State<SignInPage> {
                   // fontWeight: FontWeight.w900,
                   color: lightPrimary)),
         ),
+
       ),
     );
   }
 
   emailTextFormField() {
+
     return Column(
       children: <Widget>[
         Material(
@@ -162,11 +164,13 @@ class _LoginPageState extends State<SignInPage> {
         (showError == true && emailError.isNotEmpty)
             ? Text(emailError, style: TextStyle(color: Colors.red))
             : Container(),
+
       ],
     );
   }
 
   passwordTextFormField() {
+
     return Column(
       children: <Widget>[
         Material(
@@ -193,6 +197,7 @@ class _LoginPageState extends State<SignInPage> {
         (showError == true && passwordError.isNotEmpty)
             ? Text(passwordError, style: TextStyle(color: Colors.red))
             : Container(),
+
       ],
     );
   }
@@ -217,6 +222,7 @@ class _LoginPageState extends State<SignInPage> {
               "Recover",
               style: TextStyle(
                 fontWeight: FontWeight.w800,
+
               ),
             ),
           )
@@ -229,10 +235,11 @@ class _LoginPageState extends State<SignInPage> {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: [
           Text(
             "Don't have an account?",
             style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
+
           ),
           SizedBox(
             width: 5,
@@ -246,6 +253,7 @@ class _LoginPageState extends State<SignInPage> {
             child: Text(
               "Sign up",
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 17),
+
             ),
           )
         ],
@@ -261,6 +269,7 @@ class _LoginPageState extends State<SignInPage> {
           Text(
             "Login",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+
           ),
         ],
       ),
@@ -349,6 +358,7 @@ class _LoginPageState extends State<SignInPage> {
                         child: FadeIn(0.25, CutterRatioContainer()))
               ],
             ),
+
     );
   }
 }

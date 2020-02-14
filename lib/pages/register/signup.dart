@@ -141,7 +141,7 @@ setState(() {
   }
   passwordTextFormField() {
     return Column(
-      children: <Widget>[
+      children:[
         Material(
           borderRadius: BorderRadius.circular(30.0),
           elevation: 11,
@@ -221,7 +221,7 @@ setState(() {
             child: Text(
               "Sign in",
               style: TextStyle(
-                  fontWeight: FontWeight.w800, fontSize:  17),
+                  fontWeight: FontWeight.w600, fontSize:  17),
             ),
           )
         ],
@@ -233,9 +233,9 @@ setState(() {
       child: Row(
         children: <Widget>[
           Text(
-            "REGISTER",
+            "Register",
             style: TextStyle(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 fontSize: 30),
           ),
 
@@ -274,6 +274,7 @@ setState(() {
         ),
       );
     }
+
   acceptTermsTextRow() {
     return Container(
       child: Row(
@@ -310,24 +311,32 @@ setState(() {
           ? CircularIndicator()
           : Stack(
         children: <Widget>[
+
           Container(
+            margin: EdgeInsets.only(top: 40, left: 20, right: 20),
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+              children:[
                 Expanded(
                   flex: 1,
                   child: SizedBox(),
                 ),
                 FadeIn(2,logo(context)),
                 SizedBox(
-                  height: 20,
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 30),
+child:                 headerTextRow(),
+
                 ),
 
                 FadeIn(2.5,headerTextRow(),),
+
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 FadeIn(3,emailTextFormField()),
                 SizedBox(
@@ -346,6 +355,7 @@ setState(() {
                     value.get_registerError().toString().isNotEmpty==true?Text(value.get_registerError(),
                         style: TextStyle(color: Colors.red)):Container(),
                   ),
+
 
                 ),
                 SizedBox(

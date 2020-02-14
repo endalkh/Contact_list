@@ -32,6 +32,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
    _SideDrawer(){
      getTheme();
    }
+
   getTheme() {
     getSettingPref("dark").then((value) async {
       setState(() {
@@ -56,7 +57,6 @@ class SideDrawer extends StatefulWidget implements shouldImp{
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-
   @override
   build(BuildContext context) {
     return _buildDrawer(context);
@@ -73,8 +73,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
               height: get_height(context),
               decoration: BoxDecoration(
                 color: PRIMARY_COLOR,
-                // gradient:
-                //     LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
+                
               ),
             ),
           ),
@@ -88,16 +87,11 @@ class SideDrawer extends StatefulWidget implements shouldImp{
               decoration: BoxDecoration(
                 color: PRIMARY_COLOR,
 
-                // gradient:
-                //     LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
               ),
             ),
           ),
         ),
-//        Container(
-//          child: SizedBox.expand(child: RadialMenu()),
-//
-//        ),
+
       ],
     );
   }
@@ -109,6 +103,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children:[
+
           Flexible(
             child: SafeArea(
               child: ListView(
@@ -123,6 +118,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
                           child: Container(
                             child: Column(
                               children:[
+
                                 Container(
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
@@ -131,6 +127,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
+
                                      exit(0);
                                     },
                                   ),
@@ -164,13 +161,8 @@ class SideDrawer extends StatefulWidget implements shouldImp{
                       ],
                     ),
                   ),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     Navigator.pushNamed(context, Constant.PROFILE);
-                  //   },
-                  //   child: _buildRow(Icons.person_pin, "My profile",
-                  //       showBadge: false),
-                  // ),
+            
+
 
                   GestureDetector(
                     onTap: () {
@@ -233,12 +225,14 @@ class SideDrawer extends StatefulWidget implements shouldImp{
                           vertical: 10.0, horizontal: 15),
                       child: Row(children: [
                         Icon(Icons.wb_sunny,color: PRIMARY_COLOR,),
+
                         SizedBox(width: 10.0),
                         Text(
                           "Dark mode",
                         ),
                         Switch(
                           value: themeNotifier.getTheme()==Constant.lightTheme?false:true,
+
                           onChanged: (value) async {
                             setState(() {
                               isDark = !isDark;
@@ -269,6 +263,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
                       },
                     child: _buildRow(Icons.exit_to_app, "Logout"),
                   ),
+
                 ],
               ),
             ),
@@ -288,6 +283,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
       child: Row(children: [
         Icon(icon,color: PRIMARY_COLOR,),
+
         SizedBox(width: 10.0),
         Text(
           title,
@@ -296,8 +292,5 @@ class SideDrawer extends StatefulWidget implements shouldImp{
       ]),
     );
   }
-
-
-
 
 }
