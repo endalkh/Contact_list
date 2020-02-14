@@ -1,26 +1,38 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/main.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
 import 'package:flutter_app/pages/widgets/custom_shape.dart';
 import 'package:flutter_app/pages/widgets/oval_right_clipper.dart';
 import 'package:flutter_app/state/app_state.dart';
-import 'package:flutter_app/theme/theme.dart';
+import 'package:flutter_app/utilities/confirmation_abstract/confirmation_abstract.dart';
+import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
+import 'package:rounded_letter/rounded_letter.dart';
+import 'package:rounded_letter/shape_type.dart';
 
-class SideDrawer extends StatefulWidget {
+
+class SideDrawer extends StatefulWidget implements shouldImp{
   _SideDrawer createState() => _SideDrawer();
+
+  @override
+  void changer({yes,context}) {
+    Navigator.pushNamed(context, Constant.SIGN_IN);
+  }
 }
 
-class _SideDrawer extends State<SideDrawer> {
+
+ class _SideDrawer extends State<SideDrawer> {
   bool isDark = false;
-  // _SideDrawer(){
-  //   getTheme();
-  // }
+
+   _SideDrawer(){
+     getTheme();
+   }
+
   getTheme() {
     getSettingPref("dark").then((value) async {
       setState(() {
@@ -28,6 +40,13 @@ class _SideDrawer extends State<SideDrawer> {
       });
     });
     print(isDark);
+  }
+  getEmail(){
+    getSettingPref("email").then((value) async {
+      await Provider.of<Auth>(context,listen: false).set_email("endalk");
+    });
+
+    return Provider.of<Auth>(context,listen: false).get_email();
   }
 
   String firstName, lastName, email, photo;
@@ -53,8 +72,8 @@ class _SideDrawer extends State<SideDrawer> {
             child: Container(
               height: get_height(context),
               decoration: BoxDecoration(
-                gradient:
-                    LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
+                color: PRIMARY_COLOR,
+                
               ),
             ),
           ),
@@ -66,41 +85,40 @@ class _SideDrawer extends State<SideDrawer> {
             child: Container(
               height: get_height(context),
               decoration: BoxDecoration(
-                gradient:
-                    LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
+                color: PRIMARY_COLOR,
+
               ),
             ),
           ),
         ),
-//        Container(
-//          child: SizedBox.expand(child: RadialMenu()),
-//
-//        ),
+
       ],
     );
   }
 
   navigationDrawer(context) {
     final themeNotifier = Provider.of<AppState>(context);
+
     return Drawer(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
+            children:[
+
           Flexible(
             child: SafeArea(
               child: ListView(
                 shrinkWrap: true,
-                children: <Widget>[
+                children: [
                   Container(
                     height: 280.0,
                     child: Stack(
-                      children: <Widget>[
+                      children:[
                         isDark ? Container() : clipShape(context),
                         Container(
-//                                color: Colors.transparent,
                           child: Container(
                             child: Column(
-                              children: <Widget>[
+                              children:[
+
                                 Container(
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
@@ -109,38 +127,32 @@ class _SideDrawer extends State<SideDrawer> {
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
-//            ConfirmationDialog(context,"Are you sure to Logout?",SIGN_IN);
+
+                                     exit(0);
                                     },
                                   ),
                                 ),
                                 Container(
-                                  height: 90,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      gradient: LinearGradient(colors: [
-                                        Colors.orange,
-                                        Colors.deepOrange
-                                      ])),
-                                  child: CircleAvatar(
-                                    radius: 40,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                        Constant.images[0]),
-                                  ),
+
+                                child:RoundedLetter(
+                                  text: getRoundLetter(getEmail()).toUpperCase(),
+                                  shapeType: ShapeType.circle,
+                                  shapeColor: PRIMARY_COLOR.withOpacity(0.5),
+                                  shapeSize: 80,
+                                  fontSize: 40,
+                                  borderWidth: 1,
+                                  borderColor: Color.fromARGB(255, 0, 0, 0),
                                 ),
-                                SizedBox(height: 5.0),
+                                ),
+                                SizedBox(height: 15.0),
                                 Text(
-                                  "John Doe",
+                                  getEmail(),
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                Text(
-                                  "JohnDoe12345@gmail.com",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16.0),
-                                ),
+
                               ],
                             ),
                           ),
@@ -149,13 +161,8 @@ class _SideDrawer extends State<SideDrawer> {
                       ],
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, Constant.PROFILE);
-                    },
-                    child: _buildRow(Icons.person_pin, "My profile",
-                        showBadge: false),
-                  ),
+            
+
 
                   GestureDetector(
                     onTap: () {
@@ -209,6 +216,7 @@ class _SideDrawer extends State<SideDrawer> {
                   ),
 
                   GestureDetector(
+
                     onTap: () {
                       Navigator.pushNamed(context, Constant.SETTING);
                     },
@@ -216,13 +224,15 @@ class _SideDrawer extends State<SideDrawer> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 15),
                       child: Row(children: [
-                        Icon(Icons.wb_sunny),
+                        Icon(Icons.wb_sunny,color: PRIMARY_COLOR,),
+
                         SizedBox(width: 10.0),
                         Text(
                           "Dark mode",
                         ),
                         Switch(
-                          value: isDark,
+                          value: themeNotifier.getTheme()==Constant.lightTheme?false:true,
+
                           onChanged: (value) async {
                             setState(() {
                               isDark = !isDark;
@@ -245,6 +255,15 @@ class _SideDrawer extends State<SideDrawer> {
                       ]),
                     ),
                   ),
+                  Divider(),
+                  GestureDetector(
+                    onTap: () {
+                      ConfirmationDialog(context: context,title: "Are you sure to logout?",callback: SideDrawer());
+
+                      },
+                    child: _buildRow(Icons.exit_to_app, "Logout"),
+                  ),
+
                 ],
               ),
             ),
@@ -263,7 +282,8 @@ class _SideDrawer extends State<SideDrawer> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
       child: Row(children: [
-        Icon(icon),
+        Icon(icon,color: PRIMARY_COLOR,),
+
         SizedBox(width: 10.0),
         Text(
           title,
@@ -272,4 +292,5 @@ class _SideDrawer extends State<SideDrawer> {
       ]),
     );
   }
+
 }

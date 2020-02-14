@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/utilities/confirmation_abstract/confirmation_abstract.dart';
 
 class Constant{
-
   String appName = "Contact Managment";
  // routes constant
   static String SIGN_IN ='signIn';
@@ -21,10 +21,9 @@ class Constant{
   static String CONTACT_INFO="ContactInformation";
   static String NOTES="Notes";
   static String DASHBOARD="Dashboard";
-  static String RECOVER_PASSWORD="RecoverPassword";
-  static String PERSON_HEADER="personHeader";
-
-
+  static String RECOVER_PASSWORD="Recover_password";
+  static String PERSON_HEADER="person_header";
+  static String SEARCH_DISPLAY="search_display";
 
 // labels
   static String ADD_NEW_PERSON="Add new Person";
@@ -53,6 +52,11 @@ class Constant{
 
 
 
+  // classses
+  static shouldImp callBack;
+
+
+
 
 
   static List<String> images = [
@@ -64,53 +68,56 @@ class Constant{
     'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F6.jpg?alt=media',
     'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F7.jpg?alt=media',
   ];
-  static final ThemeData darkTheme1 = ThemeData(
-    scaffoldBackgroundColor: Colors.black,
-    appBarTheme: AppBarTheme(
-      color: Colors.black,
-      iconTheme: IconThemeData(
-        color: Colors.white,
-      ),
-    ),
-    colorScheme: ColorScheme.light(
-      primary: Colors.black,
-      onPrimary: Colors.black,
-      primaryVariant: Colors.black,
-      secondary: Colors.red,
-    ),
-    cardTheme: CardTheme(
-      color: Colors.black,
-    ),
-    iconTheme: IconThemeData(
-      color: Colors.white54,
-    ),
-    textTheme: TextTheme(
-      title: TextStyle(
-        color: Colors.white,
-        fontSize: 20.0,
-      ),
-      subtitle: TextStyle(
-        color: Colors.white70,
-        fontSize: 18.0,
-      ),
-    ),
-  );
+  // static final ThemeData darkTheme1 = ThemeData(
+  //   scaffoldBackgroundColor: Colors.black,
+  //   appBarTheme: AppBarTheme(
+  //     color: Colors.black,
+  //     iconTheme: IconThemeData(
+  //       color: Colors.white,
+  //     ),
+  //   ),
+  //   colorScheme: ColorScheme.light(
+  //     primary: Colors.black,
+  //     onPrimary: Colors.black,
+  //     primaryVariant: Colors.black,
+  //     secondary: Colors.red,
+  //   ),
+  //   cardTheme: CardTheme(
+  //     color: Colors.black,
+  //   ),
+  //   iconTheme: IconThemeData(
+  //     color: Colors.white54,
+  //   ),
+  //   textTheme: TextTheme(
+  //     title: TextStyle(
+  //       color: Colors.white,
+  //       fontSize: 20.0,
+  //     ),
+  //     subtitle: TextStyle(
+  //       color: Colors.white70,
+  //       fontSize: 18.0,
+  //     ),
+  //   ),
+  // );
 
   static ThemeData lightTheme = ThemeData(
-
     fontFamily: "TimesNewRoman",
-    backgroundColor: lightBG,
+    backgroundColor: TRIAL_COLOR,
     primaryColor: lightPrimary,
     accentColor:  lightAccent,
     cursorColor: lightAccent,
 indicatorColor: PRIMARY_COLOR,
 brightness: Brightness.light,
+
     iconTheme: IconThemeData(color: Colors.white),
 bottomAppBarTheme: BottomAppBarTheme(
+
+  color: Colors.red,
   elevation: 0,
 ),
-//    scaffoldBackgroundColor: lightBG,
+   scaffoldBackgroundColor: TRIAL_COLOR,
     appBarTheme: AppBarTheme(
+      color: PRIMARY_COLOR,
       elevation: 0,
       textTheme: TextTheme(
         title: TextStyle(
@@ -130,6 +137,12 @@ bottomAppBarTheme: BottomAppBarTheme(
     accentColor: darkAccent,
 
 //    scaffoldBackgroundColor: darkBG,
+textTheme: TextTheme(
+      title: TextStyle(
+        color: Colors.white,
+        fontSize: 20.0,
+      ),
+),
     cursorColor: darkAccent,
     appBarTheme: AppBarTheme(
       elevation: 0,

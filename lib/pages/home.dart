@@ -1,12 +1,20 @@
+
+import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
-import 'package:flutter_app/pages/appbar/subAppBar.dart';
 import 'package:flutter_app/pages/drawer/navigation_drawer.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
+import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
+import 'package:rounded_letter/rounded_letter.dart';
+import 'package:rounded_letter/shape_type.dart';
 
 class Home extends StatefulWidget {
   Dashboard createState() => Dashboard();
@@ -15,7 +23,8 @@ class Home extends StatefulWidget {
 class Dashboard extends State<Home> {
   int _page = 0;
   GlobalKey _bottomNavigationKey = GlobalKey();
-  TextEditingController nameController = TextEditingController();
+  TextEditingController fNameController = TextEditingController();
+  TextEditingController lNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
@@ -35,6 +44,39 @@ class Dashboard extends State<Home> {
     selectPhone = phoneDropdownMenuItems[0].value;
     selectEmail = emailDropdownMenuItems[0].value;
     super.initState();
+  }
+  @override
+  void dispose() {
+    Provider.of<Auth>(context,listen: false).set_hasError("");
+
+  }
+  submitForm(){
+    Provider.of<Auth>(context,listen: false).setLoadingState(true);
+    var token=Provider.of<Auth>(context,listen: false).get_token();
+    var addNewPerson =  addNewPersonApi(
+      fName: fNameController.text,
+      lName: lNameController.text,
+      birthday: birthdayController.text,
+      token:token ,
+
+    );
+    addNewPerson.then((value) async{
+  Provider.of<Auth>(context,listen: false).set_successfullyResgistered(true);
+
+  Provider.of<Auth>(context,listen: false).setLoadingState(false);
+    });
+
+    addNewPerson.catchError((value) async{
+      Provider.of<Auth>(context,listen: false).setLoadingState(false);
+      Provider.of<Auth>(context,listen: false).set_successfullyResgistered(false);
+
+      Provider.of<Auth>(context,listen: false).set_hasError(value.toString());
+
+
+
+
+    });
+
   }
 
   List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(
@@ -80,8 +122,7 @@ class Dashboard extends State<Home> {
   /*==== upcoming Birthdays   on the first tap=======*/
   upcomingBirthDays() {
     return Scaffold(
-      backgroundColor: TRIAL_COLOR,
-      appBar: SubHeaderNav(title: Constant.UPCOMING_BIRTHDAYS),
+      // backgroundColor: TRIAL_COLOR,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -106,33 +147,42 @@ class Dashboard extends State<Home> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
+                        padding: const EdgeInsets.only(bottom: 1.0),
                         child: Column(
                           children: [
                             Container(
-                              height: 50,
+//                              height: 50,
                               child: ListTile(
                                 onTap: () => {
                                   Navigator.pushNamed(
                                       context, Constant.PERSON_HEADER)
                                 },
-                                leading: CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage: CachedNetworkImageProvider(
-                                      Constant.images[0]),
+                                leading:RoundedLetter(
+                                  text: getRoundLetter("John Doe").toUpperCase(),
+                                  shapeType: ShapeType.circle,
+                                  shapeColor: PRIMARY_COLOR,
+                                  shapeSize: 40,
+                                  fontSize: 20,
+                                  borderWidth: 1,
+                                  borderColor: Color.fromARGB(255, 0, 0, 0),
+
                                 ),
                                 title: Text(
                                   'John Doe',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 25),
+
+                                      fontSize: 20,
+                                      ),
                                 ),
                                 subtitle: Text(
                                   'Date of Birth',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w300,
-                                      fontSize: 15,
-                                      fontStyle: FontStyle.italic),
+                                      fontStyle: FontStyle.italic,
+                                  fontSize: 15
+                                  ),
+
                                 ),
                               ),
                             )
@@ -153,120 +203,131 @@ class Dashboard extends State<Home> {
   /*==== last  Contact on the second tap=======*/
   lastContact() {
     return Scaffold(
-      backgroundColor: TRIAL_COLOR,
-      appBar: SubHeaderNav(title: Constant.LAST_CONTACT),
       body: SingleChildScrollView(
-          child: Container(
-        margin: EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(0),
-              child: Container(
-                height: get_height(context),
-                child: ListView.builder(
-                  itemBuilder: (context, position) {
-                    return Container(
-                      child: Card(
-                        
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+        child: Container(
+          margin: EdgeInsets.all(15),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(0),
+
+                child: Container(
+                  height: get_height(context),
+                  child: ListView.builder(
+                    itemBuilder: (context, position) {
+                      return Container(
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Column(
+                            children: [
+
+                              Container(
+                                height: 70,
+                                child: ListTile(
+                                  onTap: () => {
+                                    Navigator.pushNamed(
+                                        context, Constant.PERSON_HEADER)
+                                  },
+                                  leading: RoundedLetter(
+                                    text: getRoundLetter("John Doe").toUpperCase(),
+                                    shapeType: ShapeType.circle,
+                                    shapeColor: PRIMARY_COLOR,
+                                    shapeSize: 40,
+                                    fontSize: 20,
+                                    borderWidth: 1,
+                                    borderColor: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                  title: Text(
+                                    'John Doe',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 20),
+                                  ),
+                                  subtitle: Text(
+                                    'Date(time) of last Contact',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                        child: Column(
-                          
-                          children: [
-                            Container(
-                              height: 70,
-                              child: ListTile(
-                                                                onTap: () => {
-                                  Navigator.pushNamed(
-                                      context, Constant.PERSON_HEADER)
-                                },
-                                leading: CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage: CachedNetworkImageProvider(
-                                      Constant.images[0]),
-                                ),
-                                title: Text(
-                                  'John Doe',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 25),
-                                ),
-                                subtitle: Text(
-                                  'Date(time) of last Contact',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 15,
-                                      fontStyle: FontStyle.italic),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 
   /*==== Adding new Contact on the third tap=======*/
   addNewPerson() {
-    return Scaffold(
-      backgroundColor: TRIAL_COLOR,
-      appBar: SubHeaderNav(title: Constant.ADD_NEW_PERSON),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: personalInformation(),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: contactInfo(),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                    child: enterNotesTextFormField(),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 150,
-                    child: submitButton(),
-                  ),
-                                    SizedBox(
-                    height: 40,
-                  ),
-                ],
+    return Consumer<Auth>(
+        builder: (BuildContext context, Auth value, Widget child) =>
+        value.get_IsLoading()==true?CircularIndicator():
+        Scaffold(
+          appBar: headerNav(title: Constant.ADD_NEW_PERSON),
+       body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: personalInformation(),
+                    ),
+
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      child: contactInfo(),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                      child: enterNotesTextFormField(),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: 150,
+                      child: submitButton(),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+
         ),
       ),
+
+
     );
   }
 
@@ -275,35 +336,42 @@ class Dashboard extends State<Home> {
       children: [
         // Padding(padding: EdgeInsets.all(5)),
         CircleAvatar(
-          radius: 40,
-          backgroundImage: CachedNetworkImageProvider(Constant.images[0]),
-          child: Container(
-            margin: EdgeInsets.only(left:50, top: 50),
-            width: 25,
-            height: 25,
-            child: FloatingActionButton(
-          onPressed: () => {
-          },
-          backgroundColor: PRIMARY_COLOR,
-          child: Icon(
-            Icons.edit,
-            color: lightBG,
-          ),
-        ),
-          ) 
+            radius: 40,
+            backgroundImage: CachedNetworkImageProvider(Constant.images[0]),
+            child: Container(
+              margin: EdgeInsets.only(left: 50, top: 50),
+              width: 25,
+              height: 25,
+              child: FloatingActionButton(
+                onPressed: () => {},
+                backgroundColor: PRIMARY_COLOR,
+                child: Icon(
+                  Icons.edit,
+                  color: lightBG,
+                ),
+              ),
+            )),
 
-        ),
         Padding(padding: EdgeInsets.all(5)),
         Text(
           'Personal Information',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
-        Padding(padding: EdgeInsets.all(5)),
+        SizedBox(height: 10,),
+        Consumer<Auth>(
+          builder: (BuildContext context, Auth value, Widget child) =>
+          value.get_successfullyResgistered()==true?Text("Your data successfully registered!",
+              style: TextStyle(color: Colors.green)):value.hasError.isNotEmpty==true?
+          Text(value.get_hasError(),
+              style: TextStyle(color: Colors.red)):Container(),
+        ),
+        SizedBox(height: 10,),
+
         Material(
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
           child: TextFormField(
-            controller: nameController,
+            controller: fNameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.person, size: 20),
@@ -319,7 +387,9 @@ class Dashboard extends State<Home> {
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
           child: TextFormField(
-            // controller: nameController,
+
+             controller: lNameController,
+
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.person, size: 20),
@@ -331,12 +401,7 @@ class Dashboard extends State<Home> {
           ),
         ),
         Padding(padding: EdgeInsets.all(5)),
-        Row(
-          children: [
-            Container(
-              // margin: EdgeInsets.only(right: 10),
-              width: 200,
-              child: Material(
+         Material(
                 borderRadius: BorderRadius.circular(10.0),
                 elevation: 12,
                 child: TextFormField(
@@ -344,10 +409,12 @@ class Dashboard extends State<Home> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.timer, size: 20),
                     hintText: "Date of Birth",
+
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
                   ),
+
                   onTap: () async {
                     DateTime date = DateTime(1900);
                     FocusScope.of(context).requestFocus(new FocusNode());
@@ -360,29 +427,12 @@ class Dashboard extends State<Home> {
                     birthdayController.text = date.toIso8601String();
                   },
                 ),
-              ),
+
             ),
             Padding(padding: EdgeInsets.all(5)),
-            Container(
-              // margin: EdgeInsets.only(left: 200),
-              width: 150,
-              child: Material(
-                borderRadius: BorderRadius.circular(10.0),
-                elevation: 12,
-                child: TextFormField(
-                  // controller: birthdayController,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person, size: 20),
-                    hintText: "Gender",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide.none),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+
+
+
       ],
     );
   }
@@ -405,23 +455,12 @@ class Dashboard extends State<Home> {
 
   contacts() {
     return Scaffold(
-      backgroundColor: TRIAL_COLOR,
-      appBar: SubHeaderNav(title: 'Contacts'),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 35),
+          margin: EdgeInsets.only(left: 10,right: 10),
           child: Column(
             children: [
-              Padding(padding: EdgeInsets.all(5)),
-              Container(
-                width: 40,
-                child: Card(
-                  child: Text(
-                    'A',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+              SizedBox(height: 5,),
               Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -430,15 +469,24 @@ class Dashboard extends State<Home> {
                     onTap: () =>
                         {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
                     child: Container(
-                      height: 60,
                       child: ListTile(
-                          leading: CircleAvatar(
-                            radius: 17,
-                            backgroundImage:
-                                CachedNetworkImageProvider(Constant.images[0]),
+                          leading: RoundedLetter(
+                            text: getRoundLetter("Anthony Doe"),
+                            shapeType: ShapeType.circle,
+                            shapeColor: PRIMARY_COLOR,
+                            shapeSize: 40,
+                            fontSize: 20,
+                            borderWidth: 1,
+                            borderColor: Color.fromARGB(255, 0, 0, 0),
                           ),
-                          title: Text('Anthony Doe'),
-                          subtitle: Text('Migrated From Phone Contacts')),
+                          title:Text("Anthony Doe",style: TextStyle(
+                            fontSize: 20,
+                          ),),
+
+                          subtitle: Text('Migrated From Phone Contacts',
+                          style: TextStyle(fontSize: 15),
+                          )),
+
                     ),
                   )),
               Card(
@@ -446,261 +494,61 @@ class Dashboard extends State<Home> {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Container(
-                  height: 60,
                   child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
+                      leading: RoundedLetter(
+                        text: getRoundLetter("Endalk Doe"),
+                        shapeType: ShapeType.circle,
+                        shapeColor: PRIMARY_COLOR,
+                        shapeSize: 40,
+                        fontSize: 20,
+                        borderWidth: 1,
+                        borderColor: Color.fromARGB(255, 0, 0, 0),
                       ),
-                      title: Text('Anthony Doe'),
-                      subtitle: Text('Migrated From Phone Contacts')),
+                      title: Text('Endalk Doe',style: TextStyle(fontSize: 20)),
+                      subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
                 ),
               ),
+
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Container(
-                  height: 60,
                   child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
+                      leading:  RoundedLetter(
+                        text: getRoundLetter("Jhon Doe"),
+                        shapeType: ShapeType.circle,
+                        shapeColor: PRIMARY_COLOR,
+                        shapeSize: 40,
+                        fontSize: 20,
+                        borderWidth: 1,
+                        borderColor: Color.fromARGB(255, 0, 0, 0),
                       ),
-                      title: Text('Albert Einstine'),
-                      subtitle: Text('Saved here')),
+                      title: Text('Bonkers Doe',style: TextStyle(fontSize: 20)),
+                      subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
                 ),
               ),
-              Container(
-                width: 40,
-                child: Card(
-                  child: Text(
-                    'B',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Container(
-                  height: 60,
                   child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
+                      leading:  RoundedLetter(
+                        text: getRoundLetter("Caroline Doe"),
+                        shapeType: ShapeType.circle,
+                        shapeColor: PRIMARY_COLOR,
+                        shapeSize: 40,
+                        fontSize: 20,
+                        borderWidth: 1,
+                        borderColor: Color.fromARGB(255, 0, 0, 0),
                       ),
-                      title: Text('Bonkers Doe'),
-                      subtitle: Text('Migrated From Phone Contacts')),
+                      title: Text('Caroline Doe',style: TextStyle(fontSize: 20),),
+                      subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
                 ),
               ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Bovelier Einstine'),
-                      subtitle: Text('Saved here')),
-                ),
-              ),
-              Container(
-                width: 40,
-                child: Card(
-                  child: Text(
-                    'C',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Caroline Doe'),
-                      subtitle: Text('Migrated From Phone Contacts')),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Caroline Doe'),
-                      subtitle: Text('Migrated From Phone Contacts')),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Caroline Doe'),
-                      subtitle: Text('Migrated From Phone Contacts')),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Caroline Doe'),
-                      subtitle: Text('Migrated From Phone Contacts')),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Caroline Doe'),
-                      subtitle: Text('Migrated From Phone Contacts')),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Cantona Einstine'),
-                      subtitle: Text('Saved here')),
-                ),
-              ),
-              Container(
-                width: 40,
-                child: Card(
-                  child: Text(
-                    'D',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Dunhan Doe'),
-                      subtitle: Text('Migrated From Phone Contacts')),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Debra Einstine'),
-                      subtitle: Text('Saved here')),
-                ),
-              ),
-              Container(
-                width: 40,
-                child: Card(
-                  child: Text(
-                    'E',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Einstine Albert'),
-                      subtitle: Text('Migrated From Phone Contacts')),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  height: 60,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(Constant.images[0]),
-                      ),
-                      title: Text('Equalia James'),
-                      subtitle: Text('Saved here')),
-                ),
-              ),
+
             ],
           ),
         ),
@@ -772,7 +620,9 @@ class Dashboard extends State<Home> {
                   controller: phoneController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    hintText: "+251901959195",
+
+                    hintText: "+1(424) 341-3346",
+
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -834,7 +684,7 @@ class Dashboard extends State<Home> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
-        Navigator.pushNamed(context, Constant.HOME);
+        submitForm();
       },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
@@ -868,54 +718,63 @@ class Dashboard extends State<Home> {
     }
   }
 
+  getTitle() {
+    if (_page == 0)
+      return "Upcoming Birthdays";
+    else if (_page == 1)
+      return "Last Contact";
+    else
+      return "Contacts";
+  }
+
   @override
   Widget build(BuildContext context) {
-    return 
-       Scaffold(
-        appBar: headerNav(title: Constant.DASHBOARD, context: context),
-        drawer: SideDrawer(),
-        body: Container(
-          child: Center(
-            child: pageTaped(_page),
+    return  Scaffold(
+      appBar: headerNav(title: getTitle(), context: context),
+      drawer: SideDrawer(),
+      body: Container(
+        child: Center(
+          child: pageTaped(_page),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _page,
+        // unselectedItemColor: Colors.black26,
+        selectedItemColor: PRIMARY_COLOR,
+        items: [
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.event),
+            title: new Text('Birthdays'),
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _page,
-          unselectedItemColor: Colors.black26,
-          selectedItemColor: PRIMARY_COLOR,
-          items: [
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.event),
-              title: new Text('Birthdays'),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.contact_mail),
-              title: new Text('last contact'),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.contacts),
-              title: new Text('Contacts'),
-            )
-          ],
-          onTap: (index) {
-            setState(() {
-              _page = index;
-            });
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => addNewPerson()),
-            )
-          },
-          backgroundColor: PRIMARY_COLOR,
-          child: Icon(
-            Icons.add,
-            color: lightBG,
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.contact_mail),
+            title: new Text('last contact'),
           ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.contacts),
+            title: new Text('Contacts'),
+          )
+        ],
+        onTap: (index) {
+          setState(() {
+            _page = index;
+          });
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => addNewPerson()),
+          )
+        },
+        backgroundColor: PRIMARY_COLOR,
+        child: Icon(
+          Icons.add,
+          color: lightBG,
         ),
-      );
+      ),
+    );
+
   }
 }

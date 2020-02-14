@@ -20,8 +20,6 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
   TextEditingController emailController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
 
-  List<PhoneType> phoneType = PhoneType.getPhones();
-  List<EmailType> emailType = EmailType.getEmails();
 
   List<DropdownMenuItem<PhoneType>> phoneDropdownMenuItems;
   List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
@@ -100,7 +98,6 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
 
   notes() {
     return Scaffold(
-      backgroundColor: TRIAL_COLOR,
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 15),
@@ -163,7 +160,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
 
   contactInformation() {
     return Scaffold(
-        backgroundColor: TRIAL_COLOR,
+
         body: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.all(10),
@@ -406,7 +403,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
 
   personalSettings() {
     return Scaffold(
-      backgroundColor: TRIAL_COLOR,
+
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(15),
@@ -521,10 +518,13 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
             SizedBox(
               height: 10,
             ),
-            CircleAvatar(
-              radius: 40,
-              backgroundImage: CachedNetworkImageProvider(Constant.images[0]),
-            ),
+
+                       CircleAvatar(
+                                  backgroundColor: Colors.black,
+                                  radius: 40,
+                                  backgroundImage: AssetImage("assets/j.jpg")
+                                ),
+
             ListTile(
               title: Center(
                 child: Text(

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:flutter_app/pages/animation/animate.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/back_button.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
+import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
 class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,6 +33,8 @@ class _SignInScreenState extends State<SignUpScreen> {
   bool showError=false;
   bool showBackendError=false;
   bool checkBoxValue = false;
+  bool isCheckBoxSelected=true;
+  String emailError="",passwordError="";
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _secureText = true;
@@ -44,6 +51,51 @@ class _SignInScreenState extends State<SignUpScreen> {
       });
     });
   }
+
+  submitForm(){
+    var themeNotifier_auth = Provider.of<Auth>(context,listen: false);
+    setState(() {
+      showError=true;
+      emailError=validateEmail(usernameController.text);
+      passwordError=validatePassword(passwordController.text);
+    });
+    Provider.of<Auth>(context,listen: false).set_registerError("");
+    if(emailError.isEmpty  && passwordError.isEmpty && showError){
+
+      if(checkBoxValue==false){
+
+setState(() {
+  isCheckBoxSelected=false;
+});
+      }
+
+        else{
+        setState(() {
+          isCheckBoxSelected = true;
+        });
+        themeNotifier_auth.setLoadingState(true);
+        var _registerModel =  RegisterApi(
+          userId: usernameController.text,
+          password: passwordController.text,
+          context: context,
+        );
+        _registerModel.then((value) async{
+          themeNotifier_auth.setLoadingState(false);
+        });
+
+        _registerModel.catchError((value) async{
+          themeNotifier_auth.set_hasError(value);
+          themeNotifier_auth.setLoadingState(false);
+
+        });
+
+//          Navigator.pushNamed(context, Constant.HOME);
+      }
+
+
+
+    }
+  }
   showHide() {
     setState(() {
       _secureText = !_secureText;
@@ -58,7 +110,6 @@ class _SignInScreenState extends State<SignUpScreen> {
   }
 
   emailTextFormField() {
-    var checkEmail=validateEmail(usernameController.text);
     return Column(
       children: <Widget>[
         Material(
@@ -68,7 +119,7 @@ class _SignInScreenState extends State<SignUpScreen> {
             controller: usernameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email, size: 20),
+              prefixIcon: Icon(Icons.email, size: 20,color: PRIMARY_COLOR,),
               hintText: "Email",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
@@ -79,16 +130,16 @@ class _SignInScreenState extends State<SignUpScreen> {
           ),
 
         ),
-        checkEmail.isNotEmpty && showError?
 
-        Text(checkEmail,style: TextStyle(
-            color: Colors.red
-        )):Container()
+        SizedBox(height: 5,),
+        (showError==true && emailError.isNotEmpty)?
+        Text(emailError,style: TextStyle(
+            color: Colors.red)
+        ):Container(),
       ],
     );
   }
   passwordTextFormField() {
-    var checkPassword=validatePassword(passwordController.text);
     return Column(
       children:[
         Material(
@@ -99,7 +150,7 @@ class _SignInScreenState extends State<SignUpScreen> {
             controller: passwordController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.lock, size: 20),
+              prefixIcon: Icon(Icons.lock, size: 20,color: PRIMARY_COLOR),
               hintText: "Password",
               suffixIcon: IconButton(
                 onPressed: showHide,
@@ -114,11 +165,10 @@ class _SignInScreenState extends State<SignUpScreen> {
             ),
           ),
         ),
-        checkPassword.isNotEmpty && showError?
-
-        Text(checkPassword,style: TextStyle(
-            color: Colors.red
-        )):Container()
+        (showError==true && passwordError.isNotEmpty)?
+        Text(passwordError,style: TextStyle(
+            color: Colors.red)
+        ):Container(),
       ],
     );
   }
@@ -162,8 +212,11 @@ class _SignInScreenState extends State<SignUpScreen> {
           ),
           GestureDetector(
             onTap: () {
+
+              Provider.of<Auth>(context,listen: false).set_registerError("");
+
+
               Navigator.of(context).pushNamed(Constant.SIGN_IN);
-              print("Routing to Sign up screen");
             },
             child: Text(
               "Sign in",
@@ -192,26 +245,36 @@ class _SignInScreenState extends State<SignUpScreen> {
     );
   }
   button() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        Navigator.pushNamed(context, Constant.HOME);
-      },
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: get_width(context),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          color: PRIMARY_COLOR
+      return FadeIn(
+        5,
+        RaisedButton(
+          elevation: 0,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          onPressed: () {
+            submitForm();
+          },
+          textColor: Colors.white,
+          padding: EdgeInsets.all(0.0),
+          child: Container(
+            alignment: Alignment.center,
+            width: get_width(context),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                color: PRIMARY_COLOR
+              // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
+            ),
+            padding: const EdgeInsets.all(15.0),
+            child: Text('SIGN Up',
+                style: TextStyle(
+                    fontSize: 12,
+                    // fontWeight: FontWeight.w900,
+                    color: lightPrimary)),
+          ),
         ),
-        padding: const EdgeInsets.all(15.0),
-        child: Text('SIGN IN', style: TextStyle(fontSize: 12)),
-      ),
-    );
-  }
+      );
+    }
+
   acceptTermsTextRow() {
     return Container(
       child: Row(
@@ -229,19 +292,26 @@ class _SignInScreenState extends State<SignUpScreen> {
               Navigator.pushNamed(context, Constant.TERMS_AND_CONDTION),
             },
             child: Text("I accept all terms and conditions",
-              style: TextStyle(fontWeight: FontWeight.w400, fontSize:12),
+              style: TextStyle(fontWeight: FontWeight.w400,
+                  color: isCheckBoxSelected==false?Colors.red:PRIMARY_COLOR,
+                  fontSize:12,
+
+
+              ),
             ),
           ),
         ],
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children:[
+      body:  Provider.of<Auth>(context).get_IsLoading() == true
+          ? CircularIndicator()
+          : Stack(
+        children: <Widget>[
+
           Container(
             margin: EdgeInsets.only(top: 40, left: 20, right: 20),
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -253,7 +323,7 @@ class _SignInScreenState extends State<SignUpScreen> {
                   flex: 1,
                   child: SizedBox(),
                 ),
-                logo(),
+                FadeIn(2,logo(context)),
                 SizedBox(
                   height: 10,
                 ),
@@ -262,32 +332,57 @@ class _SignInScreenState extends State<SignUpScreen> {
 child:                 headerTextRow(),
 
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                emailTextFormField(),
-                SizedBox(
-                  height: 10,
-                ),
-                passwordTextFormField(),
+
+                FadeIn(2.5,headerTextRow(),),
 
                 SizedBox(
                   height: 10,
                 ),
-                acceptTermsTextRow(),
-                Container(
+                FadeIn(3,emailTextFormField()),
+                SizedBox(
+                  height: 10,
+                ),
+                FadeIn(3.5,passwordTextFormField(),),
+
+
+                SizedBox(
+                  height: 10,
+                ),
+
+                FadeIn(3.7,
+                  Consumer<Auth>(
+                    builder: (BuildContext context, Auth value, Widget child) =>
+                    value.get_registerError().toString().isNotEmpty==true?Text(value.get_registerError(),
+                        style: TextStyle(color: Colors.red)):Container(),
+                  ),
+
+
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+
+                FadeIn(4.0,acceptTermsTextRow(),),
+                SizedBox(
+                  height: 10,
+                ),
+
+                FadeIn(4.5,  Container(
                   width: 150,
                   child: button(),
-                ),
+                ),),
+
                 SizedBox(
                   height: 10,
                 ),
-                signUpTextRow(),
 
+                FadeIn(5.0, signUpTextRow(),),
                 Expanded(
                   flex: 1,
                   child: SizedBox(),
                 ),
+
               ],
             ),
           ),

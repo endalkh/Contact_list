@@ -8,14 +8,13 @@ Future<String>  getSharedPreference(key) async {
      return sharedPreferences.getString(key);
    }
 
-savePref( {id,name,  email,photo})  async {
+savePref( {id,email,accessToken,refreshToken})  async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   try{
-      preferences.setString("id", id);
-      preferences.setString("name", name);
-      preferences.setString("email", email);
-      preferences.setString("photo", photo);
-      print(name);
+     await preferences.setString("id", id);
+     await preferences.setString("email", email);
+     await preferences.setString("refreshToken", refreshToken);
+     await preferences.setString("accessToken", accessToken);
       return true;
 
 
@@ -24,6 +23,8 @@ savePref( {id,name,  email,photo})  async {
 
     return false;
   }
+
+
 }
 
 
@@ -56,9 +57,10 @@ Future<bool> getSettingPref(key) async {
 
 signOut() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  preferences.setString("name", null);
+  preferences.setString("accessToken", null);
+  preferences.setString("refreshToken", null);
   preferences.setString("email", null);
-  preferences.setString("photo", null);
+  preferences.setString("id", null);
 
 //      _loginStatus = LoginStatus.notSignIn;
 
