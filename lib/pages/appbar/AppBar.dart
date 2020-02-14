@@ -6,10 +6,15 @@ import 'package:flutter_app/pages/search/search.dart';
 
 AppBar headerNav({context,String title}){
   return AppBar(
+        // backgroundColor: Colors.grey[400],
+
+
     title: Text(title,
       style: TextStyle(
-        fontSize: Constant.fontSize(Constant.XL),
-        fontWeight: FontWeight.w900
+        fontSize: Constant.fontSize(10),
+        fontWeight: FontWeight.w500,
+        color: Colors.white
+
       ),
     ),
           actions: <Widget>[
@@ -18,7 +23,8 @@ AppBar headerNav({context,String title}){
          Search(context);
           },
           tooltip: 'Search',
-          icon: new Icon(Icons.search,color: PRIMARY_COLOR,),
+          icon: new Icon(Icons.search,
+          color: Colors.white,),
         )
       ],
   );

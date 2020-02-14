@@ -21,7 +21,7 @@ class SplashScreenState extends State<SplashScreen>
   Animation<double> animation;
 
   startTime() async {
-    var _duration = new Duration(seconds: 4);
+    var _duration = new Duration(seconds: 3);
     return new Timer(_duration, navigationPage);
   }
 
@@ -50,40 +50,14 @@ class SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Center(
         child: Image.asset(
-                'assets/adis2.png',
+                'assets/logo_light.jpg',
                 width: animation.value * 250,
                 height: animation.value * 250,
               ),
 
     );
   }
-//      Scaffold(
-//      body: Stack(
-//
-//        fit: StackFit.expand,
-//        children: <Widget>[
-//          Container(
-//            decoration: BoxDecoration(
-//                gradient: LinearGradient(
-//                    colors: [Colors.white, Colors.blue]
-//
-//                )
-//            ),
-//          ),
-//
-//          new Column(
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: <Widget>[
-//              new Image.asset(
-//                'assets/logo.jpg',
-//                width: animation.value * 250,
-//                height: animation.value * 250,
-//              ),
-//            ],
-//          ),
-//        ],
-//      ),
-//    );
+
 
 
 }

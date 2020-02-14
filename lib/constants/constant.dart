@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/utilities/confirmation_abstract/confirmation_abstract.dart';
 
 class Constant{
   String appName = "Contact Managment";
@@ -10,12 +11,12 @@ class Constant{
   static String SPLASH_SCREEN ='splashscreen';
   static String HOME ='home';
   static String SEARCH="search";
-  static String SETTING="SETTING";
-  static String DIALOGE_PAGE="DIALOGEPAGE";
+  static String SETTING="Settings";
+  static String DIALOGE_PAGE="Dialogue Page";
   static String PROFILE="Profile";
-  static String ABOUT_US="ABOUT_US";
-  static String PICK_PROFILE_PICHTURE="PICK_PROFILE_PICHTURE";
-  static String TERMS_AND_CONDTION="TERMS_AND_CONDTION";
+  static String ABOUT_US="About Us";
+  static String PICK_PROFILE_PICHTURE="Pick Profile Picture";
+  static String TERMS_AND_CONDTION="Terms and Conditions";
   static String SUCCESS="Success";
   static String CONTACT_INFO="ContactInformation";
   static String NOTES="Notes";
@@ -28,15 +29,13 @@ class Constant{
   static String ADD_NEW_PERSON="Add new Person";
   static String LAST_CONTACT="Last Contact";
   static String UPCOMING_BIRTHDAYS="Upcoming Birthdays";
-  static String RESETPASSWORD="Reset Password";
+  static String RESETPASSWORD="Reset Your Password";
   static String RECOVERPASSWORD="Recover Password";
   static String SIGNIN="Sign in";
   static String SIGNUP ="Sign up";
   static String PASSWORDRESETDESC ="It's ok, we all forget out password sometimes. "
       "Fill out your email to get a reset link sent to your email. "
       "You also might consider getting a password manager like 1Password or Bitwarden";
-
-  //font
   static const String XS="XS";
   static const String S="S";
   static const String M="M";
@@ -53,6 +52,11 @@ class Constant{
 
 
 
+  // classses
+  static shouldImp callBack;
+
+
+
 
 
   static List<String> images = [
@@ -64,42 +68,41 @@ class Constant{
     'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F6.jpg?alt=media',
     'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F7.jpg?alt=media',
   ];
-  static final ThemeData darkTheme1 = ThemeData(
-    scaffoldBackgroundColor: Colors.black,
-    appBarTheme: AppBarTheme(
-      color: Colors.black,
-      iconTheme: IconThemeData(
-        color: Colors.white,
-      ),
-    ),
-    colorScheme: ColorScheme.light(
-      primary: Colors.black,
-      onPrimary: Colors.black,
-      primaryVariant: Colors.black,
-      secondary: Colors.red,
-    ),
-    cardTheme: CardTheme(
-      color: Colors.black,
-    ),
-    iconTheme: IconThemeData(
-      color: Colors.white54,
-    ),
-    textTheme: TextTheme(
-      title: TextStyle(
-        color: Colors.white,
-        fontSize: 20.0,
-      ),
-      subtitle: TextStyle(
-        color: Colors.white70,
-        fontSize: 18.0,
-      ),
-    ),
-  );
+  // static final ThemeData darkTheme1 = ThemeData(
+  //   scaffoldBackgroundColor: Colors.black,
+  //   appBarTheme: AppBarTheme(
+  //     color: Colors.black,
+  //     iconTheme: IconThemeData(
+  //       color: Colors.white,
+  //     ),
+  //   ),
+  //   colorScheme: ColorScheme.light(
+  //     primary: Colors.black,
+  //     onPrimary: Colors.black,
+  //     primaryVariant: Colors.black,
+  //     secondary: Colors.red,
+  //   ),
+  //   cardTheme: CardTheme(
+  //     color: Colors.black,
+  //   ),
+  //   iconTheme: IconThemeData(
+  //     color: Colors.white54,
+  //   ),
+  //   textTheme: TextTheme(
+  //     title: TextStyle(
+  //       color: Colors.white,
+  //       fontSize: 20.0,
+  //     ),
+  //     subtitle: TextStyle(
+  //       color: Colors.white70,
+  //       fontSize: 18.0,
+  //     ),
+  //   ),
+  // );
 
   static ThemeData lightTheme = ThemeData(
-
     fontFamily: "TimesNewRoman",
-    backgroundColor: lightBG,
+    backgroundColor: TRIAL_COLOR,
     primaryColor: lightPrimary,
     accentColor:  lightAccent,
     cursorColor: lightAccent,
@@ -112,8 +115,9 @@ bottomAppBarTheme: BottomAppBarTheme(
   color: Colors.red,
   elevation: 0,
 ),
-//    scaffoldBackgroundColor: lightBG,
+   scaffoldBackgroundColor: TRIAL_COLOR,
     appBarTheme: AppBarTheme(
+      color: PRIMARY_COLOR,
       elevation: 0,
       textTheme: TextTheme(
         title: TextStyle(
@@ -133,6 +137,12 @@ bottomAppBarTheme: BottomAppBarTheme(
     accentColor: darkAccent,
 
 //    scaffoldBackgroundColor: darkBG,
+textTheme: TextTheme(
+      title: TextStyle(
+        color: Colors.white,
+        fontSize: 20.0,
+      ),
+),
     cursorColor: darkAccent,
     appBarTheme: AppBarTheme(
       elevation: 0,
@@ -195,11 +205,11 @@ class PhoneType {
   static List<PhoneType> getPhones() {
     return <PhoneType>[
       PhoneType(0, 'Type'),
-      PhoneType(1, 'Apple'),
-      PhoneType(2, 'Google'),
-      PhoneType(3, 'Samsung'),
-      PhoneType(4, 'Sony'),
-      PhoneType(5, 'LG'),
+      PhoneType(1, 'Home'),
+      PhoneType(2, 'Work'),
+      PhoneType(3, 'Fax'),
+      PhoneType(4, 'Mobile'),
+      PhoneType(5, 'Line'),
     ];
   }
 }
@@ -214,11 +224,10 @@ class EmailType {
   static List<EmailType> getEmails() {
     return <EmailType>[
       EmailType(0, 'Type'),
-      EmailType(1, 'Apple'),
-      EmailType(2, 'Google'),
-      EmailType(3, 'Samsung'),
-      EmailType(4, 'Sony'),
-      EmailType(5, 'LG'),
+      EmailType(1, 'Gmail'),
+      EmailType(2, 'Icloud'),
+      EmailType(3, 'Yahoo'),
+      EmailType(4, 'Hotbird'),
     ];
   }
 }

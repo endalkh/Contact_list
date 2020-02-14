@@ -10,13 +10,13 @@ CircularIndicator (){
         child:  CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation(PRIMARY_COLOR),
             strokeWidth: 5.0,
-        backgroundColor: SECONDARY_COLOR,
+        backgroundColor: Colors.red,
         ),
 
       )
     ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: SECONDARY_COLOR,
         )
 
 

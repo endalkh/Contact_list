@@ -1,20 +1,30 @@
+import 'dart:ui';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/animation/animate.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
-import 'package:flutter_app/pages/appbar/subAppBar.dart';
 import 'package:flutter_app/pages/drawer/navigation_drawer.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
+import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
+import 'package:rounded_letter/rounded_letter.dart';
+import 'package:rounded_letter/shape_type.dart';
 
 class Home extends StatefulWidget {
-  Dashboard createState() =>Dashboard();
+  Dashboard createState() => Dashboard();
 }
-class Dashboard extends State<Home>{
+
+class Dashboard extends State<Home> {
   int _page = 0;
   GlobalKey _bottomNavigationKey = GlobalKey();
-  TextEditingController nameController = TextEditingController();
+  TextEditingController fNameController = TextEditingController();
+  TextEditingController lNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
@@ -32,11 +42,45 @@ class Dashboard extends State<Home>{
     phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
     emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
     selectPhone = phoneDropdownMenuItems[0].value;
-    selectEmail=emailDropdownMenuItems[0].value;
+    selectEmail = emailDropdownMenuItems[0].value;
     super.initState();
   }
+  @override
+  void dispose() {
+    Provider.of<Auth>(context,listen: false).set_hasError("");
 
-  List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(List phoneTypes) {
+  }
+  submitForm(){
+    Provider.of<Auth>(context,listen: false).setLoadingState(true);
+    var token=Provider.of<Auth>(context,listen: false).get_token();
+    var addNewPerson =  addNewPersonApi(
+      fName: fNameController.text,
+      lName: lNameController.text,
+      birthday: birthdayController.text,
+      token:token ,
+
+    );
+    addNewPerson.then((value) async{
+  Provider.of<Auth>(context,listen: false).set_successfullyResgistered(true);
+
+  Provider.of<Auth>(context,listen: false).setLoadingState(false);
+    });
+
+    addNewPerson.catchError((value) async{
+      Provider.of<Auth>(context,listen: false).setLoadingState(false);
+      Provider.of<Auth>(context,listen: false).set_successfullyResgistered(false);
+
+      Provider.of<Auth>(context,listen: false).set_hasError(value.toString());
+
+
+
+
+    });
+
+  }
+
+  List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(
+      List phoneTypes) {
     List<DropdownMenuItem<PhoneType>> items = List();
     for (PhoneType phoneType in phoneTypes) {
       items.add(
@@ -49,7 +93,8 @@ class Dashboard extends State<Home>{
     return items;
   }
 
-  List<DropdownMenuItem<EmailType>> emailBuildDropdownMenuItems(List emailTypes) {
+  List<DropdownMenuItem<EmailType>> emailBuildDropdownMenuItems(
+      List emailTypes) {
     List<DropdownMenuItem<EmailType>> items = List();
     for (EmailType emailType in emailTypes) {
       items.add(
@@ -67,410 +112,568 @@ class Dashboard extends State<Home>{
       selectPhone = phone;
     });
   }
+
   emailOnChangeDropdownItem(EmailType email) {
     setState(() {
       selectEmail = email;
     });
   }
 
-
   /*==== upcoming Birthdays   on the first tap=======*/
-  upcomingBirthDays(){
-  return Scaffold(
-    appBar:  SubHeaderNav(title: Constant.UPCOMING_BIRTHDAYS),
-
-    body:SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(14),
-      child:Container(
-            height: get_height(context),
-            child: ListView.builder(
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return FadeIn(index*0.3,
-                    Card(
-                      child:Container(
-                          child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child:Container(
-
-                                  child: Row(
-                                    children: <Widget>[
-
-                                      Expanded(
-                                        flex:1,
-                                        child:Text(
-                                          "Jhon Tomson $index",
-                                          style: TextStyle(
-                                              fontSize: Constant.fontSize(Constant.L),
-                                              color: COLOR_LINK
-                                          ),
-
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex:1,
-                                        child:Text(
-                                          "Jan 20",
-                                          style: TextStyle(fontSize: Constant.fontSize(Constant.M)),
-//
-                                        ),
-                                      )
-                                    ],
-                                  )
-                              )
-
-
-                          )
-
-
-//
-                      ),
-                    ));
-
-              },
-            ),
-          ),
-          ),
-        ],
-//        )
-      ),
-
-    ),
-  );
-
-
-  }
-
-
-  /*==== last  Contact on the second tap=======*/
-  lastContact(){
+  upcomingBirthDays() {
     return Scaffold(
-      appBar: SubHeaderNav(title: Constant.LAST_CONTACT),
-
-      body:SingleChildScrollView(
-
+      // backgroundColor: TRIAL_COLOR,
+      body: SingleChildScrollView(
         child: Column(
-          children: <Widget>[
-        Padding(
-        padding: EdgeInsets.all(14),
-            child:Container(
-              height: get_height(context),
-              child: ListView.builder(
-                itemBuilder: (context, position) {
-                  return FadeIn(position*0.3,
-
-                    Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-//                      child: Text(position.toString(), style: TextStyle(fontSize: 22.0),),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex:1,
-                              child:Text(
-                                "Old Contact Smith",
-                                style: TextStyle(
-                                    fontSize: Constant.fontSize(Constant.L),
-                                    color: COLOR_LINK
+          children: [
+            Padding(padding: EdgeInsets.all(5)),
+            Text(
+              'Tomorrow',
+              style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15,
+                  fontStyle: FontStyle.italic),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 14, right: 14, bottom: 14),
+              child: Container(
+                height: get_height(context),
+                decoration: BoxDecoration(),
+                child: ListView.builder(
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 1.0),
+                        child: Column(
+                          children: [
+                            Container(
+//                              height: 50,
+                              child: ListTile(
+                                onTap: () => {
+                                  Navigator.pushNamed(
+                                      context, Constant.PERSON_HEADER)
+                                },
+                                leading:RoundedLetter(
+                                  text: getRoundLetter("John Doe").toUpperCase(),
+                                  shapeType: ShapeType.circle,
+                                  shapeColor: PRIMARY_COLOR,
+                                  shapeSize: 40,
+                                  fontSize: 20,
+                                  borderWidth: 1,
+                                  borderColor: Color.fromARGB(255, 0, 0, 0),
                                 ),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child:Text(
-                                "1 months ago", style: TextStyle(fontSize: 17.0),
-//
+                                title: Text(
+                                  'John Doe',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20,
+                                      ),
+                                ),
+                                subtitle: Text(
+                                  'Date of Birth',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontStyle: FontStyle.italic,
+                                  fontSize: 15
+                                  ),
+                                ),
                               ),
                             )
                           ],
-                        )
-                    ),
-                    ),
-                  );
-                },
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-        ),
           ],
-//        )
         ),
-
       ),
     );
   }
 
- /*==== Adding new Contact on the third tap=======*/
-  addNewPerson(){
+  /*==== last  Contact on the second tap=======*/
+  lastContact() {
     return Scaffold(
-      appBar: SubHeaderNav(title: Constant.ADD_NEW_PERSON),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: 10,),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child:nameTextFormField(),
+        child: Container(
+          margin: EdgeInsets.all(15),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(0),
+
+                child: Container(
+                  height: get_height(context),
+                  child: ListView.builder(
+                    itemBuilder: (context, position) {
+                      return Container(
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Column(
+                            children: [
+
+                              Container(
+                                height: 70,
+                                child: ListTile(
+                                  onTap: () => {
+                                    Navigator.pushNamed(
+                                        context, Constant.PERSON_HEADER)
+                                  },
+                                  leading: RoundedLetter(
+                                    text: getRoundLetter("John Doe").toUpperCase(),
+                                    shapeType: ShapeType.circle,
+                                    shapeColor: PRIMARY_COLOR,
+                                    shapeSize: 40,
+                                    fontSize: 20,
+                                    borderWidth: 1,
+                                    borderColor: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                  title: Text(
+                                    'John Doe',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 20),
+                                  ),
+                                  subtitle: Text(
+                                    'Date(time) of last Contact',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child:BirthDatePicker(),
-                  ),
-                  SizedBox(height: 10,),
-                  contactInfo(),
-                  SizedBox(height: 10,),
-                  submitButton(),
-
-
-                ],
-
+                ),
               ),
-            ),
-
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
-  nameTextFormField() {
 
-//    var checkEmail=validateEmail(usernameController.text);
-    return FadeIn(0.5, Column(
-      children: <Widget>[
+  /*==== Adding new Contact on the third tap=======*/
+  addNewPerson() {
+    return Consumer<Auth>(
+        builder: (BuildContext context, Auth value, Widget child) =>
+        value.get_IsLoading()==true?CircularIndicator():
+        Scaffold(
+          appBar: headerNav(title: Constant.ADD_NEW_PERSON),
+       body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: personalInformation(),
+                    ),
+
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      child: contactInfo(),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                      child: enterNotesTextFormField(),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: 150,
+                      child: submitButton(),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+
+    );
+  }
+
+  personalInformation() {
+    return Column(
+      children: [
+        // Padding(padding: EdgeInsets.all(5)),
+        CircleAvatar(
+            radius: 40,
+            backgroundImage: CachedNetworkImageProvider(Constant.images[0]),
+            child: Container(
+              margin: EdgeInsets.only(left: 50, top: 50),
+              width: 25,
+              height: 25,
+              child: FloatingActionButton(
+                onPressed: () => {},
+                backgroundColor: PRIMARY_COLOR,
+                child: Icon(
+                  Icons.edit,
+                  color: lightBG,
+                ),
+              ),
+            )),
+
+        Padding(padding: EdgeInsets.all(5)),
+        Text(
+          'Personal Information',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+        ),
+        SizedBox(height: 10,),
+        Consumer<Auth>(
+          builder: (BuildContext context, Auth value, Widget child) =>
+          value.get_successfullyResgistered()==true?Text("Your data successfully registered!",
+              style: TextStyle(color: Colors.green)):value.hasError.isNotEmpty==true?
+          Text(value.get_hasError(),
+              style: TextStyle(color: Colors.red)):Container(),
+        ),
+        SizedBox(height: 10,),
         Material(
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
           child: TextFormField(
-            controller: nameController,
+            controller: fNameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.person, size: 20),
-              hintText: "Name",
+              hintText: "First Name",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none
-              ),
+                  borderSide: BorderSide.none),
             ),
-
           ),
-
         ),
-
-      ],
-    ),
-    );
-  }
-  BirthDatePicker() {
-    return FadeIn(0.75,Column(
-      children: <Widget>[
+        Padding(padding: EdgeInsets.all(5)),
         Material(
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
           child: TextFormField(
-            controller: birthdayController,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.timer, size: 20),
-              hintText: "Date of Birth",
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none
-              ),
-            ),
-            onTap: () async{
-    DateTime date = DateTime(1900);
-    FocusScope.of(context).requestFocus(new FocusNode());
-
-    date = await showDatePicker(
-    context: context,
-    initialDate:DateTime.now(),
-    firstDate:DateTime(1900),
-    lastDate: DateTime(2100));
-    birthdayController.text = date.toIso8601String();
-    }
-
-    ,
-    ),
-    ),
-    ]
-    ),
-    );
-
-  }
-
-  contactInfo(){
-    return Material(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(15),
-        child:Column(
-          children: <Widget>[
-          FadeIn(1,
-            Text(Constant.CONTACT_INFO,
-              style: TextStyle(
-                color: PRIMARY_COLOR,
-                  fontSize: Constant.fontSize(Constant.L),
-                  fontWeight: FontWeight.w900
-              ),
-
-            ),
-          ),
-
-            SizedBox(height: 15,),
-
-          FadeIn(1.25,phoneNumberButton()),
-            SizedBox(height: 15,),
-
-            FadeIn(1.5, EmailTypeButton(),),
-
-            SizedBox(height: 15,),
-
-            FadeIn(1.75,   enterNotes(),),
-
-          ],
-        ),
-        ),
-      ),
-    );
-  }
-  enterNotesTextFormField() {
-
-//    var checkEmail=validateEmail(usernameController.text);
-    return Column(
-      children: <Widget>[
-        Material(
-          borderRadius: BorderRadius.circular(10.0),
-          elevation: 12,
-          child: TextFormField(
-            controller: nameController,
+             controller: lNameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.note, size: 20),
-              hintText: "Enter Notes",
+              prefixIcon: Icon(Icons.person, size: 20),
+              hintText: "Last Name",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none
-              ),
+                  borderSide: BorderSide.none),
             ),
-
           ),
-
         ),
+        Padding(padding: EdgeInsets.all(5)),
+         Material(
+                borderRadius: BorderRadius.circular(10.0),
+                elevation: 12,
+                child: TextFormField(
+                  controller: birthdayController,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.timer, size: 20),
+                    hintText: "Date of Birth",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none),
+                  ),
+                  onTap: () async {
+                    DateTime date = DateTime(1900);
+                    FocusScope.of(context).requestFocus(new FocusNode());
+
+                    date = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime(2100));
+                    birthdayController.text = date.toIso8601String();
+                  },
+                ),
+
+            ),
+            Padding(padding: EdgeInsets.all(5)),
+
 
       ],
     );
   }
-  enterNotes(){
-    return Material(
-        child: Padding(
-          padding: EdgeInsets.all(1.0),
-          child:Column(
-            children: <Widget>[
-              Text(Constant.NOTES,
-                style: TextStyle(
-                    color: PRIMARY_COLOR,
-                    fontSize: Constant.fontSize(Constant.L),
-                  fontWeight: FontWeight.w900
 
+  contactInfo() {
+    return Column(
+      children: [
+        Text(
+          'Contact Information',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+        ),
+        Padding(padding: EdgeInsets.all(5)),
+        phoneNumberButton(),
+        Padding(padding: EdgeInsets.all(5)),
+        emailTypeButton(),
+        Padding(padding: EdgeInsets.all(5)),
+      ],
+    );
+  }
+
+  contacts() {
+    return Scaffold(
+      // backgroundColor: TRIAL_COLOR,
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(left: 10,right: 10),
+          child: Column(
+            children: [
+              SizedBox(height: 5,),
+//              Container(
+//                width: 40,
+//                child: Card(
+//                  child: Text(
+//                    'A',
+//                    textAlign: TextAlign.center,
+//                  ),
+//                ),
+//              ),
+              Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: InkWell(
+                    onTap: () =>
+                        {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
+                    child: Container(
+                      child: ListTile(
+                          leading: RoundedLetter(
+                            text: getRoundLetter("Anthony Doe"),
+                            shapeType: ShapeType.circle,
+                            shapeColor: PRIMARY_COLOR,
+                            shapeSize: 40,
+                            fontSize: 20,
+                            borderWidth: 1,
+                            borderColor: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                          title:Text("Anthony Doe",style: TextStyle(
+                            fontSize: 20,
+                          ),),
+
+                          subtitle: Text('Migrated From Phone Contacts',
+                          style: TextStyle(fontSize: 15),
+                          )),
+                    ),
+                  )),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-
+                child: Container(
+                  child: ListTile(
+                      leading: RoundedLetter(
+                        text: getRoundLetter("Endalk Doe"),
+                        shapeType: ShapeType.circle,
+                        shapeColor: PRIMARY_COLOR,
+                        shapeSize: 40,
+                        fontSize: 20,
+                        borderWidth: 1,
+                        borderColor: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      title: Text('Endalk Doe',style: TextStyle(fontSize: 20)),
+                      subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
+                ),
               ),
-              SizedBox(height: 15,),
-              enterNotesTextFormField(),
 
+//              Container(
+//                width: 40,
+//                child: Card(
+//                  child: Text(
+//                    'B',
+//                    textAlign: TextAlign.center,
+//                  ),
+//                ),
+//              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Container(
+                  child: ListTile(
+                      leading:  RoundedLetter(
+                        text: getRoundLetter("Jhon Doe"),
+                        shapeType: ShapeType.circle,
+                        shapeColor: PRIMARY_COLOR,
+                        shapeSize: 40,
+                        fontSize: 20,
+                        borderWidth: 1,
+                        borderColor: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      title: Text('Bonkers Doe',style: TextStyle(fontSize: 20)),
+                      subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
+                ),
+              ),
+
+//              Container(
+//                width: 40,
+//                child: Card(
+//                  child: Text(
+//                    'C',
+//                    textAlign: TextAlign.center,
+//                  ),
+//                ),
+//              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Container(
+                  child: ListTile(
+                      leading:  RoundedLetter(
+                        text: getRoundLetter("Caroline Doe"),
+                        shapeType: ShapeType.circle,
+                        shapeColor: PRIMARY_COLOR,
+                        shapeSize: 40,
+                        fontSize: 20,
+                        borderWidth: 1,
+                        borderColor: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      title: Text('Caroline Doe',style: TextStyle(fontSize: 20),),
+                      subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
+                ),
+              ),
 
             ],
           ),
         ),
-
+      ),
     );
   }
+
+  enterNotesTextFormField() {
+    return Column(
+      children: [
+        Text(
+          'Additional Notes',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+        ),
+        Padding(padding: EdgeInsets.all(5)),
+        Container(
+          height: 150,
+          child: Material(
+            borderRadius: BorderRadius.circular(10.0),
+            elevation: 12,
+            child: TextFormField(
+              // controller: nameController,
+              keyboardType: TextInputType.text,
+              maxLines: 10,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.note, size: 20),
+                hintText: "Enter Notes",
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    borderSide: BorderSide.none),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   phoneNumberButton() {
     return Container(
-      height: 50,
+      height: 55,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-            child:  Material(
-              borderRadius: BorderRadius.circular(10.0),
-              elevation: 12,
-              child: Row(
-                children: <Widget>[
-           Expanded(
-             flex: 2,
-             child:Container(
-                   child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.center,
-                     mainAxisAlignment: MainAxisAlignment.center,
-                     children: <Widget>[
-
-                       DropdownButton(
-                         value: selectPhone,
-                         items: phoneDropdownMenuItems,
-                         onChanged: phoneOnChangeDropdownItem,
-                       ),
-
-                     ],
-                   ),
-
-             ),
-           ),
-                  Expanded(
-                    flex: 4,
-                    child: TextFormField(
-                      controller: phoneController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        hintText: "+251901959195",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide.none
-                        ),
+      child: Material(
+          borderRadius: BorderRadius.circular(10.0),
+          elevation: 12,
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DropdownButton(
+                        value: selectPhone,
+                        items: phoneDropdownMenuItems,
+                        onChanged: phoneOnChangeDropdownItem,
                       ),
-
-                    ),
-                  )
-                ],
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 4,
+                child: TextFormField(
+                  controller: phoneController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    hintText: "+1(424) 341-3346",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
               )
-
-      ),
+            ],
+          )),
     );
   }
-  EmailTypeButton() {
+
+  emailTypeButton() {
     return Container(
-      height: 50,
+      height: 55,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child:  Material(
+      child: Material(
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
           child: Row(
             children: <Widget>[
               Expanded(
                 flex: 2,
-                child:Container(
+                child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-
                       DropdownButton(
                         value: selectEmail,
                         items: emailDropdownMenuItems,
                         onChanged: emailOnChangeDropdownItem,
                       ),
-
                     ],
                   ),
-
                 ),
               ),
               Expanded(
@@ -482,111 +685,110 @@ class Dashboard extends State<Home>{
                     hintText: "example@example.com",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide.none
-                    ),
+                        borderSide: BorderSide.none),
                   ),
-
                 ),
               )
             ],
-          )
-
-      ),
+          )),
     );
   }
-  submitButton() {
-    return   FadeIn(2,
 
-      RaisedButton(
+  submitButton() {
+    return RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
-        Navigator.pushNamed(context, Constant.HOME);
+        submitForm();
       },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
-        width:  get_width(context),
+        width: get_width(context),
         decoration: BoxDecoration(
+          color: PRIMARY_COLOR,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          gradient: LinearGradient(
-              colors: [PRIMARY_COLOR,SECONDARY_COLOR]
-          ),
+          // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
         ),
         padding: const EdgeInsets.all(15.0),
-        child: Text(Constant.SUBMIT,style: TextStyle(fontSize: 12)),
-      ),
+        child: Text(Constant.SUBMIT, style: TextStyle(fontSize: 12)),
       ),
     );
   }
- pageTaped(page){
- switch(page){
-   case 0:
-     return upcomingBirthDays();
-     break;
-   case 1:
-     return lastContact();
-     break;
-   default:
-     return addNewPerson();
 
- }
- }
+  pageTaped(page) {
+    switch (page) {
+      case 0:
+        return upcomingBirthDays();
+        break;
+      case 1:
+        return lastContact();
+        break;
+      case 2:
+        return contacts();
+        break;
+      default:
+        return upcomingBirthDays();
+    }
+  }
 
-@override
+  getTitle() {
+    if (_page == 0)
+      return "Upcoming Birthdays";
+    else if (_page == 1)
+      return "Last Contact";
+    else
+      return "Contacts";
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: headerNav(title: Constant.DASHBOARD,context: context),
-        drawer: SideDrawer(),
-        body: Container(
+    return  Scaffold(
+      appBar: headerNav(title: getTitle(), context: context),
+      drawer: SideDrawer(),
+      body: Container(
         child: Center(
-         child:pageTaped(_page),
+          child: pageTaped(_page),
         ),
       ),
-
-        bottomNavigationBar:BottomNavigationBar(
-            currentIndex: _page,
-            selectedItemColor: PRIMARY_COLOR,
-            items:[
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.event),
-                title: new Text('Birthdays'),
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.contact_mail),
-                title: new Text('last contact'),
-              ),
-              BottomNavigationBarItem(
-                icon: new Icon(Icons.add),
-                title: new Text('Person'),
-              )
-            ],
-  onTap: (index) {
-              setState(() {
-                _page = index;
-              });
-
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: ()=>{
-Navigator.pushNamed(context, Constant.PERSON_HEADER)
-          },
-          backgroundColor: PRIMARY_COLOR,
-          child: Icon(Icons.add,
-          color: lightBG,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _page,
+        // unselectedItemColor: Colors.black26,
+        selectedItemColor: PRIMARY_COLOR,
+        items: [
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.event),
+            title: new Text('Birthdays'),
           ),
-
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.contact_mail),
+            title: new Text('last contact'),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.contacts),
+            title: new Text('Contacts'),
+          )
+        ],
+        onTap: (index) {
+          setState(() {
+            _page = index;
+          });
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => addNewPerson()),
+          )
+        },
+        backgroundColor: PRIMARY_COLOR,
+        child: Icon(
+          Icons.add,
+          color: lightBG,
         ),
-
-
       ),
     );
-
   }
-
-
-
 }

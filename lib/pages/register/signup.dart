@@ -3,11 +3,15 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:flutter_app/pages/animation/animate.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/back_button.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
+import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
 class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -49,39 +53,44 @@ class _SignInScreenState extends State<SignUpScreen> {
   }
 
   submitForm(){
+    var themeNotifier_auth = Provider.of<Auth>(context,listen: false);
     setState(() {
       showError=true;
       emailError=validateEmail(usernameController.text);
       passwordError=validatePassword(passwordController.text);
     });
-
+    Provider.of<Auth>(context,listen: false).set_registerError("");
     if(emailError.isEmpty  && passwordError.isEmpty && showError){
+
       if(checkBoxValue==false){
+
 setState(() {
   isCheckBoxSelected=false;
 });
       }
-      else if(checkBoxValue==true) {
+
+        else{
         setState(() {
           isCheckBoxSelected = true;
         });
-      }
-        else{
-          Navigator.pushNamed(context, Constant.HOME);
-      }
+        themeNotifier_auth.setLoadingState(true);
+        var _registerModel =  RegisterApi(
+          userId: usernameController.text,
+          password: passwordController.text,
+          context: context,
+        );
+        _registerModel.then((value) async{
+          themeNotifier_auth.setLoadingState(false);
+        });
 
+        _registerModel.catchError((value) async{
+          themeNotifier_auth.set_hasError(value);
+          themeNotifier_auth.setLoadingState(false);
 
-//      setState(() {
-//        isLoading=true;
-//      });
-//      loginApi(
-//        userId:usernameController.text,
-//        password:passwordController.text,
-//        context:context,
-//      );
-//      setState(() {
-//        isLoading=false;
-//      });
+        });
+
+//          Navigator.pushNamed(context, Constant.HOME);
+      }
 
 
 
@@ -203,8 +212,11 @@ setState(() {
           ),
           GestureDetector(
             onTap: () {
+
+              Provider.of<Auth>(context,listen: false).set_registerError("");
+
+
               Navigator.of(context).pushNamed(Constant.SIGN_IN);
-              print("Routing to Sign up screen");
             },
             child: Text(
               "Sign in",
@@ -233,28 +245,35 @@ setState(() {
     );
   }
   button() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-       submitForm();
-      },
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-
-        alignment: Alignment.center,
-        width:  get_width(context),
-        decoration: BoxDecoration(
-         gradient: LinearGradient(
-           colors: [PRIMARY_COLOR,SECONDARY_COLOR]
-         ),
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      return FadeIn(
+        5,
+        RaisedButton(
+          elevation: 0,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          onPressed: () {
+            submitForm();
+          },
+          textColor: Colors.white,
+          padding: EdgeInsets.all(0.0),
+          child: Container(
+            alignment: Alignment.center,
+            width: get_width(context),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                color: PRIMARY_COLOR
+              // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
+            ),
+            padding: const EdgeInsets.all(15.0),
+            child: Text('SIGN Up',
+                style: TextStyle(
+                    fontSize: 12,
+                    // fontWeight: FontWeight.w900,
+                    color: lightPrimary)),
+          ),
         ),
-        padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN Up',style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.w900)),
-      ),
-    );
-  }
+      );
+    }
   acceptTermsTextRow() {
     return Container(
       child: Row(
@@ -284,11 +303,12 @@ setState(() {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body:  Provider.of<Auth>(context).get_IsLoading() == true
+          ? CircularIndicator()
+          : Stack(
         children: <Widget>[
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -300,36 +320,59 @@ setState(() {
                   flex: 1,
                   child: SizedBox(),
                 ),
-                logo(),
-
-                SizedBox(
-                  height: 20,
-                ),
-                headerTextRow(),
-                SizedBox(
-                  height: 20,
-                ),
-                emailTextFormField(),
-                SizedBox(
-                  height: 20,
-                ),
-                passwordTextFormField(),
-
+                FadeIn(2,logo(context)),
                 SizedBox(
                   height: 20,
                 ),
 
-           acceptTermsTextRow(),
-                button(),
+                FadeIn(2.5,headerTextRow(),),
+                SizedBox(
+                  height: 20,
+                ),
+                FadeIn(3,emailTextFormField()),
                 SizedBox(
                   height: 10,
                 ),
-                signUpTextRow(),
+                FadeIn(3.5,passwordTextFormField(),),
 
+
+                SizedBox(
+                  height: 10,
+                ),
+
+                FadeIn(3.7,
+                  Consumer<Auth>(
+                    builder: (BuildContext context, Auth value, Widget child) =>
+                    value.get_registerError().toString().isNotEmpty==true?Text(value.get_registerError(),
+                        style: TextStyle(color: Colors.red)):Container(),
+                  ),
+
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+
+                FadeIn(4.0,acceptTermsTextRow(),),
+                SizedBox(
+                  height: 10,
+                ),
+
+                FadeIn(4.5,  Container(
+                  width: 150,
+                  child: button(),
+                ),),
+
+                SizedBox(
+                  height: 10,
+                ),
+
+                FadeIn(5.0, signUpTextRow(),),
                 Expanded(
                   flex: 1,
                   child: SizedBox(),
                 ),
+
               ],
             ),
           ),

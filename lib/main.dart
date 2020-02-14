@@ -14,23 +14,44 @@ import 'package:flutter_app/pages/settings/settings.dart';
 import 'package:flutter_app/pages/splash/splash_screen.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool logged=false;
+  if(prefs.getString("accessToken")!=null){
+    print(prefs.getString("accessToken").toString());
+    logged=true;
+  }
     runApp(
-      ChangeNotifierProvider<AppState>(
-        create: (_) => AppState(),
-        child: MyApp(),
+    MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => AppState()),
+     ChangeNotifierProvider(create: (_) => LoginAuth()),
+     ChangeNotifierProvider(create: (_) => Auth()),
+  ],
+
+        child: MyApp(logged),
       ),
     );
 }
 
 class MyApp extends StatefulWidget{
-  _MyApp createState()=>_MyApp();
+   bool logged;
+  MyApp(logged){
+    this.logged=logged;
+  }
+  _MyApp createState()=>_MyApp(logged);
 }
 
 class _MyApp extends State<MyApp> {
-
   bool isDark=true;
+  bool logged=false;
+  _MyApp(logged){
+    this.logged=logged;
+  }
+
 
 
  getTheme() async {
@@ -40,13 +61,14 @@ class _MyApp extends State<MyApp> {
         isDark= value;
      });
 
-     print("results $isDark");
    });
 }
+
   @override
   build(context) {
     AppState themeNotifier = Provider.of<AppState>(context);
-    return MaterialApp(initialRoute:Constant.SPLASH_SCREEN,
+
+    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.SIGN_IN,
         theme:  themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),
