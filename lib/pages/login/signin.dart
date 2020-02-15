@@ -13,6 +13,7 @@ import 'package:flutter_app/state/app_state.dart';
 
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   final String title;
