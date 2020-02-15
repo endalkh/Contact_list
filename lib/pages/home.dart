@@ -21,7 +21,6 @@ class Home extends StatefulWidget {
 }
 
 class Dashboard extends State<Home> {
-  int _page = 0;
   TextEditingController fNameController = TextEditingController();
   TextEditingController lNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -323,15 +322,13 @@ class Dashboard extends State<Home> {
         ),
       ),
       ),
-onWillPop: (){
+      onWillPop: (){
        Provider.of<Auth>(context,listen: false).setHasErrorFun("");
        Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-
         return Future(()=>true);
 },
     );
   }
-
   personalInformation() {
     return Column(
       children: [
@@ -437,7 +434,6 @@ onWillPop: (){
       ],
     );
   }
-
   contactInfo() {
     return Column(
       children: [
@@ -453,26 +449,66 @@ onWillPop: (){
       ],
     );
   }
-
   contacts() {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(left: 10,right: 10),
-          child: Column(
-            children: [
-              SizedBox(height: 5,),
-              Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: InkWell(
-                    onTap: () =>
+    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+    Provider.of<Auth>(context).setLoadingStateFun(true);
+    var allContact = getAllContactApi(token: token);
+    Provider.of<Auth>(context).setLoadingStateFun(false);
+
+    allContact.then((val) {
+      Provider.of<Auth>(context, listen: false).setAllContactFun(val);
+    });
+
+    allContact.catchError((value) {
+      Provider.of<Auth>(context, listen: false).setHasErrorFun(value.toString());
+    });
+
+    return Consumer<Auth>(
+    builder: (BuildContext context, Auth value, Widget child) =>
+    value.getIsLoadingFun()==true?circularIndicator(context: context):
+       Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.only(left: 10,right: 10),
+              child: Column(
+                children: [
+                  SizedBox(height: 5,),
+                  Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: InkWell(
+                        onTap: () =>
                         {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
+                        child: Container(
+                          child: ListTile(
+                              leading: RoundedLetter(
+                                text: getRoundLetter("Anthony Doe"),
+                                shapeType: ShapeType.circle,
+                                shapeColor: PRIMARY_COLOR,
+                                shapeSize: 40,
+                                fontSize: 20,
+                                borderWidth: 1,
+                                borderColor: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                              title:Text("Anthony Doe",style: TextStyle(
+                                fontSize: 20,
+                              ),),
+
+                              subtitle: Text('Migrated From Phone Contacts',
+                                style: TextStyle(fontSize: 15),
+                              )),
+
+                        ),
+                      )),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                     child: Container(
                       child: ListTile(
                           leading: RoundedLetter(
-                            text: getRoundLetter("Anthony Doe"),
+                            text: getRoundLetter("Endalk Doe"),
                             shapeType: ShapeType.circle,
                             shapeColor: PRIMARY_COLOR,
                             shapeSize: 40,
@@ -480,80 +516,57 @@ onWillPop: (){
                             borderWidth: 1,
                             borderColor: Color.fromARGB(255, 0, 0, 0),
                           ),
-                          title:Text("Anthony Doe",style: TextStyle(
-                            fontSize: 20,
-                          ),),
-
-                          subtitle: Text('Migrated From Phone Contacts',
-                          style: TextStyle(fontSize: 15),
-                          )),
-
+                          title: Text('Endalk Doe',style: TextStyle(fontSize: 20)),
+                          subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
                     ),
-                  )),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  child: ListTile(
-                      leading: RoundedLetter(
-                        text: getRoundLetter("Endalk Doe"),
-                        shapeType: ShapeType.circle,
-                        shapeColor: PRIMARY_COLOR,
-                        shapeSize: 40,
-                        fontSize: 20,
-                        borderWidth: 1,
-                        borderColor: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                      title: Text('Endalk Doe',style: TextStyle(fontSize: 20)),
-                      subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
-                ),
-              ),
+                  ),
 
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  child: ListTile(
-                      leading:  RoundedLetter(
-                        text: getRoundLetter("Jhon Doe"),
-                        shapeType: ShapeType.circle,
-                        shapeColor: PRIMARY_COLOR,
-                        shapeSize: 40,
-                        fontSize: 20,
-                        borderWidth: 1,
-                        borderColor: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                      title: Text('Bonkers Doe',style: TextStyle(fontSize: 20)),
-                      subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
-                ),
-              ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Container(
+                      child: ListTile(
+                          leading:  RoundedLetter(
+                            text: getRoundLetter("Jhon Doe"),
+                            shapeType: ShapeType.circle,
+                            shapeColor: PRIMARY_COLOR,
+                            shapeSize: 40,
+                            fontSize: 20,
+                            borderWidth: 1,
+                            borderColor: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                          title: Text('Bonkers Doe',style: TextStyle(fontSize: 20)),
+                          subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
+                    ),
+                  ),
 
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  child: ListTile(
-                      leading:  RoundedLetter(
-                        text: getRoundLetter("Caroline Doe"),
-                        shapeType: ShapeType.circle,
-                        shapeColor: PRIMARY_COLOR,
-                        shapeSize: 40,
-                        fontSize: 20,
-                        borderWidth: 1,
-                        borderColor: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                      title: Text('Caroline Doe',style: TextStyle(fontSize: 20),),
-                      subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
-                ),
-              ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Container(
+                      child: ListTile(
+                          leading:  RoundedLetter(
+                            text: getRoundLetter("Caroline Doe"),
+                            shapeType: ShapeType.circle,
+                            shapeColor: PRIMARY_COLOR,
+                            shapeSize: 40,
+                            fontSize: 20,
+                            borderWidth: 1,
+                            borderColor: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                          title: Text('Caroline Doe',style: TextStyle(fontSize: 20),),
+                          subtitle: Text('Migrated From Phone Contacts',style: TextStyle(fontSize: 15))),
+                    ),
+                  ),
 
-            ],
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+
     );
   }
 
@@ -709,20 +722,20 @@ onWillPop: (){
         return upcomingBirthDays();
         break;
       case 1:
-        return lastContact();
+       return lastContact();
         break;
       case 2:
-        return contacts();
+          return contacts();
         break;
       default:
         return upcomingBirthDays();
     }
   }
 
-  getTitle() {
-    if (_page == 0)
+  getTitle(context) {
+    if (Provider.of<Auth>(context,listen: false).getHomePageTabFun() == 0)
       return "Upcoming Birthdays";
-    else if (_page == 1)
+    else if (Provider.of<Auth>(context,listen: false).getHomePageTabFun()  == 1)
       return "Last Contact";
     else
       return "Contacts";
@@ -731,15 +744,15 @@ onWillPop: (){
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: headerNav(title: getTitle(), context: context),
+      appBar: headerNav(title: getTitle(context), context: context),
       drawer: SideDrawer(),
       body: Container(
         child: Center(
-          child: pageTaped(_page),
+          child: pageTaped(Provider.of<Auth>(context,listen: false).getHomePageTabFun()),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _page,
+        currentIndex: Provider.of<Auth>(context,listen: false).getHomePageTabFun() ,
         // unselectedItemColor: Colors.black26,
         selectedItemColor: PRIMARY_COLOR,
         items: [
@@ -757,9 +770,7 @@ onWillPop: (){
           )
         ],
         onTap: (index) {
-          setState(() {
-            _page = index;
-          });
+         Provider.of<Auth>(context,listen: false).setHomePageTabFun(index);
         },
       ),
       floatingActionButton: FloatingActionButton(

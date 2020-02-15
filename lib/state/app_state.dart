@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/api/model/login.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
@@ -64,6 +65,8 @@ class Auth with ChangeNotifier {
   String email;
   bool isSuccessfullyRegistered=false;
   String token;
+  int page=0;
+//  List<GetAllContact> allContactList;
 
   getIsLoadingFun(){
     return isLoading;
@@ -128,6 +131,23 @@ class Auth with ChangeNotifier {
     return token;
   }
 
+  setAllContactFun(allContactList) async{
+//    this.allContactList=allContactList;
+    notifyListeners();
+  }
+
+  getAllContactFun(){
+//   return allContactList;
+  }
+
+  setHomePageTabFun(index) async{
+    this.page=index;
+    notifyListeners();
+  }
+
+  getHomePageTabFun(){
+   return page;
+  }
 
 
 }

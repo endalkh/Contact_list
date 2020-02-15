@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/state/app_state.dart';
+import 'package:provider/provider.dart';
 
-circularIndicator (){
+circularIndicator ({context}){
   return Container(
     child:Center(
       child:Opacity(
@@ -16,7 +19,8 @@ circularIndicator (){
       )
     ),
         decoration: BoxDecoration(
-          color: SECONDARY_COLOR,
+          color:  Provider.of<AppState>(context).getTheme()==Constant.lightTheme?
+          SECONDARY_COLOR:darkBG,
         )
 
 

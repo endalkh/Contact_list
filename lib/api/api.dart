@@ -3,6 +3,7 @@ class API{
   static const String LOGIN_API=COMMON_API+"auth/login";
   static const String REGISTER_API=COMMON_API+"/auth/register";
   static const String ADD_NEW_PERSON_API=COMMON_API+"/person";
+  static const String CONTACT_LIST_API=COMMON_API+"/person/list?";
 
 
 }
