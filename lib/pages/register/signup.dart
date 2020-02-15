@@ -327,11 +327,6 @@ setState(() {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 30),
-child:                 headerTextRow(),
-
-                ),
 
                 FadeIn(2.5,headerTextRow(),),
 

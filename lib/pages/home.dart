@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
+import 'package:flutter_app/api/model/add_notes.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
@@ -269,6 +270,20 @@ class Dashboard extends State<Home> {
     );
   }
 
+addNotes() {
+  return Scaffold(
+    body: Container(
+      child: Column(
+        children: <Widget>[
+         enterNotesTextFormField()
+
+        ],
+
+      )
+
+    ),
+  );
+}
   /*==== Adding new Contact on the third tap=======*/
   addNewPerson() {
     return Consumer<Auth>(
@@ -713,6 +728,9 @@ class Dashboard extends State<Home> {
       case 2:
         return contacts();
         break;
+              case 3:
+        return addNotes();
+        break;
       default:
         return upcomingBirthDays();
     }
@@ -753,6 +771,10 @@ class Dashboard extends State<Home> {
           BottomNavigationBarItem(
             icon: new Icon(Icons.contacts),
             title: new Text('Contacts'),
+          ),
+                    BottomNavigationBarItem(
+            icon: new Icon(Icons.contacts),
+            title: new Text('Add Notes'),
           )
         ],
         onTap: (index) {

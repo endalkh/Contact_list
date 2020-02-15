@@ -3,6 +3,7 @@ class API{
   static String LOGIN_API=COMMON_API+"auth/login";
   static String REGISTER_API=COMMON_API+"/auth/register";
   static String ADD_NEW_PERSON_API=COMMON_API+"/person";
+  static String ADD_NEW_NOTES_API=COMMON_API+"/note";
 
 
 }
