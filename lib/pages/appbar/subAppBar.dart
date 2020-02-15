@@ -4,7 +4,7 @@ import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/search/search.dart';
 
-AppBar SubHeaderNav({context,String title}){
+AppBar subHeaderNav({context,String title}){
   return AppBar(
 
 

@@ -4,7 +4,7 @@ import 'package:flutter_app/utilities/confirmation_abstract/confirmation_abstrac
 
 class ConfirmationDialog {
 String title;
-shouldImp callback;
+ShouldImp callback;
   ConfirmationDialog({context,title,callback}){
     this.title=title;
     this.callback=callback;

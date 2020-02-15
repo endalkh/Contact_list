@@ -22,7 +22,6 @@ class Home extends StatefulWidget {
 
 class Dashboard extends State<Home> {
   int _page = 0;
-  GlobalKey _bottomNavigationKey = GlobalKey();
   TextEditingController fNameController = TextEditingController();
   TextEditingController lNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -45,14 +44,10 @@ class Dashboard extends State<Home> {
     selectEmail = emailDropdownMenuItems[0].value;
     super.initState();
   }
-  @override
-  void dispose() {
-    Provider.of<Auth>(context,listen: false).set_hasError("");
 
-  }
   submitForm(){
-    Provider.of<Auth>(context,listen: false).setLoadingState(true);
-    var token=Provider.of<Auth>(context,listen: false).get_token();
+    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+    var token=Provider.of<Auth>(context,listen: false).getTokenFun();
     var addNewPerson =  addNewPersonApi(
       fName: fNameController.text,
       lName: lNameController.text,
@@ -61,16 +56,16 @@ class Dashboard extends State<Home> {
 
     );
     addNewPerson.then((value) async{
-  Provider.of<Auth>(context,listen: false).set_successfullyResgistered(true);
+  Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
 
-  Provider.of<Auth>(context,listen: false).setLoadingState(false);
+  Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
     });
 
     addNewPerson.catchError((value) async{
-      Provider.of<Auth>(context,listen: false).setLoadingState(false);
-      Provider.of<Auth>(context,listen: false).set_successfullyResgistered(false);
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
 
-      Provider.of<Auth>(context,listen: false).set_hasError(value.toString());
+      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
 
 
 
@@ -137,7 +132,7 @@ class Dashboard extends State<Home> {
             Padding(
               padding: EdgeInsets.only(left: 14, right: 14, bottom: 14),
               child: Container(
-                height: get_height(context),
+                height: getHeight(context),
                 decoration: BoxDecoration(),
                 child: ListView.builder(
                   itemCount: 5,
@@ -212,7 +207,7 @@ class Dashboard extends State<Home> {
                 padding: EdgeInsets.all(0),
 
                 child: Container(
-                  height: get_height(context),
+                  height: getHeight(context),
                   child: ListView.builder(
                     itemBuilder: (context, position) {
                       return Container(
@@ -271,9 +266,10 @@ class Dashboard extends State<Home> {
 
   /*==== Adding new Contact on the third tap=======*/
   addNewPerson() {
-    return Consumer<Auth>(
+    return WillPopScope(
+      child:Consumer<Auth>(
         builder: (BuildContext context, Auth value, Widget child) =>
-        value.get_IsLoading()==true?CircularIndicator():
+        value.getIsLoadingFun()==true?circularIndicator():
         Scaffold(
           appBar: headerNav(title: Constant.ADD_NEW_PERSON),
        body: SingleChildScrollView(
@@ -326,8 +322,13 @@ class Dashboard extends State<Home> {
 
         ),
       ),
+      ),
+onWillPop: (){
+       Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+       Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
 
-
+        return Future(()=>true);
+},
     );
   }
 
@@ -360,9 +361,9 @@ class Dashboard extends State<Home> {
         SizedBox(height: 10,),
         Consumer<Auth>(
           builder: (BuildContext context, Auth value, Widget child) =>
-          value.get_successfullyResgistered()==true?Text("Your data successfully registered!",
+          value.getSuccessfullyRegisteredFun()==true?Text("Your data successfully registered!",
               style: TextStyle(color: Colors.green)):value.hasError.isNotEmpty==true?
-          Text(value.get_hasError(),
+          Text(value.getHasErrorFun(),
               style: TextStyle(color: Colors.red)):Container(),
         ),
         SizedBox(height: 10,),
@@ -690,7 +691,7 @@ class Dashboard extends State<Home> {
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
-        width: get_width(context),
+        width: getWidth(context),
         decoration: BoxDecoration(
           color: PRIMARY_COLOR,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),

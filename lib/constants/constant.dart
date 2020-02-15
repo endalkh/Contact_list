@@ -5,35 +5,35 @@ import 'package:flutter_app/utilities/confirmation_abstract/confirmation_abstrac
 class Constant{
   String appName = "Contact Managment";
  // routes constant
-  static String SIGN_IN ='signIn';
-  static String SIGN_UP ='signUp';
-  static String SUBMIT ='Submit';
-  static String SPLASH_SCREEN ='splashscreen';
-  static String HOME ='home';
-  static String SEARCH="search";
-  static String SETTING="Settings";
-  static String DIALOGE_PAGE="Dialogue Page";
-  static String PROFILE="Profile";
-  static String ABOUT_US="About Us";
-  static String PICK_PROFILE_PICHTURE="Pick Profile Picture";
-  static String TERMS_AND_CONDTION="Terms and Conditions";
-  static String SUCCESS="Success";
-  static String CONTACT_INFO="ContactInformation";
-  static String NOTES="Notes";
-  static String DASHBOARD="Dashboard";
-  static String RECOVER_PASSWORD="Recover_password";
-  static String PERSON_HEADER="person_header";
-  static String SEARCH_DISPLAY="search_display";
+  static const String SIGN_IN ='signIn';
+  static const String SIGN_UP ='signUp';
+  static const String SUBMIT ='Submit';
+  static const String SPLASH_SCREEN ='splashscreen';
+  static const String HOME ='home';
+  static const String SEARCH="search";
+  static const String SETTING="Settings";
+  static const String DIALOG_PAGE="Dialogue Page";
+  static const String PROFILE="Profile";
+  static const String ABOUT_US="About Us";
+  static const String PICK_PROFILE_PICHTURE="Pick Profile Picture";
+  static const String TERMS_AND_CONDTION="Terms and Conditions";
+  static const String SUCCESS="Success";
+  static const String CONTACT_INFO="ContactInformation";
+  static const String NOTES="Notes";
+  static const String DASHBOARD="Dashboard";
+  static const String RECOVER_PASSWORD="Recover_password";
+  static const String PERSON_HEADER="person_header";
+  static const String SEARCH_DISPLAY="search_display";
 
 // labels
-  static String ADD_NEW_PERSON="Add new Person";
-  static String LAST_CONTACT="Last Contact";
-  static String UPCOMING_BIRTHDAYS="Upcoming Birthdays";
-  static String RESETPASSWORD="Reset Your Password";
-  static String RECOVERPASSWORD="Recover Password";
-  static String SIGNIN="Sign in";
-  static String SIGNUP ="Sign up";
-  static String PASSWORDRESETDESC ="It's ok, we all forget out password sometimes. "
+  static const String ADD_NEW_PERSON="Add new Person";
+  static const String LAST_CONTACT="Last Contact";
+  static const String UPCOMING_BIRTHDAYS="Upcoming Birthdays";
+  static const String RESETPASSWORD="Reset Your Password";
+  static const String RECOVERPASSWORD="Recover Password";
+  static const String SIGNIN="Sign in";
+  static const String SIGNUP ="Sign up";
+  static const String PASSWORDRESETDESC ="It's ok, we all forget out password sometimes. "
       "Fill out your email to get a reset link sent to your email. "
       "You also might consider getting a password manager like 1Password or Bitwarden";
   static const String XS="XS";
@@ -52,8 +52,8 @@ class Constant{
 
 
 
-  // classses
-  static shouldImp callBack;
+  // classes
+  static ShouldImp callBack;
 
 
 
@@ -68,37 +68,6 @@ class Constant{
     'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F6.jpg?alt=media',
     'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F7.jpg?alt=media',
   ];
-  // static final ThemeData darkTheme1 = ThemeData(
-  //   scaffoldBackgroundColor: Colors.black,
-  //   appBarTheme: AppBarTheme(
-  //     color: Colors.black,
-  //     iconTheme: IconThemeData(
-  //       color: Colors.white,
-  //     ),
-  //   ),
-  //   colorScheme: ColorScheme.light(
-  //     primary: Colors.black,
-  //     onPrimary: Colors.black,
-  //     primaryVariant: Colors.black,
-  //     secondary: Colors.red,
-  //   ),
-  //   cardTheme: CardTheme(
-  //     color: Colors.black,
-  //   ),
-  //   iconTheme: IconThemeData(
-  //     color: Colors.white54,
-  //   ),
-  //   textTheme: TextTheme(
-  //     title: TextStyle(
-  //       color: Colors.white,
-  //       fontSize: 20.0,
-  //     ),
-  //     subtitle: TextStyle(
-  //       color: Colors.white70,
-  //       fontSize: 18.0,
-  //     ),
-  //   ),
-  // );
 
   static ThemeData lightTheme = ThemeData(
     fontFamily: "TimesNewRoman",

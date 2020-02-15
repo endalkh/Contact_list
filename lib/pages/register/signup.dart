@@ -5,7 +5,6 @@ import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/animation/animate.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
-import 'package:flutter_app/pages/widgets/back_button.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/state/app_state.dart';
@@ -53,13 +52,13 @@ class _SignInScreenState extends State<SignUpScreen> {
   }
 
   submitForm(){
-    var themeNotifier_auth = Provider.of<Auth>(context,listen: false);
+    var themeNotifierAuth = Provider.of<Auth>(context,listen: false);
     setState(() {
       showError=true;
       emailError=validateEmail(usernameController.text);
       passwordError=validatePassword(passwordController.text);
     });
-    Provider.of<Auth>(context,listen: false).set_registerError("");
+    Provider.of<Auth>(context,listen: false).setRegisterErrorFun("");
     if(emailError.isEmpty  && passwordError.isEmpty && showError){
 
       if(checkBoxValue==false){
@@ -73,19 +72,19 @@ setState(() {
         setState(() {
           isCheckBoxSelected = true;
         });
-        themeNotifier_auth.setLoadingState(true);
-        var _registerModel =  RegisterApi(
+        themeNotifierAuth.setLoadingStateFun(true);
+        var _registerModel =  registerApi(
           userId: usernameController.text,
           password: passwordController.text,
           context: context,
         );
         _registerModel.then((value) async{
-          themeNotifier_auth.setLoadingState(false);
+          themeNotifierAuth.setLoadingStateFun(false);
         });
 
         _registerModel.catchError((value) async{
-          themeNotifier_auth.set_hasError(value);
-          themeNotifier_auth.setLoadingState(false);
+          themeNotifierAuth.setHasErrorFun(value);
+          themeNotifierAuth.setLoadingStateFun(false);
 
         });
 
@@ -213,7 +212,7 @@ setState(() {
           GestureDetector(
             onTap: () {
 
-              Provider.of<Auth>(context,listen: false).set_registerError("");
+              Provider.of<Auth>(context,listen: false).setRegisterErrorFun("");
 
 
               Navigator.of(context).pushNamed(Constant.SIGN_IN);
@@ -258,7 +257,7 @@ setState(() {
           padding: EdgeInsets.all(0.0),
           child: Container(
             alignment: Alignment.center,
-            width: get_width(context),
+            width: getWidth(context),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
                 color: PRIMARY_COLOR
@@ -307,8 +306,8 @@ setState(() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Provider.of<Auth>(context).get_IsLoading() == true
-          ? CircularIndicator()
+      body:  Provider.of<Auth>(context).getIsLoadingFun() == true
+          ? circularIndicator()
           : Stack(
         children: <Widget>[
 
@@ -352,7 +351,7 @@ child:                 headerTextRow(),
                 FadeIn(3.7,
                   Consumer<Auth>(
                     builder: (BuildContext context, Auth value, Widget child) =>
-                    value.get_registerError().toString().isNotEmpty==true?Text(value.get_registerError(),
+                    value.getRegisterErrorFun().toString().isNotEmpty==true?Text(value.getRegisterErrorFun(),
                         style: TextStyle(color: Colors.red)):Container(),
                   ),
 

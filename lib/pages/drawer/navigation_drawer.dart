@@ -16,7 +16,7 @@ import 'package:rounded_letter/rounded_letter.dart';
 import 'package:rounded_letter/shape_type.dart';
 
 
-class SideDrawer extends StatefulWidget implements shouldImp{
+class SideDrawer extends StatefulWidget implements ShouldImp{
   _SideDrawer createState() => _SideDrawer();
 
   @override
@@ -43,14 +43,13 @@ class SideDrawer extends StatefulWidget implements shouldImp{
   }
   getEmail(){
     getSettingPref("email").then((value) async {
-      await Provider.of<Auth>(context,listen: false).set_email("endalk");
+      await Provider.of<Auth>(context,listen: false).setEmailFun("endalk");
     });
 
-    return Provider.of<Auth>(context,listen: false).get_email();
+    return Provider.of<Auth>(context,listen: false).getEmailFun();
   }
 
   String firstName, lastName, email, photo;
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final Color primary = Colors.white;
   final Color active = Colors.grey.shade800;
   final Color divider = Colors.grey.shade600;
@@ -70,7 +69,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
           child: ClipPath(
             clipper: CustomShapeClipper(),
             child: Container(
-              height: get_height(context),
+              height: getHeight(context),
               decoration: BoxDecoration(
                 color: PRIMARY_COLOR,
                 
@@ -83,7 +82,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
           child: ClipPath(
             clipper: CustomShapeClipper2(),
             child: Container(
-              height: get_height(context),
+              height: getHeight(context),
               decoration: BoxDecoration(
                 color: PRIMARY_COLOR,
 
@@ -166,7 +165,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
 
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, Constant.DIALOGE_PAGE);
+                      Navigator.pushNamed(context, Constant.DIALOG_PAGE);
                     },
                     child:
                         _buildRow(Icons.timeline, "My Note", showBadge: false),
@@ -183,7 +182,7 @@ class SideDrawer extends StatefulWidget implements shouldImp{
 
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, Constant.DIALOGE_PAGE);
+                      Navigator.pushNamed(context, Constant.DIALOG_PAGE);
                     },
                     child: _buildRow(Icons.send, "Send Link", showBadge: false),
                   ),

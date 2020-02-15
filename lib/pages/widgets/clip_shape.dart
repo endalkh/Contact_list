@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/widgets/custom_shape.dart';
 
 clipShape({ height,width}) {

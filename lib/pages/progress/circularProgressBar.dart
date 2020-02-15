@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 
-CircularIndicator (){
+circularIndicator (){
   return Container(
     child:Center(
       child:Opacity(

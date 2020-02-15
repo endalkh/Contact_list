@@ -1,11 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
-// import 'package:flutter_app/pages/appbar/subAppBar.dart';
-import 'package:flutter_app/pages/drawer/navigation_drawer.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 
 class PersonHeaderFun extends StatefulWidget {
@@ -52,7 +49,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
-        width: get_width(context),
+        width: getWidth(context),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           color: PRIMARY_COLOR,
@@ -75,7 +72,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
-        width: get_width(context),
+        width: getWidth(context),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           color: Colors.red,
@@ -110,7 +107,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
               Padding(
                 padding: EdgeInsets.all(2.0),
                 child: Container(
-                  height: get_height(context),
+                  height: getHeight(context),
                   child: ListView.builder(
                     itemCount: 10,
                     itemBuilder: (context, index) {
@@ -355,7 +352,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
                       Padding(
                         padding: EdgeInsets.all(2.0),
                         child: Container(
-                          height: get_height(context),
+                          height: getHeight(context),
                           child: ListView.builder(
                             itemCount: 4,
                             itemBuilder: (context, index) {

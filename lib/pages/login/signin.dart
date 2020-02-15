@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
-import 'package:flutter_app/api/model/login.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
@@ -66,7 +64,6 @@ class _LoginPageState extends State<SignInPage> {
   }
 
   submitForm() async{
-    var themeNotifier_auth = Provider.of<Auth>(context,listen: false);
     setState(() {
       showError = true;
       emailError = validateEmail(usernameController.text);
@@ -74,7 +71,7 @@ class _LoginPageState extends State<SignInPage> {
     });
 
     if (emailError.isEmpty && passwordError.isEmpty && showError) {
-      themeNotifier_auth.setLoadingState(true);
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
    var _loginModel =  loginApi(
         userId: usernameController.text,
         password: passwordController.text,
@@ -88,19 +85,19 @@ class _LoginPageState extends State<SignInPage> {
         refreshToken: value.refreshToken,
         accessToken: value.accessToken,
       );
-      themeNotifier_auth.setLoadingState(false);
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
       Navigator.pushNamed(context, Constant.HOME);
      });
 
       _loginModel.catchError((value) async{
-        themeNotifier_auth.set_hasError(value);
-        themeNotifier_auth.setLoadingState(false);
+        Provider.of<Auth>(context,listen: false).setHasErrorFun(value);
+        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
 
       });
 
     }
     else{
-      Provider.of<Auth>(context,listen: false).set_hasError("");
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
     }
   }
 
@@ -118,7 +115,7 @@ class _LoginPageState extends State<SignInPage> {
         padding: EdgeInsets.all(0.0),
         child: Container(
           alignment: Alignment.center,
-          width: get_width(context),
+          width: getWidth(context),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               color: PRIMARY_COLOR
@@ -248,7 +245,7 @@ class _LoginPageState extends State<SignInPage> {
           GestureDetector(
             onTap: () async{
               Navigator.of(context).pushNamed(Constant.SIGN_UP);
-              Provider.of<Auth>(context,listen: false).set_hasError("");
+              Provider.of<Auth>(context,listen: false).setHasErrorFun("");
 
             },
             child: Text(
@@ -280,9 +277,10 @@ class _LoginPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     this.context=context;
-    return Scaffold(
-      body: Provider.of<Auth>(context).get_IsLoading() == true
-          ? CircularIndicator()
+    return WillPopScope(
+      child:Scaffold(
+      body: Provider.of<Auth>(context).getIsLoadingFun() == true
+          ? circularIndicator()
           : Stack(
               children: [
                 Container(
@@ -317,7 +315,7 @@ class _LoginPageState extends State<SignInPage> {
                   FadeIn(3.7,
                       Consumer<Auth>(
                         builder: (BuildContext context, Auth value, Widget child) =>
-                            value.get_hasError().toString().isNotEmpty==true?Text(value.get_hasError(),
+                            value.getHasErrorFun().toString().isNotEmpty==true?Text(value.getHasErrorFun(),
                             style: TextStyle(color: Colors.red)):Container(),
                       ),
 
@@ -359,7 +357,11 @@ class _LoginPageState extends State<SignInPage> {
                         child: FadeIn(0.25, CutterRatioContainer()))
               ],
             ),
-
+      ),
+onWillPop: (){
+       Provider.of<Auth>(context).setHasErrorFun("");
+        return Future(()=>true);
+},
     );
   }
 }

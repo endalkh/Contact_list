@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
 class SearchDisplayScreen extends StatefulWidget{
   _SearchDisplayScreen createState()=>_SearchDisplayScreen();

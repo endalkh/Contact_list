@@ -5,9 +5,7 @@ import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/model/add_new_person.dart';
 import 'package:flutter_app/api/model/login.dart';
 import 'package:flutter_app/api/model/register.dart';
-import 'package:flutter_app/state/app_state.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 Future<JsonUser> loginApi({userId, password, context}) async {
   var params = {
@@ -69,7 +67,7 @@ Future<JsonUser> loginApi({userId, password, context}) async {
 }
 
 
-Future<JsonUserRegister> RegisterApi({userId, password, context}) async {
+Future<JsonUserRegister> registerApi({userId, password, context}) async {
   var params = {
     "email": userId,
     "password": password,
@@ -132,12 +130,34 @@ Future<JsonUserRegister> RegisterApi({userId, password, context}) async {
 
 Future<AddNewPerson> addNewPersonApi(
     {fName, lName, birthday, phoneType, phone, emailType, email, notes,token}) async {
+//  var params = {
+//    "name": "Luke Skywalker",
+//    "birthday": "2011-11-11T00:00:00Z",
+//    "accept_tos": true,
+//    "accept_privacy": true,
+//  };
   var params = {
-    "name": "Luke Skywalker",
-    "birthday": "2011-11-11T00:00:00Z",
-    "accept_tos": true,
-    "accept_privacy": true,
+    "person": {
+  "name": "Luke Skywalker",
+  "birthday": "2011-11-11T00:00:00Z"
+  },
+  "phone_numbers": [
+  {
+  "type": "home",
+  "number": "5551234567"
+  }
+  ],
+  "emails": [
+  {
+  "type": "family",
+  "address": "luke@rebellion.al"
+  }
+  ],
+  "note": {
+  "body": "This is the body of a note"
+  }
   };
+
   String error;
   try {
 

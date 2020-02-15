@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
-import 'package:flutter_app/pages/appbar/subAppBar.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 
 class RecoverPassword extends StatefulWidget {
@@ -45,7 +44,7 @@ class _RecoverPassword extends State<RecoverPassword> {
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
-        width: get_width(context),
+        width: getWidth(context),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             color: PRIMARY_COLOR),
@@ -57,10 +56,6 @@ class _RecoverPassword extends State<RecoverPassword> {
 
   resetPassword() {
     return Scaffold(
-      appBar: SubHeaderNav(
-        context: context,
-        title: Constant.RESETPASSWORD,
-      ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
