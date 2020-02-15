@@ -217,8 +217,7 @@ Future<AddNewPerson> addNewPersonApi(
 }
 
 
-//Future<GetAllContact>
-getAllContactApi({token}) async {
+Future getAllContactApi({token}) async {
 
   String error;
 
@@ -229,18 +228,14 @@ getAllContactApi({token}) async {
           "Authorization" : token,
         },
     );
-    print(json.decode(response.body));
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
-        return responseJson;
-        break;
-          //GetAllContact.fromJson(responseJson);
+        return response.body;
       case 201:
         var responseJson = await json.decode(response.body);
-        return responseJson;
-//          GetAllContact.fromJson(responseJson);
-break;
+        return response.body;
+
       case 400:
         return Future.error("Sorry It was Bad Request! ");
         break;

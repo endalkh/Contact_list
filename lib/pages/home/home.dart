@@ -27,11 +27,14 @@ class Home extends StatefulWidget {
 
 class Dashboard extends State<Home> {
   BuildContext context;
-  /*==== upcoming Birthdays   on the first tap=======*/
+  var page;
+  @override
+  void initState() {
+    page=0;
+    super.initState();
+  }
 
 
-
-  /*==== Adding new Contact on the third tap=======*/
 
 
 
@@ -49,7 +52,6 @@ class Dashboard extends State<Home> {
   }
 
   getTitle(context) {
-    return "home";
     if (Provider.of<Auth>(context,listen: false).getHomePageTabFun() == 0)
       return "Upcoming Birthdays";
     else if (Provider.of<Auth>(context,listen: false).getHomePageTabFun()  == 1)
@@ -58,6 +60,10 @@ class Dashboard extends State<Home> {
       return "Contacts";
   }
 
+  void onTabTapped(int index) {
+    print(index);
+    Provider.of<Auth>(context,listen: false).setHomePageTabFun(index);
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -89,9 +95,7 @@ class Dashboard extends State<Home> {
             title: new Text('Contacts'),
           )
         ],
-        onTap: (index) {
-         Provider.of<Auth>(context,listen: false).setHomePageTabFun(index);
-        },
+        onTap: onTabTapped,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {

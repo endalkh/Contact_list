@@ -66,7 +66,7 @@ class Auth with ChangeNotifier {
   bool isSuccessfullyRegistered=false;
   String token;
   int page=0;
-//  List<GetAllContact> allContactList;
+  List<GetAllContact> allContactList;
 
   getIsLoadingFun(){
     return isLoading;
@@ -132,12 +132,12 @@ class Auth with ChangeNotifier {
   }
 
   setAllContactFun(allContactList) async{
-//    this.allContactList=allContactList;
+    this.allContactList=allContactList;
     notifyListeners();
   }
 
   getAllContactFun(){
-//   return allContactList;
+   return allContactList;
   }
 
   setHomePageTabFun(index) async{

@@ -2,12 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
 import 'package:rounded_letter/rounded_letter.dart';
 import 'package:rounded_letter/shape_type.dart';
 
-class UpcomingBirthDaysScreen extends StatelessWidget{
+class UpcomingBirthDaysScreen extends StatefulWidget{
+  _UpcomingBirthDaysScreen createState()=>_UpcomingBirthDaysScreen();
+}
+class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen>{
+  @override
+  void initState() {
+    Provider.of<Auth>(context,listen: false).setHomePageTabFun(0);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
