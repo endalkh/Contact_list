@@ -12,6 +12,7 @@ import 'package:flutter_app/pages/drawer/navigation_drawer.dart';
 import 'package:flutter_app/pages/home/add_new_person.dart';
 import 'package:flutter_app/pages/home/contacts.dart';
 import 'package:flutter_app/pages/home/last_contact.dart';
+import 'package:flutter_app/pages/home/upcoming_birth_days.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
@@ -27,85 +28,7 @@ class Home extends StatefulWidget {
 class Dashboard extends State<Home> {
   BuildContext context;
   /*==== upcoming Birthdays   on the first tap=======*/
-  upcomingBirthDays() {
-    return Scaffold(
-      // backgroundColor: TRIAL_COLOR,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.all(5)),
-            Text(
-              'Tomorrow',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 15,
-                  fontStyle: FontStyle.italic),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 14, right: 14, bottom: 14),
-              child: Container(
-                height: getHeight(context),
-                decoration: BoxDecoration(),
-                child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 1.0),
-                        child: Column(
-                          children: [
-                            Container(
-//                              height: 50,
-                              child: ListTile(
-                                onTap: () => {
-                                  Navigator.pushNamed(
-                                      context, Constant.PERSON_HEADER)
-                                },
-                                leading:RoundedLetter(
-                                  text: getRoundLetter("John Doe").toUpperCase(),
-                                  shapeType: ShapeType.circle,
-                                  shapeColor: PRIMARY_COLOR,
-                                  shapeSize: 40,
-                                  fontSize: 20,
-                                  borderWidth: 1,
-                                  borderColor: Color.fromARGB(255, 0, 0, 0),
 
-                                ),
-                                title: Text(
-                                  'John Doe',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-
-                                      fontSize: 20,
-                                      ),
-                                ),
-                                subtitle: Text(
-                                  'Date of Birth',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontStyle: FontStyle.italic,
-                                  fontSize: 15
-                                  ),
-
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
 
   /*==== Adding new Contact on the third tap=======*/
@@ -115,16 +38,13 @@ class Dashboard extends State<Home> {
   pageTaped(page) {
     switch (page) {
       case 0:
-        return upcomingBirthDays();
+        return UpcomingBirthDaysScreen();
         break;
       case 1:
        return LastContact();
         break;
-      case 2:
-          return Contacts();
-        break;
       default:
-        return upcomingBirthDays();
+        return Contacts();
     }
   }
 
