@@ -27,17 +27,15 @@ class Home extends StatefulWidget {
 
 class Dashboard extends State<Home> {
   BuildContext context;
-  var page;
   @override
   void initState() {
-    page=0;
     super.initState();
   }
 
 
 
   pageTaped(page) {
-    switch (page) {
+    switch ( Provider.of<Auth>(context,listen: false).getHomePageTabFun()) {
       case 0:
         return UpcomingBirthDaysScreen();
         break;

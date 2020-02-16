@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_letter/rounded_letter.dart';
 import 'package:rounded_letter/shape_type.dart';
@@ -50,7 +48,13 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen>{
                                 ),
                                 child: InkWell(
                                   onTap: () =>
-                                  {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PersonHeaderScreen(personId:snapshot.data[index].id,),
+                                        ),
+                                      ),
+//                                  {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
                                   child: Container(
                                     child: ListTile(
                                         leading: RoundedLetter(

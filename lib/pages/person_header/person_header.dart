@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
+import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
 
-class PersonHeaderFun extends StatefulWidget {
-  _PersonHeaderFun createState() => _PersonHeaderFun();
-}
+class PersonHeaderScreen extends StatelessWidget {
+final String personId;
+ BuildContext context;
+  // In the constructor, require a person Id
+PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
 
-class _PersonHeaderFun extends State<PersonHeaderFun> {
-  int _page = 0;
   // GlobalKey _bottomNavigationKey = GlobalKey();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -26,6 +28,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
   get phoneOnChangeDropdownItem => null;
 
   pageTaped(page) {
+    print(page);
     switch (page) {
       case 0:
         return notes();
@@ -84,13 +87,22 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
     );
   }
 
-  getTitle() {
-    if (_page == 0)
-      return "Notes";
-    else if (_page == 1)
-      return "Contact Information";
-    else
-      return "Person Setting";
+  getTitle(context) {
+    switch(Provider.of<Auth>(context,listen: false).getHomePageTabFun()){
+      case 0:
+        return "Notes";
+        break;
+      case 1:
+        return "Contact Information";
+        break;
+      case 2:
+        return "Person Setting";
+        break;
+      default:{
+        print("someting wrong");
+      }
+
+    }
   }
 
   notes() {
@@ -488,15 +500,22 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
               Padding(padding: EdgeInsets.only(top: 10)),
               Row(
                 children: <Widget>[
-                  Container(
-                    width: 100,
-                    child: deleteButton(),
+                  Expanded(
+                    flex: 1,
+                    child:Container(
+                      width: 100,
+                      child: deleteButton(),
+                    ),
                   ),
-                  Padding(padding: EdgeInsets.all(37)),
-                  Container(
-                    width: 210,
-                    child: submitButton(),
-                  ),
+                  SizedBox(width: 10,),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      width: 210,
+                      child: submitButton(),
+                    ),
+                  )
+
                 ],
               )
             ],
@@ -508,8 +527,9 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
 
   @override
   Widget build(BuildContext context) {
+    this.context=context;
     return Scaffold(
-        appBar: headerNav(context: context, title: getTitle()),
+        appBar: headerNav(context: context, title:getTitle(context)),
         body: Column(
           children: [
             SizedBox(
@@ -555,15 +575,16 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
               child: Center(
                 child: Container(
                   child: Center(
-                    child: pageTaped(_page),
+                    child: pageTaped(Provider.of<Auth>(context).getHomePageTabFun(),
                   ),
                 ),
               ),
             )
+            ),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _page,
+          currentIndex: Provider.of<Auth>(context,listen: false).getHomePageTabFun(),
           selectedItemColor: PRIMARY_COLOR,
           items: [
             BottomNavigationBarItem(
@@ -580,9 +601,7 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
             )
           ],
           onTap: (index) {
-            setState(() {
-              _page = index;
-            });
+            Provider.of<Auth>(context,listen: false).setHomePageTabFun(index);
           },
         ),
       );

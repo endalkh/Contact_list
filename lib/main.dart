@@ -78,7 +78,6 @@ class _MyApp extends State<MyApp> {
           Constant.PROFILE:(context)=>ProfileOnePage(),
           Constant.TERMS_AND_CONDTION:(context)=>TermsAndConditions(),
           Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
-          Constant.PERSON_HEADER:(context)=>PersonHeaderFun(),
           Constant.SEARCH:(context)=>MaterialSearchResult(),
           Constant.SEARCH_DISPLAY:(context)=>SearchDisplayScreen(),
         });
