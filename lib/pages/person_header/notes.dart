@@ -9,7 +9,6 @@ class Notes extends StatefulWidget{
 class _Notes extends State<Notes>{
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
       return Scaffold(
         body: SingleChildScrollView(
           child: Container(
@@ -20,6 +19,8 @@ class _Notes extends State<Notes>{
                   'Notes',
                   style: TextStyle(fontSize: 27, fontWeight: FontWeight.w300),
                 ),
+
+
                 Padding(
                   padding: EdgeInsets.all(2.0),
                   child: Container(
