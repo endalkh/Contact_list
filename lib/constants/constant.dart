@@ -64,16 +64,6 @@ class Constant{
 
 
 
-  static List<String> images = [
-    'https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849825_1280.jpg',
-    'https://cdn.pixabay.com/photo/2014/05/02/21/50/home-office-336377_1280.jpg',
-    'https://images.pexels.com/photos/801816/pexels-photo-801816.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-    'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F4.jpg?alt=media',
-    'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F5.jpg?alt=media',
-    'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F6.jpg?alt=media',
-    'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F7.jpg?alt=media',
-  ];
-
   static ThemeData lightTheme = ThemeData(
     fontFamily: "TimesNewRoman",
     backgroundColor: TRIAL_COLOR,
