@@ -1,6 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/utilities/get_email.dart';
+import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
+import 'package:rounded_letter/rounded_letter.dart';
+import 'package:rounded_letter/shape_type.dart';
 class SettingScreen extends StatefulWidget{
   _SettingScreen createState()=>_SettingScreen();
 }
@@ -38,10 +42,16 @@ class _SettingScreen extends State<SettingScreen> {
                 children: <Widget>[
 
                   ListTile(
-                    leading: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/adis2.png'),
+                    leading: RoundedLetter(
+                      text: getRoundLetter(getEmail(context)).toUpperCase(),
+                      shapeType: ShapeType.circle,
+                      shapeColor: PRIMARY_COLOR.withOpacity(0.5),
+                      shapeSize: 40,
+                      fontSize: 20,
+                      borderWidth: 1,
+                      borderColor: Color.fromARGB(255, 0, 0, 0),
                     ),
-                    title: Text("Endalk Belete"),
+                    title: Text(getEmail(context)),
                     onTap: () {},
                   ),
                   _buildDivider(),

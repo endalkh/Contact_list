@@ -516,11 +516,18 @@ class _PersonHeaderFun extends State<PersonHeaderFun> {
               height: 10,
             ),
 
-                       CircleAvatar(
-                                  backgroundColor: Colors.black,
-                                  radius: 40,
-                                  backgroundImage: AssetImage("assets/j.jpg")
-                                ),
+            RawMaterialButton(
+              onPressed: () {},
+              child: new Icon(
+                Icons.person,
+                color: TRIAL_COLOR,
+                size: 35.0,
+              ),
+              shape: new CircleBorder(),
+              elevation: 2.0,
+              fillColor:PRIMARY_COLOR,
+              padding: const EdgeInsets.all(15.0),
+            ),
 
             ListTile(
               title: Center(
