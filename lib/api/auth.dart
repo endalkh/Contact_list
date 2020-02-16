@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/model/add_new_person.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
+import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/api/model/login.dart';
 import 'package:flutter_app/api/model/register.dart';
 import 'package:http/http.dart' as http;
@@ -365,6 +366,104 @@ String error;
       case 201:
         var responseJson = await json.decode(response.body);
         return   test.map((data) => GetAllContact.fromJson(data)).toList();
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
+
+Future<List<GetLastContact>> getLastContactApi({token}) async {
+String error;
+
+  List<Map<String, String>> test=[
+    {
+      "id": "74b6b078-2df9-4ae2-a90d-e3e808b31fdc",
+      "name": "Leah Solo",
+      "birthday": "2011-11-11T00:00:00Z"
+    },
+    {
+      "id": "25fcf38c-4084-4544-98ce-d057986fc3ee",
+      "name": "endalk",
+      "birthday": "2011-11-11T00:00:00Z"
+    },
+    {
+      "id": "5aefbbc2-18b6-4d45-b4a4-89c5c2dcf39e",
+      "name": "Luke Skywalker",
+      "birthday": "2011-11-11T00:00:00Z"
+    },
+
+    {
+      "id": "4ae8548d-ec2b-432d-88c0-ee5184e96640",
+      "name": "samuel kassa",
+      "birthday": "2011-11-11T00:00:00Z"
+    },
+    {
+      "id": "9e5d9119-afd9-458e-b840-576f47426777",
+      "name": "stefan james",
+      "birthday": "2011-11-11T00:00:00Z"
+    },
+    {
+      "id": "20975e7b-094f-41ce-b21b-3a82ab9d3e07",
+      "name": "mark tomas",
+      "birthday": "2011-11-11T00:00:00Z"
+    }
+  ];
+//
+
+  try {
+    final response = await http.get(
+        API.UPCOMING_BIRTHDAY_API,
+        headers: {
+          "Authorization" : token,
+        },
+    );
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+        return test.map((data) => GetLastContact.fromJson(data)).toList();
+      case 201:
+        var responseJson = await json.decode(response.body);
+        return   test.map((data) => GetLastContact.fromJson(data)).toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
