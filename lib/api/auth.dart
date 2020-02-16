@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/model/add_new_person.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
@@ -434,7 +435,7 @@ String error;
   }
 }
 
-Future<List<GetLastContact>> getLastContactApi({token}) async {
+Future<List<GetLastContact>> getLastContactApi({@required token}) async {
 String error;
 
   List<Map<String, String>> test=[
@@ -532,20 +533,21 @@ String error;
   }
 }
 
-Future<GetSinglePerson> getSinglePersonApi({token}) async {
+Future<GetSinglePerson> getSinglePersonApi({@required token,@required id}) async {
 String error;
-
+var queryParameters = {
+  'id': id,
+};
   Map<String, String> test={
     "id": "ca9c5986-b9a2-4977-b48b-7964be1d1bf5",
     "name": "endalk dasdasd",
     "birthday": "2020-11-11T00:00:00Z",
     "last_contact": "2020-02-16T10:12:53.105593Z"
   };
-//
 
   try {
     final response = await http.get(
-        API.GET_SINGLE_PERSON_API,
+        API.GET_SINGLE_PERSON_API+"id="+id,
         headers: {
           "Authorization" : token,
         },

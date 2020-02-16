@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/auth.dart';
+import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
@@ -531,10 +535,22 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
     return Scaffold(
         appBar: headerNav(context: context, title:getTitle(context)),
         body: Column(
+
           children: [
             SizedBox(
               height: 10,
             ),
+        FutureBuilder <GetSinglePerson> (
+        future: getSinglePersonApi(
+        token: Provider.of<Auth>(context).getTokenFun(),
+            id: personId
+    ),
+    builder: (context, snapshot) {
+    if (snapshot.hasData) {
+      return Container(
+        child: Column(
+          children: <Widget>[
+
 
             RawMaterialButton(
               onPressed: () {},
@@ -552,24 +568,32 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
             ListTile(
               title: Center(
                 child: Text(
-                  'John Doe',
+                  snapshot.data.name,
                   style: TextStyle(fontSize: 30,),
-                  
+
                 ),
               ),
               subtitle: Column(
                 children: [
                   Text(
-                    'Birthday : Birthday here',
+                    'Birthday : '+ dateFormatter(snapshot.data.birthDate),
                     style: TextStyle(fontSize: 15),
                   ),
                   Text(
-                    'Last Contacted: Last Contacted Here',
+                    'Last Contacted: '+dateFormatter(snapshot.data.lastContact),
                     style: TextStyle(fontSize: 15),
                   ),
                 ],
               ),
             ),
+          ],
+        ),
+      );
+    }
+    return circularIndicator(context:context);
+    }
+        ),
+
             // Divider(),
             Expanded(
               child: Center(
