@@ -20,18 +20,24 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
   _SideDrawer createState() => _SideDrawer();
 
   @override
-  void changer({yes,context}) {
+  void changer({context}) {
+    signOut();
     Navigator.pushNamed(context, Constant.SIGN_IN);
   }
 }
 
 
  class _SideDrawer extends State<SideDrawer> {
-  bool isDark = false;
 
-   _SideDrawer(){
-     getTheme();
-   }
+
+  bool isDark = false;
+  BuildContext context;
+
+  @override
+  void initState() {
+    getTheme();
+   super.initState();
+  }
 
   getTheme() {
     getSettingPref("dark").then((value) async {
@@ -39,8 +45,8 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
         isDark = value;
       });
     });
-    print(isDark);
   }
+
   getEmail(){
     getSettingPref("email").then((value) async {
       await Provider.of<Auth>(context,listen: false).setEmailFun("endalk");
@@ -58,6 +64,7 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
 
   @override
   build(BuildContext context) {
+    this.context=context;
     return _buildDrawer(context);
   }
 
@@ -96,7 +103,6 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
   }
 
   navigationDrawer(context) {
-    final themeNotifier = Provider.of<AppState>(context);
 
     return Drawer(
         child: Column(
@@ -112,7 +118,7 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
                     height: 280.0,
                     child: Stack(
                       children:[
-                        isDark ? Container() : clipShape(context),
+                        isDark==true? Container() : clipShape(context),
                         Container(
                           child: Container(
                             child: Column(
@@ -230,7 +236,7 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
                           "Dark mode",
                         ),
                         Switch(
-                          value: themeNotifier.getTheme()==Constant.lightTheme?false:true,
+                          value: Provider.of<AppState>(context).getTheme()==Constant.lightTheme?false:true,
 
                           onChanged: (value) async {
                             setState(() {
@@ -242,9 +248,9 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
                             });
 
                             if (isDark == true) {
-                              themeNotifier.setDark();
+                              Provider.of<AppState>(context).setDark();
                             } else {
-                              themeNotifier.setLight();
+                              Provider.of<AppState>(context).setLight();
                             }
                           },
                           activeTrackColor: PRIMARY_COLOR,

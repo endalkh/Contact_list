@@ -62,7 +62,7 @@ class Auth with ChangeNotifier {
   bool isLoading=false;
   bool isLogged=false;
   String hasError="";
-  String email;
+  String email="";
   bool isSuccessfullyRegistered=false;
   String token;
   int page=0;

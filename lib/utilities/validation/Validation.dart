@@ -37,6 +37,7 @@
    return 'Name is not valid';
  }
 
+
  validatePassword(String value) {
    if (value.isEmpty) {
      return "Enter Password field";

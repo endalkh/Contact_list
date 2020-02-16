@@ -71,7 +71,6 @@ ShouldImp callback;
                                 onPressed: () {
                                   callback.changer(
                                      context: context,
-                                    yes: true,
                                  );
                                   },
 

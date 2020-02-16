@@ -59,7 +59,6 @@ class Dashboard extends State<Home> {
   }
 
   void onTabTapped(int index) {
-    print(index);
     Provider.of<Auth>(context,listen: false).setHomePageTabFun(index);
   }
   @override

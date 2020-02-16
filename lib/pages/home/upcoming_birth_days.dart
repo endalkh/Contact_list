@@ -20,7 +20,6 @@ class UpcomingBirthDaysScreen extends StatefulWidget{
 class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen>{
   @override
   void initState() {
-    Provider.of<Auth>(context,listen: false).setHomePageTabFun(0);
     super.initState();
   }
 
@@ -83,7 +82,6 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen>{
               );
             }
             else if (snapshot.hasError) {
-              print(snapshot.error);
               return Center(
                 child: Text(snapshot.error.toString(),style: TextStyle(
                     fontSize: 20,fontWeight: FontWeight.w900

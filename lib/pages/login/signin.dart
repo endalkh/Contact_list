@@ -280,7 +280,7 @@ class _LoginPageState extends State<SignInPage> {
     return WillPopScope(
       child:Scaffold(
       body: Provider.of<Auth>(context).getIsLoadingFun() == true
-          ? circularIndicator()
+          ? circularIndicator(context: context)
           : Stack(
               children: [
                 Container(

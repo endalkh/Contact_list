@@ -21,7 +21,6 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool logged=false;
   if(prefs.getString("accessToken")!=null){
-    print(prefs.getString("accessToken").toString());
     logged=true;
   }
     runApp(

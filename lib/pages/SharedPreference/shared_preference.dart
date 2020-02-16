@@ -37,7 +37,6 @@ setSettingPref( {key,value}) async {
 
   }
   catch(ex){
-print("result $ex");
     return false;
   }
 }
@@ -48,7 +47,6 @@ Future<bool> getSettingPref(key) async {
     return  preferences.getBool(key);
   }
   catch(ex){
-    print("result $ex");
     return false;
   }
 }
@@ -56,10 +54,10 @@ Future<bool> getSettingPref(key) async {
 
 signOut() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  preferences.setString("accessToken", null);
-  preferences.setString("refreshToken", null);
-  preferences.setString("email", null);
-  preferences.setString("id", null);
+  preferences.setString("accessToken", "");
+  preferences.setString("refreshToken", "");
+  preferences.setString("email", "");
+  preferences.setString("id", "");
 
 //      _loginStatus = LoginStatus.notSignIn;
 

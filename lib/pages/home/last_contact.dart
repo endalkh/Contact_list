@@ -8,7 +8,6 @@ import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_letter/rounded_letter.dart';
 import 'package:rounded_letter/shape_type.dart';
@@ -17,11 +16,6 @@ class LastContact extends StatefulWidget{
   _LastContact createState()=>_LastContact();
 }
 class _LastContact extends State<LastContact>{
-  @override
-  void initState() {
-    Provider.of<Auth>(context,listen: false).setHomePageTabFun(1);
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

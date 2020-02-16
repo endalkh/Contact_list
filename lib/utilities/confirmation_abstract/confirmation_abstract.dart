@@ -1,3 +1,3 @@
 abstract class ShouldImp{
-  void changer( {yes,context});
+  void changer( {context});
 }
