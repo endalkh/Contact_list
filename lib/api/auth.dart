@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/model/add_new_person.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
+import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/api/model/login.dart';
 import 'package:flutter_app/api/model/register.dart';
@@ -485,6 +486,77 @@ String error;
       case 201:
         var responseJson = await json.decode(response.body);
         return   test.map((data) => GetLastContact.fromJson(data)).toList();
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
+
+Future<GetSinglePerson> getSinglePersonApi({token}) async {
+String error;
+
+  Map<String, String> test={
+    "id": "ca9c5986-b9a2-4977-b48b-7964be1d1bf5",
+    "name": "endalk dasdasd",
+    "birthday": "2020-11-11T00:00:00Z",
+    "last_contact": "2020-02-16T10:12:53.105593Z"
+  };
+//
+
+  try {
+    final response = await http.get(
+        API.GET_SINGLE_PERSON_API,
+        headers: {
+          "Authorization" : token,
+        },
+    );
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+        return  GetSinglePerson.fromJson(test);
+      case 201:
+        var responseJson = await json.decode(response.body);
+        return  GetSinglePerson.fromJson(test);
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");

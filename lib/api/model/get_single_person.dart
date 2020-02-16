@@ -1,6 +1,6 @@
 class GetSinglePerson {
-    String name,birthDate,id;
-    GetAllContact({name,birthDate,id,lastContact}) {
+    String name,birthDate,id,lastContact;
+    GetSinglePerson({name,birthDate,id,lastContact}) {
         this.name=name;
         this.id=id;
         this.birthDate=birthDate;
