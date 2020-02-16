@@ -74,7 +74,7 @@ class _Contacts extends State<Contacts>{
                       child: Container(
                         child: ListTile(
                             leading: RoundedLetter(
-                              text: getRoundLetter(snapshot.data[index].name.toString()),
+                              text: getRoundLetter(snapshot.data[index].name.toString().toUpperCase()),
                               shapeType: ShapeType.circle,
                               shapeColor: PRIMARY_COLOR,
                               shapeSize: 40,
