@@ -12,7 +12,6 @@ class _ContactInfo extends State<ContactInfo>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-
         body: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.all(10),

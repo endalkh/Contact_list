@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/model/add_new_person.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
+import 'package:flutter_app/api/model/get_notes.dart';
 import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/api/model/login.dart';
@@ -535,9 +536,6 @@ String error;
 
 Future<GetSinglePerson> getSinglePersonApi({@required token,@required id}) async {
 String error;
-var queryParameters = {
-  'id': id,
-};
   Map<String, String> test={
     "id": "ca9c5986-b9a2-4977-b48b-7964be1d1bf5",
     "name": "endalk dasdasd",
@@ -606,31 +604,40 @@ var queryParameters = {
 }
 
 
-Future<GetSinglePerson> getNoteListApi({@required token,@required personId,@required after,@required limit}) async {
+Future<List<GetNoteList>> getNoteListApi({@required token,@required personId,@required after,@required limit}) async {
 String error;
 
-  Map<String, String> test={
-    "id": "ca9c5986-b9a2-4977-b48b-7964be1d1bf5",
-    "name": "endalk dasdasd",
-    "birthday": "2020-11-11T00:00:00Z",
-    "last_contact": "2020-02-16T10:12:53.105593Z"
-  };
+  List<Map<String, String>> test=[
+    {
+      "id": "63376d59-2028-4b0d-94fa-0cc1ef3c6c25",
+      "body": "I talked to him at the store today and he mentioned that his son Andrew is sick. Should follow up soon.",
+      "created_at": "2020-02-12T09:45:43.480263Z",
+      "updated_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "63376d59-2028-4b0d-94fa-0cc1ef3c6c25",
+      "body": "I talked to him at the store today and he mentioned that his son Andrew is sick. Should follow up soon.",
+      "created_at": "2020-02-12T09:45:43.480263Z",
+      "updated_at": "0001-01-01T00:00:00Z"
+    }
+  ];
 
   try {
     final response = await http.get(
-        API.GET_SINGLE_PERSON_API+"personId="+personId+"&after="+after+"&limit="+limit,
-        headers: {
-          "Authorization" : token,
-        },
+      API.GET_LIST_NOTE_API+"personId="+personId+"&after="+after+"&limit=$limit",
+      headers: {
+        "Authorization" : token,
+      },
     );
-    print(json.decode(response.body));
+    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
-        return  GetSinglePerson.fromJson(test);
+
+        return test.map((data) => GetNoteList.fromJson(data)).toList();
       case 201:
         var responseJson = await json.decode(response.body);
-        return  GetSinglePerson.fromJson(test);
+        return test.map((data) => GetNoteList.fromJson(data)).toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
