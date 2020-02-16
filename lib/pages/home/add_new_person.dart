@@ -4,7 +4,7 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
-import 'package:flutter_app/pages/progress/circularProgressBar.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
@@ -379,7 +379,7 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
       return WillPopScope(
         child:Consumer<Auth>(
           builder: (BuildContext context, Auth value, Widget child) =>
-          value.getIsLoadingFun()==true?circularIndicator():
+          value.getIsLoadingFun()==true?circularIndicator(context: context):
           Scaffold(
             appBar: headerNav(title: Constant.ADD_NEW_PERSON),
             body: SingleChildScrollView(

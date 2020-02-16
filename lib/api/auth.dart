@@ -314,7 +314,7 @@ List<Map<String, String>> test=[
   }
 }
 
-Future<List<GetAllContact>> getUpComingBirthday({token}) async {
+Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
 String error;
 
   List<Map<String, String>> test=[

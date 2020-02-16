@@ -20,7 +20,7 @@ circularIndicator ({context}){
     ),
         decoration: BoxDecoration(
           color:  Provider.of<AppState>(context).getTheme()==Constant.lightTheme?
-          SECONDARY_COLOR:darkBG,
+          TRIAL_COLOR:null,
         )
 
 

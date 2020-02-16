@@ -25,7 +25,9 @@ class _LastContact extends State<LastContact>{
   Widget build(BuildContext context) {
     // TODO: implement build
       return  Scaffold(
-        body: FutureBuilder <List<GetLastContact>> (
+        body:   Padding(
+      padding: EdgeInsets.only(top: 10),
+        child:FutureBuilder <List<GetLastContact>> (
           future: getLastContactApi(
               token: Provider.of<Auth>(context).getTokenFun()
           ),
@@ -40,7 +42,7 @@ class _LastContact extends State<LastContact>{
                         margin: EdgeInsets.only(left: 10,right: 10),
                         child: Column(
                           children: [
-                            SizedBox(height: 5,),
+                            SizedBox(height: 3,),
                             Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -90,73 +92,10 @@ class _LastContact extends State<LastContact>{
           },
 
         ),
+        ),
       );
 
-//        Scaffold(
-//        body: SingleChildScrollView(
-//          child: Container(
-//            margin: EdgeInsets.all(15),
-//            child: Column(
-//              children: [
-//                Padding(
-//                  padding: EdgeInsets.all(0),
-//
-//                  child: Container(
-//                    height: getHeight(context),
-//                    child: ListView.builder(
-//                      itemBuilder: (context, position) {
-//                        return Container(
-//                          child: Card(
-//                            shape: RoundedRectangleBorder(
-//                              borderRadius: BorderRadius.circular(20.0),
-//                            ),
-//                            child: Column(
-//                              children: [
-//
-//                                Container(
-//                                  height: 70,
-//                                  child: ListTile(
-//                                    onTap: () => {
-//                                      Navigator.pushNamed(
-//                                          context, Constant.PERSON_HEADER)
-//                                    },
-//                                    leading: RoundedLetter(
-//                                      text: getRoundLetter("John Doe").toUpperCase(),
-//                                      shapeType: ShapeType.circle,
-//                                      shapeColor: PRIMARY_COLOR,
-//                                      shapeSize: 40,
-//                                      fontSize: 20,
-//                                      borderWidth: 1,
-//                                      borderColor: Color.fromARGB(255, 0, 0, 0),
-//                                    ),
-//                                    title: Text(
-//                                      'John Doe',
-//                                      style: TextStyle(
-//                                          fontWeight: FontWeight.w400,
-//                                          fontSize: 20),
-//                                    ),
-//                                    subtitle: Text(
-//                                      'Date(time) of last Contact',
-//                                      style: TextStyle(
-//                                          fontWeight: FontWeight.w300,
-//                                          fontSize: 15,
-//                                          fontStyle: FontStyle.italic),
-//                                    ),
-//                                  ),
-//                                )
-//                              ],
-//                            ),
-//                          ),
-//                        );
-//                      },
-//                    ),
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
-//        ),
-//      );
+
     }
   }
 

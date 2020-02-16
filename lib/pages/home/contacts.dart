@@ -48,7 +48,10 @@ class _Contacts extends State<Contacts>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder <List<GetAllContact>> (
+      body:  Padding(
+    padding: EdgeInsets.only(top: 10),
+
+      child:FutureBuilder <List<GetAllContact>> (
         future: getAllContactApi(
             token: Provider.of<Auth>(context).getTokenFun()
         ),
@@ -60,6 +63,7 @@ class _Contacts extends State<Contacts>{
                 itemBuilder: (context, index) {
                   return  SingleChildScrollView(
                 child: Container(
+
                  margin: EdgeInsets.only(left: 10,right: 10),
                     child: Column(
                     children: [
@@ -95,6 +99,7 @@ class _Contacts extends State<Contacts>{
 
 ],
                   ),
+
                 ),
                   );
                 }
@@ -112,6 +117,7 @@ class _Contacts extends State<Contacts>{
 
         },
 
+      ),
       ),
     );
   }

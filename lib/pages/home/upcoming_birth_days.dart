@@ -24,106 +24,142 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen>{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
       return Scaffold(
-        // backgroundColor: TRIAL_COLOR,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(padding: EdgeInsets.all(5)),
-              Text(
-                'Tomorrow',
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    fontStyle: FontStyle.italic),
-              ),
-              SizedBox(height: 10,),
-              Padding(
-                padding: EdgeInsets.only(left: 14, right: 14, bottom: 14),
-                child: Container(
-                  height: getHeight(context),
-                  decoration: BoxDecoration(),
+        body:  Padding(
+      padding: EdgeInsets.only(top: 10),
+        child:FutureBuilder <List<GetAllContact>> (
+          future: getUpComingBirthdayApi(
+              token: Provider.of<Auth>(context).getTokenFun()
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
 
- child: FutureBuilder <List<GetAllContact>> (
-    future: getUpComingBirthday(
-    token: Provider.of<Auth>(context).getTokenFun()
-    ),
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return ListView.builder(
-          itemCount: snapshot.data.length,
-          itemBuilder: (context, index) {
-            return  SingleChildScrollView(
-                child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 1.0),
-                child: Column(
-                  children: [
-                    Container(
-//                              height: 50,
-                      child: ListTile(
-                        onTap: () =>
-                        {
-                          Navigator.pushNamed(
-                              context, Constant.PERSON_HEADER)
-                        },
-                        leading: RoundedLetter(
-                          text: getRoundLetter(snapshot.data[index].name).toUpperCase(),
-                          shapeType: ShapeType.circle,
-                          shapeColor: PRIMARY_COLOR,
-                          shapeSize: 40,
-                          fontSize: 20,
-                          borderWidth: 1,
-                          borderColor: Color.fromARGB(255, 0, 0, 0),
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return  SingleChildScrollView(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10,right: 10),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 3,),
+                            Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: InkWell(
+                                  onTap: () =>
+                                  {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
+                                  child: Container(
+                                    child: ListTile(
+                                        leading: RoundedLetter(
+                                          text: getRoundLetter(snapshot.data[index].name.toString().toUpperCase()),
+                                          shapeType: ShapeType.circle,
+                                          shapeColor: PRIMARY_COLOR,
+                                          shapeSize: 40,
+                                          fontSize: 20,
+                                          borderWidth: 1,
+                                          borderColor: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        title:Text(snapshot.data[index].name,style: TextStyle(
+                                          fontSize: 20,
+                                        ),),
 
-                        ),
-                        title: Text(
-                          snapshot.data[index].name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
+                                        subtitle: Text(snapshot.data[index].birthDate,
+                                          style: TextStyle(fontSize: 15),
+                                        )),
 
-                            fontSize: 20,
-                          ),
-                        ),
-                        subtitle: Text(
-                       snapshot.data[index].birthDate,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontStyle: FontStyle.italic,
-                              fontSize: 15
-                          ),
+                                  ),
+                                )),
 
+                          ],
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            );
-          },
-        );
-    }
-      else if (snapshot.hasError) {
+                    );
+                  }
+              );
+            }
+            else if (snapshot.hasError) {
+              print(snapshot.error);
+              return Center(
+                child: Text(snapshot.error.toString(),style: TextStyle(
+                    fontSize: 20,fontWeight: FontWeight.w900
+                ),),
+              );
+            }
+            return circularIndicator(context: context);
 
-        return Center(
-          child: Text(snapshot.error.toString(),style: TextStyle(
-              fontSize: 20,fontWeight: FontWeight.w900
-          ),),
-        );
-      }
-      return circularIndicator(context: context);
-    }
-                ),
-                ),
-              ),
-            ],
-          ),
+          },
+
+        ),
         ),
       );
+
+//        Scaffold(
+//        body: FutureBuilder <List<GetAllContact>> (
+//    future: getUpComingBirthdayApi(
+//    token: Provider.of<Auth>(context).getTokenFun()
+//    ),
+//    builder: (context, snapshot) {
+//      print(snapshot.data[1].birthDate);
+//      if (snapshot.hasData) {
+//        ListView.builder(
+//            itemCount: snapshot.data.length,
+//            itemBuilder: (context, index) {
+//              return  SingleChildScrollView(
+//                child: Container(
+//                  margin: EdgeInsets.only(left: 10,right: 10),
+//                  child: Column(
+//                    children: [
+//                      SizedBox(height: 5,),
+//                      Card(
+//                          shape: RoundedRectangleBorder(
+//                            borderRadius: BorderRadius.circular(15.0),
+//                          ),
+//                          child: InkWell(
+//                            onTap: () =>
+//                            {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
+//                            child: Container(
+//                              child: ListTile(
+//                                  leading: RoundedLetter(
+//                                    text: getRoundLetter(snapshot.data[index].name.toString().toUpperCase()),
+//                                    shapeType: ShapeType.circle,
+//                                    shapeColor: PRIMARY_COLOR,
+//                                    shapeSize: 40,
+//                                    fontSize: 20,
+//                                    borderWidth: 1,
+//                                    borderColor: Color.fromARGB(255, 0, 0, 0),
+//                                  ),
+//                                  title:Text(snapshot.data[index].name,style: TextStyle(
+//                                    fontSize: 20,
+//                                  ),),
+//
+//                                  subtitle: Text(snapshot.data[index].birthDate,
+//                                    style: TextStyle(fontSize: 15),
+//                                  )),
+//
+//                            ),
+//                          )),
+//
+//                    ],
+//                  ),
+//                ),
+//              );
+//            }
+//        );
+//    }
+//      else if (snapshot.hasError) {
+//
+//        return Center(
+//          child: Text(snapshot.error.toString(),style: TextStyle(
+//              fontSize: 20,fontWeight: FontWeight.w900
+//          ),),
+//        );
+//      }
+//      return circularIndicator(context: context);
+//    }
+//                ),
+//                );
+
     }
   }
