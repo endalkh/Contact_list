@@ -5,6 +5,7 @@ import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
+import 'package:flutter_app/pages/person_header/notes.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
@@ -35,7 +36,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
     print(page);
     switch (page) {
       case 0:
-        return notes();
+        return Notes();
         break;
       case 1:
         return contactInformation();
@@ -109,67 +110,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
     }
   }
 
-  notes() {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(left: 15, right: 15),
-          child: Column(
-            children: [
-              Text(
-                'Notes',
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.w300),
-              ),
-              Padding(
-                padding: EdgeInsets.all(2.0),
-                child: Container(
-                  height: getHeight(context),
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: Padding(
-                            padding: const EdgeInsets.all(1.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: ListTile(
-                                    title: ExpansionTile(
-                                      title: Text(
-                                        'Header Goes Here',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      subtitle:
-                                          Text(Constant.PASSWORDRESETDESC),
-                                      children: [
-                                        ListTile(
-                                          leading: Icon(Icons.delete),
-                                        ),
-                                        ListTile(
-                                          leading: Icon(Icons.edit),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
 
   contactInformation() {
     return Scaffold(
