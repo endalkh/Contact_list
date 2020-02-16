@@ -161,18 +161,18 @@ Future<AddNewPerson> addNewPersonApi(
   },
   "phone_numbers": [
   {
-  "type": "home",
-  "number": "5551234567"
+  "type": phoneType,
+  "number": phone
   }
   ],
   "emails": [
   {
-  "type": "family",
-  "address": "luke@rebellion.al"
+  "type": emailType,
+  "address": emailType
   }
   ],
   "note": {
-  "body": "This is the body of a note"
+  "body": notes
   }
   };
   String error;

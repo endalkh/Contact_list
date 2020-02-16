@@ -110,23 +110,18 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
   personalInformation() {
     return Column(
       children: [
-        // Padding(padding: EdgeInsets.all(5)),
-        CircleAvatar(
-            radius: 40,
-            backgroundImage: CachedNetworkImageProvider(Constant.images[0]),
-            child: Container(
-              margin: EdgeInsets.only(left: 50, top: 50),
-              width: 25,
-              height: 25,
-              child: FloatingActionButton(
-                onPressed: () => {},
-                backgroundColor: PRIMARY_COLOR,
-                child: Icon(
-                  Icons.edit,
-                  color: lightBG,
-                ),
-              ),
-            )),
+        new RawMaterialButton(
+          onPressed: () {},
+          child: new Icon(
+            Icons.person_add,
+            color: TRIAL_COLOR,
+            size: 35.0,
+          ),
+          shape: new CircleBorder(),
+          elevation: 2.0,
+          fillColor:PRIMARY_COLOR,
+          padding: const EdgeInsets.all(15.0),
+        ),
 
         Padding(padding: EdgeInsets.all(5)),
         Text(
