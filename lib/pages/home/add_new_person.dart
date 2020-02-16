@@ -7,6 +7,7 @@ import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 
 class AddNewPersonScreen extends StatefulWidget{
@@ -196,10 +197,11 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
 
               date = await showDatePicker(
                   context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1900),
-                  lastDate: DateTime(2100));
-              birthdayController.text = date.toIso8601String();
+                  initialDate: Constant.initialDate.dateTime.toUtc(),
+                  firstDate: Constant.initialDate.dateTime.toUtc(),
+                  lastDate: Constant.finalDate.dateTime.toUtc()
+              );
+              birthdayController.text = date.toUtc().toIso8601String();
             },
           ),
 

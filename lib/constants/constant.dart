@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/utilities/confirmation_abstract/confirmation_abstract.dart';
+import 'package:jiffy/jiffy.dart';
 
 class Constant{
   String appName = "Contact Managment";
@@ -54,6 +55,10 @@ class Constant{
 
   // classes
   static ShouldImp callBack;
+
+  //Birthday Picker
+  static  var initialDate=Jiffy()..subtract(years: 100);
+  static  var finalDate=Jiffy()..add(years: 18);
 
 
 

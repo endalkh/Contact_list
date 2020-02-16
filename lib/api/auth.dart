@@ -132,28 +132,49 @@ Future<JsonUserRegister> registerApi({userId, password, context}) async {
 
 Future<AddNewPerson> addNewPersonApi(
     {fName, lName, birthday, phoneType, phone, emailType, email, notes,token}) async {
-  var params = {
+  var params =
+//  {
+//    "person": {
+//  "name": fName + " "+ lName,
+//  "birthday": birthday
+//  },
+//  "phone_numbers": [
+//  {
+//  "type": phoneType,
+//  "number": phone
+//  }
+//  ],
+//  "emails": [
+//  {
+//  "type": emailType,
+//  "address": email
+//  }
+//  ],
+//  "note": {
+//  "body": notes
+//  }
+//  };
+  {
     "person": {
   "name": fName + " "+ lName,
   "birthday": birthday
   },
   "phone_numbers": [
   {
-  "type": phoneType,
-  "number": phone
+  "type": "home",
+  "number": "5551234567"
   }
   ],
   "emails": [
   {
-  "type": emailType,
-  "address": email
+  "type": "family",
+  "address": "luke@rebellion.al"
   }
   ],
   "note": {
-  "body": notes
+  "body": "This is the body of a note"
   }
   };
-
   String error;
 
   try {
