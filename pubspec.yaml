@@ -27,6 +27,7 @@ dependencies:
   simple_animations: ^1.2.0
   rounded_letter: ^0.0.6
   jiffy: ^2.2.0
+  intl: ^0.16.0
 
 
 

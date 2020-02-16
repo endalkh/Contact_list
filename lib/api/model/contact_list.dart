@@ -1,4 +1,3 @@
-
 class GetAllContact {
   String name,birthDate,id;
   GetAllContact({name,birthDate,id}) {

@@ -8,6 +8,7 @@ import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_letter/rounded_letter.dart';
@@ -90,7 +91,7 @@ class _Contacts extends State<Contacts>{
                               fontSize: 20,
                             ),),
 
-                            subtitle: Text(snapshot.data[index].birthDate,
+                            subtitle: Text(dateFormatter(snapshot.data[index].birthDate),
                               style: TextStyle(fontSize: 15),
                             )),
 
