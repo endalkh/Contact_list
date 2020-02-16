@@ -4,6 +4,6 @@ class API{
   static const String REGISTER_API=COMMON_API+"/auth/register";
   static const String ADD_NEW_PERSON_API=COMMON_API+"/person";
   static const String CONTACT_LIST_API=COMMON_API+"/person/list?";
-
+  static const String UPCOMING_BIRTHDAY_API=COMMON_API+"person/upcoming-birthdays";
 
 }

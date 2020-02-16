@@ -36,8 +36,6 @@ class Dashboard extends State<Home> {
 
 
 
-
-
   pageTaped(page) {
     switch (page) {
       case 0:

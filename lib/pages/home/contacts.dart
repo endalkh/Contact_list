@@ -48,33 +48,68 @@ class _Contacts extends State<Contacts>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<GetAllContact>(
+      body: FutureBuilder <List<GetAllContact>> (
         future: getAllContactApi(
             token: Provider.of<Auth>(context).getTokenFun()
         ),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            GetAllContact project = snapshot.data;
-            print("result ${project.toString().length}");
 
             return ListView.builder(
-                itemCount: snapshot.data.toString().length,
+                itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  GetAllContact project = snapshot.data;
-                  return Column(
-                    children: <Widget>[
-                     Text(project.name.toString()),
-                    ],
+                  return  SingleChildScrollView(
+                child: Container(
+                 margin: EdgeInsets.only(left: 10,right: 10),
+                    child: Column(
+                    children: [
+                SizedBox(height: 5,),
+                Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: InkWell(
+                      onTap: () =>
+                      {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
+                      child: Container(
+                        child: ListTile(
+                            leading: RoundedLetter(
+                              text: getRoundLetter(snapshot.data[index].name.toString()),
+                              shapeType: ShapeType.circle,
+                              shapeColor: PRIMARY_COLOR,
+                              shapeSize: 40,
+                              fontSize: 20,
+                              borderWidth: 1,
+                              borderColor: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            title:Text(snapshot.data[index].name,style: TextStyle(
+                              fontSize: 20,
+                            ),),
+
+                            subtitle: Text(snapshot.data[index].birthDate,
+                              style: TextStyle(fontSize: 15),
+                            )),
+
+                      ),
+                    )),
+
+],
+                  ),
+                ),
                   );
                 }
             );
           }
           else if (snapshot.hasError) {
-//            return Text(snapshot.error.toString());
+            print(snapshot.error);
+            return Center(
+              child: Text(snapshot.error.toString(),style: TextStyle(
+                fontSize: 20,fontWeight: FontWeight.w900
+              ),),
+            );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return circularIndicator(context: context);
+
         },
 
       ),

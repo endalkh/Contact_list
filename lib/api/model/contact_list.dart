@@ -11,8 +11,7 @@ class GetAllContact {
     return GetAllContact(
       name: parsedJson['name'],
       id:parsedJson["id"],
-      birthDate: "hello"
-//      parsedJson['birthday'],
+      birthDate: parsedJson['birthday'],
     );
   }
 
