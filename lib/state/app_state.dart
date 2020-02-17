@@ -68,6 +68,7 @@ class Auth with ChangeNotifier {
   int page=0;
   List<GetAllContact> allContactList;
   bool addEmail=false,addPhone=false;
+  bool addNote=false;
 
   getIsLoadingFun(){
     return isLoading;
@@ -166,6 +167,13 @@ class Auth with ChangeNotifier {
     return this.addPhone;
   }
 
+  setAddNote(val){
+    this.addNote=val;
+    notifyListeners();
+  }
+  getAddNote(){
+    return this.addNote;
+  }
 
 }
 

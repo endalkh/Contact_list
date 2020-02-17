@@ -4,6 +4,7 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
+import 'package:flutter_app/pages/person_header/add_notes.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
@@ -17,7 +18,7 @@ class Notes extends StatelessWidget implements NoteDelAndEdit{
   @override
   Widget build(BuildContext context) {
       return Scaffold(
-        body: FutureBuilder <List<GetNoteList>>(
+        body: Provider.of<Auth>(context).getAddNote()==false?AddNote(personId: personId,):FutureBuilder <List<GetNoteList>>(
     future: getNoteListApi(
     token: Provider.of<Auth>(context).getTokenFun(),
     after: "2010-01-16T23:17:50.258328Z",
@@ -84,11 +85,11 @@ class Notes extends StatelessWidget implements NoteDelAndEdit{
             ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => {
-
+            Provider.of<Auth>(context,listen: false).setAddNote(!Provider.of<Auth>(context,listen: false).getAddNote())
           },
           backgroundColor: PRIMARY_COLOR,
           child: Icon(
-            Icons.add,
+            Provider.of<Auth>(context,listen: false).getAddNote()==true? Icons.note_add:Icons.event_note,
             color: lightBG,
           ),
         ),
