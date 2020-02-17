@@ -27,7 +27,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
     print(page);
     switch (page) {
       case 0:
-        return Notes(personId: personId,);
+        return Note(personId: personId,);
         break;
       case 1:
         return ContactInfo(personId: personId,);
