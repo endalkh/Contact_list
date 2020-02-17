@@ -162,7 +162,7 @@ class Auth with ChangeNotifier {
     this.addPhone=val;
     notifyListeners();
   }
-  getAddPhone(val){
+  getAddPhone(){
     return this.addPhone;
   }
 

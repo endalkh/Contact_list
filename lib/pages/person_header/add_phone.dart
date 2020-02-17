@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
-class AddEmail extends StatefulWidget{
-  _AddEmail createState()=>_AddEmail();
+class AddPhone extends StatefulWidget{
+  _AddPhone createState()=>_AddPhone();
 }
 
-class _AddEmail extends State<AddEmail>{
+class _AddPhone extends State<AddPhone>{
 
   TextEditingController phoneController = TextEditingController();
   List<DropdownMenuItem<PhoneType>> phoneDropdownMenuItems;
@@ -148,8 +147,8 @@ class _AddEmail extends State<AddEmail>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return WillPopScope(
-      child:Consumer<Auth>(
+    return
+      Consumer<Auth>(
         builder: (BuildContext context, Auth value, Widget child) =>
         value.getIsLoadingFun()==true?circularIndicator(context: context):
         Scaffold(
@@ -187,13 +186,8 @@ class _AddEmail extends State<AddEmail>{
 
           ),
         ),
-      ),
-      onWillPop: (){
-        Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-        Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-        return Future(()=>true);
-      },
-    );
+        );
+
   }
 }
 

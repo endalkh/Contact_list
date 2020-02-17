@@ -5,6 +5,7 @@ import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/person_header/add_email.dart';
+import 'package:flutter_app/pages/person_header/add_phone.dart';
 import 'package:flutter_app/pages/person_header/notes.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
@@ -100,10 +101,15 @@ class ContactInfo extends StatelessWidget {
                                     fontWeight: FontWeight.w400, fontSize: 17),
                               ),
                               onTap: (){
-
+                                Provider.of<Auth>(context,listen: false).setAddPhone(!Provider.of<Auth>(context,listen: false).getAddPhone());
                               },
                             ),
+                Provider.of<Auth>(context,listen: false).getAddPhone()==true?
+                Container(
+                    height:150 ,
+                    child:AddPhone()):Container(),
                 Divider(),
+
                 Text(
                   'Email Information',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),

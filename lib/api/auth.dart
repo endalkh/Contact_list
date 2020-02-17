@@ -621,7 +621,6 @@ String error;
       "updated_at": "0001-01-01T00:00:00Z"
     }
   ];
-return test.map((data) => GetNoteList.fromJson(data)).toList();
   try {
     final response = await http.get(
       API.GET_LIST_NOTE_API+"personId="+personId+"&after="+after+"&limit=$limit",
@@ -766,6 +765,161 @@ String error;
   }
 }
 Future<List<GetPhone>> getPhoneListApi({@required token,@required personId}) async {
+String error;
+
+  List<Map<String, String>> test=[
+    {
+      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
+      "type": "mobile",
+      "number": "5551234567"
+    },
+    {
+      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
+      "type": "home",
+      "number": "5551234567"
+    }
+  ];
+
+  try {
+    final response = await http.get(
+      API.GET_PHONE_API+"personId="+personId,
+      headers: {
+        "Authorization" : token,
+      },
+    );
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return test.map((data) => GetPhone.fromJson(data)).toList();
+      case 201:
+        var responseJson = await json.decode(response.body);
+        return test.map((data) => GetPhone.fromJson(data)).toList();
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
+
+Future<List<GetPhone>> addPhoneApi({@required token,@required personId}) async {
+String error;
+
+  List<Map<String, String>> test=[
+    {
+      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
+      "type": "mobile",
+      "number": "5551234567"
+    },
+    {
+      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
+      "type": "home",
+      "number": "5551234567"
+    }
+  ];
+
+  try {
+    final response = await http.get(
+      API.GET_PHONE_API+"personId="+personId,
+      headers: {
+        "Authorization" : token,
+      },
+    );
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return test.map((data) => GetPhone.fromJson(data)).toList();
+      case 201:
+        var responseJson = await json.decode(response.body);
+        return test.map((data) => GetPhone.fromJson(data)).toList();
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
+Future<List<GetPhone>> AddEmailApi({@required token,@required personId}) async {
 String error;
 
   List<Map<String, String>> test=[
