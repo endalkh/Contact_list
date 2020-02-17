@@ -30,7 +30,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
         return Notes(personId: personId,);
         break;
       case 1:
-        return ContactInfo();
+        return ContactInfo(personId: personId,);
         break;
       default:
         return PersonalSetting();
@@ -127,9 +127,9 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
             Expanded(
               child: Center(
                 child: Container(
-                  child: Center(
+
                     child: pageTaped(Provider.of<Auth>(context).getHomePageTabFun(),
-                  ),
+
                 ),
               ),
             )

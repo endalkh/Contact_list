@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
-import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
-
-class Notes extends StatelessWidget{
+class Notes extends StatelessWidget implements NoteDelAndEdit{
   String personId;
   Notes({@required this.personId});
 
@@ -31,7 +31,7 @@ class Notes extends StatelessWidget{
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.all(2.0),
+                padding: EdgeInsets.all(5.0),
                 child: Container(
                   height: getHeight(context),
                   child: ListView.builder(
@@ -39,34 +39,37 @@ class Notes extends StatelessWidget{
                     itemBuilder: (context, index) {
 
                       return Card(
+                        margin: EdgeInsets.only(top: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         child: Padding(
-                            padding: const EdgeInsets.all(1.0),
+                            padding: const EdgeInsets.all(6.0),
                             child: Row(
                               children: [
                                 Expanded(
                                   flex: 1,
                                   child: ListTile(
-                                    title: ExpansionTile(
-                                      subtitle:
-                                      Text(snapshot.data[index].body),
-                                      children: [
-                                        ListTile(
-                                          leading: Icon(Icons.delete),
-                                        ),
-                                        ListTile(
-                                          leading: Icon(Icons.edit),
-                                        ),
-                                      ],
-                                    ),
+                                    title:  Text(snapshot.data[index].body),
+                                    onLongPress: (){
+                                      print("hello");
+                                      DeleteAndEditNotesDialog(
+                                          context: context,
+                                          title: "",
+                                          callback: Notes(),
+
+                                      );
+                                    },
+
                                   ),
                                 ),
 
                               ],
-                            )),
+                            )
+                        ),
                       );
+
+
                     },
                   ),
                 ),
@@ -97,6 +100,18 @@ class Notes extends StatelessWidget{
 
         );
 
+  }
+
+  @override
+  deleteNote(id) {
+    // TODO: implement deleteNote
+    return null;
+  }
+
+  @override
+  editNote(id) {
+    print(id);
+    return null;
   }
 
 }

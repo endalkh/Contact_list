@@ -375,6 +375,7 @@ String error;
     }
   ];
 //
+  return test.map((data) => GetAllContact.fromJson(data)).toList();
 
   try {
     final response = await http.get(
@@ -473,7 +474,7 @@ String error;
     }
   ];
 //
-
+  return   test.map((data) => GetLastContact.fromJson(data)).toList();
   try {
     final response = await http.get(
         API.UPCOMING_BIRTHDAY_API,
@@ -542,7 +543,7 @@ String error;
     "birthday": "2020-11-11T00:00:00Z",
     "last_contact": "2020-02-16T10:12:53.105593Z"
   };
-
+return GetSinglePerson.fromJson(test);
   try {
     final response = await http.get(
         API.GET_SINGLE_PERSON_API+"id="+id,
@@ -621,7 +622,7 @@ String error;
       "updated_at": "0001-01-01T00:00:00Z"
     }
   ];
-
+return test.map((data) => GetNoteList.fromJson(data)).toList();
   try {
     final response = await http.get(
       API.GET_LIST_NOTE_API+"personId="+personId+"&after="+after+"&limit=$limit",

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/utilities/confirmation_abstract/confirmation_abstract.dart';
 import 'package:jiffy/jiffy.dart';
 
 class Constant{
@@ -53,8 +52,6 @@ class Constant{
 
 
 
-  // classes
-  static ShouldImp callBack;
 
   //Birthday Picker
   static  var initialDate=Jiffy()..subtract(years: 100);

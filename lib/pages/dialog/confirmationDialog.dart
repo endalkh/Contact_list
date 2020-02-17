@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/utilities/confirmation_abstract/confirmation_abstract.dart';
-
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 class ConfirmationDialog {
 String title;
 ShouldImp callback;
