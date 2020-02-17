@@ -26,62 +26,48 @@ class Notes extends StatelessWidget implements NoteDelAndEdit{
     builder: (context, snapshot) {
     if (snapshot.hasData) {
       return Padding(
-        padding: EdgeInsets.all(10),
-        child: ListView.builder(
+        padding: EdgeInsets.all(5.0),
+        child: Container(
+          height: getHeight(context),
+          child: ListView.builder(
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Container(
-                  height: getHeight(context),
-                  child: ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
+              return Card(
+                margin: EdgeInsets.only(top: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: ListTile(
+                            title: Text(snapshot.data[index].body),
+                            onLongPress: () {
+                              print("hello");
+                              DeleteAndEditNotesDialog(
+                                context: context,
+                                title: "",
+                                callback: Notes(),
 
-                      return Card(
-                        margin: EdgeInsets.only(top: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+                              );
+                            },
+
+                          ),
                         ),
-                        child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: ListTile(
-                                    title:  Text(snapshot.data[index].body),
-                                    onLongPress: (){
-                                      print("hello");
-                                      DeleteAndEditNotesDialog(
-                                          context: context,
-                                          title: "",
-                                          callback: Notes(),
 
-                                      );
-                                    },
-
-                                  ),
-                                ),
-
-                              ],
-                            )
-                        ),
-                      );
-
-
-                    },
-                  ),
+                      ],
+                    )
                 ),
               );
-
-
-            }
+            },
+          ),
         ),
       );
+    }
 
-
-      }
 
     else if (snapshot.hasError) {
       return Center(

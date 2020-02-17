@@ -28,6 +28,7 @@ dependencies:
   rounded_letter: ^0.0.6
   jiffy: ^2.2.0
   intl: ^0.16.0
+  font_awesome_flutter:
 
 
 
