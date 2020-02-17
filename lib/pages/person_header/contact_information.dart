@@ -4,12 +4,12 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/pages/person_header/add_email.dart';
 import 'package:flutter_app/pages/person_header/notes.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/get_icon_type.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class ContactInfo extends StatelessWidget {
@@ -91,11 +91,11 @@ class ContactInfo extends StatelessWidget {
                       return circularIndicator(context: context);
                     }
                 ),
-                   Divider(),
+
                             ListTile(
                               leading: Icon(Icons.add,size: 30,color: PRIMARY_COLOR,),
                               title: Text(
-                                'Add Phone',
+                                'Add Phone number',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400, fontSize: 17),
                               ),
@@ -170,6 +170,25 @@ class ContactInfo extends StatelessWidget {
                           }
                       ),
 
+                ListTile(
+                  leading: Icon(Icons.add,size: 30,color: PRIMARY_COLOR,),
+                  title: Text(
+                    'Add Email address',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 17),
+                  ),
+                  onTap: (){
+                    Provider.of<Auth>(context,listen: false).setAddEmail(!Provider.of<Auth>(context,listen: false).getAddEmail());
+                  },
+                ),
+                 Provider.of<Auth>(context,listen: false).getAddEmail()==true?
+                 Container(
+                   height:150 ,
+                 child:AddEmail()):Container(),
+
+
+
+                Divider(),
                 Text(
                   'Notes',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),

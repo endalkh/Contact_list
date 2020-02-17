@@ -14,17 +14,17 @@ class AddEmail extends StatefulWidget{
 
 class _AddEmail extends State<AddEmail>{
 
-  List<EmailType> emailType = EmailType.getEmails();
-  List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
-  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  List<DropdownMenuItem<PhoneType>> phoneDropdownMenuItems;
+  PhoneType selectPhone;
 
-  EmailType selectEmail;
+  List<PhoneType> phoneType = PhoneType.getPhones();
 
 
   @override
   void initState() {
-    emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
-    selectEmail = emailDropdownMenuItems[0].value;
+    phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
+    selectPhone = phoneDropdownMenuItems[0].value;
     super.initState();
   }
   submitForm(){
@@ -67,30 +67,16 @@ class _AddEmail extends State<AddEmail>{
     return items;
   }
 
-  List<DropdownMenuItem<EmailType>> emailBuildDropdownMenuItems(
-      List emailTypes) {
-    List<DropdownMenuItem<EmailType>> items = List();
-    for (EmailType emailType in emailTypes) {
-      items.add(
-        DropdownMenuItem(
-          value: emailType,
-          child: Text(emailType.name),
-        ),
-      );
-    }
-    return items;
-  }
 
-
-  emailOnChangeDropdownItem(EmailType email) {
+  phoneOnChangeDropdownItem(PhoneType phone) {
     setState(() {
-      selectEmail = email;
+      selectPhone = phone;
     });
   }
 
 
 
-  emailTypeButton() {
+  phoneNumberButton() {
     return Container(
       height: 55,
       decoration: BoxDecoration(
@@ -100,18 +86,18 @@ class _AddEmail extends State<AddEmail>{
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
           child: Row(
-            children: <Widget>[
+            children: [
               Expanded(
                 flex: 2,
                 child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
+                    children: [
                       DropdownButton(
-                        value: selectEmail,
-                        items: emailDropdownMenuItems,
-                        onChanged: emailOnChangeDropdownItem,
+                        value: selectPhone,
+                        items: phoneDropdownMenuItems,
+                        onChanged: phoneOnChangeDropdownItem,
                       ),
                     ],
                   ),
@@ -120,10 +106,12 @@ class _AddEmail extends State<AddEmail>{
               Expanded(
                 flex: 4,
                 child: TextFormField(
-                  controller: emailController,
+                  controller: phoneController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    hintText: "example@example.com",
+
+                    hintText: "+1(424) 341-3346",
+
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -180,7 +168,7 @@ class _AddEmail extends State<AddEmail>{
 
                       Padding(
                         padding: EdgeInsets.all(10),
-                        child: emailTypeButton(),
+                        child: phoneNumberButton(),
                       ),
 
                       SizedBox(

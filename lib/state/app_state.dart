@@ -67,6 +67,7 @@ class Auth with ChangeNotifier {
   String token;
   int page=0;
   List<GetAllContact> allContactList;
+  bool addEmail=false,addPhone=false;
 
   getIsLoadingFun(){
     return isLoading;
@@ -147,6 +148,22 @@ class Auth with ChangeNotifier {
 
   getHomePageTabFun(){
    return page;
+  }
+
+  setAddEmail(val){
+    this.addEmail=val;
+    notifyListeners();
+  }
+  getAddEmail(){
+    return this.addEmail;
+  }
+
+  setAddPhone(val){
+    this.addPhone=val;
+    notifyListeners();
+  }
+  getAddPhone(val){
+    return this.addPhone;
   }
 
 
