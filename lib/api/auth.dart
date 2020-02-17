@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/model/add_new_person.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
+import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
+import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/api/model/login.dart';
@@ -374,8 +376,7 @@ String error;
       "birthday": "2011-11-11T00:00:00Z"
     }
   ];
-//
-  return test.map((data) => GetAllContact.fromJson(data)).toList();
+
 
   try {
     final response = await http.get(
@@ -473,8 +474,6 @@ String error;
       "last_contact": "2011-11-11T00:00:00Z"
     }
   ];
-//
-  return   test.map((data) => GetLastContact.fromJson(data)).toList();
   try {
     final response = await http.get(
         API.UPCOMING_BIRTHDAY_API,
@@ -543,7 +542,7 @@ String error;
     "birthday": "2020-11-11T00:00:00Z",
     "last_contact": "2020-02-16T10:12:53.105593Z"
   };
-return GetSinglePerson.fromJson(test);
+
   try {
     final response = await http.get(
         API.GET_SINGLE_PERSON_API+"id="+id,
@@ -639,6 +638,165 @@ return test.map((data) => GetNoteList.fromJson(data)).toList();
       case 201:
         var responseJson = await json.decode(response.body);
         return test.map((data) => GetNoteList.fromJson(data)).toList();
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
+
+Future<List<GetEmail>> getEmailListApi({@required token,@required personId}) async {
+String error;
+
+  List<Map<String, String>> test=[
+    {
+      "id": "ed8f6c10-3d51-4258-8778-afdea61ca2e9",
+      "type": "personal",
+      "address": "john@example.com"
+    },
+    {
+      "id": "033b60e3-67fb-484f-99fd-71557d8b566b",
+      "type": "personal",
+      "address": "johnd@example.com"
+    },
+    {
+      "id": "6e8d298b-5bef-485c-8136-2e6db5f6916b",
+      "type": "personal",
+      "address": "john1@example.com"
+    }
+  ];
+  try {
+    final response = await http.get(
+      API.GET_EMAIL_API+"personId="+personId,
+      headers: {
+        "Authorization" : token,
+      },
+    );
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return test.map((data) => GetEmail.fromJson(data)).toList();
+      case 201:
+        var responseJson = await json.decode(response.body);
+        return test.map((data) => GetEmail.fromJson(data)).toList();
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
+Future<List<GetPhone>> getPhoneListApi({@required token,@required personId}) async {
+String error;
+
+  List<Map<String, String>> test=[
+    {
+      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
+      "type": "mobile",
+      "number": "5551234567"
+    },
+    {
+      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
+      "type": "home",
+      "number": "5551234567"
+    }
+  ];
+
+  try {
+    final response = await http.get(
+      API.GET_PHONE_API+"personId="+personId,
+      headers: {
+        "Authorization" : token,
+      },
+    );
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return test.map((data) => GetPhone.fromJson(data)).toList();
+      case 201:
+        var responseJson = await json.decode(response.body);
+        return test.map((data) => GetPhone.fromJson(data)).toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
