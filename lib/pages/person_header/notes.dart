@@ -50,7 +50,7 @@ class Notes extends StatelessWidget implements NoteDelAndEdit{
                             onLongPress: () {
                               DeleteAndEditNotesDialog(
                                 context: context,
-                                title: "",
+                                personId: personId,
                                 callback: Notes(),
 
                               );
@@ -100,14 +100,13 @@ class Notes extends StatelessWidget implements NoteDelAndEdit{
   }
 
   @override
-  deleteNote(id) {
+  deleteNote({personId,context,contextDialog}) {
     // TODO: implement deleteNote
     return null;
   }
 
   @override
-  editNote(id) {
-    print(id);
+  editNote({personId,context,contextDialog}) {
     return null;
   }
 

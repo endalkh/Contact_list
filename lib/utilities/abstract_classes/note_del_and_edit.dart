@@ -1,4 +1,4 @@
 abstract class NoteDelAndEdit {
-  deleteNote(id);
-  editNote(id);
+  deleteNote({personId,context,contextDialog});
+  editNote({personId,context,contextDialog});
 }

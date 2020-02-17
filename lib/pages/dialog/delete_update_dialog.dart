@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
 
 class DeleteAndEditNotesDialog {
-  String title;
+  String personId;
   NoteDelAndEdit callback;
-  DeleteAndEditNotesDialog({@required context,@required title,@required callback}){
-    this.title=title;
+  BuildContext contextDialog;
+  BuildContext context;
+  DeleteAndEditNotesDialog({@required context,@required personId,@required callback}){
+
+    this.personId=personId;
     this.callback=callback;
+    this.context=context;
     _alertDialog(context);
   }
   _alertDialog(BuildContext context) {
+    this.contextDialog=context;
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -38,7 +42,12 @@ class DeleteAndEditNotesDialog {
                         color: Colors.blue,
                         colorBrightness: Brightness.dark,
                         onPressed: (){
-                            callback.editNote("id");
+                            callback.editNote(
+                                personId: personId,
+                                context:this.context,
+                              contextDialog: contextDialog
+
+                            );
                         },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                       ) ,
@@ -57,7 +66,12 @@ class DeleteAndEditNotesDialog {
                         color: Colors.red,
                         colorBrightness: Brightness.dark,
                         onPressed: (){
-                          callback.deleteNote("");
+
+                          callback.deleteNote(
+                            contextDialog: contextDialog,
+                            context:this.context,
+                            personId: personId
+                          );
                         },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                       ) ,
