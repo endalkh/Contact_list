@@ -9,7 +9,6 @@ class ContactInfo extends StatelessWidget{
   ContactInfo({@required this.personId});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(
