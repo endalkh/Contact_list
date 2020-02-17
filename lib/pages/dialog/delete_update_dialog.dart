@@ -3,13 +3,13 @@ import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 
 class DeleteAndEditNotesDialog {
-  String personId;
+  String id;
   NoteDelAndEdit callback;
   BuildContext contextDialog;
   BuildContext context;
-  DeleteAndEditNotesDialog({@required context,@required personId,@required callback}){
+  DeleteAndEditNotesDialog({@required context,@required id,@required callback}){
 
-    this.personId=personId;
+    this.id=id;
     this.callback=callback;
     this.context=context;
     _alertDialog(context);
@@ -43,7 +43,7 @@ class DeleteAndEditNotesDialog {
                         colorBrightness: Brightness.dark,
                         onPressed: (){
                             callback.editNote(
-                                personId: personId,
+                                id: id,
                                 context:this.context,
                               contextDialog: contextDialog
 
@@ -70,7 +70,7 @@ class DeleteAndEditNotesDialog {
                           callback.deleteNote(
                             contextDialog: contextDialog,
                             context:this.context,
-                            personId: personId
+                            id: id
                           );
                         },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),

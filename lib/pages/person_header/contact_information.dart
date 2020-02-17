@@ -18,10 +18,7 @@ class ContactInfo extends StatelessWidget{
     this.contextClass=context;
 
     return Scaffold(
-        body: Provider.of<Auth>(context).getEditPhone()==true?
-        UpdatePhone(personId: personId,):
-
-        SingleChildScrollView(
+        body: SingleChildScrollView(
             child: Column(
 
               children: [

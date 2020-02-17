@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
+import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
@@ -7,55 +8,63 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
-class UpdatePhone extends StatefulWidget{
-  String personId;
-  UpdatePhone({@required this.personId});
+class UpdatePhone extends StatefulWidget {
+  String id;
 
-  _UpdatePhone createState()=>_UpdatePhone(personId);
+
+  UpdatePhone({@required this.id});
+
+  _UpdatePhone createState() => _UpdatePhone(id);
 }
 
-class _UpdatePhone extends State<UpdatePhone>{
-
+class _UpdatePhone extends State<UpdatePhone> {
   TextEditingController phoneController = TextEditingController();
   List<DropdownMenuItem<PhoneType>> phoneDropdownMenuItems;
   PhoneType selectPhone;
+  BuildContext context;
 
   List<PhoneType> phoneType = PhoneType.getPhones();
 
-  String personId;
-  _UpdatePhone(this.personId){
-    this.personId=personId;
-  }
+  String id;
 
+  _UpdatePhone(this.id) {
+    this.id = id;
+  }
 
   @override
   void initState() {
-    phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
-    selectPhone = phoneDropdownMenuItems[0].value;
+
+
     super.initState();
   }
-  submitForm(){
-    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-    var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addPhone =  addPhoneApi(
-        token:token ,
-        personId: personId,
+
+  @override
+  void dispose(){
+    phoneController.dispose();
+    super.dispose();
+  }
+
+  submitForm() {
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+    var addPhone = addPhoneApi(
+        token: token,
+        personId: id,
         type: phoneType.toString(),
-        number: phoneController.text
-
-    );
-    addPhone.then((value) async{
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        number: phoneController.text);
+    addPhone.then((value) async {
+      Provider.of<Auth>(context, listen: false)
+          .setSuccessfullyRegisteredFun(true);
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
     });
 
-    addPhone.catchError((value) async{
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
-
+    addPhone.catchError((value) async {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context, listen: false)
+          .setSuccessfullyRegisteredFun(false);
+      Provider.of<Auth>(context, listen: false)
+          .setHasErrorFun(value.toString());
     });
-
   }
 
   List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(
@@ -72,14 +81,11 @@ class _UpdatePhone extends State<UpdatePhone>{
     return items;
   }
 
-
   phoneOnChangeDropdownItem(PhoneType phone) {
     setState(() {
       selectPhone = phone;
     });
   }
-
-
 
   phoneNumberButton() {
     return Container(
@@ -114,8 +120,15 @@ class _UpdatePhone extends State<UpdatePhone>{
                   controller: phoneController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-
                     hintText: "+1(424) 341-3346",
+                    suffixIcon: IconButton(
+
+                        icon: Icon(Icons.check_circle,color: Colors.blue),
+                      onPressed: (){
+                      },
+
+
+                    ),
 
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -150,64 +163,114 @@ class _UpdatePhone extends State<UpdatePhone>{
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return
-      Consumer<Auth>(
-        builder: (BuildContext context, Auth value, Widget child) =>
-        value.getIsLoadingFun()==true?circularIndicator(context: context):
-        Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
+    print("hello world");
 
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: phoneNumberButton(),
-                      ),
+this.context=context;
 
+    phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
+    Future<GetPhone> phoneApi =  getSinglePhoneApi(
+      token: Provider.of<Auth>(context).getTokenFun(),
+      personId: id,
+    );
 
-                      value.getHasErrorFun().toString().isNotEmpty==true?Text(Provider.of<Auth>(context,listen: false).getHasErrorFun(),
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      ):Container(),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        child: submitButton(),
-                      ),
+    phoneApi.then((val)  {
+      switch (val.type) {
+        case "Mobile":
+          selectPhone = phoneDropdownMenuItems[0].value;
+          break;
 
-                    ],
+        case "Home":
+          selectPhone = phoneDropdownMenuItems[1].value;
+          break;
+
+        case "Work":
+          selectPhone = phoneDropdownMenuItems[2].value;
+          break;
+        case "Fax":
+          selectPhone = phoneDropdownMenuItems[3].value;
+          break;
+        case "Line":
+          selectPhone = phoneDropdownMenuItems[4].value;
+          break;
+        default:
+          selectPhone = phoneDropdownMenuItems[0].value;
+          break;
+      }
+      phoneController.text=val.number;
+    });
+    phoneApi.catchError((val) {
+//      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+
+    });
+
+    return SingleChildScrollView(
+        child:Column(
+children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(10),
+                    child: phoneNumberButton(),
                   ),
-                ),
-              ],
-            ),
+        ],
+    ),
+    );
 
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => {
-            Provider.of<Auth>(context,listen: false).setEditPhone(false)
-            },
-            backgroundColor: PRIMARY_COLOR,
-            child: Icon(
-            Icons.contacts,
-              color: lightBG,
-            ),
-          ),
-        ),
+//      SingleChildScrollView(
+//        child: Column(
+//          children: [
+////            Container(
+////              padding: EdgeInsets.symmetric(horizontal: 15),
+////              child: Column(
+////                crossAxisAlignment: CrossAxisAlignment.center,
+////                mainAxisAlignment: MainAxisAlignment.center,
+////                children: [
+////                  SizedBox(
+////                    height: 10,
+////                  ),
+////                  Padding(
+////                    padding: EdgeInsets.all(10),
+////                    child: phoneNumberButton(),
+////                  ),
+//////                  value.getHasErrorFun().toString().isNotEmpty == true
+//////                      ? Text(
+//////                    Provider.of<Auth>(context, listen: false)
+//////                        .getHasErrorFun(),
+//////                    style: TextStyle(
+//////                      color: Colors.red,
+//////                    ),
+//////                  )
+//////                      : Container(),
+////                  Container(
+////                    margin: EdgeInsets.only(left: 10, right: 10),
+////                    child: submitButton(),
+////                  ),
+////                ],
+////              ),
+////            ),
+//            phoneNumberButton(),
+//          ],
+//        ),
+//      ),
+//      floatingActionButton: FloatingActionButton(
+//        onPressed: () => {
+//          Provider.of<Auth>(context, listen: false).setEditPhone(false)
+//        },
+//        backgroundColor: PRIMARY_COLOR,
+//        child: Icon(
+//          Icons.contacts,
+//          color: lightBG,
+//        ),
+//      ),
+//    );
 
-      );
+//      Consumer<Auth>(
+//      builder: (BuildContext context, Auth value, Widget child) =>
+//      value.getIsLoadingFun() == true ? circularIndicator(context: context)
+//          :
+//
 
+//    );
   }
 }
-

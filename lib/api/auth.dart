@@ -764,6 +764,78 @@ String error;
     throw error;
   }
 }
+Future<GetEmail> getSingleEmailApi({@required token,@required id}) async {
+String error;
+
+ Map<String, String> test=
+    {
+      "id": "ed8f6c10-3d51-4258-8778-afdea61ca2e9",
+      "type": "personal",
+      "address": "john@example.com"
+    };
+
+  try {
+    final response = await http.get(
+      API.GET_EMAIL_API+"id="+id,
+      headers: {
+        "Authorization" : token,
+      },
+    );
+    print(response.body);
+
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return GetEmail.fromJson(test);
+      case 201:
+        var responseJson = await json.decode(response.body);
+        return GetEmail.fromJson(test);
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
 Future<List<GetPhone>> getPhoneListApi({@required token,@required personId}) async {
 String error;
 
@@ -796,6 +868,78 @@ String error;
       case 201:
         var responseJson = await json.decode(response.body);
         return test.map((data) => GetPhone.fromJson(data)).toList();
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
+
+Future <GetPhone> getSinglePhoneApi({@required token,@required personId}) async {
+String error;
+
+  Map<String, String> test=
+    {
+      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
+      "type": "mobile",
+      "number": "5551234567"
+    };
+
+  try {
+    final response = await http.get(
+      API.GET_PHONE_API+"personId="+personId,
+      headers: {
+        "Authorization" : token,
+      },
+    );
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return GetPhone.fromJson(test);
+      case 201:
+        var responseJson = await json.decode(response.body);
+        return  GetPhone.fromJson(test);
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");

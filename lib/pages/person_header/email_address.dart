@@ -110,13 +110,13 @@ class EmailAddress extends StatelessWidget implements NoteDelAndEdit {
   }
 
   @override
-  deleteNote({personId, context, contextDialog}) {
+  deleteNote({id, context, contextDialog}) {
     // TODO: implement deleteNote
     return null;
   }
 
   @override
-  editNote({personId, context, contextDialog}) {
+  editNote({id, context, contextDialog}) {
     // TODO: implement editNote
     return null;
   }

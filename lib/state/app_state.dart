@@ -70,7 +70,8 @@ class Auth with ChangeNotifier {
   bool addEmail=false,addPhone=false;
   bool addNote=false;
   bool editPhone=false;
-   BuildContext context;
+  String id="";
+
 
   getIsLoadingFun(){
     return isLoading;
@@ -185,13 +186,14 @@ class Auth with ChangeNotifier {
     return this.editPhone;
   }
 
-  setContext(val){
-    this.context=val;
+  setId(val){
+    this.id=val;
     notifyListeners();
   }
-  getContext(){
-    return this.context;
+  getId(){
+    return this.id;
   }
+
 
 }
 

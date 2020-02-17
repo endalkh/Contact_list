@@ -5,6 +5,7 @@ import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
 import 'package:flutter_app/pages/person_header/add_phone.dart';
+import 'package:flutter_app/pages/person_header/update_phone.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
@@ -18,7 +19,9 @@ class PhoneNumber extends StatelessWidget implements NoteDelAndEdit{
   @override
   Widget build(BuildContext context) {
 this.context=context;
-    return Column(
+    return Provider.of<Auth>(context).getEditPhone()==true?UpdatePhone(id:Provider.of<Auth>(context).getId()):
+
+      Column(
       children: <Widget>[
         Text(
           'Phone Numbers',
@@ -63,7 +66,7 @@ this.context=context;
                                                 fontSize: 17),
                                           ),
                                           onLongPress: (){
-                                            DeleteAndEditNotesDialog(context: context,callback:PhoneNumber(),personId: personId );
+                                            DeleteAndEditNotesDialog(context: context,callback:PhoneNumber(),id: snapshot.data[index].id );
                                           },
                                         ),
                                       ]
@@ -113,14 +116,18 @@ this.context=context;
   }
 
   @override
-  deleteNote({personId, context, contextDialog}) {
-    // TODO: implement deleteNote
+  deleteNote({id, context, contextDialog}) {
+
     return null;
   }
 
   @override
-  editNote({personId, context, contextDialog}) {
-    // TODO: implement editNote
+  editNote({id, context, contextDialog}) async{
+    await Provider.of<Auth>(context,listen: false).setEditPhone(true);
+    Provider.of<Auth>(context,listen: false).setId(id);
+    Navigator.pop(context);
+    print(id);
+//    UpdatePhone(id: id,);
     return null;
   }
 
