@@ -102,7 +102,8 @@ class ContactInfo extends StatelessWidget {
                               ),
                               onTap: (){
                                 Provider.of<Auth>(context,listen: false).setAddPhone(!Provider.of<Auth>(context,listen: false).getAddPhone());
-                              },
+                                Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+                                },
                             ),
                 Provider.of<Auth>(context,listen: false).getAddPhone()==true?
                 Container(
@@ -184,6 +185,7 @@ class ContactInfo extends StatelessWidget {
                         fontWeight: FontWeight.w400, fontSize: 17),
                   ),
                   onTap: (){
+                    Provider.of<Auth>(context,listen: false).setHasErrorFun("");
                     Provider.of<Auth>(context,listen: false).setAddEmail(!Provider.of<Auth>(context,listen: false).getAddEmail());
                   },
                 ),
@@ -208,7 +210,9 @@ class ContactInfo extends StatelessWidget {
 
               ],
             )
-        )
+        ),
+
+
     );
   }
 }

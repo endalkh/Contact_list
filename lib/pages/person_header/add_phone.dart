@@ -177,11 +177,11 @@ class _AddPhone extends State<AddPhone>{
                       ),
 
 
-                      Text(Provider.of<Auth>(context,listen: false).getHasErrorFun(),
+                      value.getHasErrorFun().toString().isNotEmpty==true?Text(Provider.of<Auth>(context,listen: false).getHasErrorFun(),
                         style: TextStyle(
                           color: Colors.red,
                         ),
-                      ),
+                      ):Container(),
                       Container(
                         margin: EdgeInsets.only(left: 10, right: 10),
                         child: submitButton(),

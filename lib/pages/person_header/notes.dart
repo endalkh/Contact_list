@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
+import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
@@ -46,7 +47,6 @@ class Notes extends StatelessWidget implements NoteDelAndEdit{
                           child: ListTile(
                             title: Text(snapshot.data[index].body),
                             onLongPress: () {
-                              print("hello");
                               DeleteAndEditNotesDialog(
                                 context: context,
                                 title: "",
@@ -82,6 +82,16 @@ class Notes extends StatelessWidget implements NoteDelAndEdit{
 
 
             ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => {
+
+          },
+          backgroundColor: PRIMARY_COLOR,
+          child: Icon(
+            Icons.add,
+            color: lightBG,
+          ),
+        ),
 
 
         );

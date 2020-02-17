@@ -9,7 +9,9 @@ import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
 class AddEmail extends StatefulWidget{
-  _AddEmail createState()=>_AddEmail();
+  String personId;
+  AddEmail({@required this.personId});
+  _AddEmail createState()=>_AddEmail(personId);
 }
 
 class _AddEmail extends State<AddEmail>{
@@ -19,7 +21,8 @@ class _AddEmail extends State<AddEmail>{
   TextEditingController emailController = TextEditingController();
 
   EmailType selectEmail;
-
+  String personId;
+_AddEmail(this.personId);
 
   @override
   void initState() {
@@ -30,16 +33,19 @@ class _AddEmail extends State<AddEmail>{
   submitForm(){
     Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
     var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addNewPerson =  addNewPersonApi(
-      token:token ,
-    );
-    addNewPerson.then((value) async{
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
+    var addPhone =  addEmailApi(
+        token:token ,
+        personId: personId,
+        type: emailType.toString(),
+        address: emailController.text
 
+    );
+    addPhone.then((value) async{
+      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
     });
 
-    addNewPerson.catchError((value) async{
+    addPhone.catchError((value) async{
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
 
@@ -159,8 +165,7 @@ class _AddEmail extends State<AddEmail>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return WillPopScope(
-      child:Consumer<Auth>(
+    return Consumer<Auth>(
         builder: (BuildContext context, Auth value, Widget child) =>
         value.getIsLoadingFun()==true?circularIndicator(context: context):
         Scaffold(
@@ -182,9 +187,11 @@ class _AddEmail extends State<AddEmail>{
                         child: emailTypeButton(),
                       ),
 
-                      SizedBox(
-                        height: 10,
-                      ),
+                      value.getHasErrorFun().toString().isNotEmpty==true?Text(Provider.of<Auth>(context,listen: false).getHasErrorFun(),
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ):Container(),
                       Container(
                         margin: EdgeInsets.only(left: 10, right: 10),
                         child: submitButton(),
@@ -198,13 +205,9 @@ class _AddEmail extends State<AddEmail>{
 
           ),
         ),
-      ),
-      onWillPop: (){
-        Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-        Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-        return Future(()=>true);
-      },
-    );
+      );
+
+
   }
 }
 
