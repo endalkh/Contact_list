@@ -107,7 +107,7 @@ class ContactInfo extends StatelessWidget {
                 Provider.of<Auth>(context,listen: false).getAddPhone()==true?
                 Container(
                     height:150 ,
-                    child:AddPhone()):Container(),
+                    child:AddPhone(personId: personId,)):Container(),
                 Divider(),
 
                 Text(

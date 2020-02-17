@@ -32,7 +32,6 @@ class _AddEmail extends State<AddEmail>{
     var token=Provider.of<Auth>(context,listen: false).getTokenFun();
     var addNewPerson =  addNewPersonApi(
       token:token ,
-
     );
     addNewPerson.then((value) async{
       Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);

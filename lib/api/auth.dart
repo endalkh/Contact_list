@@ -842,38 +842,26 @@ String error;
   }
 }
 
-Future<List<GetPhone>> addPhoneApi({@required token,@required personId}) async {
+ addPhoneApi({@required token,@required personId,@required type,@required number}) async {
 String error;
-
-  List<Map<String, String>> test=[
-    {
-      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-      "type": "mobile",
-      "number": "5551234567"
-    },
-    {
-      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-      "type": "home",
-      "number": "5551234567"
-    }
-  ];
-
+var params = {
+  "type": type,
+  "number": number,
+};
   try {
-    final response = await http.get(
-      API.GET_PHONE_API+"personId="+personId,
+    final response = await http.post(
+      API.ADD_PHONE_API+"personId="+personId,
       headers: {
         "Authorization" : token,
       },
+      body: params,
     );
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
 
-        return test.map((data) => GetPhone.fromJson(data)).toList();
+        return response.statusCode;
       case 201:
-        var responseJson = await json.decode(response.body);
-        return test.map((data) => GetPhone.fromJson(data)).toList();
+        return response.statusCode;
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -919,38 +907,30 @@ String error;
     throw error;
   }
 }
-Future<List<GetPhone>> AddEmailApi({@required token,@required personId}) async {
+addEmailApi({@required token,@required personId,@required type,@required address}) async {
 String error;
 
-  List<Map<String, String>> test=[
-    {
-      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-      "type": "mobile",
-      "number": "5551234567"
-    },
-    {
-      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-      "type": "home",
-      "number": "5551234567"
-    }
-  ];
+var params = {
+  "type": type,
+  "address": address,
+};
 
   try {
-    final response = await http.get(
-      API.GET_PHONE_API+"personId="+personId,
+    final response = await http.post(
+      API.ADD_EMAIL_API+"personId="+personId,
       headers: {
         "Authorization" : token,
       },
+      body: params,
     );
     print(response.statusCode);
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
 
-        return test.map((data) => GetPhone.fromJson(data)).toList();
+        return true;
       case 201:
-        var responseJson = await json.decode(response.body);
-        return test.map((data) => GetPhone.fromJson(data)).toList();
+        return true;
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");

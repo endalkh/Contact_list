@@ -8,7 +8,10 @@ import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
 class AddPhone extends StatefulWidget{
-  _AddPhone createState()=>_AddPhone();
+  String personId;
+  AddPhone({@required this.personId});
+
+  _AddPhone createState()=>_AddPhone(personId);
 }
 
 class _AddPhone extends State<AddPhone>{
@@ -18,6 +21,11 @@ class _AddPhone extends State<AddPhone>{
   PhoneType selectPhone;
 
   List<PhoneType> phoneType = PhoneType.getPhones();
+
+  String personId;
+  _AddPhone(this.personId){
+    print(personId);
+  }
 
 
   @override
@@ -29,24 +37,22 @@ class _AddPhone extends State<AddPhone>{
   submitForm(){
     Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
     var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addNewPerson =  addNewPersonApi(
+    var addPhone =  addPhoneApi(
       token:token ,
+      personId: personId,
+      type: phoneType.toString(),
+      number: phoneController.text
 
     );
-    addNewPerson.then((value) async{
+    addPhone.then((value) async{
       Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
-
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
     });
 
-    addNewPerson.catchError((value) async{
+    addPhone.catchError((value) async{
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-
       Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
-
-
-
 
     });
 
@@ -170,8 +176,11 @@ class _AddPhone extends State<AddPhone>{
                         child: phoneNumberButton(),
                       ),
 
-                      SizedBox(
-                        height: 10,
+
+                      Text(Provider.of<Auth>(context,listen: false).getHasErrorFun(),
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 10, right: 10),
