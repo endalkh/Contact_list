@@ -11,5 +11,6 @@ class API{
   static const String GET_EMAIL_API=COMMON_API+"email/list?";
   static const String ADD_EMAIL_API=COMMON_API+"email?";
   static const String ADD_PHONE_API=COMMON_API+"phone-number?";
+  static const String ADD_NOTE_API=COMMON_API+"note?";
 
 }

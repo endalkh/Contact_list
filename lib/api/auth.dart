@@ -977,3 +977,73 @@ var params = {
   }
 }
 
+
+addNoteApi({@required token,@required personId,@required body}) async {
+String error;
+
+var params = {
+  "body": body,
+};
+
+  try {
+    final response = await http.post(
+      API.ADD_NOTE_API+"personId="+personId,
+      headers: {
+        "Authorization" : token,
+      },
+      body: params,
+    );
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return true;
+      case 201:
+        return true;
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
+

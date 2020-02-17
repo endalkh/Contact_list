@@ -15,9 +15,7 @@ class AddNote extends StatefulWidget{
 
 class _AddNote extends State<AddNote>{
 
-  List<EmailType> emailType = EmailType.getEmails();
-  List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
-  TextEditingController emailController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
 
   EmailType selectEmail;
   String personId;
@@ -26,11 +24,10 @@ class _AddNote extends State<AddNote>{
   submitForm(){
     Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
     var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addPhone =  addEmailApi(
+    var addPhone =  addNoteApi(
         token:token ,
         personId: personId,
-        type: emailType.toString(),
-        address: emailController.text
+        body: noteController.text
 
     );
     addPhone.then((value) async{
@@ -69,7 +66,7 @@ class _AddNote extends State<AddNote>{
             borderRadius: BorderRadius.circular(10.0),
             elevation: 12,
             child: TextFormField(
-              // controller: nameController,
+               controller: noteController,
               keyboardType: TextInputType.text,
               maxLines: 10,
               decoration: InputDecoration(
