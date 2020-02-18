@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_email.dart';
-import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
 import 'package:flutter_app/pages/person_header/add_email.dart';
-import 'package:flutter_app/pages/person_header/add_phone.dart';
+import 'package:flutter_app/pages/person_header/update_email.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
@@ -21,7 +20,7 @@ class EmailAddress extends StatelessWidget implements NoteDelAndEdit {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Provider.of<Auth>(context).getEditEmail()==true?UpdateEmail(id:Provider.of<Auth>(context).getId()): Column(
         children: <Widget>[
           Text(
             'Email Information',
@@ -63,6 +62,10 @@ class EmailAddress extends StatelessWidget implements NoteDelAndEdit {
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 17),
                                             ),
+                                            onLongPress:(){
+                                              DeleteAndEditNotesDialog(context: context,callback:EmailAddress(),id: snapshot.data[index].id );
+
+                                            },
                                           ),
                                         ]
                                     ),
@@ -110,14 +113,16 @@ class EmailAddress extends StatelessWidget implements NoteDelAndEdit {
   }
 
   @override
-  deleteNote({id, context, contextDialog}) {
-    // TODO: implement deleteNote
+  deleteNote({id, context, contextDialog}) async{
+
     return null;
   }
 
   @override
-  editNote({id, context, contextDialog}) {
-    // TODO: implement editNote
+  editNote({id, context, contextDialog}) async{
+    await Provider.of<Auth>(context,listen: false).setEditEmail(true);
+    Provider.of<Auth>(context,listen: false).setId(id);
+    Navigator.pop(context);
     return null;
   }
 }

@@ -287,6 +287,7 @@ List<Map<String, String>> test=[
           "Authorization" : token,
         },
     );
+    return test.map((data) => GetAllContact.fromJson(data)).toList();
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -376,6 +377,7 @@ String error;
       "birthday": "2011-11-11T00:00:00Z"
     }
   ];
+return test.map((data) => GetAllContact.fromJson(data)).toList();
 
 
   try {
@@ -542,6 +544,7 @@ String error;
     "birthday": "2020-11-11T00:00:00Z",
     "last_contact": "2020-02-16T10:12:53.105593Z"
   };
+return  GetSinglePerson.fromJson(test);
 
   try {
     final response = await http.get(
@@ -550,6 +553,7 @@ String error;
           "Authorization" : token,
         },
     );
+
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -621,14 +625,16 @@ String error;
       "updated_at": "0001-01-01T00:00:00Z"
     }
   ];
-  try {
+return test.map((data) => GetNoteList.fromJson(data)).toList();
+
+try {
     final response = await http.get(
       API.GET_LIST_NOTE_API+"personId="+personId+"&after="+after+"&limit=$limit",
       headers: {
         "Authorization" : token,
       },
     );
-    print(response.statusCode);
+
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -703,7 +709,9 @@ String error;
       "address": "john1@example.com"
     }
   ];
-  try {
+return test.map((data) => GetEmail.fromJson(data)).toList();
+
+try {
     final response = await http.get(
       API.GET_EMAIL_API+"personId="+personId,
       headers: {
@@ -773,15 +781,16 @@ String error;
       "type": "personal",
       "address": "john@example.com"
     };
+return GetEmail.fromJson(test);
 
-  try {
+
+try {
     final response = await http.get(
       API.GET_EMAIL_API+"id="+id,
       headers: {
         "Authorization" : token,
       },
     );
-    print(response.body);
 
     switch (response.statusCode) {
       case 200:
@@ -851,15 +860,16 @@ String error;
       "number": "5551234567"
     }
   ];
+return test.map((data) => GetPhone.fromJson(data)).toList();
 
-  try {
+
+try {
     final response = await http.get(
       API.GET_PHONE_API+"personId="+personId,
       headers: {
         "Authorization" : token,
       },
     );
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -923,8 +933,10 @@ String error;
       "type": "mobile",
       "number": "5551234567"
     };
+return  GetPhone.fromJson(test);
 
-  try {
+
+try {
     final response = await http.get(
       API.GET_PHONE_API+"personId="+personId,
       headers: {
@@ -992,6 +1004,8 @@ var params = {
   "type": type,
   "number": number,
 };
+return 200;
+
   try {
     final response = await http.post(
       API.ADD_PHONE_API+"personId="+personId,
@@ -1067,7 +1081,7 @@ var params = {
       },
       body: params,
     );
-    print(response.statusCode);
+    return true;
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -1128,6 +1142,7 @@ String error;
 var params = {
   "body": body,
 };
+return true;
 
   try {
     final response = await http.post(

@@ -126,7 +126,6 @@ this.context=context;
     await Provider.of<Auth>(context,listen: false).setEditPhone(true);
     Provider.of<Auth>(context,listen: false).setId(id);
     Navigator.pop(context);
-    print(id);
 //    UpdatePhone(id: id,);
     return null;
   }

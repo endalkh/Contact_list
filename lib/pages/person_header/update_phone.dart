@@ -3,7 +3,6 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
@@ -122,18 +121,26 @@ class _UpdatePhone extends State<UpdatePhone> {
                   decoration: InputDecoration(
                     hintText: "+1(424) 341-3346",
                     suffixIcon: IconButton(
-
-                        icon: Icon(Icons.check_circle,color: Colors.blue),
-                      onPressed: (){
-                      },
+                          icon: Icon(Icons.check_circle,color: Colors.blue),
+                          onPressed: (){
 
 
-                    ),
+                          },
 
+                        ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
                   ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: IconButton(
+                  icon: Icon(Icons.cancel,color: Colors.red,),
+                  onPressed: (){
+                    Provider.of<Auth>(context,listen: false).setEditPhone(false);
+                  },
                 ),
               )
             ],
