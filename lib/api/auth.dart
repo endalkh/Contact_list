@@ -767,17 +767,17 @@ String error;
   List<Map<String, String>> test=[
     {
       "id": "ed8f6c10-3d51-4258-8778-afdea61ca2e9",
-      "type": "personal",
+      "type": "Gmail",
       "address": "john@example.com"
     },
     {
       "id": "033b60e3-67fb-484f-99fd-71557d8b566b",
-      "type": "personal",
+      "type": "Yahoo",
       "address": "johnd@example.com"
     },
     {
       "id": "6e8d298b-5bef-485c-8136-2e6db5f6916b",
-      "type": "personal",
+      "type": "Iclould",
       "address": "john1@example.com"
     }
   ];
@@ -850,7 +850,7 @@ String error;
  Map<String, String> test=
     {
       "id": "ed8f6c10-3d51-4258-8778-afdea61ca2e9",
-      "type": "personal",
+      "type": "Gmail",
       "address": "john@example.com"
     };
 return GetEmail.fromJson(test);
@@ -923,12 +923,12 @@ String error;
   List<Map<String, String>> test=[
     {
       "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-      "type": "mobile",
+      "type": "Mobile",
       "number": "5551234567"
     },
     {
       "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-      "type": "home",
+      "type": "Home",
       "number": "5551234567"
     }
   ];
@@ -1002,7 +1002,7 @@ String error;
   Map<String, String> test=
     {
       "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-      "type": "mobile",
+      "type": "Mobile",
       "number": "5551234567"
     };
 return  GetPhone.fromJson(test);

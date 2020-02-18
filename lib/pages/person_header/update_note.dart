@@ -61,6 +61,7 @@ class _UpdateNote extends State<UpdateNote>{
               controller: noteController,
               keyboardType: TextInputType.text,
               maxLines: 3,
+              minLines: 3,
               decoration: InputDecoration(
 //                prefixIcon: Icon(Icons.note, size: 20),
                 suffixIcon: Column(

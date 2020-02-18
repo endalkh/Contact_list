@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 class UpdatePhone extends StatefulWidget {
   String id;
 
-
   UpdatePhone({@required this.id});
 
   _UpdatePhone createState() => _UpdatePhone(id);
@@ -30,12 +29,6 @@ class _UpdatePhone extends State<UpdatePhone> {
     this.id = id;
   }
 
-  @override
-  void initState() {
-
-
-    super.initState();
-  }
 
   @override
   void dispose(){
@@ -87,6 +80,7 @@ class _UpdatePhone extends State<UpdatePhone> {
   }
 
   phoneNumberButton() {
+
     return Container(
       height: 55,
       decoration: BoxDecoration(
@@ -173,7 +167,7 @@ class _UpdatePhone extends State<UpdatePhone> {
 
   @override
   Widget build(BuildContext context) {
-    print("hello world");
+
 
 this.context=context;
 
@@ -184,33 +178,43 @@ this.context=context;
     );
 
     phoneApi.then((val)  {
-      switch (val.type) {
+      switch (val.type.toString()) {
         case "Mobile":
-          selectPhone = phoneDropdownMenuItems[0].value;
-          break;
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
 
+          });
+          break;
         case "Home":
-          selectPhone = phoneDropdownMenuItems[1].value;
-          break;
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
 
+          });
+          break;
         case "Work":
-          selectPhone = phoneDropdownMenuItems[2].value;
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
+
+          });
           break;
         case "Fax":
-          selectPhone = phoneDropdownMenuItems[3].value;
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
+
+          });
           break;
         case "Line":
-          selectPhone = phoneDropdownMenuItems[4].value;
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
+
+          });
           break;
-        default:
-          selectPhone = phoneDropdownMenuItems[0].value;
-          break;
+
       }
       phoneController.text=val.number;
     });
     phoneApi.catchError((val) {
 //      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-
     });
 
     return SingleChildScrollView(
@@ -224,60 +228,6 @@ children: <Widget>[
     ),
     );
 
-//      SingleChildScrollView(
-//        child: Column(
-//          children: [
-////            Container(
-////              padding: EdgeInsets.symmetric(horizontal: 15),
-////              child: Column(
-////                crossAxisAlignment: CrossAxisAlignment.center,
-////                mainAxisAlignment: MainAxisAlignment.center,
-////                children: [
-////                  SizedBox(
-////                    height: 10,
-////                  ),
-////                  Padding(
-////                    padding: EdgeInsets.all(10),
-////                    child: phoneNumberButton(),
-////                  ),
-//////                  value.getHasErrorFun().toString().isNotEmpty == true
-//////                      ? Text(
-//////                    Provider.of<Auth>(context, listen: false)
-//////                        .getHasErrorFun(),
-//////                    style: TextStyle(
-//////                      color: Colors.red,
-//////                    ),
-//////                  )
-//////                      : Container(),
-////                  Container(
-////                    margin: EdgeInsets.only(left: 10, right: 10),
-////                    child: submitButton(),
-////                  ),
-////                ],
-////              ),
-////            ),
-//            phoneNumberButton(),
-//          ],
-//        ),
-//      ),
-//      floatingActionButton: FloatingActionButton(
-//        onPressed: () => {
-//          Provider.of<Auth>(context, listen: false).setEditPhone(false)
-//        },
-//        backgroundColor: PRIMARY_COLOR,
-//        child: Icon(
-//          Icons.contacts,
-//          color: lightBG,
-//        ),
-//      ),
-//    );
 
-//      Consumer<Auth>(
-//      builder: (BuildContext context, Auth value, Widget child) =>
-//      value.getIsLoadingFun() == true ? circularIndicator(context: context)
-//          :
-//
-
-//    );
   }
 }

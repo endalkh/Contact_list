@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 
 class AddNewPersonScreen extends StatefulWidget{
@@ -21,6 +19,7 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
+  TextEditingController addNoteController = TextEditingController();
 
   List<PhoneType> phoneType = PhoneType.getPhones();
   List<EmailType> emailType = EmailType.getEmails();
@@ -47,6 +46,7 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
       lName: lNameController.text,
       birthday: birthdayController.text,
       token:token ,
+      notes: addNoteController.text
 
     );
     addNewPerson.then((value) async{
@@ -227,33 +227,56 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
 
   enterNotesTextFormField() {
     return Column(
-      children: [
+      children: <Widget>[
         Text(
           'Additional Notes',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
-        Padding(padding: EdgeInsets.all(5)),
-        Container(
-          height: 150,
-          child: Material(
-            borderRadius: BorderRadius.circular(10.0),
-            elevation: 12,
-            child: TextFormField(
-              // controller: nameController,
-              keyboardType: TextInputType.text,
-              maxLines: 10,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.note, size: 20),
-                hintText: "Enter Notes",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide.none),
+        SizedBox(height: 10,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child:Material(
+                borderRadius: BorderRadius.circular(10.0),
+                elevation: 12,
+                child: TextFormField(
+                  controller: addNoteController,
+                  keyboardType: TextInputType.text,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+//                prefixIcon: Icon(Icons.note, size: 20),
+                    suffixIcon: Column(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.clear,color: Colors.red,),
+                          onPressed: (){
+                            addNoteController.clear();
+                          },
+                        )
+
+
+                      ],
+                    ),
+                    hintText: "Enter Notes",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+
+
+
+          ],
+        )
       ],
     );
+
+
+
+
   }
 
   phoneNumberButton() {

@@ -21,98 +21,104 @@ class PhoneNumber extends StatelessWidget implements NoteDelAndEdit{
 this.context=context;
     return Provider.of<Auth>(context).getEditPhone()==true?UpdatePhone(id:Provider.of<Auth>(context).getId()):
 
-      Column(
-      children: <Widget>[
-        Text(
-          'Phone Numbers',
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-        ),
-
-
-        FutureBuilder <List<GetPhone>>(
-            future: getPhoneListApi(
-              token: Provider.of<Auth>(context).getTokenFun(),
-              personId: personId,
+       Column(
+          children: <Widget>[
+            Text(
+              'Phone Numbers',
+              textAlign: TextAlign.left,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
             ),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
 
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return SingleChildScrollView(
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10,right: 10),
-                            child:  Container(
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: Container(
-                                  margin: EdgeInsets.zero,
-                                  child: Column(
-                                      children: [
-                                        ListTile(
-                                          leading:
-                                          Icon(getPhoneNumberTypeIcon(snapshot.data[index].type), size: 30,
-                                            color: PRIMARY_COLOR,),
-                                          title: Text(snapshot.data[index].number,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 17),
-                                          ),
-                                          onLongPress: (){
-                                            DeleteAndEditNotesDialog(context: context,callback:PhoneNumber(),id: snapshot.data[index].id );
-                                          },
-                                        ),
-                                      ]
+
+            FutureBuilder <List<GetPhone>>(
+                future: getPhoneListApi(
+                  token: Provider.of<Auth>(context).getTokenFun(),
+                  personId: personId,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return SingleChildScrollView(
+
+                                child:  Container(
+                                  margin: EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: Container(
+                                      margin: EdgeInsets.zero,
+                                      child: Column(
+                                          children: [
+                                            ListTile(
+                                              leading: Icon(
+                                                  getPhoneNumberTypeIcon(snapshot.data[index].type),
+                                                  size: 30,
+                                                  color: PRIMARY_COLOR,),
+
+
+
+                                              title: Text(snapshot.data[index].number,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 17),
+                                              ),
+                                              onLongPress: (){
+                                                DeleteAndEditNotesDialog(context: context,callback:PhoneNumber(),id: snapshot.data[index].id );
+                                              },
+                                            ),
+                                          ]
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          )
-                      );
+
+                          );
 
 
 
-                    }
-                );
-              }
-              else if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    snapshot.error.toString(), style: TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w900
-                  ),),
-                );
-              }
-              return circularIndicator(context: context);
-            }
-        ),
+                        }
+                    );
+                  }
+                  else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        snapshot.error.toString(), style: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w900
+                      ),),
+                    );
+                  }
+                  return circularIndicator(context: context);
+                }
+            ),
 
-        ListTile(
-          leading: Icon(Icons.add,size: 30,color: PRIMARY_COLOR,),
-          title: Text(
-            'Add Phone number',
-            style: TextStyle(
-                fontWeight: FontWeight.w400, fontSize: 17),
-          ),
-          onTap: (){
-            Provider.of<Auth>(context,listen: false).setAddPhone(!Provider.of<Auth>(context,listen: false).getAddPhone());
-            Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-          },
-        ),
-        Provider.of<Auth>(context,listen: false).getAddPhone()==true?
-        Container(
-            height:150 ,
-            child:AddPhone(personId: personId,)):Container(),
-        Divider(),
-      ],
-    );
+
+
+            ListTile(
+              leading: Icon(Icons.add,size: 30,color: PRIMARY_COLOR,),
+              title: Text(
+                'Add Phone number',
+                style: TextStyle(
+                    fontWeight: FontWeight.w400, fontSize: 17),
+              ),
+              onTap: (){
+                Provider.of<Auth>(context,listen: false).setAddPhone(!Provider.of<Auth>(context,listen: false).getAddPhone());
+                Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+              },
+
+         ),
+            Provider.of<Auth>(context,listen: false).getAddPhone()==true?
+
+                AddPhone(personId: personId,):Container(),
+            Divider(),
+          ],
+        );
+
   }
 
   @override
@@ -126,6 +132,7 @@ this.context=context;
     await Provider.of<Auth>(context,listen: false).setEditPhone(true);
     Provider.of<Auth>(context,listen: false).setId(id);
     Navigator.pop(context);
+    print(id);
 //    UpdatePhone(id: id,);
     return null;
   }

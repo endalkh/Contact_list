@@ -49,62 +49,68 @@ class _AddNote extends State<AddNote>{
   }
 
 
-
-
-
   enterNotesTextFormField() {
     return Column(
-      children: [
+      children: <Widget>[
         Text(
           'Additional Notes',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
-        Padding(padding: EdgeInsets.all(5)),
-        Container(
-          height: 150,
-          child: Material(
-            borderRadius: BorderRadius.circular(10.0),
-            elevation: 12,
-            child: TextFormField(
-               controller: noteController,
-              keyboardType: TextInputType.text,
-              maxLines: 10,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.note, size: 20),
-                hintText: "Enter Notes",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide.none),
+        SizedBox(height: 10,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child:Material(
+                borderRadius: BorderRadius.circular(10.0),
+                elevation: 12,
+                child: TextFormField(
+                  controller: noteController,
+                  keyboardType: TextInputType.text,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+//                prefixIcon: Icon(Icons.note, size: 20),
+                    suffixIcon: Column(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.clear,color: Colors.red,),
+                          onPressed: (){
+                            noteController.clear();
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.check_circle,color: Colors.blue,),
+                          onPressed: (){
+
+                          },
+                        ),
+
+                      ],
+                    ),
+                    hintText: "Enter Notes",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+
+
+
+          ],
+        )
       ],
     );
+
+
+
+
   }
 
-  submitButton() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        submitForm();
-      },
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: getWidth(context),
-        decoration: BoxDecoration(
-          color: PRIMARY_COLOR,
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
-        ),
-        padding: const EdgeInsets.all(15.0),
-        child: Text(Constant.SUBMIT, style: TextStyle(fontSize: 12)),
-      ),
-    );
-  }
+
+
+ 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -134,10 +140,7 @@ class _AddNote extends State<AddNote>{
                         color: Colors.red,
                       ),
                     ):Container(),
-                    Container(
-                      margin: EdgeInsets.only(left: 10, right: 10),
-                      child: submitButton(),
-                    ),
+
 
                   ],
                 ),

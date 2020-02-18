@@ -30,7 +30,7 @@ getEmailTypeIcon(type){
     case 'Hotbird':
       return FontAwesomeIcons.mailchimp;
     default:
-      return null;
+      return FontAwesomeIcons.google ;
 
   }
 }

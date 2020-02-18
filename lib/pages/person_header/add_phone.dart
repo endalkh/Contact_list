@@ -80,16 +80,13 @@ class _AddPhone extends State<AddPhone>{
   }
 
 
-
   phoneNumberButton() {
-    return Container(
-      height: 55,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
+    return Padding(
+
+      padding: EdgeInsets.zero,
       child: Material(
-          borderRadius: BorderRadius.circular(10.0),
-          elevation: 12,
+          borderRadius: BorderRadius.circular(20.0),
+          elevation: 3,
           child: Row(
             children: [
               Expanded(
@@ -100,6 +97,7 @@ class _AddPhone extends State<AddPhone>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DropdownButton(
+                        underline: SizedBox(),
                         value: selectPhone,
                         items: phoneDropdownMenuItems,
                         onChanged: phoneOnChangeDropdownItem,
@@ -116,7 +114,12 @@ class _AddPhone extends State<AddPhone>{
                   decoration: InputDecoration(
 
                     hintText: "+1(424) 341-3346",
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.check_circle,color: Colors.blue,),
+                      onPressed: (){
 
+                      },
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -128,37 +131,14 @@ class _AddPhone extends State<AddPhone>{
     );
   }
 
-  submitButton() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        submitForm();
-      },
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: getWidth(context),
-        decoration: BoxDecoration(
-          color: PRIMARY_COLOR,
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
-        ),
-        padding: const EdgeInsets.all(15.0),
-        child: Text(Constant.SUBMIT, style: TextStyle(fontSize: 12)),
-      ),
-    );
-  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return
       Consumer<Auth>(
         builder: (BuildContext context, Auth value, Widget child) =>
         value.getIsLoadingFun()==true?circularIndicator(context: context):
-        Scaffold(
-          body: SingleChildScrollView(
+        SingleChildScrollView(
             child: Column(
               children: [
                 Container(
@@ -167,25 +147,19 @@ class _AddPhone extends State<AddPhone>{
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: 10,
-                      ),
+                      Divider(),
 
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(2),
                         child: phoneNumberButton(),
                       ),
-
 
                       value.getHasErrorFun().toString().isNotEmpty==true?Text(Provider.of<Auth>(context,listen: false).getHasErrorFun(),
                         style: TextStyle(
                           color: Colors.red,
                         ),
                       ):Container(),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        child: submitButton(),
-                      ),
+
 
                     ],
                   ),
@@ -194,8 +168,8 @@ class _AddPhone extends State<AddPhone>{
             ),
 
           ),
-        ),
-        );
+      );
+
 
   }
 }

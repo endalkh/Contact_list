@@ -129,6 +129,12 @@ _AddEmail(this.personId);
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     hintText: "example@example.com",
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.check_circle,color: Colors.blue,),
+                      onPressed: (){
+
+                      },
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -192,10 +198,7 @@ _AddEmail(this.personId);
                           color: Colors.red,
                         ),
                       ):Container(),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        child: submitButton(),
-                      ),
+
 
                     ],
                   ),

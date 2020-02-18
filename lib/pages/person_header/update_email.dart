@@ -3,7 +3,6 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +18,15 @@ class UpdateEmail extends StatefulWidget{
 class _UpdateEmail extends State<UpdateEmail>{
 
   TextEditingController emailController = TextEditingController();
-  List<DropdownMenuItem<EmailType>> phoneDropdownMenuItems;
+  List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
   EmailType selectEmail;
   BuildContext context;
+  List<EmailType> emailType;
 
-  List<EmailType> emailType = EmailType.getEmails();
+  @override
+  void initState() {
+   emailType = EmailType.getEmails();
+  }
 
   String id;
   _UpdateEmail(this.id){
@@ -34,19 +37,19 @@ class _UpdateEmail extends State<UpdateEmail>{
   submitForm(){
     Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
     var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addPhone =  addEmailApi(
+    var addEmail =  addEmailApi(
         token:token ,
         personId: id,
         type: emailType.toString(),
         address: emailController.text
 
     );
-    addPhone.then((value) async{
+    addEmail.then((value) async{
       Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
     });
 
-    addPhone.catchError((value) async{
+    addEmail.catchError((value) async{
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
       Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
@@ -79,7 +82,45 @@ class _UpdateEmail extends State<UpdateEmail>{
 
 
   emailButton() {
-    return Container(
+    emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
+    emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
+    Future<GetEmail> emailApi =  getSingleEmailApi(
+      token: Provider.of<Auth>(context).getTokenFun(),
+      id: id,
+    );
+
+    emailApi.then((val) async{
+      switch (val.type) {
+        case "Gmail":
+          setState(() {
+            selectEmail =  emailDropdownMenuItems[0].value;
+          });
+          break;
+
+        case "Icloud":
+          setState(() {
+            selectEmail =  emailDropdownMenuItems[1].value;
+          });
+          break;
+
+        case "yahoo":
+          setState(() {
+            selectEmail =  emailDropdownMenuItems[2].value;
+          });
+          break;
+
+        case "Hotbird":
+          setState(() {
+            selectEmail =  emailDropdownMenuItems[0].value;
+          });
+          break;
+      }
+      emailController.text=val.address;
+    });
+
+    return
+
+      Container(
       height: 55,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -97,8 +138,8 @@ class _UpdateEmail extends State<UpdateEmail>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DropdownButton(
-                        value: selectEmail,
-                        items: phoneDropdownMenuItems,
+                        value:selectEmail,
+                        items: emailDropdownMenuItems,
                         onChanged: emailOnChangeDropdownItem,
                       ),
                     ],
@@ -165,45 +206,8 @@ class _UpdateEmail extends State<UpdateEmail>{
   }
   @override
   Widget build(BuildContext context) {
-        this.context=context;
-        phoneDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
-        selectEmail = phoneDropdownMenuItems[0].value;
+    this.context=context;
 
-    phoneDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
-    Future<GetEmail> phoneApi =  getSingleEmailApi(
-      token: Provider.of<Auth>(context).getTokenFun(),
-      id: id,
-    );
-
-    phoneApi.then((val)  {
-      switch (val.type) {
-        case "Mobile":
-          selectEmail = phoneDropdownMenuItems[0].value;
-          break;
-
-        case "Home":
-          selectEmail = phoneDropdownMenuItems[1].value;
-          break;
-
-        case "Work":
-          selectEmail = phoneDropdownMenuItems[2].value;
-          break;
-        case "Fax":
-          selectEmail = phoneDropdownMenuItems[3].value;
-          break;
-        case "Line":
-          selectEmail = phoneDropdownMenuItems[4].value;
-          break;
-        default:
-          selectEmail = phoneDropdownMenuItems[0].value;
-          break;
-      }
-      emailController.text=val.address;
-    });
-    phoneApi.catchError((val) {
-//      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-
-    });
     return
       SingleChildScrollView(
         child:Column(
