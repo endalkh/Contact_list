@@ -688,6 +688,78 @@ try {
     throw error;
   }
 }
+Future<GetNoteList> getNoteSingleApi({@required token,@required id}) async {
+String error;
+
+Map<String, String> test=
+    {
+      "id": "63376d59-2028-4b0d-94fa-0cc1ef3c6c25",
+      "body": "I talked to him at the store today and he mentioned that his son Andrew is sick. Should follow up soon.",
+    };
+
+return GetNoteList.fromJson(test);
+
+try {
+    final response = await http.get(
+      API.GET_LIST_NOTE_API+"personId="+id,
+      headers: {
+        "Authorization" : token,
+      },
+    );
+
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return GetNoteList.fromJson(test);
+      case 201:
+        var responseJson = await json.decode(response.body);
+        return GetNoteList.fromJson(test);
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error= 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error= "Couldn't find the request 😱";
+    throw error;
+  }
+  on FormatException {
+    error= "Bad response format 👎";
+    throw error;
+  }
+  on Exception{
+    error= "We have not idea what happend!";
+    throw error;
+  }
+}
 
 Future<List<GetEmail>> getEmailListApi({@required token,@required personId}) async {
 String error;

@@ -71,6 +71,7 @@ class Auth with ChangeNotifier {
   bool addNote=false;
   bool editPhone=false;
   bool editEmail=false;
+  bool editNote=false;
   String id="";
 
 
@@ -193,6 +194,14 @@ class Auth with ChangeNotifier {
   }
   getEditEmail(){
     return this.editEmail;
+  }
+
+  setEditNote(val){
+    this.editNote=val;
+    notifyListeners();
+  }
+  getEditNote(){
+    return this.editNote;
   }
   setId(val){
     this.id=val;
