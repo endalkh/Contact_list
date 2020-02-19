@@ -28,16 +28,29 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
   List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
   PhoneType selectPhone;
   EmailType selectEmail;
-
+  bool isApiLoaded;
 
   @override
   void initState() {
+    isApiLoaded=false;
     phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
     emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
     selectPhone = phoneDropdownMenuItems[0].value;
     selectEmail = emailDropdownMenuItems[0].value;
     super.initState();
   }
+  @override
+  void didChangeDependencies() {
+   if(!isApiLoaded){
+     Provider.of<Auth>(context).setHasErrorFun("");
+     Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+     isApiLoaded=true;
+   }
+
+
+    super.didChangeDependencies();
+  }
+
   submitForm(){
     Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
     var token=Provider.of<Auth>(context,listen: false).getTokenFun();

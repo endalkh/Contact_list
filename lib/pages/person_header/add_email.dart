@@ -25,14 +25,26 @@ class _AddEmail extends State<AddEmail> {
   String personId;
 
   _AddEmail(this.personId);
+  bool isApiLoaded;
 
   @override
   void initState() {
+    isApiLoaded=false;
     emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
     selectEmail = emailDropdownMenuItems[0].value;
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+ if(!isApiLoaded){
+   Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+   Provider.of<Auth>(context).setHasErrorFun("");
+   isApiLoaded=true;
+ }
+
+    super.didChangeDependencies();
+  }
   submitForm() {
     print(personId);
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);

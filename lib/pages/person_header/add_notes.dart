@@ -22,7 +22,22 @@ class _AddNote extends State<AddNote> {
   String personId;
 
   _AddNote(this.personId);
+  bool isApiLoaded;
+  @override
+  void initState() {
+    isApiLoaded=false;
+    super.initState();
+  }
+  @override
+  void didChangeDependencies() {
 
+    if(!isApiLoaded){
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context).setHasErrorFun("");
+      isApiLoaded=true;
+    }
+    super.didChangeDependencies();
+  }
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();

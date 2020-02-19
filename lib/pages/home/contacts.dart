@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
 import 'package:flutter_app/pages/home/update_contacts.dart';
 import 'package:flutter_app/pages/person_header/person_header.dart';
@@ -26,14 +24,6 @@ class Contacts extends StatefulWidget {
 class _Contacts extends State<Contacts> implements NoteDelAndEdit{
   List<GetAllContact> allContact;
 
-  @override
-
-  Container makeCard(GetAllContact post) {
-    return Container(
-      margin: EdgeInsets.all(20.0),
-      child: Text(post.name),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +58,7 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit{
                     ),
                     child: InkWell(
                       onTap: () {
-                        print("hello");
+
                       },
                       child: Container(
                         child: ListTile(
@@ -132,8 +122,8 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit{
 
 
   @override
-  deleteNote({id, context, contextDialog}) async{
-    await Provider.of<Auth>(context,listen: false).setEditPhone(true);
+  deleteNote({id, context, contextDialog}) {
+     Provider.of<Auth>(context,listen: false).setEditPhone(true);
     Provider.of<Auth>(context,listen: false).setId(id);
     Navigator.pop(context);
 
@@ -141,9 +131,10 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit{
   }
 
   @override
-  editNote({id, context, contextDialog})async {
-    print(id);
-    await Provider.of<Auth>(context,listen: false).setEditContact(true);
+  editNote({id, context, contextDialog}) {
+
+    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+    Provider.of<Auth>(context,listen: false).setEditContact(true);
     Provider.of<Auth>(context,listen: false).setId(id);
     Navigator.pop(context);
     return null;

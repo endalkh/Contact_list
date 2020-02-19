@@ -12,14 +12,39 @@ import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:flutter_app/utilities/get_icon_type.dart';
 import 'package:provider/provider.dart';
 
-class EmailAddress extends StatelessWidget implements NoteDelAndEdit {
+class EmailAddress extends StatefulWidget {
   String personId;
-  BuildContext contextClass;
-
   EmailAddress({@required this.personId});
+
+  _EmailAddress createState()=>_EmailAddress( personId: personId);
+}
+
+class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit {
+  String personId;
+  BuildContext context;
+
+  _EmailAddress({@required this.personId});
+
+  bool isApiLoaded;
+  @override
+  void initState() {
+    isApiLoaded=false;
+    super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+
+    if(!isApiLoaded){
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context).setHasErrorFun("");
+    }
+    super.didChangeDependencies();
+
+  }
 
   @override
   Widget build(BuildContext context) {
+    this.context=context;
     return Provider.of<Auth>(context).getEditEmail()==true?UpdateEmail(id:Provider.of<Auth>(context).getId()): Column(
         children: <Widget>[
           Text(
@@ -63,7 +88,7 @@ class EmailAddress extends StatelessWidget implements NoteDelAndEdit {
                                                   fontSize: 17),
                                             ),
                                             onLongPress:(){
-                                              DeleteAndEditNotesDialog(context: context,callback:EmailAddress(),id: snapshot.data[index].id );
+                                              DeleteAndEditNotesDialog(context: this.context,callback:_EmailAddress(),id: snapshot.data[index].id );
 
                                             },
                                           ),

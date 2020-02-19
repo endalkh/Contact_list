@@ -20,24 +20,41 @@ class _UpdateNote extends State<UpdateNote> {
 
 
   String id;
-
+  bool isApiLoaded;
+  @override
+  void initState() {
+    isApiLoaded=false;
+    super.initState();
+  }
   @override
   void didChangeDependencies() {
-    Future<GetNoteList> noteApi = getNoteSingleApi(
-      token: Provider.of<Auth>(context).getTokenFun(),
-      id: id,
-    );
-    noteApi.then((val) {
-      noteController.text = val.body;
-    });
-    noteApi.catchError((val) {
-//      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-    });
     super.didChangeDependencies();
+    if(!isApiLoaded){
+      Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
+
+      Provider.of<Auth>(context).setHasErrorFun("");
+
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+      Future<GetNoteList> noteApi = getNoteSingleApi(
+        token: Provider.of<Auth>(context).getTokenFun(),
+        id: id,
+      );
+      noteApi.then((val) {
+        noteController.text = val.body;
+        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+
+      });
+      noteApi.catchError((val) {
+        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
+
+      });
+isApiLoaded=true;
+    }
+
 
   }
-
-
 
 
   _UpdateNote(this.id) {
@@ -53,7 +70,7 @@ class _UpdateNote extends State<UpdateNote> {
       body: noteController.text,
     );
 
-    updateNote.then((value) async {
+    updateNote.then((value)  {
       if (value == true) {
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
@@ -122,7 +139,8 @@ class _UpdateNote extends State<UpdateNote> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Auth>(
+    return
+      Consumer<Auth>(
         builder: (BuildContext context, Auth value, Widget child) =>
     value.getIsLoadingFun()==true?circularIndicator(context: context):SingleChildScrollView(
       child: Column(
@@ -131,6 +149,16 @@ class _UpdateNote extends State<UpdateNote> {
             padding: EdgeInsets.all(10),
             child: enterNotesTextFormField(),
           ),
+          value.getHasErrorFun().toString().isNotEmpty ==
+              true
+              ? Text(
+            Provider.of<Auth>(context, listen: false)
+                .getHasErrorFun(),
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          )
+              : Container(),
         ],
       ),
     )

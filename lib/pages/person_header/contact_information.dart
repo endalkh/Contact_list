@@ -14,7 +14,7 @@ import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
-class ContactInfo extends StatelessWidget implements NoteDelAndEdit{
+class ContactInfo extends StatelessWidget{
   String personId;
   BuildContext context;
 
@@ -127,19 +127,7 @@ class ContactInfo extends StatelessWidget implements NoteDelAndEdit{
     );
   }
 
-  @override
-  deleteNote({id, context, contextDialog}) {
 
-    return null;
-  }
-
-  @override
-  editNote({id, context, contextDialog}) async{
-    await Provider.of<Auth>(context,listen: false).setEditNote(true);
-    Provider.of<Auth>(context,listen: false).setId(id);
-    Navigator.pop(context);
-    return null;
-  }
 
 
 }

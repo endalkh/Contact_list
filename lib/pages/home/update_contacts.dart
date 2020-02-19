@@ -1,38 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
-import 'package:flutter_app/api/model/get_notes.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
-import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
-import 'package:rounded_letter/rounded_letter.dart';
-import 'package:rounded_letter/shape_type.dart';
 
 class UpdateContact extends StatefulWidget{
   String id;
 
   UpdateContact({@required this.id});
 
-  _UpdateContact createState()=>_UpdateContact(id);
+  _UpdateContact createState()=>_UpdateContact(id: id);
 }
 
 class _UpdateContact extends State<UpdateContact>{
 
-
   TextEditingController fNameController = TextEditingController();
   TextEditingController lNameController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
-  BuildContext context;
 
 
   String id;
-  _UpdateContact(this.id){
-    this.id=id;
+  _UpdateContact({this.id});
+  bool isApiLoaded;
+
+@override
+  void initState() {
+  isApiLoaded=false;
+    super.initState();
   }
+
+  @override
+  void didChangeDependencies() {
+  if(!isApiLoaded) {
+    Provider.of<Auth>(context).setHasErrorFun("");
+
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    Future<GetAllContact> updatePersonApi = getSingleContactApi(
+      token: Provider.of<Auth>(context, listen: false).getTokenFun(),
+      id: id,
+    );
+    updatePersonApi.then((val) async {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
+      birthdayController.text = dateFormatter(val.birthDate);
+      fNameController.text = val.name;
+    });
+    updatePersonApi.catchError((val) {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context, listen: false).setHasErrorFun(val.toString());
+    });
+    isApiLoaded=true;
+  }
+    super.didChangeDependencies();
+  }
+
   submitButton() {
     return
       Row(
@@ -41,7 +66,8 @@ class _UpdateContact extends State<UpdateContact>{
               flex: 1,
               child:  RawMaterialButton(
                 onPressed: () {
-                  Provider.of<Auth>(context,listen: false).setEditContact(false);
+                  Provider.of<Auth>(context, listen: false)
+                      .setEditContact(false);
                 },
                 child: new Icon(
                   Icons.cancel,
@@ -58,7 +84,7 @@ class _UpdateContact extends State<UpdateContact>{
               flex: 1,
               child:  RawMaterialButton(
                 onPressed: () {
-
+                  submitForm();
                 },
                 child: new Icon(
                   Icons.arrow_forward,
@@ -158,29 +184,30 @@ class _UpdateContact extends State<UpdateContact>{
     );
   }
 
-//  submitForm(){
-//    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-//    var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-//    var addPhone =  addEmailApi(
-//        token:token ,
-//        personId: id,
-//        type: noteController.toString(),
-//        address: noteController.text
-//    );
-//
-//    addPhone.then((value) async{
-//      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
-//      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-//    });
-//
-//    addPhone.catchError((value) async{
-//      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-//      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-//      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
-//
-//    });
-//
-//  }
+  submitForm(){
+    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+    var token=Provider.of<Auth>(context,listen: false).getTokenFun();
+    var updatePerson =  updatePersonApi(
+        token:token ,
+        id: id,
+      name: fNameController.text + " "+ lNameController.text,
+      birthDate: birthdayController.text
+
+    );
+
+    updatePerson.then((value) async{
+      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+    });
+
+    updatePerson.catchError((value) async{
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
+      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
+
+    });
+
+  }
 
 
 
@@ -188,22 +215,12 @@ class _UpdateContact extends State<UpdateContact>{
 
   @override
   Widget build(BuildContext context) {
-    this.context=context;
-
-    Future<GetAllContact> noteApi =  getSingleContactApi(
-      token: Provider.of<Auth>(context).getTokenFun(),
-      id: id,
-    );
-
-    noteApi.then((val)  {
-birthdayController.text=dateFormatter(val.birthDate);
-fNameController.text=val.name;
-    });
-    noteApi.catchError((val) {
-//      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-
-    });
-    return SingleChildScrollView(
+    return Consumer<Auth>(
+        builder: (BuildContext context, Auth value, Widget child) =>
+        value.getIsLoadingFun() == true
+            ? circularIndicator(context: context)
+            :
+    SingleChildScrollView(
         child:Padding(
           padding: EdgeInsets.all(10),
           child:  Column(
@@ -212,11 +229,12 @@ fNameController.text=val.name;
               SizedBox(height: 15,),
               submitButton(),
 
+
             ],
           ),
-        )
-
-      );
+        ),
+    ),
+    );
 
   }
 }

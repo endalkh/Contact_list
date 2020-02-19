@@ -24,12 +24,11 @@ Future<GetAllContact> getSingleContactApi({token, id}) async {
   };
   try {
     final response = await http.get(
-      API.CONTACT_LIST_API + "?id=" + id,
+      API.GET_SINGLE_PERSON_API + "?id=" + id,
       headers: {
         "Authorization": token,
       },
     );
-
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -672,7 +671,6 @@ Future<List<GetEmail>> getEmailListApi(
 
 Future<GetEmail> getSingleEmailApi({@required token, @required id}) async {
   String error;
-
   Map<String, String> test = {
     "id": "ed8f6c10-3d51-4258-8778-afdea61ca2e9",
     "type": "Gmail",
@@ -681,12 +679,11 @@ Future<GetEmail> getSingleEmailApi({@required token, @required id}) async {
 
   try {
     final response = await http.get(
-      API.GET_EMAIL_API + "?id=" + id,
+      API.ADD_EMAIL_API + "?id=" + id,
       headers: {
         "Authorization": token,
       },
     );
-
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -818,13 +815,11 @@ Future<List<GetPhone>> getPhoneListApi(
 Future<GetPhone> getSinglePhoneApi(
     {@required token, @required personId}) async {
   String error;
-
   Map<String, String> test = {
     "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
     "type": "Mobile",
     "number": "5551234567"
   };
-
   try {
     final response = await http.get(
       API.GET_PHONE_API + "?personId=" + personId,
@@ -1370,7 +1365,7 @@ updateEmailApi(
   };
 
   try {
-    final response = await http.post(
+    final response = await http.put(
       API.ADD_EMAIL_API,
       headers: {
         "Authorization": token,
@@ -1441,7 +1436,7 @@ updatePersonApi(
   };
 
   try {
-    final response = await http.post(
+    final response = await http.put(
       API.ADD_NEW_PERSON_API,
       headers: {
         "Authorization": token,

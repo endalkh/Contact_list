@@ -20,7 +20,6 @@ class _UpdatePhone extends State<UpdatePhone> {
   TextEditingController phoneController = TextEditingController();
   List<DropdownMenuItem<PhoneType>> phoneDropdownMenuItems;
   PhoneType selectPhone;
-  BuildContext context;
 
   List<PhoneType> phoneType = PhoneType.getPhones();
 
@@ -29,15 +28,31 @@ class _UpdatePhone extends State<UpdatePhone> {
   _UpdatePhone(this.id) {
     this.id = id;
   }
+  bool isApiLoaded;
+  @override
+  void initState() {
+    isApiLoaded=false;
+    super.initState();
+  }
 @override
   void didChangeDependencies() {
+  super.didChangeDependencies();
+  if(!isApiLoaded){
+    Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
+
+    Provider.of<Auth>(context).setHasErrorFun("");
+
     phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
+
+    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
     Future<GetPhone> phoneApi = getSinglePhoneApi(
-      token: Provider.of<Auth>(context).getTokenFun(),
+      token: Provider.of<Auth>(context,listen: false).getTokenFun(),
       personId: id,
     );
 
-    phoneApi.then((val) {
+    phoneApi.then((val){
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
       switch (val.type.toString()) {
         case "Mobile":
           setState(() {
@@ -68,15 +83,16 @@ class _UpdatePhone extends State<UpdatePhone> {
       phoneController.text = val.number;
     });
     phoneApi.catchError((val) {
-//      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
     });
-    super.didChangeDependencies();
+    isApiLoaded=true;
   }
-  @override
-  void dispose() {
-    phoneController.dispose();
-    super.dispose();
+
+
+
   }
+
 
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
@@ -210,9 +226,6 @@ class _UpdatePhone extends State<UpdatePhone> {
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
-
-
 
     return Consumer<Auth>(
       builder: (BuildContext context, Auth value, Widget child) =>

@@ -3,6 +3,7 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
@@ -19,29 +20,93 @@ class _UpdateEmail extends State<UpdateEmail> {
   TextEditingController emailController = TextEditingController();
   List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
   EmailType selectEmail;
-  BuildContext context;
   List<EmailType> emailType;
-
+  String id;
+  bool isApiLoaded;
   @override
   void initState() {
-    emailType = EmailType.getEmails();
+    isApiLoaded=false;
+    super.initState();
   }
-
-  String id;
-
   _UpdateEmail(this.id) {
     this.id = id;
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if(!isApiLoaded){
+      Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
+
+      Provider.of<Auth>(context).setHasErrorFun("");
+
+      emailType = EmailType.getEmails();
+      emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
+      emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
+
+      Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(true);
+      Future<GetEmail> emailApi = getSingleEmailApi(
+        token: Provider.of<Auth>(super.context,listen: false).getTokenFun(),
+        id: id,
+      );
+
+      emailApi.then((val) async {
+
+        Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(super.context,listen: false).setHasErrorFun("");
+
+        switch (val.type) {
+          case "Gmail":
+            setState(() {
+              selectEmail = emailDropdownMenuItems[0].value;
+            });
+            break;
+
+          case "Icloud":
+            setState(() {
+              selectEmail = emailDropdownMenuItems[1].value;
+            });
+            break;
+
+          case "yahoo":
+            setState(() {
+              selectEmail = emailDropdownMenuItems[2].value;
+            });
+            break;
+
+          case "Hotbird":
+            setState(() {
+              selectEmail = emailDropdownMenuItems[3].value;
+            });
+            break;
+          default:{
+            setState(() {
+              selectEmail = emailDropdownMenuItems[0].value;
+            });
+          }
+        }
+        emailController.text = val.address;
+      });
+
+      emailApi.catchError((val) {
+
+        Provider.of<Auth>(super.context,listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(super.context,listen: false).setHasErrorFun(val.toString());
+      });
+
+isApiLoaded=true;
+    }
+
   }
 
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-    var addEmail = updateEmailApi(
+    var updateEmail = updateEmailApi(
         token: token,
         id: id,
         type: emailType.toString(),
         address: emailController.text);
-    addEmail.then((value) async {
+    updateEmail.then((value) async {
       if (value == true) {
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
@@ -49,7 +114,7 @@ class _UpdateEmail extends State<UpdateEmail> {
       }
     });
 
-    addEmail.catchError((value) async {
+    updateEmail.catchError((value) async {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context, listen: false)
           .setSuccessfullyRegisteredFun(false);
@@ -57,7 +122,6 @@ class _UpdateEmail extends State<UpdateEmail> {
           .setHasErrorFun(value.toString());
     });
   }
-
   List<DropdownMenuItem<EmailType>> emailBuildDropdownMenuItems(
       List emailTypes) {
     List<DropdownMenuItem<EmailType>> items = List();
@@ -79,42 +143,6 @@ class _UpdateEmail extends State<UpdateEmail> {
   }
 
   emailButton() {
-    emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
-    emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
-    Future<GetEmail> emailApi = getSingleEmailApi(
-      token: Provider.of<Auth>(context).getTokenFun(),
-      id: id,
-    );
-
-    emailApi.then((val) async {
-      switch (val.type) {
-        case "Gmail":
-          setState(() {
-            selectEmail = emailDropdownMenuItems[0].value;
-          });
-          break;
-
-        case "Icloud":
-          setState(() {
-            selectEmail = emailDropdownMenuItems[1].value;
-          });
-          break;
-
-        case "yahoo":
-          setState(() {
-            selectEmail = emailDropdownMenuItems[2].value;
-          });
-          break;
-
-        case "Hotbird":
-          setState(() {
-            selectEmail = emailDropdownMenuItems[0].value;
-          });
-          break;
-      }
-      emailController.text = val.address;
-    });
-
     return Container(
       height: 55,
       decoration: BoxDecoration(
@@ -203,17 +231,28 @@ class _UpdateEmail extends State<UpdateEmail> {
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
-
-    return SingleChildScrollView(
+    return  Consumer<Auth>(
+        builder: (BuildContext context, Auth value, Widget child) =>
+    value.getIsLoadingFun()==true?circularIndicator(context: context):SingleChildScrollView(
       child: Column(
         children: <Widget>[
           Padding(
             padding: EdgeInsets.all(10),
             child: emailButton(),
           ),
+          value.getHasErrorFun().toString().isNotEmpty ==
+              true
+              ? Text(
+            Provider.of<Auth>(context, listen: false)
+                .getHasErrorFun(),
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          )
+              : Container(),
         ],
       ),
+    ),
     );
   }
 }

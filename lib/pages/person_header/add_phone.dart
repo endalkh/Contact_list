@@ -26,13 +26,24 @@ class _AddPhone extends State<AddPhone>{
   _AddPhone(this.personId){
     print(personId);
   }
+  bool isApiLoaded;
 
 
   @override
   void initState() {
+    isApiLoaded=false;
     phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
     selectPhone = phoneDropdownMenuItems[0].value;
     super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+
+    if(!isApiLoaded) {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context).setHasErrorFun("");
+    }
+    super.didChangeDependencies();
   }
   submitForm(){
     Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);

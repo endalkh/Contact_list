@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
+import 'package:flutter_app/pages/home/update_contacts.dart';
 import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:provider/provider.dart';
@@ -15,15 +18,29 @@ import 'package:rounded_letter/shape_type.dart';
 class UpcomingBirthDaysScreen extends StatefulWidget{
   _UpcomingBirthDaysScreen createState()=>_UpcomingBirthDaysScreen();
 }
-class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen>{
+class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements NoteDelAndEdit{
+ bool isApiLoaded;
   @override
   void initState() {
+    isApiLoaded=false;
     super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+   if(!isApiLoaded) {
+     isApiLoaded=true;
+     Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+     Provider.of<Auth>(context).setHasErrorFun("");
+   }
+
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
+      return  Provider.of<Auth>(context).getEditContact()==true?
+      UpdateContact(id:Provider.of<Auth>(context).getId())
+          : Scaffold(
         body:  Padding(
       padding: EdgeInsets.only(top: 10),
         child:FutureBuilder <List<GetAllContact>> (
@@ -47,13 +64,8 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen>{
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
                                 child: InkWell(
-                                  onTap: () =>
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PersonHeaderScreen(personId:snapshot.data[index].id,),
-                                        ),
-                                      ),
+
+
 //                                  {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
                                   child: Container(
                                     child: ListTile(
@@ -73,7 +85,21 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen>{
                                         subtitle: Text(dateFormatter(snapshot.data[index].birthDate),
 //
                                           style: TextStyle(fontSize: 15),
-                                        )),
+
+                                        ),
+                                      onLongPress: (){
+                                        DeleteAndEditNotesDialog(context: context,callback:_UpcomingBirthDaysScreen(),id: snapshot.data[index].id );
+                                      },
+                                      onTap: (){
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => PersonHeaderScreen(personId:snapshot.data[index].id,),
+                                          ),
+                                        );
+                                      },
+
+                                    ),
 
                                   ),
                                 )),
@@ -103,4 +129,19 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen>{
 
 
     }
+
+  @override
+  deleteNote({id, context, contextDialog}) {
+    // TODO: implement deleteNote
+    return null;
+  }
+
+  @override
+  editNote({id, context, contextDialog}) {
+    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+    Provider.of<Auth>(context,listen: false).setEditContact(true);
+    Provider.of<Auth>(context,listen: false).setId(id);
+    Navigator.pop(context);
+    return null;
+  }
   }
