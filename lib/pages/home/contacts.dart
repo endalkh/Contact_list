@@ -6,39 +6,28 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/appbar/AppBar.dart';
+import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
+import 'package:flutter_app/pages/home/update_contacts.dart';
+import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_letter/rounded_letter.dart';
 import 'package:rounded_letter/shape_type.dart';
 
-class Contacts extends StatefulWidget{
+class Contacts extends StatefulWidget {
   _Contacts createState()=>_Contacts();
-}
-class _Contacts extends State<Contacts>{
-  List<GetAllContact> allContact;
-  @override
-  void initState() {
-//    Provider.of<Auth>(context,listen: false).setHomePageTabFun(2);
-//    final token =  Provider.of<Auth>(context, listen: false).getTokenFun();
-//    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-//    var allContact =  getAllContactApi(token: token);
-//    Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-//    allContact.then((val) {
-//      Provider.of<Auth>(context, listen: false).setAllContactFun(val);
-////      allContact=List<GetAllContact>.from(val).map((x) => GetAllContact.fromJson(val));
-//
-//
-//    });
-//
-//    allContact.catchError((value) {
-//      Provider.of<Auth>(context, listen: false).setHasErrorFun(value.toString());
-//    });
 
-    super.initState();
-  }
+}
+class _Contacts extends State<Contacts> implements NoteDelAndEdit{
+  List<GetAllContact> allContact;
+
+  @override
+
   Container makeCard(GetAllContact post) {
     return Container(
       margin: EdgeInsets.all(20.0),
@@ -48,8 +37,12 @@ class _Contacts extends State<Contacts>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:  Padding(
+    return  Provider.of<Auth>(context).getEditContact()==true?
+     UpdateContact(id:Provider.of<Auth>(context).getId())
+        : Scaffold(
+      body:
+
+      Padding(
     padding: EdgeInsets.only(top: 10),
 
       child:FutureBuilder <List<GetAllContact>> (
@@ -74,8 +67,9 @@ class _Contacts extends State<Contacts>{
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: InkWell(
-                      onTap: () =>
-                      {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
+                      onTap: () {
+                        print("hello");
+                      },
                       child: Container(
                         child: ListTile(
                             leading: RoundedLetter(
@@ -93,7 +87,20 @@ class _Contacts extends State<Contacts>{
 
                             subtitle: Text(dateFormatter(snapshot.data[index].birthDate),
                               style: TextStyle(fontSize: 15),
-                            )),
+                            ),
+                          onLongPress: (){
+                            DeleteAndEditNotesDialog(context: context,callback:_Contacts(),id: snapshot.data[index].id );
+                          },
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PersonHeaderScreen(personId:snapshot.data[index].id,),
+                              ),
+                            );
+                          },
+
+                        ),
 
                       ),
                     )),
@@ -121,6 +128,25 @@ class _Contacts extends State<Contacts>{
       ),
       ),
     );
+  }
+
+
+  @override
+  deleteNote({id, context, contextDialog}) async{
+    await Provider.of<Auth>(context,listen: false).setEditPhone(true);
+    Provider.of<Auth>(context,listen: false).setId(id);
+    Navigator.pop(context);
+
+    return null;
+  }
+
+  @override
+  editNote({id, context, contextDialog})async {
+    print(id);
+    await Provider.of<Auth>(context,listen: false).setEditContact(true);
+    Provider.of<Auth>(context,listen: false).setId(id);
+    Navigator.pop(context);
+    return null;
   }
 
 

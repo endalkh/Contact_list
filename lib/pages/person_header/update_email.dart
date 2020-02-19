@@ -7,16 +7,15 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
-class UpdateEmail extends StatefulWidget{
+class UpdateEmail extends StatefulWidget {
   String id;
 
   UpdateEmail({@required this.id});
 
-  _UpdateEmail createState()=>_UpdateEmail(id);
+  _UpdateEmail createState() => _UpdateEmail(id);
 }
 
-class _UpdateEmail extends State<UpdateEmail>{
-
+class _UpdateEmail extends State<UpdateEmail> {
   TextEditingController emailController = TextEditingController();
   List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
   EmailType selectEmail;
@@ -25,37 +24,38 @@ class _UpdateEmail extends State<UpdateEmail>{
 
   @override
   void initState() {
-   emailType = EmailType.getEmails();
+    emailType = EmailType.getEmails();
   }
 
   String id;
-  _UpdateEmail(this.id){
-    this.id=id;
+
+  _UpdateEmail(this.id) {
+    this.id = id;
   }
 
-
-  submitForm(){
-    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-    var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addEmail =  addEmailApi(
-        token:token ,
-        personId: id,
+  submitForm() {
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+    var addEmail = updateEmailApi(
+        token: token,
+        id: id,
         type: emailType.toString(),
-        address: emailController.text
-
-    );
-    addEmail.then((value) async{
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        address: emailController.text);
+    addEmail.then((value) async {
+      if (value == true) {
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(true);
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      }
     });
 
-    addEmail.catchError((value) async{
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
-
+    addEmail.catchError((value) async {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context, listen: false)
+          .setSuccessfullyRegisteredFun(false);
+      Provider.of<Auth>(context, listen: false)
+          .setHasErrorFun(value.toString());
     });
-
   }
 
   List<DropdownMenuItem<EmailType>> emailBuildDropdownMenuItems(
@@ -72,55 +72,50 @@ class _UpdateEmail extends State<UpdateEmail>{
     return items;
   }
 
-
   emailOnChangeDropdownItem(EmailType email) {
     setState(() {
-      selectEmail= email;
+      selectEmail = email;
     });
   }
-
-
 
   emailButton() {
     emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
     emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
-    Future<GetEmail> emailApi =  getSingleEmailApi(
+    Future<GetEmail> emailApi = getSingleEmailApi(
       token: Provider.of<Auth>(context).getTokenFun(),
       id: id,
     );
 
-    emailApi.then((val) async{
+    emailApi.then((val) async {
       switch (val.type) {
         case "Gmail":
           setState(() {
-            selectEmail =  emailDropdownMenuItems[0].value;
+            selectEmail = emailDropdownMenuItems[0].value;
           });
           break;
 
         case "Icloud":
           setState(() {
-            selectEmail =  emailDropdownMenuItems[1].value;
+            selectEmail = emailDropdownMenuItems[1].value;
           });
           break;
 
         case "yahoo":
           setState(() {
-            selectEmail =  emailDropdownMenuItems[2].value;
+            selectEmail = emailDropdownMenuItems[2].value;
           });
           break;
 
         case "Hotbird":
           setState(() {
-            selectEmail =  emailDropdownMenuItems[0].value;
+            selectEmail = emailDropdownMenuItems[0].value;
           });
           break;
       }
-      emailController.text=val.address;
+      emailController.text = val.address;
     });
 
-    return
-
-      Container(
+    return Container(
       height: 55,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -138,7 +133,7 @@ class _UpdateEmail extends State<UpdateEmail>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DropdownButton(
-                        value:selectEmail,
+                        value: selectEmail,
                         items: emailDropdownMenuItems,
                         onChanged: emailOnChangeDropdownItem,
                       ),
@@ -152,15 +147,12 @@ class _UpdateEmail extends State<UpdateEmail>{
                   controller: emailController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-
                     hintText: "example@example.com",
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.check_circle,color: Colors.blue),
-                      onPressed: (){
-
-
+                      icon: Icon(Icons.check_circle, color: Colors.blue),
+                      onPressed: () {
+                        submitForm();
                       },
-
                     ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -171,9 +163,13 @@ class _UpdateEmail extends State<UpdateEmail>{
               Expanded(
                 flex: 1,
                 child: IconButton(
-                  icon: Icon(Icons.cancel,color: Colors.red,),
-                  onPressed: (){
-                    Provider.of<Auth>(context,listen: false).setEditEmail(false);
+                  icon: Icon(
+                    Icons.cancel,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    Provider.of<Auth>(context, listen: false)
+                        .setEditEmail(false);
                   },
                 ),
               )
@@ -204,21 +200,20 @@ class _UpdateEmail extends State<UpdateEmail>{
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-    this.context=context;
+    this.context = context;
 
-    return
-      SingleChildScrollView(
-        child:Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: emailButton(),
-            ),
-          ],
-        ),
-      );
-
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: emailButton(),
+          ),
+        ],
+      ),
+    );
   }
 }

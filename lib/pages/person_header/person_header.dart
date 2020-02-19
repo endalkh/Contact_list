@@ -40,7 +40,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
 
 
   getTitle(context) {
-    switch(Provider.of<Auth>(context,listen: false).getHomePageTabFun()){
+    switch(Provider.of<Auth>(context,listen: false).getPersonHeaderTabFun()){
       case 0:
         return "Notes";
         break;
@@ -128,7 +128,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
               child: Center(
                 child: Container(
 
-                    child: pageTaped(Provider.of<Auth>(context).getHomePageTabFun(),
+                    child: pageTaped(Provider.of<Auth>(context).getPersonHeaderTabFun(),
 
                 ),
               ),
@@ -137,7 +137,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: Provider.of<Auth>(context,listen: false).getHomePageTabFun(),
+          currentIndex: Provider.of<Auth>(context,listen: false).getPersonHeaderTabFun(),
           selectedItemColor: PRIMARY_COLOR,
           items: [
             BottomNavigationBarItem(
@@ -154,7 +154,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
             )
           ],
           onTap: (index) {
-            Provider.of<Auth>(context,listen: false).setHomePageTabFun(index);
+            Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(index);
           },
         ),
       );

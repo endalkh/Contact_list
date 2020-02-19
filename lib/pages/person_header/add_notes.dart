@@ -7,47 +7,43 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
-class AddNote extends StatefulWidget{
+class AddNote extends StatefulWidget {
   String personId;
+
   AddNote({@required this.personId});
-  _AddNote createState()=>_AddNote(personId);
+
+  _AddNote createState() => _AddNote(personId);
 }
 
-class _AddNote extends State<AddNote>{
-
+class _AddNote extends State<AddNote> {
   TextEditingController noteController = TextEditingController();
 
   EmailType selectEmail;
   String personId;
+
   _AddNote(this.personId);
 
-  submitForm(){
-    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-    var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addPhone =  addNoteApi(
-        token:token ,
-        personId: personId,
-        body: noteController.text
-
-    );
-    addPhone.then((value) async{
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+  submitForm() {
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+    var addNote =
+        addNoteApi(token: token, personId: personId, body: noteController.text);
+    addNote.then((value) async {
+      if(value==true) {
+        Provider.of<Auth>(context, listen: false).setSuccessfullyRegisteredFun(true);
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      }
     });
 
-    addPhone.catchError((value) async{
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
+    addNote.catchError((value) async {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context, listen: false)
+          .setSuccessfullyRegisteredFun(false);
 
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
-
-
-
-
+      Provider.of<Auth>(context, listen: false)
+          .setHasErrorFun(value.toString());
     });
-
   }
-
 
   enterNotesTextFormField() {
     return Column(
@@ -56,12 +52,14 @@ class _AddNote extends State<AddNote>{
           'Additional Notes',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Flexible(
-              child:Material(
+              child: Material(
                 borderRadius: BorderRadius.circular(10.0),
                 elevation: 12,
                 child: TextFormField(
@@ -73,18 +71,23 @@ class _AddNote extends State<AddNote>{
                     suffixIcon: Column(
                       children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.clear,color: Colors.red,),
-                          onPressed: (){
+                          icon: Icon(
+                            Icons.clear,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
                             noteController.clear();
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.check_circle,color: Colors.blue,),
-                          onPressed: (){
-
+                          icon: Icon(
+                            Icons.check_circle,
+                            color: Colors.blue,
+                          ),
+                          onPressed: () {
+                            submitForm();
                           },
                         ),
-
                       ],
                     ),
                     hintText: "Enter Notes",
@@ -95,64 +98,53 @@ class _AddNote extends State<AddNote>{
                 ),
               ),
             ),
-
-
-
           ],
         )
       ],
     );
-
-
-
-
   }
 
-
-
- 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Consumer<Auth>(
       builder: (BuildContext context, Auth value, Widget child) =>
-      value.getIsLoadingFun()==true?circularIndicator(context: context):
-      Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 10,
+          value.getIsLoadingFun() == true
+              ? circularIndicator(context: context)
+              : Scaffold(
+                  body: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child: enterNotesTextFormField(),
+                              ),
+                              value.getHasErrorFun().toString().isNotEmpty ==
+                                      true
+                                  ? Text(
+                                      Provider.of<Auth>(context, listen: false)
+                                          .getHasErrorFun(),
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: enterNotesTextFormField(),
-                    ),
-
-                    value.getHasErrorFun().toString().isNotEmpty==true?Text(Provider.of<Auth>(context,listen: false).getHasErrorFun(),
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ):Container(),
-
-
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-
-        ),
-      ),
     );
-
-
   }
 }
-

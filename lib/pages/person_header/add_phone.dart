@@ -45,8 +45,11 @@ class _AddPhone extends State<AddPhone>{
 
     );
     addPhone.then((value) async{
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      if(value==true){
+        Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
+        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      }
+
     });
 
     addPhone.catchError((value) async{
@@ -117,7 +120,7 @@ class _AddPhone extends State<AddPhone>{
                     suffixIcon: IconButton(
                       icon: Icon(Icons.check_circle,color: Colors.blue,),
                       onPressed: (){
-
+submitForm();
                       },
                     ),
                     border: OutlineInputBorder(

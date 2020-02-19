@@ -66,12 +66,14 @@ class Auth with ChangeNotifier {
   bool isSuccessfullyRegistered=false;
   String token;
   int page=0;
+  int pageHeader=0;
   List<GetAllContact> allContactList;
   bool addEmail=false,addPhone=false;
   bool addNote=false;
   bool editPhone=false;
   bool editEmail=false;
   bool editNote=false;
+  bool editContact=false;
   String id="";
 
 
@@ -156,6 +158,15 @@ class Auth with ChangeNotifier {
    return page;
   }
 
+  setPersonHeaderTabFun(index) async{
+    this.pageHeader=index;
+    notifyListeners();
+  }
+
+  getPersonHeaderTabFun(){
+   return pageHeader;
+  }
+
   setAddEmail(val){
     this.addEmail=val;
     notifyListeners();
@@ -202,6 +213,13 @@ class Auth with ChangeNotifier {
   }
   getEditNote(){
     return this.editNote;
+  }
+  setEditContact(val){
+    this.editContact=val;
+    notifyListeners();
+  }
+  getEditContact(){
+    return this.editContact;
   }
   setId(val){
     this.id=val;

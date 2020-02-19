@@ -3,6 +3,7 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
@@ -28,10 +29,51 @@ class _UpdatePhone extends State<UpdatePhone> {
   _UpdatePhone(this.id) {
     this.id = id;
   }
+@override
+  void didChangeDependencies() {
+    phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
+    Future<GetPhone> phoneApi = getSinglePhoneApi(
+      token: Provider.of<Auth>(context).getTokenFun(),
+      personId: id,
+    );
 
-
+    phoneApi.then((val) {
+      switch (val.type.toString()) {
+        case "Mobile":
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
+          });
+          break;
+        case "Home":
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
+          });
+          break;
+        case "Work":
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
+          });
+          break;
+        case "Fax":
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
+          });
+          break;
+        case "Line":
+          setState(() {
+            selectPhone = phoneDropdownMenuItems[0].value;
+          });
+          break;
+      }
+      phoneController.text = val.number;
+    });
+    phoneApi.catchError((val) {
+//      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+    });
+    super.didChangeDependencies();
+  }
   @override
-  void dispose(){
+  void dispose() {
     phoneController.dispose();
     super.dispose();
   }
@@ -39,9 +81,9 @@ class _UpdatePhone extends State<UpdatePhone> {
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-    var addPhone = addPhoneApi(
+    var addPhone = updatePhoneApi(
         token: token,
-        personId: id,
+        id: id,
         type: phoneType.toString(),
         number: phoneController.text);
     addPhone.then((value) async {
@@ -80,7 +122,6 @@ class _UpdatePhone extends State<UpdatePhone> {
   }
 
   phoneNumberButton() {
-
     return Container(
       height: 55,
       decoration: BoxDecoration(
@@ -115,13 +156,11 @@ class _UpdatePhone extends State<UpdatePhone> {
                   decoration: InputDecoration(
                     hintText: "+1(424) 341-3346",
                     suffixIcon: IconButton(
-                          icon: Icon(Icons.check_circle,color: Colors.blue),
-                          onPressed: (){
-
-
-                          },
-
-                        ),
+                      icon: Icon(Icons.check_circle, color: Colors.blue),
+                      onPressed: () {
+                        submitForm();
+                      },
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -131,9 +170,13 @@ class _UpdatePhone extends State<UpdatePhone> {
               Expanded(
                 flex: 1,
                 child: IconButton(
-                  icon: Icon(Icons.cancel,color: Colors.red,),
-                  onPressed: (){
-                    Provider.of<Auth>(context,listen: false).setEditPhone(false);
+                  icon: Icon(
+                    Icons.cancel,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    Provider.of<Auth>(context, listen: false)
+                        .setEditPhone(false);
                   },
                 ),
               )
@@ -167,67 +210,35 @@ class _UpdatePhone extends State<UpdatePhone> {
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
 
 
-this.context=context;
 
-    phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
-    Future<GetPhone> phoneApi =  getSinglePhoneApi(
-      token: Provider.of<Auth>(context).getTokenFun(),
-      personId: id,
-    );
+    return Consumer<Auth>(
+      builder: (BuildContext context, Auth value, Widget child) =>
+          value.getIsLoadingFun() == true
+              ? circularIndicator(context: context)
+              : SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: phoneNumberButton(),
+                      ),
 
-    phoneApi.then((val)  {
-      switch (val.type.toString()) {
-        case "Mobile":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-
-          });
-          break;
-        case "Home":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-
-          });
-          break;
-        case "Work":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-
-          });
-          break;
-        case "Fax":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-
-          });
-          break;
-        case "Line":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-
-          });
-          break;
-
-      }
-      phoneController.text=val.number;
-    });
-    phoneApi.catchError((val) {
-//      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-    });
-
-    return SingleChildScrollView(
-        child:Column(
-children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10),
-                    child: phoneNumberButton(),
+                      value.getHasErrorFun().toString().isNotEmpty ==
+                          true
+                          ? Text(
+                        Provider.of<Auth>(context, listen: false)
+                            .getHasErrorFun(),
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      )
+                          : Container(),
+                    ],
                   ),
-        ],
-    ),
+                ),
     );
-
-
   }
 }

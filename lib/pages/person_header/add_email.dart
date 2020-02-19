@@ -8,21 +8,23 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
-class AddEmail extends StatefulWidget{
+class AddEmail extends StatefulWidget {
   String personId;
+
   AddEmail({@required this.personId});
-  _AddEmail createState()=>_AddEmail(personId);
+
+  _AddEmail createState() => _AddEmail(personId);
 }
 
-class _AddEmail extends State<AddEmail>{
-
+class _AddEmail extends State<AddEmail> {
   List<EmailType> emailType = EmailType.getEmails();
   List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
   TextEditingController emailController = TextEditingController();
 
   EmailType selectEmail;
   String personId;
-_AddEmail(this.personId);
+
+  _AddEmail(this.personId);
 
   @override
   void initState() {
@@ -30,32 +32,31 @@ _AddEmail(this.personId);
     selectEmail = emailDropdownMenuItems[0].value;
     super.initState();
   }
-  submitForm(){
-    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-    var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addPhone =  addEmailApi(
-        token:token ,
+
+  submitForm() {
+    print(personId);
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+    var addEmail = addEmailApi(
+        token: token,
         personId: personId,
         type: emailType.toString(),
-        address: emailController.text
-
-    );
-    addPhone.then((value) async{
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        address: emailController.text);
+    addEmail.then((value) async {
+      if(value==true) {
+        Provider.of<Auth>(context, listen: false).setSuccessfullyRegisteredFun(true);
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      }
     });
 
-    addPhone.catchError((value) async{
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
+    addEmail.catchError((value) async {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context, listen: false)
+          .setSuccessfullyRegisteredFun(false);
 
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
-
-
-
-
+      Provider.of<Auth>(context, listen: false)
+          .setHasErrorFun(value.toString());
     });
-
   }
 
   List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(
@@ -86,14 +87,11 @@ _AddEmail(this.personId);
     return items;
   }
 
-
   emailOnChangeDropdownItem(EmailType email) {
     setState(() {
       selectEmail = email;
     });
   }
-
-
 
   emailTypeButton() {
     return Container(
@@ -130,9 +128,12 @@ _AddEmail(this.personId);
                   decoration: InputDecoration(
                     hintText: "example@example.com",
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.check_circle,color: Colors.blue,),
-                      onPressed: (){
-
+                      icon: Icon(
+                        Icons.check_circle,
+                        color: Colors.blue,
+                      ),
+                      onPressed: () {
+                        submitForm();
                       },
                     ),
                     border: OutlineInputBorder(
@@ -168,49 +169,48 @@ _AddEmail(this.personId);
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Consumer<Auth>(
-        builder: (BuildContext context, Auth value, Widget child) =>
-        value.getIsLoadingFun()==true?circularIndicator(context: context):
-        Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: emailTypeButton(),
-                      ),
-
-                      value.getHasErrorFun().toString().isNotEmpty==true?Text(Provider.of<Auth>(context,listen: false).getHasErrorFun(),
-                        style: TextStyle(
-                          color: Colors.red,
+      builder: (BuildContext context, Auth value, Widget child) =>
+          value.getIsLoadingFun() == true
+              ? circularIndicator(context: context)
+              :
+                   SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child: emailTypeButton(),
+                              ),
+                              value.getHasErrorFun().toString().isNotEmpty ==
+                                      true
+                                  ? Text(
+                                      Provider.of<Auth>(context, listen: false)
+                                          .getHasErrorFun(),
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
+                          ),
                         ),
-                      ):Container(),
-
-
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
 
-          ),
-        ),
-      );
-
-
+    );
   }
 }
-

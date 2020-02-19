@@ -65,8 +65,7 @@ class Constant{
     fontFamily: "TimesNewRoman",
     backgroundColor: TRIAL_COLOR,
     primaryColor: lightPrimary,
-    accentColor:  lightAccent,
-    cursorColor: lightAccent,
+
 indicatorColor: PRIMARY_COLOR,
 brightness: Brightness.light,
 
@@ -95,7 +94,7 @@ bottomAppBarTheme: BottomAppBarTheme(
     brightness: Brightness.dark,
     backgroundColor: darkBG,
     primaryColor: darkPrimary,
-    accentColor: darkAccent,
+
 
 //    scaffoldBackgroundColor: darkBG,
 textTheme: TextTheme(
@@ -104,7 +103,6 @@ textTheme: TextTheme(
         fontSize: 20.0,
       ),
 ),
-    cursorColor: darkAccent,
     appBarTheme: AppBarTheme(
       elevation: 0,
       textTheme: TextTheme(

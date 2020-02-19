@@ -105,9 +105,7 @@ class EmailAddress extends StatelessWidget implements NoteDelAndEdit {
             },
           ),
           Provider.of<Auth>(context,listen: false).getAddEmail()==true?
-          Container(
-              height:150 ,
-              child:AddEmail()):Container(),
+            AddEmail(personId: personId,):Container(),
         ]
     );
   }

@@ -4,9 +4,6 @@ import 'package:flutter/cupertino.dart';
 
 const Color lightPrimary = Colors.white;
 const Color darkPrimary = Colors.black;
-const Color lightAccent = Color(0xff06d6a7);
-
-const Color darkAccent = Color(0xff06d6a7);
 const Color lightBG = Colors.white;
 const Color darkBG = Color(0xFF0A0E21);
 const Color COLOR_LINK = Colors.blue;
