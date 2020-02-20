@@ -1560,4 +1560,255 @@ updateNoteApi({@required token, @required id, @required body}) async {
   }
 }
 
+
+
 /*================== All Delete Api ===============================*/
+deletePhoneApi(
+    {@required token, @required id}) async {
+  String error;
+
+
+  try {
+    final response = await http.delete(
+      API.ADD_PHONE_API,
+      headers: {
+        "Authorization": token,
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+        return true;
+
+      case 201:
+        return true;
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error = 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error = "Couldn't find the request 😱";
+    throw error;
+  } on FormatException {
+    error = "Bad response format 👎";
+    throw error;
+  } on Exception {
+    error = "We have not idea what happend!";
+    throw error;
+  }
+}
+
+deleteEmailApi(
+    {@required token, @required id}) async {
+  String error;
+
+
+  try {
+    final response = await http.delete(
+      API.ADD_EMAIL_API,
+      headers: {
+        "Authorization": token,
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+        return true;
+
+      case 201:
+        return true;
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error = 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error = "Couldn't find the request 😱";
+    throw error;
+  } on FormatException {
+    error = "Bad response format 👎";
+    throw error;
+  } on Exception {
+    error = "We have not idea what happend!";
+    throw error;
+  }
+}
+
+deletePersonApi(
+    {@required token,
+      @required id}) async {
+  String error;
+
+
+  try {
+    final response = await http.delete(
+      API.ADD_NEW_PERSON_API,
+      headers: {
+        "Authorization": token,
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+        return true;
+
+      case 201:
+        return true;
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error = 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error = "Couldn't find the request 😱";
+    throw error;
+  } on FormatException {
+    error = "Bad response format 👎";
+    throw error;
+  } on Exception {
+    error = "We have not idea what happend!";
+    throw error;
+  }
+}
+
+deleteNoteApi({@required token, @required id}) async {
+  String error;
+
+
+  try {
+    final response = await http.delete(
+      API.ADD_NOTE_API,
+      headers: {
+        "Authorization": token,
+      },
+    );
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return true;
+      case 201:
+        return true;
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error = 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error = "Couldn't find the request 😱";
+    throw error;
+  } on FormatException {
+    error = "Bad response format 👎";
+    throw error;
+  } on Exception {
+    error = "We have not idea what happend!";
+    throw error;
+  }
+}

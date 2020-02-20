@@ -22,7 +22,6 @@ class _UpdateContact extends State<UpdateContact>{
   TextEditingController lNameController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
 
-
   String id;
   _UpdateContact({this.id});
   bool isApiLoaded;
