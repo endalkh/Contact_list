@@ -32,16 +32,6 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
     );
     super.initState();
   }
-//  @override
-//  void didChangeDependencies() {
-//   if(!isApiLoaded) {
-//     isApiLoaded=true;
-//     Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-//     Provider.of<Auth>(context).setHasErrorFun("");
-//   }
-//
-//    super.didChangeDependencies();
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,13 +129,13 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
 
   @override
   deleteNote({id, context, contextDialog}) {
-    InfoDialog(
-        context:context,
-//        id:id,
-        title:"Are you sure for this action?",
-        callback:_UpcomingBirthDaysScreen(),
-      type: Constant.warningIcon,
-    );
+//    InfoDialog(
+//        context:context,
+////        id:id,
+//        title:"Are you sure for this action?",
+//        callback:_UpcomingBirthDaysScreen(),
+//      type: Constant.warningIcon,
+//    );
 
     Navigator.pop(context);
     return null;
