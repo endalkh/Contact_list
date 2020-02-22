@@ -7,6 +7,7 @@ import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
 import 'package:flutter_app/pages/dialog/info_dialog.dart';
+import 'package:flutter_app/pages/dialog/loading_dialog.dart';
 import 'package:flutter_app/pages/home/update_contacts.dart';
 import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
@@ -32,6 +33,7 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
     );
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +87,7 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
 
                                         ),
                                       onLongPress: (){
+
                                         DeleteAndEditNotesDialog(context: context,callback:_UpcomingBirthDaysScreen(),id: snapshot.data[index].id );
                                       },
                                       onTap: (){
@@ -127,19 +130,7 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
 
     }
 
-  @override
-  deleteNote({id, context, contextDialog}) {
-//    InfoDialog(
-//        context:context,
-////        id:id,
-//        title:"Are you sure for this action?",
-//        callback:_UpcomingBirthDaysScreen(),
-//      type: Constant.warningIcon,
-//    );
 
-    Navigator.pop(context);
-    return null;
-  }
 
   @override
   editNote({id, context, contextDialog}) {
@@ -158,9 +149,11 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
       id: id,
       token: token,
     );
+    LoadingDialog(context: context,title: "please wait.....");
+
     deleteNote.then((value) async {
       if(value==true) {
-        Provider.of<Auth>(context, listen: false).setSuccessfullyRegisteredFun(true);
+        Navigator.of(context).pop();
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
         InfoDialog(
             context: context,
@@ -180,6 +173,6 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
           type:Constant.error
       );
     });
-    Navigator.pop(context);
+//    Navigator.pop(context);
   }
   }

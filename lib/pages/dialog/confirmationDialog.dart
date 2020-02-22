@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/dialog/loading_dialog.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
+import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
-class ConfirmationDialog {
+import 'package:provider/provider.dart';
+class ConfirmationDialog  {
 String title;
 String type;
 String id;
 ShouldImp callback;
+BuildContext context;
+bool fal=false;
 ConfirmationDialog({context,title,id,callback,type}){
+
     this.title=title;
     this.callback=callback;
     this.type=type;
     this.id=id;
+    this.context=context;
     _alertDialog(context);
   }
-  _alertDialog(BuildContext context) {
+  _alertDialog(BuildContext cxt) {
      showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: (BuildContext cxt) {
           return  Center(
             child: Dialog(
               elevation: 0,
@@ -37,7 +45,7 @@ ConfirmationDialog({context,title,id,callback,type}){
                 child: Row(
                   children: <Widget>[
                     SizedBox(width: 20.0),
-                    CircleAvatar(radius: 35,  child:this.type==Constant.warningIcon? Icon(Icons.warning,color: Colors.yellow):Icon(Icons.info,color: PRIMARY_COLOR,)),
+                    CircleAvatar(radius: 35,  child: (this.type==Constant.warningIcon? Icon(Icons.warning,color: Colors.yellow):Icon(Icons.info,color: PRIMARY_COLOR,))),
                     SizedBox(width: 20.0),
                     Expanded(
                       child: Column(
@@ -73,11 +81,8 @@ ConfirmationDialog({context,title,id,callback,type}){
                                 color: Colors.green,
                                 colorBrightness: Brightness.dark,
                                 onPressed: () {
-                                  callback.changer(
-                                     context: context,
-                                    id:id
-
-                                 );
+                                  Navigator.pop(context);
+                                  callback.changer(context: context,id: id);
                                   },
 
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),

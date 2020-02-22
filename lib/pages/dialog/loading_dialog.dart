@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
+import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
-class InfoDialog {
+import 'package:provider/provider.dart';
+class LoadingDialog  {
   String title;
-  String type;
-  ShouldImp callback;
-  InfoDialog({context,title,callback,type}){
+  BuildContext context;
+  LoadingDialog({context,title}){
+
     this.title=title;
-    this.callback=callback;
-    this.type=type;
+    this.context=context;
     _alertDialog(context);
   }
-  _alertDialog(BuildContext context) {
+  _alertDialog(BuildContext cxt) {
     showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: (BuildContext cxt) {
           return  Center(
             child: Dialog(
               elevation: 0,
+//              backgroundColor: Colors.transparent,
               child: Container(
                 padding: EdgeInsets.only(right: 16.0),
                 height: 150,
@@ -33,39 +37,35 @@ class InfoDialog {
                 child: Row(
                   children: <Widget>[
                     SizedBox(width: 20.0),
-                    CircleAvatar(radius: 35,  child:this.type==Constant.success? Icon(Icons.check_circle,color: Colors.green,):Icon(Icons.error,color: Colors.red,)),
-                    SizedBox(width: 20.0),
+                    CircleAvatar(radius: 35,  child:circularIndicator(context: context),),
+                         SizedBox(width: 20.0),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-
-                          Text(this.type==Constant.success?"Success":"Error", style:TextStyle(
+                          Text("Loading...", style:TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 18,
-                            color: this.type==Constant.success?Colors.green:Colors.red
                           ) ),
                           SizedBox(height: 10.0),
                           Flexible(
-                            child: Text(
-                                title),
+                            child: Text(title),
                           ),
                           SizedBox(height: 10.0),
                           Row(children: <Widget>[
-
-
-
-                            RaisedButton(
-                                child: Text("Ok"),
-                                color: this.type==Constant.success?Colors.green:Colors.red,
+                            Expanded(
+                              child: RaisedButton(
+                                child: Text("Cancel"),
+                                color: Colors.red,
                                 colorBrightness: Brightness.dark,
-                                onPressed: () {
-                                Navigator.pop(context);
-                                },
-
+                                onPressed: (){Navigator.pop(context);},
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                               ),
+                            ),
+
+                            SizedBox(width: 10.0),
+
 
                           ],)
                         ],

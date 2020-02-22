@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 
 class DeleteAndEditNotesDialog {
@@ -14,11 +16,11 @@ class DeleteAndEditNotesDialog {
     this.context=context;
     _alertDialog(context);
   }
-  _alertDialog(BuildContext context) {
+  _alertDialog(BuildContext cxt) {
     this.contextDialog=context;
     showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: (BuildContext cxt) {
           return Center(
             child: Dialog(
               elevation: 0,
@@ -66,12 +68,16 @@ class DeleteAndEditNotesDialog {
                         color: Colors.red,
                         colorBrightness: Brightness.dark,
                         onPressed: (){
-
-                          callback.deleteNote(
-                            contextDialog: contextDialog,
-                            context:this.context,
+                          Navigator.of(context).pop();
+                          ConfirmationDialog(
+                              context: context,
+                              title:"Are you sure for this action?",
+                              callback: callback,
+                              type: Constant.warningIcon,
                             id: id
                           );
+
+
                         },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                       ) ,

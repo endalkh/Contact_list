@@ -1691,15 +1691,15 @@ deletePersonApi(
     {@required token,
       @required id}) async {
   String error;
-
+  final response = await http.delete(
+    API.DELETE_PERSON_API+"?id="+id,
+    headers: {
+      "Authorization": token,
+    },
+  );
 
   try {
-    final response = await http.delete(
-      API.ADD_NEW_PERSON_API,
-      headers: {
-        "Authorization": token,
-      },
-    );
+
     switch (response.statusCode) {
       case 200:
         return true;
