@@ -23,22 +23,25 @@ class UpcomingBirthDaysScreen extends StatefulWidget{
   _UpcomingBirthDaysScreen createState()=>_UpcomingBirthDaysScreen();
 }
 class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements NoteDelAndEdit,ShouldImp{
- bool isApiLoaded;
   @override
   void initState() {
-    isApiLoaded=false;
+    new Future.delayed(Duration.zero, () {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
+    },
+    );
     super.initState();
   }
-  @override
-  void didChangeDependencies() {
-   if(!isApiLoaded) {
-     isApiLoaded=true;
-     Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-     Provider.of<Auth>(context).setHasErrorFun("");
-   }
-
-    super.didChangeDependencies();
-  }
+//  @override
+//  void didChangeDependencies() {
+//   if(!isApiLoaded) {
+//     isApiLoaded=true;
+//     Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+//     Provider.of<Auth>(context).setHasErrorFun("");
+//   }
+//
+//    super.didChangeDependencies();
+//  }
 
   @override
   Widget build(BuildContext context) {
