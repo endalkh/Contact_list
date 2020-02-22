@@ -46,7 +46,6 @@ class _AddEmail extends State<AddEmail> {
     super.didChangeDependencies();
   }
   submitForm() {
-    print(personId);
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
     var addEmail = addEmailApi(

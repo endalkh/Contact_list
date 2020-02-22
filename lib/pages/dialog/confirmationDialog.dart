@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 class ConfirmationDialog {
 String title;
+String type;
+String id;
 ShouldImp callback;
-  ConfirmationDialog({context,title,callback}){
+ConfirmationDialog({context,title,id,callback,type}){
     this.title=title;
     this.callback=callback;
+    this.type=type;
+    this.id=id;
     _alertDialog(context);
   }
   _alertDialog(BuildContext context) {
@@ -32,14 +37,14 @@ ShouldImp callback;
                 child: Row(
                   children: <Widget>[
                     SizedBox(width: 20.0),
-                    CircleAvatar(radius: 35,  child: Icon(Icons.info,color: PRIMARY_COLOR,),),
+                    CircleAvatar(radius: 35,  child:this.type==Constant.warningIcon? Icon(Icons.warning,color: Colors.yellow):Icon(Icons.info,color: PRIMARY_COLOR,)),
                     SizedBox(width: 20.0),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text("Alert!", style:TextStyle(
+                          Text(this.type==Constant.warningIcon?"Warning":"Alert!", style:TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 18,
                           ) ),
@@ -70,6 +75,8 @@ ShouldImp callback;
                                 onPressed: () {
                                   callback.changer(
                                      context: context,
+                                    id:id
+
                                  );
                                   },
 

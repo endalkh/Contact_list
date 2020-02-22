@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 class InfoDialog {
   String title;
+  String type;
   ShouldImp callback;
-  InfoDialog({context,title,callback}){
+  InfoDialog({context,title,callback,type}){
     this.title=title;
     this.callback=callback;
+    this.type=type;
     _alertDialog(context);
   }
   _alertDialog(BuildContext context) {
@@ -31,16 +34,18 @@ class InfoDialog {
                 child: Row(
                   children: <Widget>[
                     SizedBox(width: 20.0),
-                    CircleAvatar(radius: 35,  child: Icon(Icons.info,color: PRIMARY_COLOR,),),
+                    CircleAvatar(radius: 35,  child:this.type==Constant.success? Icon(Icons.check_circle,color: Colors.green,):Icon(Icons.error,color: Colors.red,)),
                     SizedBox(width: 20.0),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text("Alert!", style:TextStyle(
+
+                          Text(this.type==Constant.success?"Success":"Error", style:TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 18,
+                            color: this.type==Constant.success?Colors.green:Colors.red
                           ) ),
                           SizedBox(height: 10.0),
                           Flexible(
@@ -51,10 +56,10 @@ class InfoDialog {
                           Row(children: <Widget>[
 
 
-                            Expanded(
-                              child: RaisedButton(
+
+                            RaisedButton(
                                 child: Text("Ok"),
-                                color: Colors.green,
+                                color: this.type==Constant.success?Colors.green:Colors.red,
                                 colorBrightness: Brightness.dark,
                                 onPressed: () {
                                   callback.changer(
@@ -64,7 +69,7 @@ class InfoDialog {
 
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                               ),
-                            ),
+
                           ],)
                         ],
                       ),

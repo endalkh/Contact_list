@@ -21,7 +21,7 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
   _SideDrawer createState() => _SideDrawer();
 
   @override
-  void changer({context}) {
+  void changer({context,id}) {
     signOut();
     Navigator.pushNamed(context, Constant.SIGN_IN);
   }
