@@ -31,20 +31,15 @@ class _AddPhone extends State<AddPhone>{
 
   @override
   void initState() {
-    isApiLoaded=false;
-    phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
-    selectPhone = phoneDropdownMenuItems[0].value;
+    Future.delayed(Duration.zero, () {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+      phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
+      selectPhone = phoneDropdownMenuItems[0].value;
+    });
     super.initState();
   }
-  @override
-  void didChangeDependencies() {
 
-    if(!isApiLoaded) {
-      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context).setHasErrorFun("");
-    }
-    super.didChangeDependencies();
-  }
   submitForm(){
     Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
     var token=Provider.of<Auth>(context,listen: false).getTokenFun();

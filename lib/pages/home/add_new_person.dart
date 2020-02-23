@@ -5,6 +5,7 @@ import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
@@ -28,56 +29,60 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
   List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
   PhoneType selectPhone;
   EmailType selectEmail;
-  bool isApiLoaded;
+  bool showError=false;
 
   @override
   void initState() {
-    isApiLoaded=false;
-    phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
-    emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
-    selectPhone = phoneDropdownMenuItems[0].value;
-    selectEmail = emailDropdownMenuItems[0].value;
+    Future.delayed(Duration.zero, () {
+      phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
+      emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
+      selectPhone = phoneDropdownMenuItems[0].value;
+      selectEmail = emailDropdownMenuItems[0].value;
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+    });
     super.initState();
   }
-  @override
-  void didChangeDependencies() {
-   if(!isApiLoaded){
-     Provider.of<Auth>(context).setHasErrorFun("");
-     Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-     isApiLoaded=true;
-   }
 
-
-    super.didChangeDependencies();
-  }
 
   submitForm(){
-    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-    var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addNewPerson =  addNewPersonApi(
-      fName: fNameController.text,
-      lName: lNameController.text,
-      birthday: birthdayController.text,
-      token:token ,
-      notes: addNoteController.text
+    if(fNameController.text.isEmpty){
+      setState(() {
+        showError=true;
+      });
+    }
+    else{
+      setState(() {
+        showError=false;
+      });
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+      var token=Provider.of<Auth>(context,listen: false).getTokenFun();
+      var addNewPerson =  addNewPersonApi(
+          fName: fNameController.text,
+          lName: lNameController.text,
+          birthday: birthdayController.text,
+          token:token ,
+          notes: addNoteController.text
 
-    );
-    addNewPerson.then((value) async{
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
+      );
+      addNewPerson.then((value) {
+        Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
 
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-    });
+        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      });
 
-    addNewPerson.catchError((value) async{
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
+      addNewPerson.catchError((value) {
+        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
 
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
-
-
+        Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
 
 
-    });
+
+
+      });
+    }
+
 
   }
 
@@ -166,6 +171,7 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
             ),
           ),
         ),
+        showError==true?Text(validateName(fNameController.text),style: TextStyle(color: Colors.red),):Container(),
         Padding(padding: EdgeInsets.all(5)),
         Material(
           borderRadius: BorderRadius.circular(10.0),

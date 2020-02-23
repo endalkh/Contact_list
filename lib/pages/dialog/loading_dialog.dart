@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
-import 'package:flutter_app/state/app_state.dart';
-import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
-import 'package:provider/provider.dart';
+
 class LoadingDialog  {
   String title;
   BuildContext context;
@@ -17,6 +13,7 @@ class LoadingDialog  {
   _alertDialog(BuildContext cxt) {
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext cxt) {
           return  Center(
             child: Dialog(
@@ -56,10 +53,10 @@ class LoadingDialog  {
                           Row(children: <Widget>[
                             Expanded(
                               child: RaisedButton(
-                                child: Text("Cancel"),
+                                child: Text("Deleting..."),
                                 color: Colors.red,
                                 colorBrightness: Brightness.dark,
-                                onPressed: (){Navigator.pop(context);},
+                                onPressed: (){},
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                               ),
                             ),

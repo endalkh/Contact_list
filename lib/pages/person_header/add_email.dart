@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
@@ -25,26 +24,19 @@ class _AddEmail extends State<AddEmail> {
   String personId;
 
   _AddEmail(this.personId);
-  bool isApiLoaded;
 
   @override
   void initState() {
-    isApiLoaded=false;
-    emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
-    selectEmail = emailDropdownMenuItems[0].value;
+     Future.delayed(Duration.zero, () {
+      emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
+      selectEmail = emailDropdownMenuItems[0].value;
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context).setHasErrorFun("");
+    },
+    );
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
- if(!isApiLoaded){
-   Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-   Provider.of<Auth>(context).setHasErrorFun("");
-   isApiLoaded=true;
- }
-
-    super.didChangeDependencies();
-  }
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();

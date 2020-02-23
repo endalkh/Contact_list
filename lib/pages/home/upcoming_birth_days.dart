@@ -26,7 +26,7 @@ class UpcomingBirthDaysScreen extends StatefulWidget{
 class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements NoteDelAndEdit,ShouldImp{
   @override
   void initState() {
-    new Future.delayed(Duration.zero, () {
+     Future.delayed(Duration.zero, () {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context, listen: false).setHasErrorFun("");
     },

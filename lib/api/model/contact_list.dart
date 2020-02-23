@@ -10,7 +10,7 @@ class GetAllContact {
     return GetAllContact(
       name: parsedJson['name'],
       id:parsedJson["id"],
-      birthDate: parsedJson['birthday'],
+      birthDate: parsedJson['birthday']==null?"":parsedJson['birthday'],
     );
   }
 

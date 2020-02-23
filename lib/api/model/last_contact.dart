@@ -11,7 +11,7 @@ class GetLastContact {
     return GetLastContact(
       name: parsedJson['name'],
       id:parsedJson["id"],
-      lastContact: parsedJson['last_contact'],
+      lastContact: parsedJson['last_contact']==null?"":parsedJson['last_contact'],
     );
   }
 

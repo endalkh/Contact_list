@@ -20,7 +20,6 @@ final String personId;
   // In the constructor, require a person Id
 PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
 
-  // GlobalKey _bottomNavigationKey = GlobalKey();
 
 
   pageTaped(page) {
@@ -117,6 +116,15 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
             ),
           ],
         ),
+      );
+    }
+    else if (snapshot.hasError) {
+      return Center(
+        child: Text(
+          snapshot.error.toString(), style: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.w400,
+          color: Colors.red
+        ),),
       );
     }
     return circularIndicator(context:context);

@@ -24,7 +24,7 @@
  validateName(String value) {
    if (value.isEmpty) {
      // The form is empty
-     return "Enter Name address";
+     return "The name field is required! ";
    }
    // This is just a regular expression for email addresses
    String p = "[a-zA-Z]{1,256}";
@@ -33,7 +33,6 @@
    if (regExp.hasMatch(value)) {
      return "";
    }
-   // The pattern of the email didn't match the regex above.
    return 'Name is not valid';
  }
 

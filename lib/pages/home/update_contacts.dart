@@ -24,19 +24,11 @@ class _UpdateContact extends State<UpdateContact>{
 
   String id;
   _UpdateContact({this.id});
-  bool isApiLoaded;
 
 @override
   void initState() {
-  isApiLoaded=false;
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-  if(!isApiLoaded) {
-    Provider.of<Auth>(context).setHasErrorFun("");
-
+  Future.delayed(Duration.zero, () {
+    Provider.of<Auth>(context,listen: false).setHasErrorFun("");
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     Future<GetAllContact> updatePersonApi = getSingleContactApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
@@ -52,9 +44,8 @@ class _UpdateContact extends State<UpdateContact>{
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context, listen: false).setHasErrorFun(val.toString());
     });
-    isApiLoaded=true;
-  }
-    super.didChangeDependencies();
+  });
+    super.initState();
   }
 
   submitButton() {

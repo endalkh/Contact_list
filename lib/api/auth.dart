@@ -83,38 +83,7 @@ Future<GetAllContact> getSingleContactApi({token, id}) async {
 
 Future<List<GetAllContact>> getAllContactApi({token}) async {
   String error;
-  List<Map<String, String>> test = [
-    {
-      "id": "74b6b078-2df9-4ae2-a90d-e3e808b31fdc",
-      "name": "Leah Solo",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "25fcf38c-4084-4544-98ce-d057986fc3ee",
-      "name": "endalk",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "5aefbbc2-18b6-4d45-b4a4-89c5c2dcf39e",
-      "name": "Luke Skywalker",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "4ae8548d-ec2b-432d-88c0-ee5184e96640",
-      "name": "samuel kassa",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "9e5d9119-afd9-458e-b840-576f47426777",
-      "name": "stefan james",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "20975e7b-094f-41ce-b21b-3a82ab9d3e07",
-      "name": "mark tomas",
-      "birthday": "2011-11-11T00:00:00Z"
-    }
-  ];
+
   try {
     final response = await http.get(
       API.CONTACT_LIST_API,
@@ -124,11 +93,11 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
-        return test.map((data) => GetAllContact.fromJson(data)).toList();
+        var responseJson = await json.decode(response.body) as List;
+        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
       case 201:
         var responseJson = await json.decode(response.body);
-        return test.map((data) => GetAllContact.fromJson(data)).toList();
+        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -177,36 +146,83 @@ Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
   String error;
 
   List<Map<String, String>> test = [
-    {
-      "id": "74b6b078-2df9-4ae2-a90d-e3e808b31fdc",
-      "name": "Leah Solo",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "25fcf38c-4084-4544-98ce-d057986fc3ee",
-      "name": "endalk",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "5aefbbc2-18b6-4d45-b4a4-89c5c2dcf39e",
-      "name": "Luke Skywalker",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "4ae8548d-ec2b-432d-88c0-ee5184e96640",
-      "name": "samuel kassa",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "9e5d9119-afd9-458e-b840-576f47426777",
-      "name": "stefan james",
-      "birthday": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "20975e7b-094f-41ce-b21b-3a82ab9d3e07",
-      "name": "mark tomas",
-      "birthday": "2011-11-11T00:00:00Z"
-    }
+
+      {
+        "id": "9e5d9119-afd9-458e-b840-576f47426777",
+        "name": "Luke Skywalker",
+        "birthday": "2011-11-11T00:00:00Z"
+      },
+      {
+        "id": "5213202c-9c4b-47d7-93b7-7c500f97fbc6",
+        "name": "Luke Skywalker",
+        "birthday": "2011-11-11T00:00:00Z"
+      },
+      {
+        "id": "7690e44a-a67a-45d2-9cb2-e25517fc5994",
+        "name": "Luke Skywalker",
+        "birthday": "2011-11-11T00:00:00Z"
+      },
+      {
+        "id": "8a24b74e-4536-4661-b731-8be95c148c9d",
+        "name": "stefan belete",
+        "birthday": "2011-11-11T00:00:00Z"
+      },
+      {
+        "id": "92a3ef20-4986-4313-bf13-8ea7e5aed2e5",
+        "name": "Luke Skywalker",
+        "birthday": "2011-11-11T00:00:00Z"
+      },
+      {
+        "id": "0948c9fb-90a7-473a-ab22-962049a33613",
+        "name": "Luke Skywalker",
+        "birthday": "2011-11-11T00:00:00Z"
+      },
+      {
+        "id": "d4c6725e-723e-4e50-9be8-e9cbed8198d2",
+        "name": "stefan belete",
+        "birthday": "2011-11-11T00:00:00Z"
+      },
+      {
+        "id": "e4f18449-e9fa-47d2-884d-3c7abd9bdb41",
+        "name": "Luke Skywalker",
+        "birthday": "2011-11-11T00:00:00Z"
+      },
+      {
+        "id": "a5d90473-14de-41ce-b020-f1fc8f06953b",
+        "name": "stefan belete",
+        "birthday": "2020-11-11T00:00:00Z"
+      },
+      {
+        "id": "aed812fa-9479-48bd-b53e-d4f8c3ee0537",
+        "name": "endalk dasdasd",
+        "birthday": "2020-11-11T00:00:00Z"
+      },
+      {
+        "id": "ca9c5986-b9a2-4977-b48b-7964be1d1bf5",
+        "name": "endalk dasdasd",
+        "birthday": "2020-11-11T00:00:00Z"
+      },
+      {
+        "id": "07f8ca74-26e1-4716-aaf7-84fa077eea00",
+        "name": "endalk dasdasd",
+        "birthday": "2020-11-11T00:00:00Z"
+      },
+      {
+        "id": "087fb74c-0d6c-420b-be9a-1030d7f47c0f",
+        "name": "endalk dasdasd",
+        "birthday": "2020-11-11T00:00:00Z"
+      },
+      {
+        "id": "cedff2ad-c0a6-47ad-bd2c-d570938e76cb",
+        "name": "endalk dasdasd",
+        "birthday": "2020-02-16T00:00:00Z"
+      },
+      {
+        "id": "a0fe01d6-3df6-4d35-b402-f14f3858d418",
+        "name": "elsabet damon",
+        "birthday": "1920-02-16T00:00:00Z"
+      }
+
   ];
 
   try {
@@ -218,11 +234,11 @@ Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
+//        var responseJson = await json.decode(response.body)  as List;
         return test.map((data) => GetAllContact.fromJson(data)).toList();
       case 201:
         var responseJson = await json.decode(response.body);
-        return test.map((data) => GetAllContact.fromJson(data)).toList();
+        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -304,18 +320,19 @@ Future<List<GetLastContact>> getLastContactApi({@required token}) async {
   ];
   try {
     final response = await http.get(
-      API.UPCOMING_BIRTHDAY_API,
+      API.LAST_CONTACT_API,
       headers: {
         "Authorization": token,
       },
     );
+
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
+        var responseJson = await json.decode(response.body) as List;
         return test.map((data) => GetLastContact.fromJson(data)).toList();
       case 201:
-        var responseJson = await json.decode(response.body);
-        return test.map((data) => GetLastContact.fromJson(data)).toList();
+        var responseJson = await json.decode(response.body) as List;
+        return responseJson.map((data) => GetLastContact.fromJson(data)).toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -369,7 +386,6 @@ Future<GetSinglePerson> getSinglePersonApi(
     "birthday": "2020-11-11T00:00:00Z",
     "last_contact": "2020-02-16T10:12:53.105593Z"
   };
-
   try {
     final response = await http.get(
       API.GET_SINGLE_PERSON_API + "?id=" + id,
@@ -381,10 +397,10 @@ Future<GetSinglePerson> getSinglePersonApi(
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
-        return GetSinglePerson.fromJson(test);
+        return GetSinglePerson.fromJson(responseJson);
       case 201:
         var responseJson = await json.decode(response.body);
-        return GetSinglePerson.fromJson(test);
+        return GetSinglePerson.fromJson(responseJson);
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -1570,7 +1586,7 @@ deletePhoneApi(
 
   try {
     final response = await http.delete(
-      API.ADD_PHONE_API,
+      API.DELETE_PHONE_API+"?id="+id,
       headers: {
         "Authorization": token,
       },
@@ -1632,7 +1648,7 @@ deleteEmailApi(
 
   try {
     final response = await http.delete(
-      API.ADD_EMAIL_API,
+      API.DELETE_EMAIL_API,
       headers: {
         "Authorization": token,
       },

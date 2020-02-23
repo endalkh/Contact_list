@@ -4,14 +4,10 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
 import 'package:flutter_app/pages/person_header/email_address.dart';
-import 'package:flutter_app/pages/person_header/notes.dart';
 import 'package:flutter_app/pages/person_header/phone_numbers.dart';
 import 'package:flutter_app/pages/person_header/update_note.dart';
-import 'package:flutter_app/pages/person_header/update_phone.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
-import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
 class ContactInfo extends StatelessWidget{
@@ -107,6 +103,7 @@ class ContactInfo extends StatelessWidget{
             child: Column(
 
               children: [
+
                 SizedBox(height: 10,),
                 PhoneNumber(personId:personId),
 

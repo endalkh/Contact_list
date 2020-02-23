@@ -8,6 +8,7 @@ class API{
   static const String DELETE_PERSON_API=COMMON_API+"/person";
 
   static const String CONTACT_LIST_API=COMMON_API+"/person/list";
+  static const String LAST_CONTACT_API=COMMON_API+"/person/urgent-contacts";
   static const String UPCOMING_BIRTHDAY_API=COMMON_API+"/person/upcoming-birthdays";
 
   static const String GET_SINGLE_PERSON_API=COMMON_API+"/person";

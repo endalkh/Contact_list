@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
+import 'package:flutter_app/pages/dialog/info_dialog.dart';
+import 'package:flutter_app/pages/dialog/loading_dialog.dart';
 import 'package:flutter_app/pages/person_header/add_email.dart';
 import 'package:flutter_app/pages/person_header/update_email.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:flutter_app/utilities/get_icon_type.dart';
 import 'package:provider/provider.dart';
@@ -19,28 +23,23 @@ class EmailAddress extends StatefulWidget {
   _EmailAddress createState()=>_EmailAddress( personId: personId);
 }
 
-class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit {
+class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,ShouldImp {
   String personId;
   BuildContext context;
 
   _EmailAddress({@required this.personId});
 
-  bool isApiLoaded;
+
   @override
   void initState() {
-    isApiLoaded=false;
-    super.initState();
-  }
-  @override
-  void didChangeDependencies() {
-
-    if(!isApiLoaded){
+    Future.delayed(Duration.zero, () {
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context).setHasErrorFun("");
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
     }
-    super.didChangeDependencies();
+    );
+    super.initState();
+    }
 
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,11 +134,6 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit {
     );
   }
 
-  @override
-  deleteNote({id, context, contextDialog}) async{
-
-    return null;
-  }
 
   @override
   editNote({id, context, contextDialog}) async{
@@ -147,5 +141,39 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit {
     Provider.of<Auth>(context,listen: false).setId(id);
     Navigator.pop(context);
     return null;
+  }
+
+  @override
+  void changer({context, id}) {
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+    var deleteEmail = deleteEmailApi(
+      id: id,
+      token: token,
+    );
+    LoadingDialog(context: context,title: "please wait.....");
+
+    deleteEmail.then((value) async {
+      if(value==true) {
+        Navigator.of(context).pop();
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        InfoDialog(
+            context: context,
+            callback: _EmailAddress(),
+            title: Constant.success,
+            type:Constant.success
+        );
+      }
+    });
+
+    deleteEmail.catchError((value) async {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      InfoDialog(
+          context: context,
+          callback: _EmailAddress(),
+          title: Constant.error,
+          type:Constant.error
+      );
+    });
   }
 }
