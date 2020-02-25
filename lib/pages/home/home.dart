@@ -26,13 +26,6 @@ class Home extends StatefulWidget {
 }
 
 class Dashboard extends State<Home> {
-  BuildContext context;
-  @override
-  void initState() {
-    super.initState();
-  }
-
-
 
   pageTaped(page) {
     switch ( Provider.of<Auth>(context,listen: false).getHomePageTabFun()) {
@@ -62,7 +55,6 @@ class Dashboard extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    this.context=context;
 
     return  Scaffold(
       appBar: headerNav(title: getTitle(context), context: context),
