@@ -6,7 +6,6 @@ import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
 import 'package:flutter_app/pages/widgets/custom_shape.dart';
-import 'package:flutter_app/pages/widgets/oval_right_clipper.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/get_email.dart';
@@ -162,38 +161,18 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
 
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, Constant.DIALOG_PAGE);
+//                      Navigator.pushNamed(context, Constant.NOTES);
                     },
                     child:
-                        _buildRow(Icons.timeline, "My Note"),
+                        _buildRow(Icons.timeline, "Contact Sync"),
                   ),
                   Divider(
                     thickness: 1,
                   ),
                   // GestureDetector(
 
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, Constant.DIALOG_PAGE);
-                    },
-                    child: _buildRow(Icons.send, "Send Link"),
-                  ),
 
 
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, Constant.ABOUT_US);
-                    },
-                    child: _buildRow(Icons.email, "About us"),
-                  ),
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, Constant.SETTING);
-                    },
-                    child: _buildRow(Icons.settings, "Setting"),
-                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, Constant.SETTING);

@@ -3,8 +3,10 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +18,7 @@ class UpdateContact extends StatefulWidget{
   _UpdateContact createState()=>_UpdateContact(id: id);
 }
 
-class _UpdateContact extends State<UpdateContact>{
+class _UpdateContact extends State<UpdateContact> implements ShouldImp{
 
   TextEditingController fNameController = TextEditingController();
   TextEditingController lNameController = TextEditingController();
@@ -33,10 +35,8 @@ class _UpdateContact extends State<UpdateContact>{
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
       id: id,
     );
-
     updatePersonApi.then((val) async {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
       birthdayController.text = dateFormatter(val.birthDate);
       fNameController.text = val.name;
     });
@@ -110,14 +110,6 @@ class _UpdateContact extends State<UpdateContact>{
 
 
 
-        SizedBox(height: 15,),
-        Consumer<Auth>(
-          builder: (BuildContext context, Auth value, Widget child) =>
-          value.getSuccessfullyRegisteredFun()==true?Text("Your data successfully updated!",
-              style: TextStyle(color: Colors.green)):value.hasError.isNotEmpty==true?
-          Text(value.getHasErrorFun(),
-              style: TextStyle(color: Colors.red)):Container(),
-        ),
         SizedBox(height: 10,),
 
         Material(
@@ -186,14 +178,23 @@ class _UpdateContact extends State<UpdateContact>{
     );
 
     updatePerson.then((value) async{
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      InfoDialog(
+          context: context,
+          callback: _UpdateContact(),
+          title: Constant.success,
+          type:Constant.success
+      );
     });
 
     updatePerson.catchError((value) async{
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
+      InfoDialog(
+          context: context,
+          callback: _UpdateContact(),
+          title: value,
+          type:Constant.error
+      );
 
     });
 
@@ -226,5 +227,10 @@ class _UpdateContact extends State<UpdateContact>{
     ),
     );
 
+  }
+
+  @override
+  void changer({context, id}) {
+    // TODO: implement changer
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
 import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/dialog/loading_dialog.dart';

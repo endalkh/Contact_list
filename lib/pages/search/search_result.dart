@@ -174,12 +174,11 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
         .take(widget.limit)
         .toList();
 
-    IconThemeData iconTheme = Theme.of(context).iconTheme.copyWith(color: widget.iconColor);
+    IconThemeData iconTheme = Theme.of(context).iconTheme.copyWith(color: TRIAL_COLOR);
 
     return new Scaffold(
       appBar: new AppBar(
         leading: widget.leading,
-        backgroundColor: widget.barBackgroundColor,
         iconTheme: iconTheme,
         title: new TextField(
           controller: _controller,
@@ -192,9 +191,10 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
             }
           },
         ),
+
         actions: _criteria.length == 0 ? [] : [
           new IconButton(
-              icon: new Icon(Icons.clear),
+              icon: new Icon(Icons.clear,color: PRIMARY_COLOR,),
               onPressed: () {
                 setState(() {
                   _controller.text = _criteria = '';

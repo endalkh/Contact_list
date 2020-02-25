@@ -17,11 +17,7 @@ import 'package:http/http.dart' as http;
 /*================== All Get Api ===============================*/
 Future<GetAllContact> getSingleContactApi({token, id}) async {
   String error;
-  Map<String, String> test = {
-    "id": "74b6b078-2df9-4ae2-a90d-e3e808b31fdc",
-    "name": "Leah Solo",
-    "birthday": "2011-11-11T00:00:00Z"
-  };
+
   try {
     final response = await http.get(
       API.GET_SINGLE_PERSON_API + "?id=" + id,
@@ -32,11 +28,11 @@ Future<GetAllContact> getSingleContactApi({token, id}) async {
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
-        return GetAllContact.fromJson(test);
+        return GetAllContact.fromJson(responseJson);
 
       case 201:
         var responseJson = await json.decode(response.body);
-        return GetAllContact.fromJson(test);
+        return GetAllContact.fromJson(responseJson);
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");

@@ -4,6 +4,7 @@ import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/about/about.dart';
 import 'package:flutter_app/pages/home/home.dart';
 import 'package:flutter_app/pages/login/signin.dart';
+import 'package:flutter_app/pages/person_header/notes.dart';
 import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/profile/Profile.dart';
 import 'package:flutter_app/pages/recover_password/recover_password.dart';
@@ -71,6 +72,8 @@ class _MyApp extends State<MyApp> {
           Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
           Constant.SEARCH:(context)=>MaterialSearchResult(),
           Constant.SEARCH_DISPLAY:(context)=>SearchDisplayScreen(),
+          Constant.NOTES:(context)=>Note(),
+
           Constant.ABOUT_US:(context)=>AboutScreen(),
         });
 

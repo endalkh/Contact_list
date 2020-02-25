@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
@@ -49,7 +50,12 @@ class _AddEmail extends State<AddEmail> {
     );
     addEmail.then((value)  {
       if(value==true) {
-        Provider.of<Auth>(context, listen: false).setSuccessfullyRegisteredFun(true);
+        InfoDialog(
+            context: context,
+            callback: _AddEmail(personId),
+            title: Constant.success,
+            type:Constant.success
+        );
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
       }
     });
@@ -58,9 +64,12 @@ class _AddEmail extends State<AddEmail> {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context, listen: false)
           .setSuccessfullyRegisteredFun(false);
-
-      Provider.of<Auth>(context, listen: false)
-          .setHasErrorFun(value.toString());
+      InfoDialog(
+          context: context,
+          callback: _AddEmail(personId),
+          title: value,
+          type:Constant.error
+      );
     });
   }
 

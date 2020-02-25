@@ -3,17 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
-import 'package:flutter_app/pages/person_header/contact_information.dart';
 import 'package:flutter_app/pages/person_header/email_address.dart';
 import 'package:flutter_app/pages/person_header/notes.dart';
-import 'package:flutter_app/pages/person_header/personal_setting.dart';
 import 'package:flutter_app/pages/person_header/phone_numbers.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
 class PersonHeaderScreen extends StatelessWidget {
