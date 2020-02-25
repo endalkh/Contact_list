@@ -2,7 +2,7 @@
     package="com.addisabasoftwaresolutions.flutter_app">
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="flutter_app"
+        android:label="Contact List"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
