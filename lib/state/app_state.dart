@@ -15,9 +15,8 @@ class AppState with ChangeNotifier {
   Future findTheme() async {
     final pref = await SharedPreferences.getInstance();
     final dark = pref.getBool("dark");
-//    final tokenP = pref.getString('token') ?? "";
-//    if (tokenP != "") _token = tokenP;
-    if (dark)
+
+    if (dark==true)
               setDark();
     else
           setLight();
@@ -28,7 +27,6 @@ class AppState with ChangeNotifier {
   getTheme() {
     return _themeData;
   }
-
 
   void setDark() {
     _themeData = Constant.darkTheme;
@@ -76,6 +74,20 @@ class Auth with ChangeNotifier {
   bool editContact=false;
   String id="";
 
+getIsLogged() async{
+  final pref = await SharedPreferences.getInstance();
+  final token = pref.getBool("accessToken");
+  if (token.toString().isEmpty == true||token==null){
+    this.isLogged = false;
+    notifyListeners();
+  }
+  else{
+    this.isLogged = true;
+    notifyListeners();
+  }
+
+
+}
 
   getIsLoadingFun(){
     return isLoading;
@@ -104,16 +116,6 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  isLoggedFun(){
-    getSharedPreference("accessToken").then((token) async{
-     print(token);
-     if(token.isNotEmpty){
-       print("say something");
-       isLogged=true;
-     }
-    });
-   return isLogged;
-  }
 
  getEmailFun() {
     return email;

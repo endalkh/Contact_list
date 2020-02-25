@@ -1,7 +1,7 @@
 class API{
   static const String COMMON_API="https://relateapp.io/api/v1/";
   static const String LOGIN_API=COMMON_API+"auth/login";
-  static const String REGISTER_API=COMMON_API+"/auth/register";
+  static const String REGISTER_API=COMMON_API+"auth/register";
 
   static const String ADD_NEW_PERSON_API=COMMON_API+"/person";
   static const String UPDATE_PERSON_API=COMMON_API+"/person";
@@ -27,5 +27,6 @@ class API{
   static const String ADD_NOTE_API=COMMON_API+"note";
   static const String UPDATE_NOTE_API=COMMON_API+"note";
   static const String DELETE_NOTE_API=COMMON_API+"note";
+  static const String RESET_PASSWORD_API="https://relateapp.io/api/v1/auth/reset-password?";
 
 }

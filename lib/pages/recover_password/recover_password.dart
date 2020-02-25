@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
+import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
 
 class RecoverPassword extends StatefulWidget {
   _RecoverPassword createState() => _RecoverPassword();
@@ -38,7 +42,7 @@ class _RecoverPassword extends State<RecoverPassword> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
-        Navigator.pushNamed(context, Constant.HOME);
+      submitForm();
       },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
@@ -82,6 +86,12 @@ class _RecoverPassword extends State<RecoverPassword> {
                 ],
               ),
             ),
+            Consumer<Auth>(
+              builder: (BuildContext context, Auth value, Widget child) =>
+              value.getHasErrorFun().toString().isNotEmpty==true?Text(value.getHasErrorFun(),
+                  style: TextStyle(color: Colors.red)):Container(),
+            ),
+            SizedBox(height: 20,),
             Container(
               width: 200,
               child: button(),
@@ -96,7 +106,27 @@ class _RecoverPassword extends State<RecoverPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: headerNav(context: context, title: Constant.RECOVERPASSWORD),
-      body: resetPassword(),
+      body: Provider.of<Auth>(context).getIsLoadingFun() == true
+          ? circularIndicator(context: context): resetPassword(),
     );
+  }
+
+  void submitForm() {
+    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+
+    var reset=resetPasswordApi(
+        email: emailController.text
+    );
+    reset.then((val){
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
+    });
+    reset.catchError((val){
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
+    });
+
+
+
   }
 }

@@ -3,8 +3,10 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
+import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +15,7 @@ class AddNewPersonScreen extends StatefulWidget{
   _AddNewPerson createState()=>_AddNewPerson();
 }
 
-class _AddNewPerson extends State<AddNewPersonScreen>{
+class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
 
   TextEditingController fNameController = TextEditingController();
   TextEditingController lNameController = TextEditingController();
@@ -58,6 +60,10 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
       var token=Provider.of<Auth>(context,listen: false).getTokenFun();
       var addNewPerson =  addNewPersonApi(
+         emailType: selectEmail.name,
+          email: emailController.text,
+          phoneType: selectPhone.name,
+          phone: phoneController.text,
           fName: fNameController.text,
           lName: lNameController.text,
           birthday: birthdayController.text,
@@ -69,6 +75,12 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
         Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
 
         Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        InfoDialog(
+            context: context,
+            callback: _AddNewPerson(),
+            title: Constant.success,
+            type:Constant.success
+        );
       });
 
       addNewPerson.catchError((value) {
@@ -76,7 +88,12 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
         Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
 
         Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
-
+        InfoDialog(
+            context: context,
+            callback: _AddNewPerson(),
+            title: Constant.error,
+            type:Constant.error
+        );
 
 
 
@@ -147,14 +164,7 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 10,),
-        Consumer<Auth>(
-          builder: (BuildContext context, Auth value, Widget child) =>
-          value.getSuccessfullyRegisteredFun()==true?Text("Your data successfully registered!",
-              style: TextStyle(color: Colors.green)):value.hasError.isNotEmpty==true?
-          Text(value.getHasErrorFun(),
-              style: TextStyle(color: Colors.red)):Container(),
-        ),
-        SizedBox(height: 10,),
+
 
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -264,7 +274,6 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
                   keyboardType: TextInputType.text,
                   maxLines: 3,
                   decoration: InputDecoration(
-//                prefixIcon: Icon(Icons.note, size: 20),
                     suffixIcon: Column(
                       children: <Widget>[
                         IconButton(
@@ -479,5 +488,10 @@ class _AddNewPerson extends State<AddNewPersonScreen>{
         },
       );
     }
+
+  @override
+  void changer({context, id}) {
+    // TODO: implement changer
+  }
   }
 

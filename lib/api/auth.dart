@@ -53,10 +53,10 @@ Future<GetAllContact> getSingleContactApi({token, id}) async {
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -114,10 +114,10 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -145,85 +145,6 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
 Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
   String error;
 
-  List<Map<String, String>> test = [
-
-      {
-        "id": "9e5d9119-afd9-458e-b840-576f47426777",
-        "name": "Luke Skywalker",
-        "birthday": "2011-11-11T00:00:00Z"
-      },
-      {
-        "id": "5213202c-9c4b-47d7-93b7-7c500f97fbc6",
-        "name": "Luke Skywalker",
-        "birthday": "2011-11-11T00:00:00Z"
-      },
-      {
-        "id": "7690e44a-a67a-45d2-9cb2-e25517fc5994",
-        "name": "Luke Skywalker",
-        "birthday": "2011-11-11T00:00:00Z"
-      },
-      {
-        "id": "8a24b74e-4536-4661-b731-8be95c148c9d",
-        "name": "stefan belete",
-        "birthday": "2011-11-11T00:00:00Z"
-      },
-      {
-        "id": "92a3ef20-4986-4313-bf13-8ea7e5aed2e5",
-        "name": "Luke Skywalker",
-        "birthday": "2011-11-11T00:00:00Z"
-      },
-      {
-        "id": "0948c9fb-90a7-473a-ab22-962049a33613",
-        "name": "Luke Skywalker",
-        "birthday": "2011-11-11T00:00:00Z"
-      },
-      {
-        "id": "d4c6725e-723e-4e50-9be8-e9cbed8198d2",
-        "name": "stefan belete",
-        "birthday": "2011-11-11T00:00:00Z"
-      },
-      {
-        "id": "e4f18449-e9fa-47d2-884d-3c7abd9bdb41",
-        "name": "Luke Skywalker",
-        "birthday": "2011-11-11T00:00:00Z"
-      },
-      {
-        "id": "a5d90473-14de-41ce-b020-f1fc8f06953b",
-        "name": "stefan belete",
-        "birthday": "2020-11-11T00:00:00Z"
-      },
-      {
-        "id": "aed812fa-9479-48bd-b53e-d4f8c3ee0537",
-        "name": "endalk dasdasd",
-        "birthday": "2020-11-11T00:00:00Z"
-      },
-      {
-        "id": "ca9c5986-b9a2-4977-b48b-7964be1d1bf5",
-        "name": "endalk dasdasd",
-        "birthday": "2020-11-11T00:00:00Z"
-      },
-      {
-        "id": "07f8ca74-26e1-4716-aaf7-84fa077eea00",
-        "name": "endalk dasdasd",
-        "birthday": "2020-11-11T00:00:00Z"
-      },
-      {
-        "id": "087fb74c-0d6c-420b-be9a-1030d7f47c0f",
-        "name": "endalk dasdasd",
-        "birthday": "2020-11-11T00:00:00Z"
-      },
-      {
-        "id": "cedff2ad-c0a6-47ad-bd2c-d570938e76cb",
-        "name": "endalk dasdasd",
-        "birthday": "2020-02-16T00:00:00Z"
-      },
-      {
-        "id": "a0fe01d6-3df6-4d35-b402-f14f3858d418",
-        "name": "elsabet damon",
-        "birthday": "1920-02-16T00:00:00Z"
-      }
-
-  ];
 
   try {
     final response = await http.get(
@@ -234,10 +155,10 @@ Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
     );
     switch (response.statusCode) {
       case 200:
-//        var responseJson = await json.decode(response.body)  as List;
-        return test.map((data) => GetAllContact.fromJson(data)).toList();
+        var responseJson = await json.decode(response.body)  as List;
+        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
       case 201:
-        var responseJson = await json.decode(response.body);
+        var responseJson = await json.decode(response.body) as List;
         return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
 
       case 400:
@@ -255,10 +176,10 @@ Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -286,38 +207,6 @@ Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
 Future<List<GetLastContact>> getLastContactApi({@required token}) async {
   String error;
 
-  List<Map<String, String>> test = [
-    {
-      "id": "74b6b078-2df9-4ae2-a90d-e3e808b31fdc",
-      "name": "Leah Solo",
-      "last_contact": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "25fcf38c-4084-4544-98ce-d057986fc3ee",
-      "name": "endalk",
-      "last_contact": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "5aefbbc2-18b6-4d45-b4a4-89c5c2dcf39e",
-      "name": "Luke Skywalker",
-      "last_contact": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "4ae8548d-ec2b-432d-88c0-ee5184e96640",
-      "name": "samuel kassa",
-      "last_contact": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "9e5d9119-afd9-458e-b840-576f47426777",
-      "name": "stefan james",
-      "last_contact": "2011-11-11T00:00:00Z"
-    },
-    {
-      "id": "20975e7b-094f-41ce-b21b-3a82ab9d3e07",
-      "name": "mark tomas",
-      "last_contact": "2011-11-11T00:00:00Z"
-    }
-  ];
   try {
     final response = await http.get(
       API.LAST_CONTACT_API,
@@ -329,7 +218,7 @@ Future<List<GetLastContact>> getLastContactApi({@required token}) async {
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body) as List;
-        return test.map((data) => GetLastContact.fromJson(data)).toList();
+        return responseJson.map((data) => GetLastContact.fromJson(data)).toList();
       case 201:
         var responseJson = await json.decode(response.body) as List;
         return responseJson.map((data) => GetLastContact.fromJson(data)).toList();
@@ -380,12 +269,7 @@ Future<List<GetLastContact>> getLastContactApi({@required token}) async {
 Future<GetSinglePerson> getSinglePersonApi(
     {@required token, @required id}) async {
   String error;
-  Map<String, String> test = {
-    "id": "ca9c5986-b9a2-4977-b48b-7964be1d1bf5",
-    "name": "endalk dasdasd",
-    "birthday": "2020-11-11T00:00:00Z",
-    "last_contact": "2020-02-16T10:12:53.105593Z"
-  };
+
   try {
     final response = await http.get(
       API.GET_SINGLE_PERSON_API + "?id=" + id,
@@ -417,10 +301,10 @@ Future<GetSinglePerson> getSinglePersonApi(
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -447,36 +331,13 @@ Future<GetSinglePerson> getSinglePersonApi(
 
 Future<List<GetNoteList>> getNoteListApi(
     {@required token,
-    @required personId,
-    @required after,
-    @required limit}) async {
+    @required personId,}) async {
   String error;
 
-  List<Map<String, String>> test = [
-    {
-      "id": "63376d59-2028-4b0d-94fa-0cc1ef3c6c25",
-      "body":
-          "I talked to him at the store today and he mentioned that his son Andrew is sick. Should follow up soon.",
-      "created_at": "2020-02-12T09:45:43.480263Z",
-      "updated_at": "0001-01-01T00:00:00Z"
-    },
-    {
-      "id": "63376d59-2028-4b0d-94fa-0cc1ef3c6c25",
-      "body":
-          "I talked to him at the store today and he mentioned that his son Andrew is sick. Should follow up soon.",
-      "created_at": "2020-02-12T09:45:43.480263Z",
-      "updated_at": "0001-01-01T00:00:00Z"
-    }
-  ];
 
   try {
     final response = await http.get(
-      API.GET_LIST_NOTE_API +
-          "?personId=" +
-          personId +
-          "&after=" +
-          after +
-          "&limit=$limit",
+      API.GET_LIST_NOTE_API + "?personId="+personId,
       headers: {
         "Authorization": token,
       },
@@ -484,12 +345,12 @@ Future<List<GetNoteList>> getNoteListApi(
 
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
+        var responseJson = await json.decode(response.body) as List;
 
-        return test.map((data) => GetNoteList.fromJson(data)).toList();
+        return responseJson.map((data) => GetNoteList.fromJson(data)).toList();
       case 201:
-        var responseJson = await json.decode(response.body);
-        return test.map((data) => GetNoteList.fromJson(data)).toList();
+        var responseJson = await json.decode(response.body) as List;
+        return responseJson.map((data) => GetNoteList.fromJson(data)).toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -537,11 +398,7 @@ Future<List<GetNoteList>> getNoteListApi(
 Future<GetNoteList> getNoteSingleApi({@required token, @required id}) async {
   String error;
 
-  Map<String, String> test = {
-    "id": "63376d59-2028-4b0d-94fa-0cc1ef3c6c25",
-    "body":
-        "I talked to him at the store today and he mentioned that his son Andrew is sick. Should follow up soon.",
-  };
+
 
   try {
     final response = await http.get(
@@ -555,10 +412,10 @@ Future<GetNoteList> getNoteSingleApi({@required token, @required id}) async {
       case 200:
         var responseJson = await json.decode(response.body);
 
-        return GetNoteList.fromJson(test);
+        return GetNoteList.fromJson(responseJson);
       case 201:
         var responseJson = await json.decode(response.body);
-        return GetNoteList.fromJson(test);
+        return GetNoteList.fromJson(responseJson);
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -575,10 +432,10 @@ Future<GetNoteList> getNoteSingleApi({@required token, @required id}) async {
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -607,23 +464,6 @@ Future<List<GetEmail>> getEmailListApi(
     {@required token, @required personId}) async {
   String error;
 
-  List<Map<String, String>> test = [
-    {
-      "id": "ed8f6c10-3d51-4258-8778-afdea61ca2e9",
-      "type": "Gmail",
-      "address": "john@example.com"
-    },
-    {
-      "id": "033b60e3-67fb-484f-99fd-71557d8b566b",
-      "type": "Yahoo",
-      "address": "johnd@example.com"
-    },
-    {
-      "id": "6e8d298b-5bef-485c-8136-2e6db5f6916b",
-      "type": "Iclould",
-      "address": "john1@example.com"
-    }
-  ];
 
   try {
     final response = await http.get(
@@ -632,15 +472,14 @@ Future<List<GetEmail>> getEmailListApi(
         "Authorization": token,
       },
     );
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
+        var responseJson = await json.decode(response.body) as List;
 
-        return test.map((data) => GetEmail.fromJson(data)).toList();
+        return responseJson.map((data) => GetEmail.fromJson(data)).toList();
       case 201:
-        var responseJson = await json.decode(response.body);
-        return test.map((data) => GetEmail.fromJson(data)).toList();
+        var responseJson = await json.decode(response.body) as List;
+        return responseJson.map((data) => GetEmail.fromJson(data)).toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -687,11 +526,7 @@ Future<List<GetEmail>> getEmailListApi(
 
 Future<GetEmail> getSingleEmailApi({@required token, @required id}) async {
   String error;
-  Map<String, String> test = {
-    "id": "ed8f6c10-3d51-4258-8778-afdea61ca2e9",
-    "type": "Gmail",
-    "address": "john@example.com"
-  };
+
 
   try {
     final response = await http.get(
@@ -704,10 +539,10 @@ Future<GetEmail> getSingleEmailApi({@required token, @required id}) async {
       case 200:
         var responseJson = await json.decode(response.body);
 
-        return GetEmail.fromJson(test);
+        return GetEmail.fromJson(responseJson);
       case 201:
         var responseJson = await json.decode(response.body);
-        return GetEmail.fromJson(test);
+        return GetEmail.fromJson(responseJson);
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -756,18 +591,7 @@ Future<List<GetPhone>> getPhoneListApi(
     {@required token, @required personId}) async {
   String error;
 
-  List<Map<String, String>> test = [
-    {
-      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-      "type": "Mobile",
-      "number": "5551234567"
-    },
-    {
-      "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-      "type": "Home",
-      "number": "5551234567"
-    }
-  ];
+
 
   try {
     final response = await http.get(
@@ -778,12 +602,12 @@ Future<List<GetPhone>> getPhoneListApi(
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
+        var responseJson = await json.decode(response.body) as List;
 
-        return test.map((data) => GetPhone.fromJson(data)).toList();
+        return responseJson.map((data) => GetPhone.fromJson(data)).toList();
       case 201:
-        var responseJson = await json.decode(response.body);
-        return test.map((data) => GetPhone.fromJson(data)).toList();
+        var responseJson = await json.decode(response.body) as List;
+        return responseJson.map((data) => GetPhone.fromJson(data)).toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -831,11 +655,7 @@ Future<List<GetPhone>> getPhoneListApi(
 Future<GetPhone> getSinglePhoneApi(
     {@required token, @required personId}) async {
   String error;
-  Map<String, String> test = {
-    "id": "77f678ad-f481-48e1-8d35-2e88efd4d40a",
-    "type": "Mobile",
-    "number": "5551234567"
-  };
+
   try {
     final response = await http.get(
       API.GET_PHONE_API + "?personId=" + personId,
@@ -843,15 +663,14 @@ Future<GetPhone> getSinglePhoneApi(
         "Authorization": token,
       },
     );
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
 
-        return GetPhone.fromJson(test);
+        return GetPhone.fromJson(responseJson);
       case 201:
         var responseJson = await json.decode(response.body);
-        return GetPhone.fromJson(test);
+        return GetPhone.fromJson(responseJson);
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -963,7 +782,9 @@ Future<JsonUserRegister> registerApi({userId, password, context}) async {
   String error;
   try {
     final response =
-        await http.post(API.REGISTER_API, body: json.encode(params));
+        await http.post(
+            API.REGISTER_API,
+            body: json.encode(params));
 
     switch (response.statusCode) {
       case 200:
@@ -976,16 +797,16 @@ Future<JsonUserRegister> registerApi({userId, password, context}) async {
       case 400:
         return Future.error("Sorry It was Bad Request! ");
       case 401:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 403:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -1033,6 +854,7 @@ Future<AddNewPerson> addNewPersonApi(
     "note": {"body": notes}
   };
   String error;
+
 
   try {
     final response = await http.post(API.ADD_NEW_PERSON_API,
@@ -1102,14 +924,13 @@ addPhoneApi(
     "type": type,
     "number": number,
   };
-
   try {
     final response = await http.post(
-      API.ADD_PHONE_API + "personId=" + personId,
+      API.ADD_PHONE_API + "?personId=" + personId,
       headers: {
         "Authorization": token,
       },
-      body: params,
+      body: json.encode(params),
     );
     switch (response.statusCode) {
       case 200:
@@ -1167,18 +988,18 @@ addEmailApi(
     @required address}) async {
   String error;
 
-  var params = {
-    "type": type,
-    "address": address,
+  Map<String, String> params = {
+    "type":type,
+    "address":address
   };
 
   try {
     final response = await http.post(
-      API.ADD_EMAIL_API + "personId=" + personId,
+     API.ADD_EMAIL_API+"?personId="+personId,
       headers: {
         "Authorization": token,
       },
-      body: params,
+      body: json.encode(params)
     );
 
     switch (response.statusCode) {
@@ -1190,7 +1011,7 @@ addEmailApi(
         return true;
 
       case 400:
-        return Future.error("Sorry It was Bad Request! ");
+        return Future.error(response.body);
         break;
 
       case 401:
@@ -1204,10 +1025,10 @@ addEmailApi(
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -1234,20 +1055,17 @@ addEmailApi(
 
 addNoteApi({@required token, @required personId, @required body}) async {
   String error;
-
   var params = {
     "body": body,
   };
-
   try {
     final response = await http.post(
-      API.ADD_NOTE_API + "personId=" + personId,
+      API.ADD_NOTE_API + "?personId=" + personId,
       headers: {
         "Authorization": token,
       },
-      body: params,
+      body: json.encode(params),
     );
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -1318,7 +1136,7 @@ updatePhoneApi(
       headers: {
         "Authorization": token,
       },
-      body: params,
+      body: json.encode(params),
     );
     switch (response.statusCode) {
       case 200:
@@ -1386,7 +1204,7 @@ updateEmailApi(
       headers: {
         "Authorization": token,
       },
-      body: params,
+      body: json.encode(params),
     );
     switch (response.statusCode) {
       case 200:
@@ -1457,7 +1275,7 @@ updatePersonApi(
       headers: {
         "Authorization": token,
       },
-      body: params,
+      body: json.encode(params),
     );
     switch (response.statusCode) {
       case 200:
@@ -1481,10 +1299,10 @@ updatePersonApi(
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -1522,9 +1340,8 @@ updateNoteApi({@required token, @required id, @required body}) async {
       headers: {
         "Authorization": token,
       },
-      body: params,
+      body: json.encode(params),
     );
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -1548,10 +1365,10 @@ updateNoteApi({@required token, @required id, @required body}) async {
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -1613,10 +1430,10 @@ deletePhoneApi(
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -1675,10 +1492,10 @@ deleteEmailApi(
         error = json.decode(response.body).toString();
         return Future.error(error);
       case 404:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 405:
-        error = json.decode(response.body)["error"];
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");
@@ -1777,7 +1594,6 @@ deleteNoteApi({@required token, @required id}) async {
         "Authorization": token,
       },
     );
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
@@ -1805,6 +1621,67 @@ deleteNoteApi({@required token, @required id}) async {
         return Future.error(error);
       case 405:
         error = json.decode(response.body)["error"];
+        return Future.error(error);
+      case 500:
+        return Future.error("Ohhh No! There is a problem in our end");
+      default:
+        {
+          error = "An undefined Error happened.";
+          return Future.error(error);
+        }
+    }
+  } on SocketException {
+    error = 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error = "Couldn't find the request 😱";
+    throw error;
+  } on FormatException {
+    error = "Bad response format 👎";
+    throw error;
+  } on Exception {
+    error = "We have not idea what happend!";
+    throw error;
+  }
+}
+
+resetPasswordApi({ @required email}) async {
+  String error;
+
+
+  try {
+    final response = await http.post(
+      API.RESET_PASSWORD_API+"email="+email,
+    );
+    switch (response.statusCode) {
+      case 200:
+        var responseJson = await json.decode(response.body);
+
+        return responseJson;
+      case 201:
+        var responseJson = await json.decode(response.body);
+
+        return responseJson;
+
+      case 400:
+        return Future.error("Sorry It was Bad Request! ");
+        break;
+
+      case 401:
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
+
+      case 403:
+        error = json.decode(response.body).toString();
+        return Future.error(error);
+      case 404:
+        error = json.decode(response.body);
+        return Future.error(error);
+      case 405:
+        error = json.decode(response.body);
         return Future.error(error);
       case 500:
         return Future.error("Ohhh No! There is a problem in our end");

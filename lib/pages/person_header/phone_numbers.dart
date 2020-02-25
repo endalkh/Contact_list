@@ -15,6 +15,7 @@ import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dar
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:flutter_app/utilities/get_icon_type.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
   String personId;
@@ -24,7 +25,6 @@ class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
   Widget build(BuildContext context) {
 this.context=context;
     return Provider.of<Auth>(context).getEditPhone()==true?UpdatePhone(id:Provider.of<Auth>(context).getId()):
-
        Column(
           children: <Widget>[
             Text(
@@ -32,9 +32,8 @@ this.context=context;
               textAlign: TextAlign.left,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
             ),
-
-
-            FutureBuilder <List<GetPhone>>(
+    Expanded(
+           child: FutureBuilder <List<GetPhone>>(
                 future: getPhoneListApi(
                   token: Provider.of<Auth>(context).getTokenFun(),
                   personId: personId,
@@ -46,9 +45,7 @@ this.context=context;
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
-                          return SingleChildScrollView(
-
-                                child:  Container(
+                          return  Container(
                                   margin: EdgeInsets.only(
                                       left: 10, right: 10, bottom: 10),
                                   child: Card(
@@ -57,16 +54,17 @@ this.context=context;
                                     ),
                                     child: Container(
                                       margin: EdgeInsets.zero,
-                                      child: Column(
+                                      child: snapshot.data[index].number.isEmpty==true?Container():Column(
                                           children: [
                                             ListTile(
-                                              leading: Icon(
-                                                  getPhoneNumberTypeIcon(snapshot.data[index].type),
-                                                  size: 30,
-                                                  color: PRIMARY_COLOR,),
+                                              leading: IconButton(
+                                      icon: Icon(getPhoneNumberTypeIcon(snapshot.data[index].type),color: PRIMARY_COLOR,),
+                                                onPressed:(){
+                                                  UrlLauncher.launch("tel://"+getPhoneNumberTypeIcon(snapshot.data[index].type).toString());
+                                                },
 
-
-
+                                    ),
+//
                                               title: Text(snapshot.data[index].number,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w400,
@@ -80,9 +78,7 @@ this.context=context;
                                       ),
                                     ),
                                   ),
-                                ),
-
-                          );
+                                );
 
 
 
@@ -99,8 +95,8 @@ this.context=context;
                   }
                   return circularIndicator(context: context);
                 }
+           ),
             ),
-
 
 
             ListTile(

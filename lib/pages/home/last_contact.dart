@@ -27,10 +27,8 @@ class _LastContact extends State<LastContact>{
               token: Provider.of<Auth>(context).getTokenFun()
           ),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-
-
-              return ListView.builder(
+         if (snapshot.hasData) {
+               return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return  SingleChildScrollView(

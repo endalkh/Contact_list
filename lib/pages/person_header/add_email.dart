@@ -16,10 +16,9 @@ class AddEmail extends StatefulWidget {
 }
 
 class _AddEmail extends State<AddEmail> {
-  List<EmailType> emailType = EmailType.getEmails();
   List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
   TextEditingController emailController = TextEditingController();
-
+  List<EmailType> emailType = EmailType.getEmails();
   EmailType selectEmail;
   String personId;
 
@@ -27,11 +26,12 @@ class _AddEmail extends State<AddEmail> {
 
   @override
   void initState() {
+
      Future.delayed(Duration.zero, () {
       emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
       selectEmail = emailDropdownMenuItems[0].value;
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context).setHasErrorFun("");
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
     },
     );
     super.initState();
@@ -39,20 +39,22 @@ class _AddEmail extends State<AddEmail> {
 
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    Provider.of<Auth>(context, listen: false).setHasErrorFun("");
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
     var addEmail = addEmailApi(
         token: token,
         personId: personId,
-        type: emailType.toString(),
-        address: emailController.text);
-    addEmail.then((value) async {
+        type: selectEmail.name,
+        address: emailController.text
+    );
+    addEmail.then((value)  {
       if(value==true) {
         Provider.of<Auth>(context, listen: false).setSuccessfullyRegisteredFun(true);
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
       }
     });
 
-    addEmail.catchError((value) async {
+    addEmail.catchError((value)  {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context, listen: false)
           .setSuccessfullyRegisteredFun(false);

@@ -24,7 +24,6 @@ class _UpdateContact extends State<UpdateContact>{
 
   String id;
   _UpdateContact({this.id});
-
 @override
   void initState() {
   Future.delayed(Duration.zero, () {
@@ -34,6 +33,7 @@ class _UpdateContact extends State<UpdateContact>{
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
       id: id,
     );
+
     updatePersonApi.then((val) async {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context, listen: false).setHasErrorFun("");

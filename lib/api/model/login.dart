@@ -1,9 +1,10 @@
 class JsonUser {
-  String accessToken,refreshToken;
+  String accessToken,refreshToken,email;
 
-  JsonUser({accessToken, refreshToken}) {
+  JsonUser({accessToken, refreshToken,email}) {
     this.accessToken=accessToken;
     this.refreshToken=refreshToken;
+    this.email=email;
 
   }
 
@@ -11,6 +12,7 @@ class JsonUser {
     return JsonUser(
       accessToken: parsedJson['accessToken'],
       refreshToken: parsedJson['refreshToken'],
+      email: parsedJson['email'],
     );
   }
 

@@ -54,11 +54,10 @@ Future<bool> getSettingPref(key) async {
 
 signOut() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  preferences.setString("accessToken", "");
-  preferences.setString("refreshToken", "");
-  preferences.setString("email", "");
-  preferences.setString("id", "");
+  preferences.setString("accessToken", null);
+  preferences.setString("refreshToken", null);
+  preferences.setString("email", null);
+  preferences.setString("id", null);
 
-//      _loginStatus = LoginStatus.notSignIn;
 
 }

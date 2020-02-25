@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +17,7 @@ class AddNote extends StatefulWidget {
   _AddNote createState() => _AddNote(personId);
 }
 
-class _AddNote extends State<AddNote> {
+class _AddNote extends State<AddNote> implements ShouldImp {
   TextEditingController noteController = TextEditingController();
 
   EmailType selectEmail;
@@ -27,7 +29,7 @@ class _AddNote extends State<AddNote> {
   void initState() {
     Future.delayed(Duration.zero, () {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context).setHasErrorFun("");
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
     });
     super.initState();
   }
@@ -35,12 +37,19 @@ class _AddNote extends State<AddNote> {
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+    Provider.of<Auth>(context, listen: false).setHasErrorFun("");
     var addNote =
         addNoteApi(token: token, personId: personId, body: noteController.text);
     addNote.then((value) async {
       if(value==true) {
         Provider.of<Auth>(context, listen: false).setSuccessfullyRegisteredFun(true);
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        InfoDialog(
+            context: context,
+            callback: _AddNote(personId),
+            title: Constant.success,
+            type:Constant.success
+        );
       }
     });
 
@@ -51,6 +60,12 @@ class _AddNote extends State<AddNote> {
 
       Provider.of<Auth>(context, listen: false)
           .setHasErrorFun(value.toString());
+      InfoDialog(
+          context: context,
+          callback: _AddNote(personId),
+          title: Constant.error,
+          type:Constant.error
+      );
     });
   }
 
@@ -155,5 +170,10 @@ class _AddNote extends State<AddNote> {
                   ),
                 ),
     );
+  }
+
+  @override
+  void changer({context, id}) {
+
   }
 }

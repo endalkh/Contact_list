@@ -25,7 +25,6 @@ class EmailAddress extends StatefulWidget {
 
 class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,ShouldImp {
   String personId;
-  BuildContext context;
 
   _EmailAddress({@required this.personId});
 
@@ -43,28 +42,30 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
 
   @override
   Widget build(BuildContext context) {
-    this.context=context;
-    return Provider.of<Auth>(context).getEditEmail()==true?UpdateEmail(id:Provider.of<Auth>(context).getId()): Column(
+    return Provider.of<Auth>(context).getEditEmail()==true?UpdateEmail(id:Provider.of<Auth>(context).getId()):
+    Padding(
+      padding: EdgeInsets.only(bottom: 15),
+    child:Column(
         children: <Widget>[
           Text(
             'Email Information',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
           ),
-
-          FutureBuilder <List<GetEmail>>(
+    Expanded(
+            child:FutureBuilder <List<GetEmail>>(
               future: getEmailListApi(
                 token: Provider.of<Auth>(context).getTokenFun(),
                 personId: personId,
               ),
               builder: (context, snapshot) {
+
                 if (snapshot.hasData) {
 
                   return ListView.builder(
                       shrinkWrap: true,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
-                        return SingleChildScrollView(
-                            child: Container(
+                        return  Container(
                               margin: EdgeInsets.only(left: 10,right: 10),
                               child:  Container(
                                 margin: EdgeInsets.only(
@@ -75,7 +76,7 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
                                   ),
                                   child: Container(
                                     margin: EdgeInsets.zero,
-                                    child: Column(
+                                    child:snapshot.data[index].address.isEmpty==true?Container(): Column(
                                         children: [
                                           ListTile(
                                             leading:
@@ -96,8 +97,7 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
                                   ),
                                 ),
                               ),
-                            )
-                        );
+                            );
 
 
 
@@ -115,6 +115,8 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
                 return circularIndicator(context: context);
               }
           ),
+    ),
+
 
           ListTile(
             leading: Icon(Icons.add,size: 30,color: PRIMARY_COLOR,),
@@ -131,6 +133,7 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
           Provider.of<Auth>(context,listen: false).getAddEmail()==true?
             AddEmail(personId: personId,):Container(),
         ]
+    ),
     );
   }
 

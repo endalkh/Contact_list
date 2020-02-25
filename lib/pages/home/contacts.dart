@@ -44,7 +44,6 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit,ShouldImp{
             token: Provider.of<Auth>(context).getTokenFun()
         ),
         builder: (context, snapshot) {
-
           if (snapshot.hasData) {
             return ListView.builder(
                 itemCount: snapshot.data.length,

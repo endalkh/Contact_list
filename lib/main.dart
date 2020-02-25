@@ -21,7 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool logged=false;
-  if(prefs.getString("accessToken")!=null){
+  if(prefs.getString("accessToken")!=null||prefs.getString("accessToken").toString().isEmpty==true){
     logged=true;
   }
     runApp(
@@ -54,21 +54,11 @@ class _MyApp extends State<MyApp> {
 
 
 
- getTheme() async {
-
-   getSettingPref("dark").then((value)async{
-     setState(()  {
-        isDark= value;
-     });
-
-   });
-}
-
   @override
   build(context) {
     AppState themeNotifier = Provider.of<AppState>(context);
 
-    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.SIGN_IN,
+    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.SPLASH_SCREEN,
         theme:  themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),

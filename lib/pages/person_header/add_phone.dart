@@ -23,10 +23,7 @@ class _AddPhone extends State<AddPhone>{
   List<PhoneType> phoneType = PhoneType.getPhones();
 
   String personId;
-  _AddPhone(this.personId){
-    print(personId);
-  }
-  bool isApiLoaded;
+  _AddPhone(this.personId);
 
 
   @override
@@ -42,11 +39,12 @@ class _AddPhone extends State<AddPhone>{
 
   submitForm(){
     Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+    Provider.of<Auth>(context, listen: false).setHasErrorFun("");
     var token=Provider.of<Auth>(context,listen: false).getTokenFun();
     var addPhone =  addPhoneApi(
       token:token ,
       personId: personId,
-      type: phoneType.toString(),
+      type: selectPhone.name,
       number: phoneController.text
 
     );

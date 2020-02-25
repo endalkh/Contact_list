@@ -6,8 +6,10 @@ import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/person_header/contact_information.dart';
+import 'package:flutter_app/pages/person_header/email_address.dart';
 import 'package:flutter_app/pages/person_header/notes.dart';
 import 'package:flutter_app/pages/person_header/personal_setting.dart';
+import 'package:flutter_app/pages/person_header/phone_numbers.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
@@ -23,16 +25,18 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
 
 
   pageTaped(page) {
-    print(page);
     switch (page) {
       case 0:
-        return Note(personId: personId,);
+        return Center(
+          child: Note(personId: personId,)
+
+        );
         break;
       case 1:
-        return ContactInfo(personId: personId,);
+        return EmailAddress(personId: personId,);
         break;
       default:
-        return PersonalSetting();
+        return PhoneNumber(personId: personId,);
     }
   }
 
@@ -44,10 +48,10 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
         return "Notes";
         break;
       case 1:
-        return "Contact Information";
+        return "Email Address";
         break;
       case 2:
-        return "Person Setting";
+        return "Phone Number";
         break;
       default:{
         print("someting wrong");
@@ -153,12 +157,12 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
               title: new Text('Notes'),
             ),
             BottomNavigationBarItem(
-              icon: new Icon(Icons.person),
-              title: new Text('Contact Info'),
+              icon: new Icon(Icons.mail),
+              title: new Text('Email Address'),
             ),
             BottomNavigationBarItem(
-              icon: new Icon(Icons.edit),
-              title: new Text('Person Setting'),
+              icon: new Icon(Icons.phone),
+              title: new Text('Phone Number'),
             )
           ],
           onTap: (index) {

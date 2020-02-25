@@ -30,24 +30,32 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
 
  class _SideDrawer extends State<SideDrawer> {
 
-
   bool isDark = false;
   BuildContext context;
 
   @override
   void initState() {
-    getTheme();
+    getSettingPref("dark").then((value) async {
+      if(value==true){
+        setState(() {
+          isDark = true;
+        });
+      }
+      else if(value==false){
+        setState(() {
+          isDark = false;
+        });
+      }
+      else{
+        setState(() {
+          isDark = false;
+        });
+      }
+
+
+    });
    super.initState();
   }
-
-  getTheme() {
-    getSettingPref("dark").then((value) async {
-      setState(() {
-        isDark = value;
-      });
-    });
-  }
-
 
 
   String firstName, lastName, email, photo;
@@ -59,10 +67,8 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
 
   @override
   build(BuildContext context) {
-    this.context=context;
     return _buildDrawer(context);
   }
-
   clipShape(context) {
     return Stack(
       children: <Widget>[
@@ -101,7 +107,7 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
 
     return Drawer(
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children:[
 
           Flexible(
@@ -110,7 +116,8 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
                 shrinkWrap: true,
                 children: [
                   Container(
-                    height: 280.0,
+                    height: 200.0,
+                    width: getWidth(context)*0.5,
                     child: Stack(
                       children:[
                         isDark==true? Container() : clipShape(context),
@@ -120,43 +127,32 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
                               children:[
 
                                 Container(
-                                  alignment: Alignment.centerRight,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.power_settings_new,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () {
-
-                                     exit(0);
-                                    },
-                                  ),
-                                ),
-                                Container(
 
                                 child:RoundedLetter(
                                   text: getRoundLetter(getEmail(context)).toUpperCase(),
                                   shapeType: ShapeType.circle,
                                   shapeColor: PRIMARY_COLOR.withOpacity(0.5),
-                                  shapeSize: 80,
-                                  fontSize: 40,
+                                  shapeSize: 60,
+                                  fontSize: 30,
                                   borderWidth: 1,
                                   borderColor: Color.fromARGB(255, 0, 0, 0),
                                 ),
                                 ),
                                 SizedBox(height: 15.0),
-                                Text(
+                                Expanded(
+                                child:Text(
                                   getEmail(context),
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w600),
                                 ),
+                                ),
 
                               ],
                             ),
                           ),
-                          padding: const EdgeInsets.all(40),
+                          padding: const EdgeInsets.only(left: 40,right: 40,top: 40),
                         )
                       ],
                     ),
@@ -262,10 +258,7 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
   }
 
   _buildDrawer(context) {
-    return ClipPath(
-      clipper: OvalRightBorderClipper(),
-      child: navigationDrawer(context),
-    );
+    return navigationDrawer(context);
   }
 
   _buildRow(IconData icon, String title) {

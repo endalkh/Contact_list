@@ -33,8 +33,6 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
     );
     super.initState();
   }
-
-
   @override
   Widget build(BuildContext context) {
       return  Provider.of<Auth>(context).getEditContact()==true?
@@ -47,8 +45,7 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
               token: Provider.of<Auth>(context).getTokenFun()
           ),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-
+          if (snapshot.hasData) {
               return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {

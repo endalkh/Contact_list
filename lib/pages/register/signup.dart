@@ -3,7 +3,6 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
-import 'package:flutter_app/pages/animation/animate.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
@@ -185,7 +184,6 @@ setState(() {
           ),
           GestureDetector(
             onTap: () {
-              print("Routing");
             },
             child: Text(
               "Recover",
@@ -244,9 +242,7 @@ setState(() {
     );
   }
   button() {
-      return FadeIn(
-        5,
-        RaisedButton(
+       return RaisedButton(
           elevation: 0,
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
@@ -270,10 +266,8 @@ setState(() {
                     // fontWeight: FontWeight.w900,
                     color: lightPrimary)),
           ),
-        ),
-      );
+        );
     }
-
   acceptTermsTextRow() {
     return Container(
       child: Row(
@@ -303,99 +297,98 @@ setState(() {
       ),
     );
   }
-  @override
+  forms(){
+    return  Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Padding(
+          padding: EdgeInsets.only(left: 10,right: 10),
+          child:   Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:[
+            logo(context),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 30),
+                child:  headerTextRow(),
+
+              ),
+
+
+              SizedBox(
+                height: 10,
+              ),
+             emailTextFormField(),
+              SizedBox(
+                height: 10,
+              ),
+              passwordTextFormField(),
+
+
+              SizedBox(
+                height: 10,
+              ),
+
+                Consumer<Auth>(
+                  builder: (BuildContext context, Auth value, Widget child) =>
+                  value.getRegisterErrorFun().toString().isNotEmpty==true?Text(value.getRegisterErrorFun(),
+                      style: TextStyle(color: Colors.red)):Container(),
+                ),
+
+
+
+              SizedBox(
+                height: 10,
+              ),
+
+
+              acceptTermsTextRow(),
+              SizedBox(
+                height: 10,
+              ),
+
+               Container(
+                width: 150,
+                child: button(),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+
+               signUpTextRow(),
+
+
+
+            ],
+          ),
+        )
+
+
+    );
+  }
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Provider.of<Auth>(context).getIsLoadingFun() == true
-          ? circularIndicator()
-          : Stack(
-        children: <Widget>[
-
-          Container(
-            margin: EdgeInsets.only(top: 40, left: 20, right: 20),
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(),
+      body:Provider.of<Auth>(context).getIsLoadingFun() == true
+          ? circularIndicator(context: context): SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Provider.of<AppState>(context).getTheme()==Constant.lightTheme?CustomPaint(
+                child: Container(
+                  height: 200.0,
                 ),
-                FadeIn(2,logo(context)),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 30),
-child:                 headerTextRow(),
+                painter: CurvePainter(),
+              ):SizedBox(height: 100,),
+              forms(),
 
-                ),
-
-                FadeIn(2.5,headerTextRow(),),
-
-                SizedBox(
-                  height: 10,
-                ),
-                FadeIn(3,emailTextFormField()),
-                SizedBox(
-                  height: 10,
-                ),
-                FadeIn(3.5,passwordTextFormField(),),
-
-
-                SizedBox(
-                  height: 10,
-                ),
-
-                FadeIn(3.7,
-                  Consumer<Auth>(
-                    builder: (BuildContext context, Auth value, Widget child) =>
-                    value.getRegisterErrorFun().toString().isNotEmpty==true?Text(value.getRegisterErrorFun(),
-                        style: TextStyle(color: Colors.red)):Container(),
-                  ),
-
-
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-
-
-                FadeIn(4.0,acceptTermsTextRow(),),
-                SizedBox(
-                  height: 10,
-                ),
-
-                FadeIn(4.5,  Container(
-                  width: 150,
-                  child: button(),
-                ),),
-
-                SizedBox(
-                  height: 10,
-                ),
-
-                FadeIn(5.0, signUpTextRow(),),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(),
-                ),
-
-              ],
-            ),
-          ),
-
-
-          isDark==true?Container():
-          Positioned(
-              top: -MediaQuery.of(context).size.height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: CutterRatioContainer())
-        ],
+            ],
+          )
       ),
     );
   }
+
 
 
 

@@ -66,7 +66,11 @@ class Dashboard extends State<Home> {
 
     return  Scaffold(
       appBar: headerNav(title: getTitle(context), context: context),
-      drawer: SideDrawer(),
+      drawer: Container(
+        width: getWidth(context)*0.7,
+        height: getHeight(context),
+        child: SideDrawer(),
+      ),
       body: Container(
         child: Center(
           child: pageTaped(Provider.of<Auth>(context).getHomePageTabFun()),
