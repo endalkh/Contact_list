@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +16,7 @@ class AddPhone extends StatefulWidget{
   _AddPhone createState()=>_AddPhone(personId);
 }
 
-class _AddPhone extends State<AddPhone>{
+class _AddPhone extends State<AddPhone> implements ShouldImp{
 
   TextEditingController phoneController = TextEditingController();
   List<DropdownMenuItem<PhoneType>> phoneDropdownMenuItems;
@@ -50,8 +52,14 @@ class _AddPhone extends State<AddPhone>{
     );
     addPhone.then((value) async{
       if(value==true){
-        Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
         Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        InfoDialog(
+            context: context,
+            callback: _AddPhone(personId),
+            title: Constant.success,
+            type:Constant.success
+        );
+
       }
 
     });
@@ -59,8 +67,12 @@ class _AddPhone extends State<AddPhone>{
     addPhone.catchError((value) async{
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
-
+      InfoDialog(
+          context: context,
+          callback: _AddPhone(personId),
+          title: value,
+          type:Constant.error
+      );
     });
 
   }
@@ -161,11 +173,7 @@ submitForm();
                         child: phoneNumberButton(),
                       ),
 
-                      value.getHasErrorFun().toString().isNotEmpty==true?Text(Provider.of<Auth>(context,listen: false).getHasErrorFun(),
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      ):Container(),
+
 
 
                     ],
@@ -178,6 +186,11 @@ submitForm();
       );
 
 
+  }
+
+  @override
+  void changer({context, id}) {
+    // TODO: implement changer
   }
 }
 

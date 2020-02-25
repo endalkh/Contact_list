@@ -28,71 +28,60 @@ class _UpdatePhone extends State<UpdatePhone> {
   _UpdatePhone(this.id) {
     this.id = id;
   }
-  bool isApiLoaded;
   @override
   void initState() {
-    isApiLoaded=false;
+    Future.delayed(Duration.zero, () {
+      Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
+
+      Provider.of<Auth>(context).setHasErrorFun("");
+
+      phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
+
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+      Future<GetPhone> phoneApi = getSinglePhoneApi(
+        token: Provider.of<Auth>(context,listen: false).getTokenFun(),
+        personId: id,
+      );
+
+      phoneApi.then((val){
+        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+        switch (val.type.toString()) {
+          case "Mobile":
+            setState(() {
+              selectPhone = phoneDropdownMenuItems[0].value;
+            });
+            break;
+          case "Home":
+            setState(() {
+              selectPhone = phoneDropdownMenuItems[0].value;
+            });
+            break;
+          case "Work":
+            setState(() {
+              selectPhone = phoneDropdownMenuItems[0].value;
+            });
+            break;
+          case "Fax":
+            setState(() {
+              selectPhone = phoneDropdownMenuItems[0].value;
+            });
+            break;
+          case "Line":
+            setState(() {
+              selectPhone = phoneDropdownMenuItems[0].value;
+            });
+            break;
+        }
+        phoneController.text = val.number;
+      });
+      phoneApi.catchError((val) {
+        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
+      });
+    });
     super.initState();
   }
-@override
-  void didChangeDependencies() {
-  super.didChangeDependencies();
-  if(!isApiLoaded){
-    Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
-
-    Provider.of<Auth>(context).setHasErrorFun("");
-
-    phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
-
-    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-    Future<GetPhone> phoneApi = getSinglePhoneApi(
-      token: Provider.of<Auth>(context,listen: false).getTokenFun(),
-      personId: id,
-    );
-
-    phoneApi.then((val){
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-      switch (val.type.toString()) {
-        case "Mobile":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-          });
-          break;
-        case "Home":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-          });
-          break;
-        case "Work":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-          });
-          break;
-        case "Fax":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-          });
-          break;
-        case "Line":
-          setState(() {
-            selectPhone = phoneDropdownMenuItems[0].value;
-          });
-          break;
-      }
-      phoneController.text = val.number;
-    });
-    phoneApi.catchError((val) {
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
-    });
-    isApiLoaded=true;
-  }
-
-
-
-  }
-
 
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);

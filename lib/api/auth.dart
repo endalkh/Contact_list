@@ -395,10 +395,10 @@ Future<GetNoteList> getNoteSingleApi({@required token, @required id}) async {
   String error;
 
 
-
+print(id);
   try {
     final response = await http.get(
-      API.GET_LIST_NOTE_API + "?personId=" + id,
+      API.GET_SINGLE_NOTE_API + "?id=" + id,
       headers: {
         "Authorization": token,
       },

@@ -23,7 +23,6 @@ class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
   PhoneNumber({@required this.personId});
   @override
   Widget build(BuildContext context) {
-this.context=context;
     return Provider.of<Auth>(context).getEditPhone()==true?UpdatePhone(id:Provider.of<Auth>(context).getId()):
        Column(
           children: <Widget>[

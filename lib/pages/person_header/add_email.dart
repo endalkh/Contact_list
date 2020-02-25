@@ -5,6 +5,7 @@ import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class AddEmail extends StatefulWidget {
   _AddEmail createState() => _AddEmail(personId);
 }
 
-class _AddEmail extends State<AddEmail> {
+class _AddEmail extends State<AddEmail> implements ShouldImp{
   List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
   TextEditingController emailController = TextEditingController();
   List<EmailType> emailType = EmailType.getEmails();
@@ -226,5 +227,10 @@ class _AddEmail extends State<AddEmail> {
                   ),
 
     );
+  }
+
+  @override
+  void changer({context, id}) {
+    // TODO: implement changer
   }
 }

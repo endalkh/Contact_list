@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
+import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
+import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:provider/provider.dart';
 
 class UpdateNote extends StatefulWidget {
@@ -15,28 +18,23 @@ class UpdateNote extends StatefulWidget {
   _UpdateNote createState() => _UpdateNote(id);
 }
 
-class _UpdateNote extends State<UpdateNote> {
+class _UpdateNote extends State<UpdateNote> implements ShouldImp{
   TextEditingController noteController = TextEditingController();
 
-
   String id;
-  bool isApiLoaded;
+  _UpdateNote(this.id);
+
+
   @override
   void initState() {
-    isApiLoaded=false;
-    super.initState();
-  }
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if(!isApiLoaded){
+    Future.delayed(Duration.zero, () {
       Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
 
-      Provider.of<Auth>(context).setHasErrorFun("");
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
 
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
       Future<GetNoteList> noteApi = getNoteSingleApi(
-        token: Provider.of<Auth>(context).getTokenFun(),
+        token: Provider.of<Auth>(context,listen: false).getTokenFun(),
         id: id,
       );
       noteApi.then((val) {
@@ -50,16 +48,12 @@ class _UpdateNote extends State<UpdateNote> {
         Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
 
       });
-isApiLoaded=true;
-    }
-
-
+    });
+    super.initState();
   }
 
 
-  _UpdateNote(this.id) {
-    this.id = id;
-  }
+
 
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
@@ -75,6 +69,12 @@ isApiLoaded=true;
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        InfoDialog(
+            context: context,
+            callback: _UpdateNote(id),
+            title: Constant.success,
+            type:Constant.success
+        );
       }
     });
 
@@ -84,6 +84,12 @@ isApiLoaded=true;
           .setSuccessfullyRegisteredFun(false);
       Provider.of<Auth>(context, listen: false)
           .setHasErrorFun(value.toString());
+      InfoDialog(
+          context: context,
+          callback: _UpdateNote(id),
+          title: value,
+          type:Constant.error
+      );
     });
   }
 
@@ -163,6 +169,11 @@ isApiLoaded=true;
       ),
     )
     );
+  }
+
+  @override
+  void changer({context, id}) {
+
   }
 
 

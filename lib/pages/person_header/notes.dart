@@ -20,7 +20,6 @@ import 'package:provider/provider.dart';
 
 class Note extends StatelessWidget implements NoteDelAndEdit ,ShouldImp{
   String personId;
-  BuildContext contextClass;
 
   Note({@required this.personId});
 

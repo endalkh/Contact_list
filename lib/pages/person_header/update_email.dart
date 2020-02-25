@@ -22,19 +22,10 @@ class _UpdateEmail extends State<UpdateEmail> {
   EmailType selectEmail;
   List<EmailType> emailType;
   String id;
-  bool isApiLoaded;
   @override
   void initState() {
-    isApiLoaded=false;
-    super.initState();
-  }
-  _UpdateEmail(this.id) {
-    this.id = id;
-  }
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if(!isApiLoaded){
+    Future.delayed(Duration.zero, () {
+
       Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
 
       Provider.of<Auth>(context).setHasErrorFun("");
@@ -92,11 +83,13 @@ class _UpdateEmail extends State<UpdateEmail> {
         Provider.of<Auth>(super.context,listen: false).setLoadingStateFun(false);
         Provider.of<Auth>(super.context,listen: false).setHasErrorFun(val.toString());
       });
-
-isApiLoaded=true;
-    }
-
+      });
+    super.initState();
   }
+  _UpdateEmail(this.id) {
+    this.id = id;
+  }
+
 
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);

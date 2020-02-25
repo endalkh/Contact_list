@@ -6,7 +6,7 @@
     String lastChar = "";
     for (int i = 0; i < text.length; i++) {
       var char = text[i];
-      if (char == " ") {
+      if (char == " " && i+1<text.length) {
         i++;
         lastChar = text[i];
         break;

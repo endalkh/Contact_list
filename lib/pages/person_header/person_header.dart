@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 
 class PersonHeaderScreen extends StatelessWidget {
 final String personId;
- BuildContext context;
   // In the constructor, require a person Id
 PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
 
@@ -59,7 +58,6 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    this.context=context;
     return Scaffold(
         appBar: headerNav(context: context, title:getTitle(context)),
         body: Column(
