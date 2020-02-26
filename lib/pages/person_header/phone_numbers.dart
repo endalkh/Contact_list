@@ -23,9 +23,15 @@ class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
   PhoneNumber({@required this.personId});
   @override
   Widget build(BuildContext context) {
-    return Provider.of<Auth>(context).getEditPhone()==true?UpdatePhone(id:Provider.of<Auth>(context).getId()):
+    return Scaffold(
+        body:Provider.of<Auth>(context).getAddPhone()==true?
+
+        Container(
+          child: AddPhone(personId:personId),
+        ):Provider.of<Auth>(context).getEditPhone()==true?UpdatePhone(id:Provider.of<Auth>(context).getId()):
        Column(
           children: <Widget>[
+            Divider(),
             Text(
               'Phone Numbers',
               textAlign: TextAlign.left,
@@ -97,26 +103,18 @@ class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
            ),
             ),
 
-
-            ListTile(
-              leading: Icon(Icons.add,size: 30,color: PRIMARY_COLOR,),
-              title: Text(
-                'Add Phone number',
-                style: TextStyle(
-                    fontWeight: FontWeight.w400, fontSize: 17),
-              ),
-              onTap: (){
-                Provider.of<Auth>(context,listen: false).setAddPhone(!Provider.of<Auth>(context,listen: false).getAddPhone());
-                Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-              },
-
-         ),
-            Provider.of<Auth>(context,listen: false).getAddPhone()==true?
-
-                AddPhone(personId: personId,):Container(),
-            Divider(),
           ],
-        );
+        ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => {
+            Provider.of<Auth>(context,listen: false).setAddPhone(!Provider.of<Auth>(context,listen: false).getAddPhone())
+          },
+          backgroundColor: PRIMARY_COLOR,
+          child: Icon(
+            Provider.of<Auth>(context,listen: false).getAddPhone()==false?Icons.add:Icons.list,color: TRIAL_COLOR,
+          )
+      ),
+    );
 
   }
 

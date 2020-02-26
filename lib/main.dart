@@ -59,7 +59,7 @@ class _MyApp extends State<MyApp> {
   build(context) {
     AppState themeNotifier = Provider.of<AppState>(context);
 
-    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.SPLASH_SCREEN,
+    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.PERSON_HEADER,
         theme:  themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),
@@ -73,6 +73,7 @@ class _MyApp extends State<MyApp> {
           Constant.SEARCH:(context)=>MaterialSearchResult(),
           Constant.SEARCH_DISPLAY:(context)=>SearchDisplayScreen(),
           Constant.NOTES:(context)=>Note(),
+          Constant.PERSON_HEADER:(context)=>PersonHeaderScreen(),
 
           Constant.ABOUT_US:(context)=>AboutScreen(),
         });

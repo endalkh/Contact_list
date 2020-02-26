@@ -42,17 +42,22 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
 
   @override
   Widget build(BuildContext context) {
-    return Provider.of<Auth>(context).getEditEmail()==true?UpdateEmail(id:Provider.of<Auth>(context).getId()):
+    return Scaffold(
+      body: Provider.of<Auth>(context).getAddEmail()==true?  Container(
+        child:  AddEmail(personId: personId),
+      ):
+      Provider.of<Auth>(context).getEditEmail()==true?UpdateEmail(id:Provider.of<Auth>(context).getId()):
     Padding(
       padding: EdgeInsets.only(bottom: 15),
     child:Column(
         children: <Widget>[
+Divider(),
           Text(
             'Email Information',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
           ),
-    Expanded(
-            child:FutureBuilder <List<GetEmail>>(
+
+   FutureBuilder <List<GetEmail>>(
               future: getEmailListApi(
                 token: Provider.of<Auth>(context).getTokenFun(),
                 personId: personId,
@@ -115,25 +120,19 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
                 return circularIndicator(context: context);
               }
           ),
-    ),
 
-
-          ListTile(
-            leading: Icon(Icons.add,size: 30,color: PRIMARY_COLOR,),
-            title: Text(
-              'Add Email address',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400, fontSize: 17),
-            ),
-            onTap: (){
-              Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-              Provider.of<Auth>(context,listen: false).setAddEmail(!Provider.of<Auth>(context,listen: false).getAddEmail());
-            },
-          ),
-          Provider.of<Auth>(context,listen: false).getAddEmail()==true?
-            AddEmail(personId: personId,):Container(),
         ]
     ),
+    ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => {
+            Provider.of<Auth>(context,listen: false).setAddEmail(!Provider.of<Auth>(context,listen: false).getAddEmail())
+          },
+          backgroundColor: PRIMARY_COLOR,
+          child: Icon(
+            Provider.of<Auth>(context,listen: false).getAddEmail()==false?Icons.add:Icons.list,color: TRIAL_COLOR,
+          )
+      ),
     );
   }
 
@@ -145,7 +144,6 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
     Navigator.pop(context);
     return null;
   }
-
   @override
   void changer({context, id}) {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);

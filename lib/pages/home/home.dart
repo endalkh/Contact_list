@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,13 +19,11 @@ import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_letter/rounded_letter.dart';
 import 'package:rounded_letter/shape_type.dart';
-
 class Home extends StatefulWidget {
   Dashboard createState() => Dashboard();
 }
 
 class Dashboard extends State<Home> {
-
   pageTaped(page) {
     switch ( Provider.of<Auth>(context,listen: false).getHomePageTabFun()) {
       case 0:
@@ -70,7 +67,7 @@ class Dashboard extends State<Home> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: Provider.of<Auth>(context).getHomePageTabFun() ,
-        // unselectedItemColor: Colors.black26,
+
         selectedItemColor: PRIMARY_COLOR,
         items: [
           BottomNavigationBarItem(

@@ -70,7 +70,7 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
       InfoDialog(
           context: context,
           callback: _AddPhone(personId),
-          title: value,
+          title: value.toString(),
           type:Constant.error
       );
     });
@@ -159,13 +159,22 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
         SingleChildScrollView(
             child: Column(
               children: [
+                Divider(),
+
+                Text(
+                  'Additional Phone Number',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Divider(),
 
                       Padding(
                         padding: EdgeInsets.all(2),

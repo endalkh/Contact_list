@@ -28,8 +28,6 @@ class _UpdateEmail extends State<UpdateEmail> {
 
       Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
 
-      Provider.of<Auth>(context).setHasErrorFun("");
-
       emailType = EmailType.getEmails();
       emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
       emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);

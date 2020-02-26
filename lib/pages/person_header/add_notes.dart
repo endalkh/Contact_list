@@ -63,7 +63,7 @@ class _AddNote extends State<AddNote> implements ShouldImp {
       InfoDialog(
           context: context,
           callback: _AddNote(personId),
-          title: Constant.error,
+          title: value.toString(),
           type:Constant.error
       );
     });
@@ -72,6 +72,7 @@ class _AddNote extends State<AddNote> implements ShouldImp {
   enterNotesTextFormField() {
     return Column(
       children: <Widget>[
+        Divider(),
         Text(
           'Additional Notes',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),

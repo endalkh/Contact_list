@@ -40,6 +40,7 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
   }
 
   submitForm() {
+    print(("gggoood"));
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     Provider.of<Auth>(context, listen: false).setHasErrorFun("");
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
@@ -68,7 +69,7 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
       InfoDialog(
           context: context,
           callback: _AddEmail(personId),
-          title: value,
+          title: value.toString(),
           type:Constant.error
       );
     });
@@ -187,7 +188,6 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Consumer<Auth>(
       builder: (BuildContext context, Auth value, Widget child) =>
           value.getIsLoadingFun() == true
@@ -196,6 +196,15 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
                    SingleChildScrollView(
                     child: Column(
                       children: [
+                        SizedBox(height: 20,),
+                        Divider(),
+                        Text(
+                          'Additional Email Address',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Column(
