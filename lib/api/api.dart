@@ -12,6 +12,10 @@ class API{
   static const String UPCOMING_BIRTHDAY_API=COMMON_API+"/person/upcoming-birthdays";
 
   static const String GET_SINGLE_PERSON_API=COMMON_API+"/person";
+
+  static const String SEARCH=COMMON_API+"/search";
+
+
   static const String GET_LIST_NOTE_API=COMMON_API+"note/list";
   static const String GET_SINGLE_NOTE_API=COMMON_API+"note";
   static const String GET_PHONE_API=COMMON_API+"phone-number/list";

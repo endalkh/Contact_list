@@ -54,9 +54,9 @@ class Dashboard extends State<Home> {
 
 
     return  Scaffold(
-      appBar: headerNav(title: getTitle(context), context: context),
+      appBar: MaterialSearch(context).materialSearch(title: getTitle(context), context: context),
       drawer: Container(
-        width: getWidth(context)*0.7,
+        width: getWidth(context)*0.75,
         height: getHeight(context),
         child: SideDrawer(),
       ),

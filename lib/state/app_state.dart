@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
+import 'package:flutter_app/api/model/get_notes.dart';
 import 'package:flutter_app/api/model/login.dart';
+import 'package:flutter_app/api/model/search.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,6 +75,9 @@ class Auth with ChangeNotifier {
   bool editNote=false;
   bool editContact=false;
   String id="";
+  bool isPersonForSearch=true;
+  List<GetAllContact> personList=[];
+  List<GetNoteList> noteList=[];
 
 getIsLogged() async{
   final pref = await SharedPreferences.getInstance();
@@ -229,6 +234,30 @@ getIsLogged() async{
   }
   getId(){
     return this.id;
+  }
+
+ setIsPerson(val){
+    this.isPersonForSearch=val;
+    notifyListeners();
+  }
+  getIsPerson(){
+    return this.isPersonForSearch;
+  }
+
+  setPersonList(val){
+    this.personList=val;
+    notifyListeners();
+  }
+  getPersonList(){
+    return this.personList;
+  }
+
+  setNoteList(val){
+    this.noteList=val;
+    notifyListeners();
+  }
+  getNoteList(){
+    return this.noteList;
   }
 
 
