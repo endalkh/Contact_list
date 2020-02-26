@@ -10,6 +10,7 @@ import 'package:flutter_app/pages/profile/Profile.dart';
 import 'package:flutter_app/pages/recover_password/recover_password.dart';
 import 'package:flutter_app/pages/register/signup.dart';
 import 'package:flutter_app/pages/register/termsAndCondition.dart';
+import 'package:flutter_app/pages/search/search.dart';
 import 'package:flutter_app/pages/search/search_display.dart';
 import 'package:flutter_app/pages/search/search_result.dart';
 import 'package:flutter_app/pages/settings/settings.dart';
@@ -59,7 +60,7 @@ class _MyApp extends State<MyApp> {
   build(context) {
     AppState themeNotifier = Provider.of<AppState>(context);
 
-    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.PERSON_HEADER,
+    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.HOME,
         theme:  themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),
@@ -74,6 +75,7 @@ class _MyApp extends State<MyApp> {
           Constant.SEARCH_DISPLAY:(context)=>SearchDisplayScreen(),
           Constant.NOTES:(context)=>Note(),
           Constant.PERSON_HEADER:(context)=>PersonHeaderScreen(),
+          Constant.SEARCH:(context)=>LoaderSearchBarPage(),
 
           Constant.ABOUT_US:(context)=>AboutScreen(),
         });

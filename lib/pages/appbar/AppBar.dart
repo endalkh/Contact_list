@@ -18,7 +18,7 @@ AppBar headerNav({context,String title}){
           actions: <Widget>[
         new IconButton(
           onPressed: () {
-         Search(context);
+Navigator.pushNamed(context, Constant.SEARCH);
           },
           tooltip: 'Search',
           icon: new Icon(Icons.search,
