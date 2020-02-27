@@ -136,7 +136,7 @@ class Note extends StatelessWidget implements NoteDelAndEdit ,ShouldImp{
   void changer({context, id}) {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-    var deletePhone = deletePhoneApi(
+    var deletePhone = deleteNoteApi(
       id: id,
       token: token,
     );
@@ -158,7 +158,6 @@ class Note extends StatelessWidget implements NoteDelAndEdit ,ShouldImp{
     deletePhone.catchError((value) async {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
       Navigator.of(context).pop();
-
       InfoDialog(
           context: context,
           callback: Note(),

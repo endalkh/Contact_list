@@ -6,12 +6,12 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/add_new_person.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/drawer/navigation_drawer.dart';
 import 'package:flutter_app/pages/home/add_new_person.dart';
 import 'package:flutter_app/pages/home/contacts.dart';
 import 'package:flutter_app/pages/home/last_contact.dart';
 import 'package:flutter_app/pages/home/upcoming_birth_days.dart';
+import 'package:flutter_app/pages/search/search.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
@@ -54,7 +54,7 @@ class Dashboard extends State<Home> {
 
 
     return  Scaffold(
-      appBar: MaterialSearch(context).materialSearch(title: getTitle(context), context: context),
+      appBar: MaterialSearch().materialSearch(context: context,title: "Home"),
       drawer: Container(
         width: getWidth(context)*0.75,
         height: getHeight(context),

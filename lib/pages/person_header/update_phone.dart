@@ -31,9 +31,9 @@ class _UpdatePhone extends State<UpdatePhone> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
 
-      Provider.of<Auth>(context).setHasErrorFun("");
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
 
       phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
 

@@ -5,6 +5,7 @@ import 'package:flutter_app/api/model/login.dart';
 import 'package:flutter_app/api/model/search.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:loader_search_bar/loader_search_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppState with ChangeNotifier {
@@ -78,6 +79,7 @@ class Auth with ChangeNotifier {
   bool isPersonForSearch=true;
   List<GetAllContact> personList=[];
   List<GetNoteList> noteList=[];
+  AutoActive autoActive= AutoActive.off;
 
 getIsLogged() async{
   final pref = await SharedPreferences.getInstance();
@@ -258,6 +260,14 @@ getIsLogged() async{
   }
   getNoteList(){
     return this.noteList;
+  }
+
+  setAutoActive(val){
+    this.autoActive=val;
+    notifyListeners();
+  }
+  getAutoActive(){
+    return this.autoActive;
   }
 
 

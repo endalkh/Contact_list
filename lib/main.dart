@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/about/about.dart';
+import 'package:flutter_app/pages/contact_sync/contact_sync.dart';
 import 'package:flutter_app/pages/home/home.dart';
 import 'package:flutter_app/pages/login/signin.dart';
 import 'package:flutter_app/pages/person_header/notes.dart';
@@ -10,9 +11,6 @@ import 'package:flutter_app/pages/profile/Profile.dart';
 import 'package:flutter_app/pages/recover_password/recover_password.dart';
 import 'package:flutter_app/pages/register/signup.dart';
 import 'package:flutter_app/pages/register/termsAndCondition.dart';
-import 'package:flutter_app/pages/search/search.dart';
-import 'package:flutter_app/pages/search/search_display.dart';
-import 'package:flutter_app/pages/search/search_result.dart';
 import 'package:flutter_app/pages/settings/settings.dart';
 import 'package:flutter_app/pages/splash/splash_screen.dart';
 import 'package:flutter_app/state/app_state.dart';
@@ -71,11 +69,10 @@ class _MyApp extends State<MyApp> {
           Constant.PROFILE:(context)=>ProfileOnePage(),
           Constant.TERMS_AND_CONDTION:(context)=>TermsAndConditions(),
           Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
-          Constant.SEARCH:(context)=>MaterialSearchResult(),
-          Constant.SEARCH_DISPLAY:(context)=>SearchDisplayScreen(),
           Constant.NOTES:(context)=>Note(),
           Constant.PERSON_HEADER:(context)=>PersonHeaderScreen(),
-          Constant.SEARCH:(context)=>LoaderSearchBarPage(),
+          Constant.CONTACT_SYNC:(context)=>ContactListPage(),
+
 
           Constant.ABOUT_US:(context)=>AboutScreen(),
         });

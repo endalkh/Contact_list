@@ -24,6 +24,7 @@ class Constant{
   static const String RECOVER_PASSWORD="Recover_password";
   static const String PERSON_HEADER="person_header";
   static const String SEARCH_DISPLAY="search_display";
+  static const String  CONTACT_SYNC="search_display";
 
 // labels
   static const String ADD_NEW_PERSON="Add new Person";
