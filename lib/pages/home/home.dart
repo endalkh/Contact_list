@@ -184,7 +184,7 @@ class Dashboard extends State<Home> implements ShouldImp {
     return  Scaffold(
       appBar:  SearchBar(
         defaultBar: AppBar(
-          title: Text("Home",style: TextStyle(color: Colors.white),),
+          title: Text(getTitle(context),style: TextStyle(color: Colors.white),),
           automaticallyImplyLeading: true,
           iconTheme: IconThemeData(color: TRIAL_COLOR),
         ),
