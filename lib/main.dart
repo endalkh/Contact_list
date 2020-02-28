@@ -46,24 +46,22 @@ class _MyApp extends State<MyApp> {
     this.logged=logged;
   }
 
-
-
   @override
   build(context) {
     AppState themeNotifier = Provider.of<AppState>(context);
-
-    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.HOME,
+    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.SPLASH_SCREEN,
         theme:  themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),
-          Constant.SIGN_IN: (context) => SignInPage(title: "hello",),
+          Constant.SIGN_IN: (context) => SignInPage(),
           Constant.SIGN_UP: (context) => SignUpScreen(),
           Constant.HOME: (context) => Home(),
           Constant.TERMS_AND_CONDTION:(context)=>TermsAndConditions(),
           Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
           Constant.CONTACT_SYNC:(context)=>ContactListPage(),
 
-        });
+        }
+        );
 
 
 

@@ -3,7 +3,10 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:flutter_app/pages/login/signin.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
+import 'package:flutter_app/pages/register/termsAndCondition.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/state/app_state.dart';
@@ -23,10 +26,10 @@ class SignUpPage extends StatelessWidget {
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key key}) : super(key: key);
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
   bool showError=false;
   bool showBackendError=false;
@@ -38,7 +41,7 @@ class _SignInScreenState extends State<SignUpScreen> {
   bool _secureText = true;
   bool isDark=false;
 
-  _SignInScreenState(){
+  _SignUpScreenState(){
     getTheme();
   }
 
@@ -87,7 +90,6 @@ setState(() {
 
         });
 
-//          Navigator.pushNamed(context, Constant.HOME);
       }
 
 
@@ -212,8 +214,10 @@ setState(() {
 
               Provider.of<Auth>(context,listen: false).setRegisterErrorFun("");
 
+              Navigator.push(context, SlideLeftRoute(
+                  page: SignInPage()
+              ));
 
-              Navigator.of(context).pushNamed(Constant.SIGN_IN);
             },
             child: Text(
               "Sign in",
@@ -282,7 +286,9 @@ setState(() {
               }),
           FlatButton(
             onPressed:()=>{
-              Navigator.pushNamed(context, Constant.TERMS_AND_CONDTION),
+            Navigator.push(context, SlideLeftRoute(
+            page: TermsAndConditions()
+            )),
             },
             child: Text("I accept all terms and conditions",
               style: TextStyle(fontWeight: FontWeight.w400,

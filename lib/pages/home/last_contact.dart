@@ -4,6 +4,8 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
+import 'package:flutter_app/pages/person_header/person_header.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
@@ -42,8 +44,13 @@ class _LastContact extends State<LastContact>{
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
                                 child: InkWell(
-                                  onTap: () =>
-                                  {Navigator.pushNamed(context, Constant.PERSON_HEADER)},
+                                  onTap: () {
+                                    Navigator.push(context, SlideLeftRoute(
+                                        page: PersonHeaderScreen(
+                                          personId: snapshot.data[index].id,)
+                                    ));
+                                  },
+
                                   child: Container(
                                     child: ListTile(
                                         leading: RoundedLetter(

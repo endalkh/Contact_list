@@ -3,7 +3,11 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:flutter_app/pages/home/home.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
+import 'package:flutter_app/pages/recover_password/recover_password.dart';
+import 'package:flutter_app/pages/register/signup.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/state/app_state.dart';
@@ -83,7 +87,9 @@ class _LoginPageState extends State<SignInPage> {
           accessToken: value.accessToken,
         );
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-        Navigator.pushNamed(context, Constant.HOME);
+        Navigator.push(context, SlideLeftRoute(
+            page: Home()
+        ));
       });
 
       _loginModel.catchError((value) async {
@@ -205,7 +211,9 @@ class _LoginPageState extends State<SignInPage> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, Constant.RECOVER_PASSWORD);
+              Navigator.push(context, SlideLeftRoute(
+                  page: RecoverPassword()
+              ));
             },
             child: Text(
               "Recover",
@@ -235,9 +243,10 @@ class _LoginPageState extends State<SignInPage> {
           ),
           GestureDetector(
             onTap: () {
-              print("clicked");
-              Navigator.of(context).pushNamed(Constant.SIGN_UP);
               Provider.of<Auth>(context, listen: false).setHasErrorFun("");
+              Navigator.push(context, SlideLeftRoute(
+                  page: SignUpPage()
+              ));
             },
             child: Text(
               "Sign up",

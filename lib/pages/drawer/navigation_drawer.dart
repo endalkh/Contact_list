@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:flutter_app/pages/contact_sync/contact_sync.dart';
 import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
+import 'package:flutter_app/pages/login/signin.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/custom_shape.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
@@ -22,7 +25,11 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
   @override
   void changer({context,id}) {
     signOut();
-    Navigator.pushNamed(context, Constant.SIGN_IN);
+    Navigator.pop(context);
+    Navigator.push(context, SlideLeftRoute(
+        page: SignInPage()
+    ));
+
   }
 }
 
@@ -161,7 +168,10 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
 
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, Constant.CONTACT_SYNC);
+                      Navigator.pop(context);
+                      Navigator.push(context, SlideLeftRoute(
+                          page: ContactListPage()
+                      ));
                     },
                     child:
                         _buildRow(Icons.timeline, "Contact Sync"),
@@ -174,16 +184,14 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
 
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, Constant.SETTING);
+
                     },
                     child: _buildRow(Icons.help, "Help"),
                   ),
 
                   GestureDetector(
 
-                    onTap: () {
-                      Navigator.pushNamed(context, Constant.SETTING);
-                    },
+                    onTap: () {},
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 15),
@@ -222,6 +230,7 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
                   Divider(),
                   GestureDetector(
                     onTap: () {
+
                       ConfirmationDialog(context: context,title: "Are you sure to logout?",callback: SideDrawer());
 
                       },

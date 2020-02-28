@@ -9,6 +9,7 @@ import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/dialog/loading_dialog.dart';
 import 'package:flutter_app/pages/home/update_contacts.dart';
 import 'package:flutter_app/pages/person_header/person_header.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
@@ -87,12 +88,11 @@ class _UpcomingBirthDaysScreen extends State<UpcomingBirthDaysScreen> implements
                                         DeleteAndEditNotesDialog(context: context,callback:_UpcomingBirthDaysScreen(),id: snapshot.data[index].id );
                                       },
                                       onTap: (){
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => PersonHeaderScreen(personId:snapshot.data[index].id,),
-                                          ),
-                                        );
+                                        Navigator.push(context, SlideLeftRoute(
+                                            page: PersonHeaderScreen(
+                                              personId: snapshot.data[index].id,)
+                                        ));
+
                                       },
 
                                     ),

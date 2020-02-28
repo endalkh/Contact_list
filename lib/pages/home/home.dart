@@ -12,6 +12,7 @@ import 'package:flutter_app/pages/home/contacts.dart';
 import 'package:flutter_app/pages/home/last_contact.dart';
 import 'package:flutter_app/pages/home/upcoming_birth_days.dart';
 import 'package:flutter_app/pages/person_header/person_header.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
@@ -242,10 +243,7 @@ class Dashboard extends State<Home> implements ShouldImp {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddNewPersonScreen()),
-          )
+          Navigator.push(context, SlideLeftRoute(page: AddNewPersonScreen())),
         },
         backgroundColor: PRIMARY_COLOR,
         child: Icon(
