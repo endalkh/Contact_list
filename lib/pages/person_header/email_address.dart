@@ -17,7 +17,7 @@ import 'package:flutter_app/utilities/get_icon_type.dart';
 import 'package:provider/provider.dart';
 
 class EmailAddress extends StatefulWidget {
-  String personId;
+  final String personId;
   EmailAddress({@required this.personId});
 
   _EmailAddress createState()=>_EmailAddress( personId: personId);
@@ -169,6 +169,7 @@ Divider(),
 
     deleteEmail.catchError((value) async {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Navigator.of(context).pop();
       InfoDialog(
           context: context,
           callback: _EmailAddress(),

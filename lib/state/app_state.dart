@@ -1,8 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
 import 'package:flutter_app/api/model/login.dart';
-import 'package:flutter_app/api/model/search.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:loader_search_bar/loader_search_bar.dart';
@@ -246,30 +247,48 @@ getIsLogged() async{
     return this.isPersonForSearch;
   }
 
-  setPersonList(val){
-    this.personList=val;
+  setPersonList(List<GetAllContact> val) async{
+    print("set");
+     personList=val;
+
     notifyListeners();
+
   }
-  getPersonList(){
-    return this.personList;
+//sleep()async{
+//  await Future.delayed(const Duration(seconds: 10));
+//}
+  List<GetAllContact> getPersonList() {
+
+    print("get");
+   return personList;
   }
 
-  setNoteList(val){
-    this.noteList=val;
-    notifyListeners();
-  }
-  getNoteList(){
-    return this.noteList;
+    clearPersonList(){
+      this.personList.clear();
+      notifyListeners();
+    }
+    removePersonList(id){
+      this.personList.removeWhere((item) => item.id == id);
+      notifyListeners();
+    }
+
+    setNoteList(val){
+      this.noteList=val;
+      notifyListeners();
+    }
+    getNoteList(){
+      return this.noteList;
+    }
+
+    setAutoActive(val){
+      this.autoActive=val;
+      notifyListeners();
+    }
+    getAutoActive(){
+      return this.autoActive;
+    }
   }
 
-  setAutoActive(val){
-    this.autoActive=val;
-    notifyListeners();
-  }
-  getAutoActive(){
-    return this.autoActive;
-  }
 
 
-}
 

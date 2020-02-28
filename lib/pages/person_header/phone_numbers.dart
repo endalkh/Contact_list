@@ -18,8 +18,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
-  String personId;
-  BuildContext context;
+  final String personId;
+   BuildContext context;
   PhoneNumber({@required this.personId});
   @override
   Widget build(BuildContext context) {

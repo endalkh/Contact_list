@@ -54,7 +54,6 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,8 +74,6 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
       return Container(
         child: Column(
           children: <Widget>[
-
-
             RawMaterialButton(
               onPressed: () {},
               child: new Icon(
@@ -104,8 +101,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
                     'Birthday : '+ dateFormatter(snapshot.data.birthDate),
                     style: TextStyle(fontSize: 15),
                   ),
-                  Text(
-                    'Last Contacted: '+dateFormatter(snapshot.data.lastContact),
+                  Text('Last Contacted: '+dateFormatter(snapshot.data.lastContact),
                     style: TextStyle(fontSize: 15),
                   ),
                 ],

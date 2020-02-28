@@ -11,7 +11,7 @@ import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:provider/provider.dart';
 
 class UpdateContact extends StatefulWidget{
-  String id;
+  final String id;
 
   UpdateContact({@required this.id});
 

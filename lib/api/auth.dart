@@ -12,8 +12,9 @@ import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/api/model/login.dart';
 import 'package:flutter_app/api/model/register.dart';
-import 'package:flutter_app/api/model/search.dart';
+import 'package:flutter_app/state/app_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 /*================== All Get Api ===============================*/
 Future<GetAllContact> getSingleContactApi({token, id}) async {
@@ -77,7 +78,7 @@ Future<GetAllContact> getSingleContactApi({token, id}) async {
     throw error;
   }
 }
-Future<List<GetAllContact>> searchApi({token, query}) async {
+Future<List<GetAllContact>> searchApi({token, query,context}) async {
   String error;
  var x= [
   {
@@ -174,7 +175,7 @@ Future<List<GetAllContact>> searchApi({token, query}) async {
 
   try {
     final response = await http.get(
-      API.SEARCH + "?query=" + query,
+     "https://relateapp.io/api/v1/search"+ "?query=" + query,
       headers: {
         "Authorization": token,
       },
@@ -421,7 +422,6 @@ Future<List<GetLastContact>> getLastContactApi({@required token}) async {
 Future<GetSinglePerson> getSinglePersonApi(
     {@required token, @required id}) async {
   String error;
-
   try {
     final response = await http.get(
       API.GET_SINGLE_PERSON_API + "?id=" + id,
@@ -551,7 +551,6 @@ Future<GetNoteList> getNoteSingleApi({@required token, @required id}) async {
   String error;
 
 
-print(id);
   try {
     final response = await http.get(
       API.GET_SINGLE_NOTE_API + "?id=" + id,
@@ -1001,7 +1000,7 @@ Future<AddNewPerson> addNewPersonApi(
       {"type": phoneType, "number": phone}
     ],
     "emails": [
-      {"type": emailType, "address": emailType}
+      {"type": emailType, "address": email}
     ],
     "note": {"body": notes}
   };
@@ -1617,7 +1616,7 @@ deleteEmailApi(
 
   try {
     final response = await http.delete(
-      API.DELETE_EMAIL_API,
+      API.DELETE_EMAIL_API+"?id="+id,
       headers: {
         "Authorization": token,
       },

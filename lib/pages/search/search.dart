@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
@@ -201,28 +203,17 @@ import 'package:provider/provider.dart';
 class MaterialSearch  implements ShouldImp {
   BuildContext cxt;
 
+
   SearchBar materialSearch({context,String title}) {
     cxt=context;
     return SearchBar(
+
       defaultBar: AppBar(
         automaticallyImplyLeading: true,
-        backgroundColor: PRIMARY_COLOR,
         iconTheme: IconThemeData(color: TRIAL_COLOR),
-
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-                Provider.of<Auth>(context, listen: false).getIsPerson() ==
-                    true ? Icons.person : Icons.note),
-            onPressed: () {
-              Provider.of<Auth>(context, listen: false).setIsPerson(
-                  !Provider.of<Auth>(context, listen: false).getIsPerson());
-            },
-            color: TRIAL_COLOR,
-          ),
-        ],
       ),
       iconified: true,
+
       searchItem: SearchItem.action(
           builder: (_) {
             return Padding(
@@ -235,47 +226,55 @@ class MaterialSearch  implements ShouldImp {
           }
       ),
       searchHint: 'Search persons...',
-
       loader: QuerySetLoader<GetAllContact>(
         querySetCall: filterPersonsByQueryPerson,
         itemBuilder: buildPersonRow,
         loadOnEachChange: true,
         animateChanges: true,
-
       ),
-
+      onQueryChanged: queryChanged,
     );
 
   }
+queryChanged(query) async{
+  await searchApi(
+    token: Provider.of<Auth>(cxt, listen: false).getTokenFun(),
+    query: query,
+    context: cxt,
+  ).then((val) {
+    Provider.of<Auth>(cxt, listen: false).setPersonList(val);
+  }).catchError((onError){
+    print("hello error");
+  });
+
+}
+
+
   List<GetAllContact> filterPersonsByQueryPerson(String query) {
-    return getList()
-        .where(
-            (person) => person.name.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-  }
-  List<GetAllContact> getList() {
-    var persons = getAllContactApi(
-      token: Provider.of<Auth>(cxt, listen: false).getTokenFun(),
-    );
-    persons.then((value) {
-      Provider.of<Auth>(cxt, listen: false).setPersonList(value);
-    });
 
-    if (Provider
-        .of<Auth>(cxt, listen: false)
-        .getPersonList()
-        .toString()
-        .length > 0) {
+    if (query.length > 0) {
       return Provider.of<Auth>(cxt, listen: false).getPersonList();
     }
-    else
-      return null;
+
+
+
   }
+//  List<GetAllContact> getList() {
+//    if (Provider
+//        .of<Auth>(cxt, listen: false)
+//        .getPersonList()
+//        .toString()
+//        .length > 0) {
+//
+//      return Provider.of<Auth>(cxt, listen: false).getPersonList();
+//    }
+//    else
+//      return null;
+//  }
 
 
   Widget buildPersonRow(GetAllContact person) {
     return Container(
-      color: Colors.white,
       child: Column(
         children: [
           _buildPersonTile(person),
@@ -288,7 +287,6 @@ class MaterialSearch  implements ShouldImp {
   Widget _buildPersonTile(GetAllContact person) {
     return ListTile(
       onTap: () {
-        Provider.of<Auth>(cxt, listen: false).setAutoActive(AutoActive.off);
         Navigator.push(
           cxt,
           MaterialPageRoute(
@@ -324,8 +322,11 @@ class MaterialSearch  implements ShouldImp {
             padding: EdgeInsets.symmetric(horizontal: 1),
             child: IconButton(
               onPressed: (){
-                Navigator.push(
-                    cxt, MaterialPageRoute(builder: (context) => PersonHeaderScreen()));
+                Provider.of<Auth>(cxt,listen: false).setEditContact(true);
+                Provider.of<Auth>(cxt,listen: false).setHomePageTabFun(2);
+                Provider.of<Auth>(cxt,listen: false).setId(person.id);
+                Navigator.pushNamed(cxt, Constant.HOME);
+
               },
               icon: Icon(Icons.edit, color: PRIMARY_COLOR),
             )),
@@ -346,6 +347,7 @@ class MaterialSearch  implements ShouldImp {
 
     deleteNote.then((value) async {
       if (value == true) {
+
         Navigator.of(context).pop();
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
         InfoDialog(
@@ -354,6 +356,12 @@ class MaterialSearch  implements ShouldImp {
             title: Constant.success,
             type: Constant.success
         );
+
+        Navigator.pushNamed(context, Constant.HOME);
+
+        Provider.of<Auth>(context,listen: false).setHomePageTabFun(0);
+
+
       }
     });
 
@@ -370,6 +378,8 @@ class MaterialSearch  implements ShouldImp {
 //    Navigator.pop(context);
 
   }
+
+
 
 
 }

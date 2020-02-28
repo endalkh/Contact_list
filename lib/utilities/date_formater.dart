@@ -1,7 +1,10 @@
 import 'package:intl/intl.dart';
 
 dateFormatter(date){
-if(date.toString().isEmpty){
+  if(date==null){
+    return "";
+  }
+else if(date.toString().isEmpty){
   return date;
 }
 else{

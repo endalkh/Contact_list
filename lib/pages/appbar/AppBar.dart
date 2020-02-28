@@ -1,18 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/api/auth.dart';
-import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
-import 'package:flutter_app/pages/dialog/info_dialog.dart';
-import 'package:flutter_app/pages/dialog/loading_dialog.dart';
-import 'package:flutter_app/pages/person_header/person_header.dart';
-import 'package:flutter_app/state/app_state.dart';
-import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
-import 'package:flutter_app/utilities/date_formater.dart';
-import 'package:loader_search_bar/loader_search_bar.dart';
-import 'package:provider/provider.dart';
-
 
 AppBar headerNav({context,String title}){
   return AppBar(
@@ -25,19 +13,7 @@ AppBar headerNav({context,String title}){
 
       ),
     ),
-    actions: <Widget>[
-      IconButton(
-        icon:Icon(Icons.search),
-        onPressed: (){
 
-//          Navigator.push(
-//            context,
-//            MaterialPageRoute(builder: (context) =>MaterialSearch()),
-//          );
-           },
-        color: TRIAL_COLOR,
-      ),
-    ],
 
   );
 }
