@@ -4,6 +4,7 @@ import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/dialog/info_dialog.dart';
+import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
@@ -80,6 +81,10 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             callback: _AddNewPerson(),
             title: Constant.success,
             type:Constant.success
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PersonHeaderScreen(personId: value.id,)),
         );
       });
 
@@ -187,9 +192,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
           child: TextFormField(
-
             controller: lNameController,
-
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.person, size: 20),
@@ -206,6 +209,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
           elevation: 12,
           child: TextFormField(
             controller: birthdayController,
+            keyboardType: TextInputType.datetime,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.timer, size: 20),
               hintText: "Date of Birth",
@@ -216,22 +220,12 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             ),
 
             onTap: () async {
-              DateTime date = DateTime(1900);
-              FocusScope.of(context).requestFocus(new FocusNode());
 
-              date = await showDatePicker(
-                  context: context,
-                  initialDate: Constant.initialDate.dateTime.toUtc(),
-                  firstDate: Constant.initialDate.dateTime.toUtc(),
-                  lastDate: Constant.finalDate.dateTime.toUtc()
-              );
-              birthdayController.text = date.toUtc().toIso8601String();
             },
           ),
 
         ),
         Padding(padding: EdgeInsets.all(5)),
-
 
 
       ],
@@ -338,7 +332,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                 flex: 4,
                 child: TextFormField(
                   controller: phoneController,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
 
                     hintText: "+1(424) 341-3346",
@@ -385,7 +379,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                 flex: 4,
                 child: TextFormField(
                   controller: emailController,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: "example@example.com",
                     border: OutlineInputBorder(
