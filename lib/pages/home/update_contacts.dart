@@ -96,7 +96,11 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp{
   personalInformation() {
     return Column(
       children: [
+
         RawMaterialButton(
+          onPressed: (){
+
+          },
           child: new Icon(
             Icons.edit,
             color: TRIAL_COLOR,

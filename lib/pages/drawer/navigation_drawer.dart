@@ -161,7 +161,6 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
 
                   GestureDetector(
                     onTap: () {
-                      print("hello");
                       Navigator.pushNamed(context, Constant.CONTACT_SYNC);
                     },
                     child:

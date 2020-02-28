@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
-import 'package:flutter_app/pages/about/about.dart';
 import 'package:flutter_app/pages/contact_sync/contact_sync.dart';
 import 'package:flutter_app/pages/home/home.dart';
 import 'package:flutter_app/pages/login/signin.dart';
-import 'package:flutter_app/pages/person_header/notes.dart';
-import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/profile/Profile.dart';
 import 'package:flutter_app/pages/recover_password/recover_password.dart';
 import 'package:flutter_app/pages/register/signup.dart';
@@ -69,12 +65,8 @@ class _MyApp extends State<MyApp> {
           Constant.PROFILE:(context)=>ProfileOnePage(),
           Constant.TERMS_AND_CONDTION:(context)=>TermsAndConditions(),
           Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
-          Constant.NOTES:(context)=>Note(),
-          Constant.PERSON_HEADER:(context)=>PersonHeaderScreen(),
           Constant.CONTACT_SYNC:(context)=>ContactListPage(),
 
-
-          Constant.ABOUT_US:(context)=>AboutScreen(),
         });
 
 
