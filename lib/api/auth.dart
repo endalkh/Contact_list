@@ -1016,7 +1016,7 @@ Future<AddNewPerson> addNewPersonApi(
         body: json.encode(params));
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
+        var responseJson = await json.decode(response.body)["person"];
         return AddNewPerson.fromJson(responseJson);
       case 201:
         var responseJson = await json.decode(response.body);

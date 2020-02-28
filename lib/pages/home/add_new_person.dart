@@ -220,12 +220,22 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             ),
 
             onTap: () async {
+              DateTime date = DateTime(1900);
+              FocusScope.of(context).requestFocus(new FocusNode());
 
+              date = await showDatePicker(
+                  context: context,
+                  initialDate: Constant.initialDate.dateTime.toUtc(),
+                  firstDate: Constant.initialDate.dateTime.toUtc(),
+                  lastDate: Constant.finalDate.dateTime.toUtc()
+              );
+              birthdayController.text = date.toUtc().toIso8601String();
             },
           ),
 
         ),
         Padding(padding: EdgeInsets.all(5)),
+
 
 
       ],
