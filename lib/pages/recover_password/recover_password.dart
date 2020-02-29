@@ -14,6 +14,15 @@ class RecoverPassword extends StatefulWidget {
 }
 class _RecoverPassword extends State<RecoverPassword> {
   TextEditingController emailController = TextEditingController();
+  String message;
+
+  @override
+  void initState() {
+    setState(() {
+      message="";
+    });
+    super.initState();
+  }
 
   emailTextFormField() {
     return Column(
@@ -86,7 +95,14 @@ class _RecoverPassword extends State<RecoverPassword> {
                 ],
               ),
             ),
-            Consumer<Auth>(
+
+             Padding(
+               padding: EdgeInsets.only(left: 25,right: 20),
+               child:  message.isNotEmpty==true?Text(message,
+                   style: TextStyle(color: Colors.green)):Container(),
+             ),
+
+              Consumer<Auth>(
               builder: (BuildContext context, Auth value, Widget child) =>
               value.getHasErrorFun().toString().isNotEmpty==true?Text(value.getHasErrorFun(),
                   style: TextStyle(color: Colors.red)):Container(),
@@ -119,11 +135,16 @@ class _RecoverPassword extends State<RecoverPassword> {
     );
     reset.then((val){
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
+     setState(() {
+       message="A password reset email has been sent. Please check your email.";
+     });
     });
     reset.catchError((val){
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
+      setState(() {
+        message="";
+      });
     });
 
 

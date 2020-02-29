@@ -91,6 +91,7 @@ class _UpdatePhone extends State<UpdatePhone> {
         id: id,
         type: selectPhone.name,
         number: phoneController.text);
+
     addPhone.then((value) async {
       Provider.of<Auth>(context, listen: false)
           .setSuccessfullyRegisteredFun(true);

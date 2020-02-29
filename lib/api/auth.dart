@@ -1180,6 +1180,7 @@ updatePhoneApi(
     "number": number,
   };
 
+  print("number");
   try {
     final response = await http.put(
       API.ADD_PHONE_API,
@@ -1691,13 +1692,11 @@ resetPasswordApi({@required email}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
         print(response.body);
-        return responseJson;
+        return true;
       case 201:
-        var responseJson = await json.decode(response.body);
 
-        return responseJson;
+        return true;
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
