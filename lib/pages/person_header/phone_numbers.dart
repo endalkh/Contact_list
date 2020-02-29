@@ -92,7 +92,7 @@ class _PhoneNumber extends State<PhoneNumber> implements NoteDelAndEdit,ShouldIm
                                                     fontSize: 17),
                                               ),
                                               onLongPress: (){
-                                                DeleteAndEditNotesDialog(context: context,callback:PhoneNumber(),id: snapshot.data[index].id );
+                                                DeleteAndEditNotesDialog(context: context,callback:_PhoneNumber(),id: snapshot.data[index].id );
                                               },
                                             ),
                                           ]
@@ -160,7 +160,7 @@ class _PhoneNumber extends State<PhoneNumber> implements NoteDelAndEdit,ShouldIm
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
         InfoDialog(
             context: context,
-            callback: PhoneNumber(),
+            callback: _PhoneNumber(),
             title: Constant.success,
             type:Constant.success
         );
@@ -173,7 +173,7 @@ class _PhoneNumber extends State<PhoneNumber> implements NoteDelAndEdit,ShouldIm
 
       InfoDialog(
           context: context,
-          callback: PhoneNumber(),
+          callback: _PhoneNumber(),
           title: Constant.error,
           type:Constant.error
       );

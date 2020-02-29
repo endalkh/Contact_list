@@ -51,7 +51,7 @@ class _MyApp extends State<MyApp> {
   build(context) {
     AppState themeNotifier = Provider.of<AppState>(context);
     return MaterialApp(
-        initialRoute: logged == true ? Constant.HOME : Constant.HOME,
+        initialRoute: logged == true ? Constant.HOME : Constant.SPLASH_SCREEN,
         theme: themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),

@@ -170,11 +170,8 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp {
 
     updatePerson.then((value) async {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      InfoDialog(
-          context: context,
-          callback: _UpdateContact(),
-          title: Constant.success,
-          type: Constant.success);
+      Provider.of<Auth>(context, listen: false).setEditContact(false);
+
     });
 
     updatePerson.catchError((value) async {
