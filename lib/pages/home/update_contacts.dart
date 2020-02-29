@@ -145,7 +145,7 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp {
 
               date = await showDatePicker(
                   context: context,
-                  initialDate:  DateTime.now().toUtc(),
+                  initialDate: DateTime.now().toUtc(),
                   firstDate: Constant.initialDate.dateTime.toUtc(),
                   lastDate: DateTime.now().toUtc());
               birthdayController.text = date.toUtc().toIso8601String();
@@ -167,7 +167,6 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp {
         birthDate: birthdayController.text.isEmpty || birthdayController == null
             ? null
             : dateFormatterBack(birthdayController.text));
-
 
     updatePerson.then((value) async {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
@@ -209,6 +208,5 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp {
   }
 
   @override
-  void changer({context, id}) {
-  }
+  void changer({context, id}) {}
 }

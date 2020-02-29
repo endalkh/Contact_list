@@ -61,9 +61,8 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp {
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(context, listen: false).setEditNote(false);
-
       }
+      Provider.of<Auth>(context, listen: false).setEditNote(false);
     });
 
     updateNote.catchError((value) async {
