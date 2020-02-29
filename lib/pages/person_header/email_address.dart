@@ -106,9 +106,6 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
                                 ),
                               ),
                             );
-
-
-
                       }
                   );
                 }
