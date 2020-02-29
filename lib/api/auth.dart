@@ -720,10 +720,9 @@ Future<List<GetPhone>> getPhoneListApi(
 Future<GetPhone> getSinglePhoneApi(
     {@required token, @required personId}) async {
   String error;
-
   try {
     final response = await http.get(
-      API.GET_PHONE_API + "?personId=" + personId,
+      API.GET_SINGLE_API + "?id=" + personId,
       headers: {
         "Authorization": token,
       },
@@ -731,7 +730,6 @@ Future<GetPhone> getSinglePhoneApi(
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
-
         return GetPhone.fromJson(responseJson);
       case 201:
         var responseJson = await json.decode(response.body);

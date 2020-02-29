@@ -37,38 +37,38 @@ class _UpdatePhone extends State<UpdatePhone> {
       phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
 
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
-      Future<GetPhone> phoneApi = getSinglePhoneApi(
+      var phoneApi = getSinglePhoneApi(
         token: Provider.of<Auth>(context, listen: false).getTokenFun(),
         personId: id,
       );
-
       phoneApi.then((val) {
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
         Provider.of<Auth>(context, listen: false).setHasErrorFun("");
-        switch (val.type.toString()) {
-          case "Home":
+        switch (val.type) {
+
+            case "Home":
             setState(() {
               selectPhone = phoneDropdownMenuItems[0].value;
             });
             break;
           case "Cell":
             setState(() {
-              selectPhone = phoneDropdownMenuItems[0].value;
+              selectPhone = phoneDropdownMenuItems[1].value;
             });
             break;
           case "Work":
             setState(() {
-              selectPhone = phoneDropdownMenuItems[0].value;
+              selectPhone = phoneDropdownMenuItems[2].value;
             });
             break;
           case "Fax":
             setState(() {
-              selectPhone = phoneDropdownMenuItems[0].value;
+              selectPhone = phoneDropdownMenuItems[3].value;
             });
             break;
           case "Others":
             setState(() {
-              selectPhone = phoneDropdownMenuItems[0].value;
+              selectPhone = phoneDropdownMenuItems[4].value;
             });
             break;
         }
