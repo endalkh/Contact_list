@@ -8,7 +8,6 @@ import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class UpdateContact extends StatefulWidget {
@@ -172,11 +171,8 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp {
 
     updatePerson.then((value) async {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      InfoDialog(
-          context: context,
-          callback: _UpdateContact(),
-          title: Constant.success,
-          type: Constant.success);
+      Provider.of<Auth>(context, listen: false).setEditContact(false);
+
     });
 
     updatePerson.catchError((value) async {
