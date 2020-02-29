@@ -97,7 +97,7 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
                                             ),
                                             subtitle: Text(snapshot.data[index].type),
                                             onLongPress:(){
-                                              DeleteAndEditNotesDialog(context: this.context,callback:_EmailAddress(),id: snapshot.data[index].id );
+                                              DeleteAndEditNotesDialog(context: this.context,callback:_EmailAddress(personId: personId),id: snapshot.data[index].id );
 
                                             },
                                           ),
