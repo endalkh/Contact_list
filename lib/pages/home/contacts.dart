@@ -26,7 +26,6 @@ class Contacts extends StatefulWidget {
 class _Contacts extends State<Contacts> implements NoteDelAndEdit,ShouldImp{
   List<GetAllContact> allContact;
 
-
   @override
   Widget build(BuildContext context) {
     return  Provider.of<Auth>(context).getEditContact()==true?
@@ -59,7 +58,6 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit,ShouldImp{
                     ),
                     child: InkWell(
                       onTap: () {
-
                       },
                       child: Container(
                         child: ListTile(

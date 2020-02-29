@@ -8,6 +8,7 @@ import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
+import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:provider/provider.dart';
 
@@ -99,7 +100,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
           phone: phoneController.text,
           fName: fNameController.text,
           lName: lNameController.text,
-          birthday: birthdayController.text.isEmpty||birthdayController==null?null:DateTime.parse(birthdayController.text).toIso8601String(),
+          birthday: birthdayController.text.isEmpty||birthdayController==null?null:dateFormatterBack(birthdayController.text),
           token:token ,
           notes: addNoteController.text
 

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/dialog/loading_dialog.dart';
-import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
-import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
-import 'package:provider/provider.dart';
 class ConfirmationDialog  {
 String title;
 String type;
