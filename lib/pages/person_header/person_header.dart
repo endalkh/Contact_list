@@ -14,13 +14,30 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:provider/provider.dart';
 
-class PersonHeaderScreen extends StatelessWidget {
+
+class PersonHeaderScreen extends StatefulWidget {
+  final String personId;
+  PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
+  _PersonHeaderScreen createState()=>_PersonHeaderScreen(personId: personId,);
+}
+
+class _PersonHeaderScreen extends State<PersonHeaderScreen> {
 final String personId;
-PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
+_PersonHeaderScreen({Key key, @required this.personId});
 
 
+@override
+void initState() {
+  Future.delayed(Duration.zero, () {
+    Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+    Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+    Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(1);
 
-  pageTaped(page) {
+  });
+  super.initState();
+}
+
+pageTaped(page) {
     switch (page) {
       case 0:
         return Center(

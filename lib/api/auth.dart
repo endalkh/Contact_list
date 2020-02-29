@@ -1692,7 +1692,7 @@ resetPasswordApi({@required email}) async {
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body);
-
+        print(response.body);
         return responseJson;
       case 201:
         var responseJson = await json.decode(response.body);
