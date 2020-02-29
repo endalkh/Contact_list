@@ -31,7 +31,7 @@ void initState() {
   Future.delayed(Duration.zero, () {
     Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
     Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-    Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(1);
+    Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(0);
 
   });
   super.initState();
