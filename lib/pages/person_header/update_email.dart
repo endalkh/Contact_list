@@ -95,7 +95,7 @@ class _UpdateEmail extends State<UpdateEmail> {
     var updateEmail = updateEmailApi(
         token: token,
         id: id,
-        type: emailType.toString(),
+        type: selectEmail.name,
         address: emailController.text);
     updateEmail.then((value) async {
       if (value == true) {
