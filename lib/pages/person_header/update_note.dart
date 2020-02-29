@@ -37,7 +37,6 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp {
         noteController.text = val.body;
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
         Provider.of<Auth>(context, listen: false).setHasErrorFun("");
-        Provider.of<Auth>(context, listen: false).setEditNote(false);
       });
       noteApi.catchError((val) {
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
@@ -62,11 +61,8 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp {
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-        InfoDialog(
-            context: context,
-            callback: _UpdateNote(id),
-            title: Constant.success,
-            type: Constant.success);
+        Provider.of<Auth>(context, listen: false).setEditNote(false);
+
       }
     });
 

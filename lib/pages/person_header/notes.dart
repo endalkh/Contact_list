@@ -140,8 +140,8 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
   }
 
   @override
-  editNote({id, context, contextDialog}) async {
-    await Provider.of<Auth>(context, listen: false).setEditNote(true);
+  editNote({id, context, contextDialog})  {
+     Provider.of<Auth>(context, listen: false).setEditNote(true);
     Provider.of<Auth>(context, listen: false).setId(id);
     Navigator.pop(context);
     return null;
@@ -161,11 +161,7 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
       if (value == true) {
         Navigator.of(context).pop();
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-        InfoDialog(
-            context: context,
-            callback: Note(),
-            title: Constant.success,
-            type: Constant.success);
+
       }
     });
 
