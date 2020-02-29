@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
-import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
 import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';

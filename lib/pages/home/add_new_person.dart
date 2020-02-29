@@ -9,7 +9,6 @@ import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
 class AddNewPersonScreen extends StatefulWidget{
@@ -212,7 +211,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             ),
           ),
         ),
-        showError==true?Text(validateName(fNameController.text),style: TextStyle(color: Colors.red),):Container(),
+        showError==true && validateNameForAddPerson(fNameController.text).toString().isNotEmpty==true?Text(validateName(fNameController.text),style: TextStyle(color: Colors.red),):Container(),
         Padding(padding: EdgeInsets.all(5)),
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -229,6 +228,8 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             ),
           ),
         ),
+        showError==true && validateNameForAddPerson(lNameController.text).toString().isNotEmpty==true?Text(validateName(fNameController.text),style: TextStyle(color: Colors.red),):Container(),
+
         Padding(padding: EdgeInsets.all(5)),
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -259,6 +260,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
           ),
 
         ),
+
         Padding(padding: EdgeInsets.all(5)),
 
 
@@ -275,8 +277,12 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
         ),
         Padding(padding: EdgeInsets.all(5)),
         phoneNumberButton(),
+        showError==true && validatePhoneForAddPerson(phoneController.text).toString().isNotEmpty==true?Text(validateName(phoneController.text),style: TextStyle(color: Colors.red),):Container(),
+
         Padding(padding: EdgeInsets.all(5)),
         emailTypeButton(),
+        showError==true && validateEmailForAddPerson(emailController.text).toString().isNotEmpty==true?Text(validateEmailForAddPerson(emailController.text),style: TextStyle(color: Colors.red),):Container(),
+
         Padding(padding: EdgeInsets.all(5)),
       ],
     );

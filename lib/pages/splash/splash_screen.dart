@@ -35,7 +35,7 @@ class SplashScreenState extends State<SplashScreen>
     animationController = new AnimationController(
         vsync: this, duration: new Duration(seconds: 5));
     animation =
-    new CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+        new CurvedAnimation(parent: animationController, curve: Curves.easeOut);
 
     animation.addListener(() => this.setState(() {}));
     animationController.forward();
@@ -49,17 +49,13 @@ class SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Image.asset(
-                'assets/logo_light.jpg',
-                width: animation.value * 250,
-                height: animation.value * 250,
-              ),
-
+      child: Image.asset(
+        'assets/logo_light.jpg',
+        width: animation.value * 250,
+        height: animation.value * 250,
+      ),
     );
   }
-
-
-
 }
 
 class HomeScreen extends StatefulWidget {
@@ -68,25 +64,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
-    return
-
-      Material(
+    return Material(
       child: Container(
         height: getHeight(context),
         width: getWidth(context),
         padding: EdgeInsets.only(bottom: 5),
         child: SingleChildScrollView(
           child: Column(
-
             children: <Widget>[
-
               clipShape(),
             ],
           ),
@@ -103,12 +93,11 @@ class _HomeScreen extends State<HomeScreen> {
           child: ClipPath(
             clipper: CustomShapeClipper(),
             child: Container(
-              height:getHeight(context)/4,
+              height: getHeight(context) / 4,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
 //                  colors: [Colors.orange[200], Colors.pinkAccent],
-                    colors: [Colors.blue,Colors.black]
-                ),
+                    colors: [Colors.blue, Colors.black]),
               ),
             ),
           ),
@@ -118,11 +107,9 @@ class _HomeScreen extends State<HomeScreen> {
           child: ClipPath(
             clipper: CustomShapeClipper2(),
             child: Container(
-              height:getHeight(context)/4,
+              height: getHeight(context) / 4,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.blue,Colors.black]
-                ),
+                gradient: LinearGradient(colors: [Colors.blue, Colors.black]),
               ),
             ),
           ),
@@ -131,14 +118,10 @@ class _HomeScreen extends State<HomeScreen> {
 //          child: SizedBox.expand(child: RadialMenu()),
 //
 //        ),
-
       ],
     );
-
   }
-
 }
-
 
 class SPlashBackground extends StatelessWidget {
   @override
@@ -239,7 +222,7 @@ class ParticlePainter extends CustomPainter {
       var progress = particle.animationProgress.progress(time);
       final animation = particle.tween.transform(progress);
       final position =
-      Offset(animation["x"] * size.width, animation["y"] * size.height);
+          Offset(animation["x"] * size.width, animation["y"] * size.height);
       canvas.drawCircle(position, size.width * 0.2 * particle.size, paint);
     });
   }

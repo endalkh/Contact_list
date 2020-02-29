@@ -11,7 +11,6 @@ import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 class SignUpPage extends StatelessWidget {
   @override
@@ -273,33 +272,6 @@ setState(() {
       );
 
   }
-//  button() {
-//       return RaisedButton(
-//          elevation: 0,
-//          shape:
-//          RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-//          onPressed: () {
-//            submitForm();
-//          },
-//          textColor: Colors.white,
-//          padding: EdgeInsets.all(0.0),
-//          child: Container(
-//            alignment: Alignment.center,
-//            width: getWidth(context),
-//            decoration: BoxDecoration(
-//                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-//                color: PRIMARY_COLOR
-//              // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
-//            ),
-//            padding: const EdgeInsets.all(15.0),
-//            child: Text('SIGN Up',
-//                style: TextStyle(
-//                    fontSize: 12,
-//                    // fontWeight: FontWeight.w900,
-//                    color: lightPrimary)),
-//          ),
-//        );
-//    }
   acceptTermsTextRow() {
     return Container(
       child: Row(

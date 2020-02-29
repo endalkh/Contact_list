@@ -1,3 +1,3 @@
 abstract class NoteDelAndEdit {
-  editNote({id,context,contextDialog});
+  editNote({id, context, contextDialog});
 }

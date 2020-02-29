@@ -20,12 +20,10 @@ class AppState with ChangeNotifier {
     final pref = await SharedPreferences.getInstance();
     final dark = pref.getBool("dark");
 
-    if (dark==true)
-              setDark();
+    if (dark == true)
+      setDark();
     else
-          setLight();
-
-
+      setLight();
   }
 
   getTheme() {
@@ -38,98 +36,91 @@ class AppState with ChangeNotifier {
   }
 
   void setLight() {
-    _themeData =Constant.lightTheme;
+    _themeData = Constant.lightTheme;
     notifyListeners();
   }
 }
-
 
 class LoginAuth with ChangeNotifier {
   JsonUser loginModel;
 
   getLoginData() {
     print(loginModel);
-   return loginModel;
+    return loginModel;
   }
 
-  void setLoginData(loginModel){
+  void setLoginData(loginModel) {
     this.loginModel = loginModel;
     notifyListeners();
-
   }
-
 }
 
 class Auth with ChangeNotifier {
-  bool isLoading=false;
-  bool isLogged=false;
-  String hasError="";
-  String email="";
-  bool isSuccessfullyRegistered=false;
+  bool isLoading = false;
+  bool isLogged = false;
+  String hasError = "";
+  String email = "";
+  bool isSuccessfullyRegistered = false;
   String token;
-  int page=0;
-  int pageHeader=0;
+  int page = 0;
+  int pageHeader = 0;
   List<GetAllContact> allContactList;
-  bool addEmail=false,addPhone=false;
-  bool addNote=false;
-  bool editPhone=false;
-  bool editEmail=false;
-  bool editNote=false;
-  bool editContact=false;
-  String id="";
-  bool isPersonForSearch=true;
-  List<GetAllContact> personList=[];
-  List<GetNoteList> noteList=[];
-  AutoActive autoActive= AutoActive.off;
+  bool addEmail = false, addPhone = false;
+  bool addNote = false;
+  bool editPhone = false;
+  bool editEmail = false;
+  bool editNote = false;
+  bool editContact = false;
+  String id = "";
+  bool isPersonForSearch = true;
+  List<GetAllContact> personList = [];
+  List<GetNoteList> noteList = [];
+  AutoActive autoActive = AutoActive.off;
 
-getIsLogged() async{
-  final pref = await SharedPreferences.getInstance();
-  final token = pref.getBool("accessToken");
-  if (token.toString().isEmpty == true||token==null){
-    this.isLogged = false;
-    notifyListeners();
+  getIsLogged() async {
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getBool("accessToken");
+    if (token.toString().isEmpty == true || token == null) {
+      this.isLogged = false;
+      notifyListeners();
+    } else {
+      this.isLogged = true;
+      notifyListeners();
+    }
   }
-  else{
-    this.isLogged = true;
-    notifyListeners();
-  }
 
-
-}
-
-  getIsLoadingFun(){
+  getIsLoadingFun() {
     return isLoading;
   }
 
-  void setLoadingStateFun(loading) async{
+  void setLoadingStateFun(loading) async {
     this.isLoading = loading;
     notifyListeners();
   }
 
-  getHasErrorFun(){
+  getHasErrorFun() {
     return hasError;
   }
 
-  void setHasErrorFun(hasError){
+  void setHasErrorFun(hasError) {
     this.hasError = hasError;
     notifyListeners();
   }
 
-  getRegisterErrorFun(){
+  getRegisterErrorFun() {
     return hasError;
   }
 
-  void setRegisterErrorFun(hasEror){
+  void setRegisterErrorFun(hasEror) {
     this.hasError = hasEror;
     notifyListeners();
   }
 
-
- getEmailFun() {
+  getEmailFun() {
     return email;
   }
 
-   setEmailFun(email) async{
+  setEmailFun(email) async {
     this.email = email;
     notifyListeners();
   }
@@ -138,157 +129,133 @@ getIsLogged() async{
     return isSuccessfullyRegistered;
   }
 
-  setSuccessfullyRegisteredFun(yes) async{
+  setSuccessfullyRegisteredFun(yes) async {
     this.isSuccessfullyRegistered = yes;
     notifyListeners();
   }
 
-  getTokenFun(){
-    getSharedPreference("accessToken").then((token) async{
-     this.token=token;
+  getTokenFun() {
+    getSharedPreference("accessToken").then((token) async {
+      this.token = token;
     });
     return token;
   }
 
-  setAllContactFun(allContactList) async{
-    this.allContactList=allContactList;
+  setAllContactFun(allContactList) async {
+    this.allContactList = allContactList;
     notifyListeners();
   }
 
-  getAllContactFun(){
-   return allContactList;
+  getAllContactFun() {
+    return allContactList;
   }
 
-  setHomePageTabFun(index) async{
-    this.page=index;
+  setHomePageTabFun(index) async {
+    this.page = index;
     notifyListeners();
   }
 
-  getHomePageTabFun(){
-   return page;
+  getHomePageTabFun() {
+    return page;
   }
 
-  setPersonHeaderTabFun(index) async{
-    this.pageHeader=index;
+  setPersonHeaderTabFun(index) async {
+    this.pageHeader = index;
     notifyListeners();
   }
 
-  getPersonHeaderTabFun(){
-   return pageHeader;
+  getPersonHeaderTabFun() {
+    return pageHeader;
   }
 
-  setAddEmail(val){
-    this.addEmail=val;
+  setAddEmail(val) {
+    this.addEmail = val;
     notifyListeners();
   }
-  getAddEmail(){
+
+  getAddEmail() {
     return this.addEmail;
   }
 
-  setAddPhone(val){
-    this.addPhone=val;
+  setAddPhone(val) {
+    this.addPhone = val;
     notifyListeners();
   }
-  getAddPhone(){
+
+  getAddPhone() {
     return this.addPhone;
   }
 
-  setAddNote(val){
-    this.addNote=val;
+  setAddNote(val) {
+    this.addNote = val;
     notifyListeners();
   }
-  getAddNote(){
+
+  getAddNote() {
     return this.addNote;
   }
 
-  setEditPhone(val){
-    this.editPhone=val;
+  setEditPhone(val) {
+    this.editPhone = val;
     notifyListeners();
   }
-  getEditPhone(){
+
+  getEditPhone() {
     return this.editPhone;
   }
 
-  setEditEmail(val){
-    this.editEmail=val;
+  setEditEmail(val) {
+    this.editEmail = val;
     notifyListeners();
   }
-  getEditEmail(){
+
+  getEditEmail() {
     return this.editEmail;
   }
 
-  setEditNote(val){
-    this.editNote=val;
+  setEditNote(val) {
+    this.editNote = val;
     notifyListeners();
   }
-  getEditNote(){
+
+  getEditNote() {
     return this.editNote;
   }
-  setEditContact(val){
-    this.editContact=val;
+
+  setEditContact(val) {
+    this.editContact = val;
     notifyListeners();
   }
-  getEditContact(){
+
+  getEditContact() {
     return this.editContact;
   }
-  setId(val){
-    this.id=val;
+
+  setId(val) {
+    this.id = val;
     notifyListeners();
   }
-  getId(){
+
+  getId() {
     return this.id;
   }
 
- setIsPerson(val){
-    this.isPersonForSearch=val;
+  clearPersonList() {
+    this.personList.clear();
     notifyListeners();
   }
-  getIsPerson(){
-    return this.isPersonForSearch;
-  }
 
-  setPersonList(List<GetAllContact> val) async{
-    print("set");
-     personList=val;
-
+  removePersonList(id) {
+    this.personList.removeWhere((item) => item.id == id);
     notifyListeners();
-
-  }
-//sleep()async{
-//  await Future.delayed(const Duration(seconds: 10));
-//}
-  List<GetAllContact> getPersonList() {
-
-    print("get");
-   return personList;
   }
 
-    clearPersonList(){
-      this.personList.clear();
-      notifyListeners();
-    }
-    removePersonList(id){
-      this.personList.removeWhere((item) => item.id == id);
-      notifyListeners();
-    }
-
-    setNoteList(val){
-      this.noteList=val;
-      notifyListeners();
-    }
-    getNoteList(){
-      return this.noteList;
-    }
-
-    setAutoActive(val){
-      this.autoActive=val;
-      notifyListeners();
-    }
-    getAutoActive(){
-      return this.autoActive;
-    }
+  setAutoActive(val) {
+    this.autoActive = val;
+    notifyListeners();
   }
 
-
-
-
+  getAutoActive() {
+    return this.autoActive;
+  }
+}

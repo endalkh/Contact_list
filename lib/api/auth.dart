@@ -12,9 +12,7 @@ import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/api/model/login.dart';
 import 'package:flutter_app/api/model/register.dart';
-import 'package:flutter_app/state/app_state.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 /*================== All Get Api ===============================*/
 Future<GetAllContact> getSingleContactApi({token, id}) async {
@@ -78,104 +76,13 @@ Future<GetAllContact> getSingleContactApi({token, id}) async {
     throw error;
   }
 }
-Future<List<GetAllContact>> searchApi({token, query,context}) async {
+
+Future<List<GetAllContact>> searchApi({token, query, context}) async {
   String error;
- var x= [
-  {
-  "id": "07f8ca74-26e1-4716-aaf7-84fa077eea00",
-  "name": "endalk dasdasd",
-  "birthday": "2020-11-11T00:00:00Z"
-  },
-  {
-  "id": "087fb74c-0d6c-420b-be9a-1030d7f47c0f",
-  "name": "endalk dasdasd",
-  "birthday": "2020-11-11T00:00:00Z"
-  },
-  {
-  "id": "0948c9fb-90a7-473a-ab22-962049a33613",
-  "name": "Luke Skywalker",
-  "birthday": "2011-11-11T00:00:00Z"
-  },
-  {
-  "id": "343e401d-0b34-4dba-8903-5884b04e049e",
-  "name": "hana belete",
-  "birthday": "1920-02-23T00:00:00Z"
-  },
-  {
-  "id": "38de44ab-301e-4ff9-8b87-1c78f4f1c329",
-  "name": "Stefan  belete",
-  "birthday": "1920-02-23T00:00:00Z"
-  },
-  {
-  "id": "3ae32c0e-ce58-45ea-9e99-858796b8d476",
-  "name": "endall xx",
-  "birthday": "1920-02-24T00:00:00Z"
-  },
-  {
-  "id": "5213202c-9c4b-47d7-93b7-7c500f97fbc6",
-  "name": "Luke Skywalker",
-  "birthday": "2011-11-11T00:00:00Z"
-  },
-  {
-  "id": "7927ce63-4c2c-4b22-b2ec-711bc0831fca",
-  "name": "elsabet elsa",
-  "birthday": "1920-02-23T00:00:00Z"
-  },
-  {
-  "id": "92a3ef20-4986-4313-bf13-8ea7e5aed2e5",
-  "name": "Luke Skywalker",
-  "birthday": "2011-11-11T00:00:00Z"
-  },
-  {
-  "id": "a0fe01d6-3df6-4d35-b402-f14f3858d418",
-  "name": "elsabet damon",
-  "birthday": "1920-02-16T00:00:00Z"
-  },
-  {
-  "id": "a5d90473-14de-41ce-b020-f1fc8f06953b",
-  "name": "stefan belete",
-  "birthday": "2020-11-11T00:00:00Z"
-  },
-  {
-  "id": "aed812fa-9479-48bd-b53e-d4f8c3ee0537",
-  "name": "endalk dasdasd",
-  "birthday": "2020-11-11T00:00:00Z"
-  },
-  {
-  "id": "c3d1cce3-a76e-4ad2-a36f-340d6b769ed0",
-  "name": "John Doe",
-  "birthday": "1920-02-26T00:00:00Z"
-  },
-  {
-  "id": "ca9c5986-b9a2-4977-b48b-7964be1d1bf5",
-  "name": "endalk dasdasd",
-  "birthday": "2020-11-11T00:00:00Z"
-  },
-  {
-  "id": "cb42a13a-0eee-46f1-8458-6ed3d3cfedd2",
-  "name": "John Doe 2 ",
-  "birthday": "1920-02-27T00:00:00Z"
-  },
-  {
-  "id": "cedff2ad-c0a6-47ad-bd2c-d570938e76cb",
-  "name": "endalk dasdasd",
-  "birthday": "2020-02-16T00:00:00Z"
-  },
-  {
-  "id": "d4c6725e-723e-4e50-9be8-e9cbed8198d2",
-  "name": "stefan belete",
-  "birthday": "2011-11-11T00:00:00Z"
-  },
-  {
-  "id": "e4f18449-e9fa-47d2-884d-3c7abd9bdb41",
-  "name": "Luke Skywalker",
-  "birthday": "2011-11-11T00:00:00Z"
-  }
-  ];
 
   try {
     final response = await http.get(
-     "https://relateapp.io/api/v1/search"+ "?query=" + query,
+      "https://relateapp.io/api/v1/search" + "?query=" + query,
       headers: {
         "Authorization": token,
       },
@@ -183,12 +90,16 @@ Future<List<GetAllContact>> searchApi({token, query,context}) async {
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body)["persons"] as List;
-        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
-break;
+        return responseJson
+            .map((data) => GetAllContact.fromJson(data))
+            .toList();
+        break;
       case 201:
         var responseJson = await json.decode(response.body)["persons"] as List;
-        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
-break;
+        return responseJson
+            .map((data) => GetAllContact.fromJson(data))
+            .toList();
+        break;
       case 400:
         return Future.error("Sorry It was Bad Request! ");
         break;
@@ -244,10 +155,14 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body) as List;
-        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
+        return responseJson
+            .map((data) => GetAllContact.fromJson(data))
+            .toList();
       case 201:
         var responseJson = await json.decode(response.body);
-        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
+        return responseJson
+            .map((data) => GetAllContact.fromJson(data))
+            .toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -277,9 +192,7 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
           return Future.error(error);
         }
     }
-  }
-
-  on SocketException {
+  } on SocketException {
     error = 'No Internet connection 😑';
     throw error;
   } on HttpException {
@@ -297,7 +210,6 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
 Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
   String error;
 
-
   try {
     final response = await http.get(
       API.UPCOMING_BIRTHDAY_API,
@@ -307,11 +219,15 @@ Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body)  as List;
-        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
+        var responseJson = await json.decode(response.body) as List;
+        return responseJson
+            .map((data) => GetAllContact.fromJson(data))
+            .toList();
       case 201:
         var responseJson = await json.decode(response.body) as List;
-        return responseJson.map((data) => GetAllContact.fromJson(data)).toList();
+        return responseJson
+            .map((data) => GetAllContact.fromJson(data))
+            .toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -370,10 +286,14 @@ Future<List<GetLastContact>> getLastContactApi({@required token}) async {
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body) as List;
-        return responseJson.map((data) => GetLastContact.fromJson(data)).toList();
+        return responseJson
+            .map((data) => GetLastContact.fromJson(data))
+            .toList();
       case 201:
         var responseJson = await json.decode(response.body) as List;
-        return responseJson.map((data) => GetLastContact.fromJson(data)).toList();
+        return responseJson
+            .map((data) => GetLastContact.fromJson(data))
+            .toList();
 
       case 400:
         return Future.error("Sorry It was Bad Request! ");
@@ -480,15 +400,15 @@ Future<GetSinglePerson> getSinglePersonApi(
   }
 }
 
-Future<List<GetNoteList>> getNoteListApi(
-    {@required token,
-    @required personId,}) async {
+Future<List<GetNoteList>> getNoteListApi({
+  @required token,
+  @required personId,
+}) async {
   String error;
-
 
   try {
     final response = await http.get(
-      API.GET_LIST_NOTE_API + "?personId="+personId,
+      API.GET_LIST_NOTE_API + "?personId=" + personId,
       headers: {
         "Authorization": token,
       },
@@ -548,7 +468,6 @@ Future<List<GetNoteList>> getNoteListApi(
 
 Future<GetNoteList> getNoteSingleApi({@required token, @required id}) async {
   String error;
-
 
   try {
     final response = await http.get(
@@ -614,7 +533,6 @@ Future<List<GetEmail>> getEmailListApi(
     {@required token, @required personId}) async {
   String error;
 
-
   try {
     final response = await http.get(
       API.GET_EMAIL_API + "?personId=" + personId,
@@ -676,7 +594,6 @@ Future<List<GetEmail>> getEmailListApi(
 
 Future<GetEmail> getSingleEmailApi({@required token, @required id}) async {
   String error;
-
 
   try {
     final response = await http.get(
@@ -740,8 +657,6 @@ Future<GetEmail> getSingleEmailApi({@required token, @required id}) async {
 Future<List<GetPhone>> getPhoneListApi(
     {@required token, @required personId}) async {
   String error;
-
-
 
   try {
     final response = await http.get(
@@ -932,9 +847,7 @@ Future<JsonUserRegister> registerApi({userId, password, context}) async {
   String error;
   try {
     final response =
-        await http.post(
-            API.REGISTER_API,
-            body: json.encode(params));
+        await http.post(API.REGISTER_API, body: json.encode(params));
 
     switch (response.statusCode) {
       case 200:
@@ -1004,7 +917,6 @@ Future<AddNewPerson> addNewPersonApi(
     "note": {"body": notes}
   };
   String error;
-
 
   try {
     final response = await http.post(API.ADD_NEW_PERSON_API,
@@ -1138,24 +1050,18 @@ addEmailApi(
     @required address}) async {
   String error;
 
-  Map<String, String> params = {
-    "type":type,
-    "address":address
-  };
+  Map<String, String> params = {"type": type, "address": address};
 
   try {
-    final response = await http.post(
-     API.ADD_EMAIL_API+"?personId="+personId,
-      headers: {
-        "Authorization": token,
-      },
-      body: json.encode(params)
-    );
+    final response =
+        await http.post(API.ADD_EMAIL_API + "?personId=" + personId,
+            headers: {
+              "Authorization": token,
+            },
+            body: json.encode(params));
 
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
-
         return true;
       case 201:
         return true;
@@ -1218,8 +1124,6 @@ addNoteApi({@required token, @required personId, @required body}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
-
         return true;
       case 201:
         return true;
@@ -1266,8 +1170,6 @@ addNoteApi({@required token, @required personId, @required body}) async {
     throw error;
   }
 }
-
-
 
 /*================== All Update Api ===============================*/
 updatePhoneApi(
@@ -1543,17 +1445,13 @@ updateNoteApi({@required token, @required id, @required body}) async {
   }
 }
 
-
-
 /*================== All Delete Api ===============================*/
-deletePhoneApi(
-    {@required token, @required id}) async {
+deletePhoneApi({@required token, @required id}) async {
   String error;
-
 
   try {
     final response = await http.delete(
-      API.DELETE_PHONE_API+"?id="+id,
+      API.DELETE_PHONE_API + "?id=" + id,
       headers: {
         "Authorization": token,
       },
@@ -1608,14 +1506,12 @@ deletePhoneApi(
   }
 }
 
-deleteEmailApi(
-    {@required token, @required id}) async {
+deleteEmailApi({@required token, @required id}) async {
   String error;
-
 
   try {
     final response = await http.delete(
-      API.DELETE_EMAIL_API+"?id="+id,
+      API.DELETE_EMAIL_API + "?id=" + id,
       headers: {
         "Authorization": token,
       },
@@ -1670,19 +1566,16 @@ deleteEmailApi(
   }
 }
 
-deletePersonApi(
-    {@required token,
-      @required id}) async {
+deletePersonApi({@required token, @required id}) async {
   String error;
   final response = await http.delete(
-    API.DELETE_PERSON_API+"?id="+id,
+    API.DELETE_PERSON_API + "?id=" + id,
     headers: {
       "Authorization": token,
     },
   );
 
   try {
-
     switch (response.statusCode) {
       case 200:
         return true;
@@ -1736,10 +1629,9 @@ deletePersonApi(
 deleteNoteApi({@required token, @required id}) async {
   String error;
 
-
   try {
     final response = await http.delete(
-      API.ADD_NOTE_API+"?id="+id,
+      API.ADD_NOTE_API + "?id=" + id,
       headers: {
         "Authorization": token,
       },
@@ -1795,11 +1687,11 @@ deleteNoteApi({@required token, @required id}) async {
   }
 }
 
-resetPasswordApi({ @required email}) async {
+resetPasswordApi({@required email}) async {
   String error;
   try {
     final response = await http.post(
-      API.RESET_PASSWORD_API+"email="+email,
+      API.RESET_PASSWORD_API + "email=" + email,
     );
     switch (response.statusCode) {
       case 200:

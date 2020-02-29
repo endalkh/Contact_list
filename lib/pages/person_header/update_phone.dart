@@ -5,7 +5,6 @@ import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
 class UpdatePhone extends StatefulWidget {

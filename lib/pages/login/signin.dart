@@ -12,7 +12,6 @@ import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {

@@ -14,60 +14,55 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool logged=false;
-  if(prefs.getString("accessToken")!=null||prefs.getString("accessToken").toString().isEmpty==true){
-    logged=true;
+  bool logged = false;
+  if (prefs.getString("accessToken") != null ||
+      prefs.getString("accessToken").toString().isEmpty == true) {
+    logged = true;
   }
-    runApp(
+  runApp(
     MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => AppState()),
-     ChangeNotifierProvider(create: (_) => LoginAuth()),
-     ChangeNotifierProvider(create: (_) => Auth()),
-  ],
-
-        child: MyApp(logged),
-      ),
-    );
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppState()),
+        ChangeNotifierProvider(create: (_) => LoginAuth()),
+        ChangeNotifierProvider(create: (_) => Auth()),
+      ],
+      child: MyApp(logged),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget{
-   bool logged;
-  MyApp(logged){
-    this.logged=logged;
+class MyApp extends StatefulWidget {
+  bool logged;
+
+  MyApp(logged) {
+    this.logged = logged;
   }
-  _MyApp createState()=>_MyApp(logged);
+
+  _MyApp createState() => _MyApp(logged);
 }
 
 class _MyApp extends State<MyApp> {
-  bool isDark=true;
-  bool logged=false;
-  _MyApp(logged){
-    this.logged=logged;
+  bool isDark = true;
+  bool logged = false;
+
+  _MyApp(logged) {
+    this.logged = logged;
   }
 
   @override
   build(context) {
     AppState themeNotifier = Provider.of<AppState>(context);
-    return MaterialApp(initialRoute:logged==true?Constant.HOME:Constant.SPLASH_SCREEN,
-        theme:  themeNotifier.getTheme(),
+    return MaterialApp(
+        initialRoute: logged == true ? Constant.HOME : Constant.HOME,
+        theme: themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),
           Constant.SIGN_IN: (context) => SignInPage(),
           Constant.SIGN_UP: (context) => SignUpScreen(),
           Constant.HOME: (context) => Home(),
-          Constant.TERMS_AND_CONDTION:(context)=>TermsAndConditions(),
-          Constant.RECOVER_PASSWORD:(context)=>RecoverPassword(),
-          Constant.CONTACT_SYNC:(context)=>ContactListPage(),
-
-        }
-        );
-
-
-
-
+          Constant.TERMS_AND_CONDTION: (context) => TermsAndConditions(),
+          Constant.RECOVER_PASSWORD: (context) => RecoverPassword(),
+          Constant.CONTACT_SYNC: (context) => ContactListPage(),
+        });
   }
-
-
-
-  }
+}

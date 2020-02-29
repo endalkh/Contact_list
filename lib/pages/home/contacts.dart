@@ -164,7 +164,6 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit,ShouldImp{
           type:Constant.error
       );
     });
-//    Navigator.pop(context);
 
   }
 
