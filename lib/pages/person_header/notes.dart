@@ -14,7 +14,6 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:provider/provider.dart';
-
 import '../../utilities/date_formater.dart';
 
 class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {

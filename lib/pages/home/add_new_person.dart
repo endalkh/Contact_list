@@ -116,6 +116,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             type:Constant.success
         );
         Navigator.pop(context);
+        Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(0);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => PersonHeaderScreen(personId: value.id,)),

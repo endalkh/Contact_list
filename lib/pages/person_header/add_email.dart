@@ -61,13 +61,9 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
       );
       addEmail.then((value) {
         if (value == true) {
-          InfoDialog(
-              context: context,
-              callback: _AddEmail(personId),
-              title: Constant.success,
-              type: Constant.success
-          );
           Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+          Provider.of<Auth>(context, listen: false).setAddEmail(false);
+
         }
       });
 

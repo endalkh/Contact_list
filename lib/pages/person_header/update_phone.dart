@@ -95,6 +95,7 @@ class _UpdatePhone extends State<UpdatePhone> {
       Provider.of<Auth>(context, listen: false)
           .setSuccessfullyRegisteredFun(true);
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context, listen: false).setEditPhone(false);
     });
 
     addPhone.catchError((value) async {

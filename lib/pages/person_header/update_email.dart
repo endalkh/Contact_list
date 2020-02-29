@@ -102,6 +102,7 @@ class _UpdateEmail extends State<UpdateEmail> {
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false).setEditEmail(false);
       }
     });
 

@@ -53,12 +53,7 @@ class _AddNote extends State<AddNote> implements ShouldImp {
           Provider.of<Auth>(context, listen: false)
               .setSuccessfullyRegisteredFun(true);
           Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-          InfoDialog(
-              context: context,
-              callback: _AddNote(personId),
-              title: Constant.success,
-              type: Constant.success
-          );
+          Provider.of<Auth>(context, listen: false).setAddNote(false);
         }
       });
 
