@@ -15,10 +15,9 @@ import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dar
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:provider/provider.dart';
 
+import '../../utilities/date_formater.dart';
 
-
-
-class Note extends StatelessWidget implements NoteDelAndEdit ,ShouldImp{
+class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
   final String personId;
 
   Note({@required this.personId});
@@ -26,108 +25,126 @@ class Note extends StatelessWidget implements NoteDelAndEdit ,ShouldImp{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Provider.of<Auth>(context).getAddNote()==true?
-
-            Container(
-              child: AddNote(personId:personId),
-            ): Provider.of<Auth>(context).getEditNote()==true?UpdateNote(id:Provider.of<Auth>(context).getId()):
-
-          Column(
-            children: <Widget>[
-              SizedBox(height: 10,),
-              Divider(),
-              Text(
-                'Notes',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-              ),
-              SizedBox(height: 10,),
-              Expanded(
-             child: FutureBuilder <List<GetNoteList>>(
-
-                  future: getNoteListApi(
-                    token: Provider.of<Auth>(context).getTokenFun(),
-                    personId: personId,
-                  ),
-
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-
-                      return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 10),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: Container(
-                                    child: snapshot.data[index].body.isEmpty==true?Container():Column(
-                                        children: [
-
-                                          ListTile(
-
-                                            title: Text(snapshot.data[index].body,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 17),
-                                            ),
-                                            onLongPress:(){
-                                              DeleteAndEditNotesDialog(context: context,callback:Note(),id: snapshot.data[index].id );
-
-                                            },
-                                          ),
-                                        ]
-                                    ),
-                                  ),
+      body: Provider.of<Auth>(context).getAddNote() == true
+          ? Container(
+              child: AddNote(personId: personId),
+            )
+          : Provider.of<Auth>(context).getEditNote() == true
+              ? UpdateNote(id: Provider.of<Auth>(context).getId())
+              : Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Divider(),
+                    Text(
+                      'Notes',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                      child: FutureBuilder<List<GetNoteList>>(
+                          future: getNoteListApi(
+                            token: Provider.of<Auth>(context).getTokenFun(),
+                            personId: personId,
+                          ),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      margin:
+                                          EdgeInsets.only(left: 10, right: 10),
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        child: Container(
+                                          child: snapshot.data[index].body
+                                                      .isEmpty ==
+                                                  true
+                                              ? Container()
+                                              : Column(children: [
+                                                  ExpansionTile(
+                                                    title: Text(dateFormatter(
+                                                        snapshot.data[index]
+                                                            .createdAt)),
+                                                    children: <Widget>[
+                                                      Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 10,
+                                                                right: 5,
+                                                                bottom: 10),
+                                                        child: ListTile(
+                                                          title: Text(
+                                                            snapshot.data[index]
+                                                                .body,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontSize: 17),
+                                                          ),
+                                                          onLongPress: () {
+                                                            DeleteAndEditNotesDialog(
+                                                                context:
+                                                                    context,
+                                                                callback:
+                                                                    Note(),
+                                                                id: snapshot
+                                                                    .data[index]
+                                                                    .id);
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ]),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text(
+                                  snapshot.error.toString(),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w900),
                                 ),
                               );
-
-
-
-
                             }
-                        );
-
-                    }
-                    else if (snapshot.hasError) {
-                      return Center(
-                        child: Text(
-                          snapshot.error.toString(), style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w900
-                        ),),
-                      );
-                    }
-                    return circularIndicator(context: context);
-                  }
-              ),
-              ),
-            ],
-          ),
-
-
-
+                            return circularIndicator(context: context);
+                          }),
+                    ),
+                  ],
+                ),
       floatingActionButton: FloatingActionButton(
           onPressed: () => {
-            Provider.of<Auth>(context,listen: false).setAddNote(!Provider.of<Auth>(context,listen: false).getAddNote())
-          },
+                Provider.of<Auth>(context, listen: false).setAddNote(
+                    !Provider.of<Auth>(context, listen: false).getAddNote())
+              },
           backgroundColor: PRIMARY_COLOR,
           child: Icon(
-
-            Provider.of<Auth>(context,listen: false).getAddNote()==false?Icons.add:Icons.list,color: TRIAL_COLOR,
-          )
-      ),
+            Provider.of<Auth>(context, listen: false).getAddNote() == false
+                ? Icons.add
+                : Icons.list,
+            color: TRIAL_COLOR,
+          )),
     );
-
   }
 
-
   @override
-  editNote({id, context, contextDialog})async {
-    await Provider.of<Auth>(context,listen: false).setEditNote(true);
-    Provider.of<Auth>(context,listen: false).setId(id);
+  editNote({id, context, contextDialog}) async {
+    await Provider.of<Auth>(context, listen: false).setEditNote(true);
+    Provider.of<Auth>(context, listen: false).setId(id);
     Navigator.pop(context);
     return null;
   }
@@ -140,18 +157,17 @@ class Note extends StatelessWidget implements NoteDelAndEdit ,ShouldImp{
       id: id,
       token: token,
     );
-    LoadingDialog(context: context,title: "please wait.....");
+    LoadingDialog(context: context, title: "please wait.....");
 
     deletePhone.then((value) async {
-      if(value==true) {
+      if (value == true) {
         Navigator.of(context).pop();
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
         InfoDialog(
             context: context,
             callback: Note(),
             title: Constant.success,
-            type:Constant.success
-        );
+            type: Constant.success);
       }
     });
 
@@ -162,8 +178,7 @@ class Note extends StatelessWidget implements NoteDelAndEdit ,ShouldImp{
           context: context,
           callback: Note(),
           title: Constant.error,
-          type:Constant.error
-      );
+          type: Constant.error);
     });
   }
-  }
+}
