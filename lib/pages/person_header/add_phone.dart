@@ -9,15 +9,14 @@ import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dar
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:provider/provider.dart';
 
-class AddPhone extends StatefulWidget{
+class AddPhone extends StatefulWidget {
   final String personId;
   AddPhone({@required this.personId});
 
-  _AddPhone createState()=>_AddPhone(personId);
+  _AddPhone createState() => _AddPhone(personId);
 }
 
-class _AddPhone extends State<AddPhone> implements ShouldImp{
-
+class _AddPhone extends State<AddPhone> implements ShouldImp {
   TextEditingController phoneController = TextEditingController();
   List<DropdownMenuItem<PhoneType>> phoneDropdownMenuItems;
   PhoneType selectPhone;
@@ -25,30 +24,26 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
   List<PhoneType> phoneType = PhoneType.getPhones();
 
   String personId;
-  bool showError=false;
+  bool showError = false;
   _AddPhone(this.personId);
-
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
       phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
       selectPhone = phoneDropdownMenuItems[0].value;
     });
     super.initState();
   }
 
-  submitForm(){
-    if (validatePhone(phoneController.text)
-        .toString()
-        .isNotEmpty == true) {
+  submitForm() {
+    if (validatePhone(phoneController.text).toString().isNotEmpty == true) {
       setState(() {
         showError = true;
       });
-    }
-    else {
+    } else {
       setState(() {
         showError = false;
       });
@@ -59,9 +54,7 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
           token: token,
           personId: personId,
           type: selectPhone.name,
-          number: phoneController.text
-
-      );
+          number: phoneController.text);
       addPhone.then((value) async {
         if (value == true) {
           Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
@@ -69,21 +62,19 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
               context: context,
               callback: _AddPhone(personId),
               title: Constant.success,
-              type: Constant.success
-          );
+              type: Constant.success);
         }
       });
 
       addPhone.catchError((value) async {
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(context, listen: false).setSuccessfullyRegisteredFun(
-            false);
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(false);
         InfoDialog(
             context: context,
             callback: _AddPhone(personId),
             title: value.toString(),
-            type: Constant.error
-        );
+            type: Constant.error);
       });
     }
   }
@@ -102,17 +93,14 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
     return items;
   }
 
-
   phoneOnChangeDropdownItem(PhoneType phone) {
     setState(() {
       selectPhone = phone;
     });
   }
 
-
   phoneNumberButton() {
     return Padding(
-
       padding: EdgeInsets.zero,
       child: Material(
           borderRadius: BorderRadius.circular(20.0),
@@ -142,9 +130,7 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
                   controller: phoneController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-
                     hintText: "+1(424) 341-3346",
-
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -155,85 +141,82 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
           )),
     );
   }
+
   submitButton() {
-    return
-      Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child:  RawMaterialButton(
-              onPressed: () {
-                submitForm();
-              },
-              child: new Icon(
-                Icons.arrow_forward,
-                color: TRIAL_COLOR,
-                size: 25.0,
-              ),
-              shape: new CircleBorder(),
-              elevation: 2.0,
-              fillColor:PRIMARY_COLOR,
-              padding: const EdgeInsets.all(15.0),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: RawMaterialButton(
+            onPressed: () {
+              submitForm();
+            },
+            child: new Icon(
+              Icons.arrow_forward,
+              color: TRIAL_COLOR,
+              size: 25.0,
             ),
-          )
-
-
-        ],
-      );
-
+            shape: new CircleBorder(),
+            elevation: 2.0,
+            fillColor: PRIMARY_COLOR,
+            padding: const EdgeInsets.all(15.0),
+          ),
+        )
+      ],
+    );
   }
+
   @override
   Widget build(BuildContext context) {
-    return
-      Consumer<Auth>(
-        builder: (BuildContext context, Auth value, Widget child) =>
-        value.getIsLoadingFun()==true?circularIndicator(context: context):
-        SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Additional Phone Number',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-                      Padding(
-                        padding: EdgeInsets.all(2),
-                        child: phoneNumberButton(),
-                      ),
-
-
-                      showError==true && validatePhone(phoneController.text).toString().isNotEmpty==true?Text(validatePhone(phoneController.text),style: TextStyle(color: Colors.red),):Container(),
-                      SizedBox(height: 10,)
-
-                    ],
+    return Consumer<Auth>(
+      builder: (BuildContext context, Auth value, Widget child) => value
+                  .getIsLoadingFun() ==
+              true
+          ? circularIndicator(context: context)
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    'Additional Phone Number',
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w400),
                   ),
-                ),
-                SizedBox(height: 20,),
-                submitButton(),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(2),
+                          child: phoneNumberButton(),
+                        ),
+                        showError == true &&
+                                validatePhone(phoneController.text)
+                                        .toString()
+                                        .isNotEmpty ==
+                                    true
+                            ? Text(
+                                validatePhone(phoneController.text),
+                                style: TextStyle(color: Colors.red),
+                              )
+                            : Container(),
+                        SizedBox(
+                          height: 5,
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  submitButton(),
+                ],
+              ),
             ),
-
-          ),
-      );
-
-
+    );
   }
 
   @override
@@ -241,4 +224,3 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
     // TODO: implement changer
   }
 }
-

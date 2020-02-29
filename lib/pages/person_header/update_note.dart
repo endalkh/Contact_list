@@ -181,7 +181,7 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
             padding: EdgeInsets.all(10),
             child: enterNotesTextFormField(),
           ),
-          SizedBox(height: 20,),
+          SizedBox(height: 10,),
           submitButton(),
           value.getHasErrorFun().toString().isNotEmpty ==
               true

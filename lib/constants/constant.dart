@@ -176,11 +176,11 @@ class PhoneType {
 
   static List<PhoneType> getPhones() {
     return <PhoneType>[
-      PhoneType(0, 'Mobile'),
-      PhoneType(1, 'Home'),
+      PhoneType(0, 'Home'),
+      PhoneType(1, 'Cell'),
       PhoneType(2, 'Work'),
       PhoneType(3, 'Fax'),
-      PhoneType(4, 'Line'),
+      PhoneType(4, 'Others'),
     ];
   }
 }
@@ -194,10 +194,10 @@ class EmailType {
 
   static List<EmailType> getEmails() {
     return <EmailType>[
-      EmailType(0, 'Gmail'),
-      EmailType(1, 'Icloud'),
-      EmailType(2, 'Yahoo'),
-      EmailType(3, 'Hotbird'),
+      EmailType(0, 'Personal'),
+      EmailType(1, 'Work'),
+      EmailType(2, 'Family'),
+      EmailType(3, 'Others'),
     ];
   }
 }
