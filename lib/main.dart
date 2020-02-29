@@ -33,11 +33,9 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   bool logged;
-
   MyApp(logged) {
     this.logged = logged;
   }
-
   _MyApp createState() => _MyApp(logged);
 }
 

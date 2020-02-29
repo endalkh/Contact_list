@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
@@ -20,7 +19,6 @@ class LastContact extends StatefulWidget{
 class _LastContact extends State<LastContact>{
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
       return  Scaffold(
         body:   Padding(
       padding: EdgeInsets.only(top: 10),

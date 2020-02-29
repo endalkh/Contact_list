@@ -5,7 +5,6 @@ import 'package:flutter_app/pages/appbar/AppBar.dart';
 class TermsAndConditions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: headerNav(title: "Terms and Conditions"),
         body: Padding(

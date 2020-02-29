@@ -165,7 +165,6 @@ class _AddNote extends State<AddNote> implements ShouldImp {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Consumer<Auth>(
       builder: (BuildContext context, Auth value, Widget child) =>
           value.getIsLoadingFun() == true
