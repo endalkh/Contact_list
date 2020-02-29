@@ -34,6 +34,7 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
     Future.delayed(Duration.zero, () {
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
       Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+      Provider.of<Auth>(context, listen: false).setEditEmail(false);
     }
     );
     super.initState();

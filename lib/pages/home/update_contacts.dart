@@ -8,7 +8,6 @@ import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class UpdateContact extends StatefulWidget {
@@ -146,7 +145,7 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp {
 
               date = await showDatePicker(
                   context: context,
-                  initialDate:  DateTime.now().toUtc(),
+                  initialDate: DateTime.now().toUtc(),
                   firstDate: Constant.initialDate.dateTime.toUtc(),
                   lastDate: DateTime.now().toUtc());
               birthdayController.text = date.toUtc().toIso8601String();
@@ -168,7 +167,6 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp {
         birthDate: birthdayController.text.isEmpty || birthdayController == null
             ? null
             : dateFormatterBack(birthdayController.text));
-
 
     updatePerson.then((value) async {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
@@ -213,6 +211,5 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp {
   }
 
   @override
-  void changer({context, id}) {
-  }
+  void changer({context, id}) {}
 }

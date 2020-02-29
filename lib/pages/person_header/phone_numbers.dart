@@ -17,10 +17,27 @@ import 'package:flutter_app/utilities/get_icon_type.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
+class PhoneNumber extends StatefulWidget{
   final String personId;
-   BuildContext context;
   PhoneNumber({@required this.personId});
+  _PhoneNumber createState()=>_PhoneNumber(personId:personId ,);
+
+}
+class _PhoneNumber extends State<PhoneNumber> implements NoteDelAndEdit,ShouldImp{
+ String personId;
+  _PhoneNumber({@required this.personId});
+   BuildContext context;
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+      Provider.of<Auth>(context, listen: false).setEditPhone(false);
+    }
+    );
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

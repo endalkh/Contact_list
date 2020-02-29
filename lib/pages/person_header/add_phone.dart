@@ -55,9 +55,10 @@ class _AddPhone extends State<AddPhone> implements ShouldImp {
           personId: personId,
           type: selectPhone.name,
           number: phoneController.text);
-      addPhone.then((value) async {
+      addPhone.then((value) {
         if (value == true) {
           Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+          Provider.of<Auth>(context, listen: false).setAddPhone(false);
         }
       });
 
