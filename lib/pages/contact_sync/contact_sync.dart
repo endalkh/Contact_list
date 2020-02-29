@@ -161,14 +161,6 @@ class _AddContactPageState extends State<AddContactPage> {
                 onSaved: (v) => contact.familyName = v,
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Prefix'),
-                onSaved: (v) => contact.prefix = v,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Suffix'),
-                onSaved: (v) => contact.suffix = v,
-              ),
-              TextFormField(
                 decoration: const InputDecoration(labelText: 'Phone'),
                 onSaved: (v) =>
                     contact.phones = [Item(label: "mobile", value: v)],
@@ -179,34 +171,6 @@ class _AddContactPageState extends State<AddContactPage> {
                 onSaved: (v) =>
                     contact.emails = [Item(label: "work", value: v)],
                 keyboardType: TextInputType.emailAddress,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Company'),
-                onSaved: (v) => contact.company = v,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Job'),
-                onSaved: (v) => contact.jobTitle = v,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Street'),
-                onSaved: (v) => address.street = v,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'City'),
-                onSaved: (v) => address.city = v,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Region'),
-                onSaved: (v) => address.region = v,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Postal code'),
-                onSaved: (v) => address.postcode = v,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Country'),
-                onSaved: (v) => address.country = v,
               ),
             ],
           ),
@@ -289,137 +253,12 @@ class ContactDetailsPage extends StatelessWidget {
                 trailing: Text(_contact.familyName ?? "--"),
               ),
             ),
-            Card(
-              margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: ListTile(
-                title: Text("Prefix"),
-                trailing: Text(_contact.prefix ?? "--"),
-              ),
-            ),
-            Card(
-              margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: ListTile(
-                title: Text("Suffix"),
-                trailing: Text(_contact.suffix ?? "--"),
-              ),
-            ),
-            Card(
-              margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: ListTile(
-                title: Text("Company"),
-                trailing: Text(_contact.company ?? "--"),
-              ),
-            ),
-            Card(
-              margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: ListTile(
-                title: Text("Job"),
-                trailing: Text(_contact.jobTitle ?? "--"),
-              ),
-            ),
-            // ListTile(
-            //   title: Text("Note"),
-            //   trailing: Text(_contact.note ?? ""),
-            // ),
-            AddressesTile(_contact.postalAddresses),
+            // AddressesTile(_contact.postalAddresses),
             ItemsTile("Phones", _contact.phones),
             ItemsTile("Emails", _contact.emails)
           ],
         ),
       ),
-    );
-  }
-}
-
-class AddressesTile extends StatelessWidget {
-  AddressesTile(this._addresses);
-  final Iterable<PostalAddress> _addresses;
-
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left: 20),
-          child: Text(
-            "Addresses",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
-          ),
-        ),
-        Column(
-          children: _addresses
-              .map((a) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      children: <Widget>[
-                        Card(
-                          // margin: EdgeInsets.only(left: 20, bottom: 3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: ListTile(
-                            title: Text("Street"),
-                            trailing: Text(a.street ?? "--"),
-                          ),
-                        ),
-                        Card(
-                          // margin: EdgeInsets.only(left: 20, bottom: 3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: ListTile(
-                            title: Text("Postcode"),
-                            trailing: Text(a.postcode ?? "--"),
-                          ),
-                        ),
-                        Card(
-                          // margin: EdgeInsets.only(left: 20, bottom: 3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: ListTile(
-                            title: Text("City"),
-                            trailing: Text(a.city ?? "--"),
-                          ),
-                        ),
-                        Card(
-                          // margin: EdgeInsets.only(left: 20, bottom: 3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: ListTile(
-                            title: Text("Region"),
-                            trailing: Text(a.region ?? "--"),
-                          ),
-                        ),
-                        Card(
-                          // margin: EdgeInsets.only(left: 20, bottom: 3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: ListTile(
-                            title: Text("Country"),
-                            trailing: Text(a.country ?? "--"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ))
-              .toList(),
-        ),
-      ],
     );
   }
 }
@@ -441,13 +280,7 @@ class ItemsTile extends StatelessWidget {
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
           ),
         ),
-        Card(
-          margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: ListTile(title: Text(_title)),
-        ),
+
         Column(
           children: _items
               .map(
@@ -592,46 +425,6 @@ class _UpdateContactsPageState extends State<UpdateContactsPage> {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.person, size: 20),
-                    hintText: "Prefix",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide.none),
-                  ),
-                  initialValue: contact.prefix ?? "",
-                  onSaved: (v) => contact.prefix = v,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Material(
-                borderRadius: BorderRadius.circular(10.0),
-                elevation: 12,
-                child: TextFormField(
-                  // controller: fNameController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person, size: 20),
-                    hintText: "Suffix",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide.none),
-                  ),
-                  initialValue: contact.suffix ?? "",
-                  onSaved: (v) => contact.suffix = v,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Material(
-                borderRadius: BorderRadius.circular(10.0),
-                elevation: 12,
-                child: TextFormField(
-                  // controller: fNameController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person, size: 20),
                     hintText: "Phone",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -643,52 +436,6 @@ class _UpdateContactsPageState extends State<UpdateContactsPage> {
                 ),
               ),
 
-              // TextFormField(
-              //   decoration: const InputDecoration(labelText: 'E-mail'),
-              //   onSaved: (v) =>
-              //       contact.emails = [Item(label: "work", value: v)],
-              //   keyboardType: TextInputType.emailAddress,
-              // ),
-              // TextFormField(
-              //   initialValue: contact.company ?? "",
-              //   decoration: const InputDecoration(labelText: 'Company'),
-              //   onSaved: (v) => contact.company = v,
-              // ),
-              // TextFormField(
-              //   initialValue: contact.jobTitle ?? "",
-              //   decoration: const InputDecoration(labelText: 'Job'),
-              //   onSaved: (v) => contact.jobTitle = v,
-              // ),
-              // TextFormField(
-              //   initialValue: contact.note ?? "",
-              //   decoration: const InputDecoration(labelText: 'Note'),
-              //   onSaved: (v) => contact.note = v,
-              // ),
-              // TextFormField(
-              //   initialValue: address.street ?? "",
-              //   decoration: const InputDecoration(labelText: 'Street'),
-              //   onSaved: (v) => address.street = v,
-              // ),
-              // TextFormField(
-              //   initialValue: address.city ?? "",
-              //   decoration: const InputDecoration(labelText: 'City'),
-              //   onSaved: (v) => address.city = v,
-              // ),
-              // TextFormField(
-              //   initialValue: address.region ?? "",
-              //   decoration: const InputDecoration(labelText: 'Region'),
-              //   onSaved: (v) => address.region = v,
-              // ),
-              // TextFormField(
-              //   initialValue: address.postcode ?? "",
-              //   decoration: const InputDecoration(labelText: 'Postal code'),
-              //   onSaved: (v) => address.postcode = v,
-              // ),
-              // TextFormField(
-              //   initialValue: address.country ?? "",
-              //   decoration: const InputDecoration(labelText: 'Country'),
-              //   onSaved: (v) => address.country = v,
-              // ),
             ],
           ),
         ),
