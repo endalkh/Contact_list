@@ -3,6 +3,7 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
+import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/login/signin.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/register/termsAndCondition.dart';
@@ -39,6 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController passwordController = TextEditingController();
   bool _secureText = true;
   bool isDark=false;
+
 
   _SignUpScreenState(){
     getTheme();
@@ -79,11 +81,19 @@ setState(() {
           password: passwordController.text,
           context: context,
         );
-        _registerModel.then((value) async{
-          themeNotifierAuth.setLoadingStateFun(false);
+        _registerModel.then((value) {
+          if(value==true){
+            themeNotifierAuth.setLoadingStateFun(false);
+            InfoDialog(
+                context: context,
+                callback: _SignUpScreenState(),
+                title: "A confirmation email has been sent. Please check your email.",
+                type:Constant.success
+            );
+          }
         });
 
-        _registerModel.catchError((value) async{
+        _registerModel.catchError((value) {
           themeNotifierAuth.setHasErrorFun(value);
           themeNotifierAuth.setLoadingStateFun(false);
 

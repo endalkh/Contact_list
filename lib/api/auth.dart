@@ -835,7 +835,7 @@ Future<JsonUser> loginApi({userId, password, context}) async {
   }
 }
 
-Future<JsonUserRegister> registerApi({userId, password, context}) async {
+ registerApi({userId, password, context}) async {
   var params = {
     "email": userId,
     "password": password,
@@ -849,28 +849,43 @@ Future<JsonUserRegister> registerApi({userId, password, context}) async {
 
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
-        return JsonUserRegister.fromJson(responseJson);
-
+        return true;
+        break;
       case 201:
-        var responseJson = await json.decode(response.body);
-        return JsonUserRegister.fromJson(responseJson);
+        return true;
+        break;
       case 400:
-        return Future.error("Sorry It was Bad Request! ");
-      case 401:
+        return Future.error("Sorry It was Bad Request!");
+        break;
+      case 401:{
         error = json.decode(response.body);
         return Future.error(error);
+      }
+      break;
       case 403:
-        error = json.decode(response.body);
-        return Future.error(error);
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
       case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
       case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
+        {
+          error = json.decode(response.body);
+          return Future.error(error);
+        }
+        break;
       case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
+        {
+          return Future.error("Ohhh No! There is a problem in our end");
+
+        }
+        break;
       default:
         {
           error = "An undefined Error happened.";
