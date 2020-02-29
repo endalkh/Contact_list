@@ -46,12 +46,12 @@ class _UpdatePhone extends State<UpdatePhone> {
         Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
         Provider.of<Auth>(context,listen: false).setHasErrorFun("");
         switch (val.type.toString()) {
-          case "Mobile":
+          case "Home":
             setState(() {
               selectPhone = phoneDropdownMenuItems[0].value;
             });
             break;
-          case "Home":
+          case "Cell":
             setState(() {
               selectPhone = phoneDropdownMenuItems[0].value;
             });
@@ -66,7 +66,7 @@ class _UpdatePhone extends State<UpdatePhone> {
               selectPhone = phoneDropdownMenuItems[0].value;
             });
             break;
-          case "Line":
+          case "Others":
             setState(() {
               selectPhone = phoneDropdownMenuItems[0].value;
             });
@@ -221,6 +221,10 @@ class _UpdatePhone extends State<UpdatePhone> {
               : SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
+                                    Text('Update Phone Number', style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w400
+              ),),
                       Padding(
                         padding: EdgeInsets.all(10),
                         child: phoneNumberButton(),

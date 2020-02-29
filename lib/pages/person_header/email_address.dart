@@ -51,10 +51,12 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
       padding: EdgeInsets.only(bottom: 15),
     child:Column(
         children: <Widget>[
-Divider(),
           Text(
             'Email Information',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+          ),
+          SizedBox(
+            height: 10,
           ),
 
    FutureBuilder <List<GetEmail>>(
@@ -74,7 +76,7 @@ Divider(),
                               margin: EdgeInsets.only(left: 10,right: 10),
                               child:  Container(
                                 margin: EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 10),
+                                    left: 10, right: 10),
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0),
@@ -92,6 +94,7 @@ Divider(),
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 17),
                                             ),
+                                            subtitle: Text(snapshot.data[index].type),
                                             onLongPress:(){
                                               DeleteAndEditNotesDialog(context: this.context,callback:_EmailAddress(),id: snapshot.data[index].id );
 

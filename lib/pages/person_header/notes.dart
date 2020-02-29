@@ -36,11 +36,10 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
                     SizedBox(
                       height: 10,
                     ),
-                    Divider(),
                     Text(
                       'Notes',
                       style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                     ),
                     SizedBox(
                       height: 10,
