@@ -1,4 +1,4 @@
-String getRoundLetter(String val) {
+ getRoundLetter(String val) {
   String text = val != null ? val : "";
   if (text.length > 0) {
     String initialChar = text[0];
@@ -11,6 +11,7 @@ String getRoundLetter(String val) {
         break;
       }
     }
+
     return initialChar + lastChar;
   } else {
     return "";

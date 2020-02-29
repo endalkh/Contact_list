@@ -16,9 +16,12 @@ import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
+import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:loader_search_bar/loader_search_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:rounded_letter/rounded_letter.dart';
+import 'package:rounded_letter/shape_type.dart';
 
 class Home extends StatefulWidget{
   Dashboard createState()=>Dashboard();
@@ -61,6 +64,15 @@ class Dashboard extends State<Home> implements ShouldImp {
 
   Widget _buildPersonTile(GetAllContact person) {
     return ListTile(
+      leading: RoundedLetter(
+        text: getRoundLetter(person.name.toString().toUpperCase()),
+        shapeType: ShapeType.circle,
+        shapeColor: PRIMARY_COLOR,
+        shapeSize: 40,
+        fontSize: 20,
+        borderWidth: 1,
+        borderColor: Color.fromARGB(255, 0, 0, 0),
+      ),
       onTap: () {
         Navigator.push(
           context,
@@ -134,6 +146,7 @@ class Dashboard extends State<Home> implements ShouldImp {
         );
 
         Navigator.pushNamed(context, Constant.HOME);
+        Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
 
         Provider.of<Auth>(context,listen: false).setHomePageTabFun(0);
 

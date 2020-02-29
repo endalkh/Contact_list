@@ -6,6 +6,7 @@ import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
+import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:provider/provider.dart';
 
 class AddPhone extends StatefulWidget{
@@ -24,6 +25,7 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
   List<PhoneType> phoneType = PhoneType.getPhones();
 
   String personId;
+  bool showError=false;
   _AddPhone(this.personId);
 
 
@@ -39,41 +41,51 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
   }
 
   submitForm(){
-    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-    Provider.of<Auth>(context, listen: false).setHasErrorFun("");
-    var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-    var addPhone =  addPhoneApi(
-      token:token ,
-      personId: personId,
-      type: selectPhone.name,
-      number: phoneController.text
+    if (validatePhone(phoneController.text)
+        .toString()
+        .isNotEmpty == true) {
+      setState(() {
+        showError = true;
+      });
+    }
+    else {
+      setState(() {
+        showError = false;
+      });
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
+      var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+      var addPhone = addPhoneApi(
+          token: token,
+          personId: personId,
+          type: selectPhone.name,
+          number: phoneController.text
 
-    );
-    addPhone.then((value) async{
-      if(value==true){
-        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+      );
+      addPhone.then((value) async {
+        if (value == true) {
+          Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+          InfoDialog(
+              context: context,
+              callback: _AddPhone(personId),
+              title: Constant.success,
+              type: Constant.success
+          );
+        }
+      });
+
+      addPhone.catchError((value) async {
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false).setSuccessfullyRegisteredFun(
+            false);
         InfoDialog(
             context: context,
             callback: _AddPhone(personId),
-            title: Constant.success,
-            type:Constant.success
+            title: value.toString(),
+            type: Constant.error
         );
-
-      }
-
-    });
-
-    addPhone.catchError((value) async{
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-      InfoDialog(
-          context: context,
-          callback: _AddPhone(personId),
-          title: value.toString(),
-          type:Constant.error
-      );
-    });
-
+      });
+    }
   }
 
   List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(
@@ -207,7 +219,8 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
                       ),
 
 
-
+                      showError==true && validatePhone(phoneController.text).toString().isNotEmpty==true?Text(validatePhone(phoneController.text),style: TextStyle(color: Colors.red),):Container(),
+                      SizedBox(height: 10,)
 
                     ],
                   ),

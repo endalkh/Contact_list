@@ -40,6 +40,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
       emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
       selectPhone = phoneDropdownMenuItems[0].value;
       selectEmail = emailDropdownMenuItems[0].value;
+      birthdayController.text='';
       Provider.of<Auth>(context,listen: false).setHasErrorFun("");
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
     });
@@ -74,7 +75,13 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
 
   }
   submitForm(){
-    if(fNameController.text.isEmpty){
+    if(
+    validateEmailForAddPerson(emailController.text).toString().isNotEmpty==true||
+    validateFirstNameForAddPerson(fNameController.text).toString().isNotEmpty==true||
+    validateLastNameForAddPerson(lNameController.text).toString().isNotEmpty==true||
+    validatePhoneForAddPerson(phoneController.text).toString().isNotEmpty==true
+
+    ){
       setState(() {
         showError=true;
       });
@@ -92,7 +99,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
           phone: phoneController.text,
           fName: fNameController.text,
           lName: lNameController.text,
-          birthday: birthdayController.text,
+          birthday: birthdayController.text.isEmpty||birthdayController==null?null:DateTime.parse(birthdayController.text).toIso8601String(),
           token:token ,
           notes: addNoteController.text
 
@@ -107,6 +114,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             title: Constant.success,
             type:Constant.success
         );
+        Navigator.pop(context);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => PersonHeaderScreen(personId: value.id,)),
@@ -211,7 +219,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             ),
           ),
         ),
-        showError==true && validateNameForAddPerson(fNameController.text).toString().isNotEmpty==true?Text(validateName(fNameController.text),style: TextStyle(color: Colors.red),):Container(),
+        showError==true && validateFirstNameForAddPerson(fNameController.text).toString().isNotEmpty==true?Text(validateFirstNameForAddPerson(fNameController.text),style: TextStyle(color: Colors.red),):Container(),
         Padding(padding: EdgeInsets.all(5)),
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -228,7 +236,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             ),
           ),
         ),
-        showError==true && validateNameForAddPerson(lNameController.text).toString().isNotEmpty==true?Text(validateName(fNameController.text),style: TextStyle(color: Colors.red),):Container(),
+        showError==true && validateLastNameForAddPerson(lNameController.text).toString().isNotEmpty==true?Text(validateLastNameForAddPerson(lNameController.text),style: TextStyle(color: Colors.red),):Container(),
 
         Padding(padding: EdgeInsets.all(5)),
         Material(
@@ -277,7 +285,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
         ),
         Padding(padding: EdgeInsets.all(5)),
         phoneNumberButton(),
-        showError==true && validatePhoneForAddPerson(phoneController.text).toString().isNotEmpty==true?Text(validateName(phoneController.text),style: TextStyle(color: Colors.red),):Container(),
+        showError==true && validatePhoneForAddPerson(phoneController.text).toString().isNotEmpty==true?Text(validatePhoneForAddPerson(phoneController.text),style: TextStyle(color: Colors.red),):Container(),
 
         Padding(padding: EdgeInsets.all(5)),
         emailTypeButton(),
@@ -287,7 +295,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
       ],
     );
   }
-
 
   enterNotesTextFormField() {
     return Column(
@@ -375,9 +382,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-
                     hintText: "+1(424) 341-3346",
-
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),

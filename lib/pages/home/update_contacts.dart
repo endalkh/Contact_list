@@ -21,7 +21,6 @@ class UpdateContact extends StatefulWidget{
 class _UpdateContact extends State<UpdateContact> implements ShouldImp{
 
   TextEditingController fNameController = TextEditingController();
-  TextEditingController lNameController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
 
   String id;
@@ -176,8 +175,8 @@ class _UpdateContact extends State<UpdateContact> implements ShouldImp{
     var updatePerson =  updatePersonApi(
         token:token ,
         id: id,
-      name: fNameController.text + " "+ lNameController.text,
-      birthDate: birthdayController.text
+      name: fNameController.text,
+      birthDate: birthdayController.text.isEmpty||birthdayController==null?null:birthdayController.text
 
     );
 

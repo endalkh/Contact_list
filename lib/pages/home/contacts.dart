@@ -37,9 +37,7 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit,ShouldImp{
       Padding(
     padding: EdgeInsets.only(top: 10),
 
-      child:
-
-      FutureBuilder <List<GetAllContact>> (
+      child: FutureBuilder <List<GetAllContact>> (
         future: getAllContactApi(
             token: Provider.of<Auth>(context).getTokenFun()
         ),

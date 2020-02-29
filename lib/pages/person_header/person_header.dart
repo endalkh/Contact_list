@@ -4,9 +4,11 @@ import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
+import 'package:flutter_app/pages/home/home.dart';
 import 'package:flutter_app/pages/person_header/email_address.dart';
 import 'package:flutter_app/pages/person_header/notes.dart';
 import 'package:flutter_app/pages/person_header/phone_numbers.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
@@ -56,7 +58,14 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: (){
+        Navigator.push(context, SlideRightRoute(
+            page: Home()
+        ));
+        return Future(()=>false);
+      },
+      child:Scaffold(
         appBar: headerNav(context: context, title:getTitle(context)),
         body: Column(
 
@@ -158,6 +167,7 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
             Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(index);
           },
         ),
+      ),
       );
   }
 }

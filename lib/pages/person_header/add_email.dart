@@ -6,6 +6,7 @@ import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
+import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:provider/provider.dart';
 
 class AddEmail extends StatefulWidget {
@@ -21,7 +22,7 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
   List<EmailType> emailType = EmailType.getEmails();
   EmailType selectEmail;
   String personId;
-
+  bool showError=false;
   _AddEmail(this.personId);
 
   @override
@@ -38,39 +39,50 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
   }
 
   submitForm() {
-    print(("gggoood"));
-    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
-    Provider.of<Auth>(context, listen: false).setHasErrorFun("");
-    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-    var addEmail = addEmailApi(
-        token: token,
-        personId: personId,
-        type: selectEmail.name,
-        address: emailController.text
-    );
-    addEmail.then((value)  {
-      if(value==true) {
+    if (validateEmail(emailController.text)
+        .toString()
+        .isNotEmpty == true) {
+      setState(() {
+        showError = true;
+      });
+    }
+    else {
+      setState(() {
+        showError=false;
+      });
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
+      var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+      var addEmail = addEmailApi(
+          token: token,
+          personId: personId,
+          type: selectEmail.name,
+          address: emailController.text
+      );
+      addEmail.then((value) {
+        if (value == true) {
+          InfoDialog(
+              context: context,
+              callback: _AddEmail(personId),
+              title: Constant.success,
+              type: Constant.success
+          );
+          Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        }
+      });
+
+      addEmail.catchError((value) {
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(false);
         InfoDialog(
             context: context,
             callback: _AddEmail(personId),
-            title: Constant.success,
-            type:Constant.success
+            title: value.toString(),
+            type: Constant.error
         );
-        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      }
-    });
-
-    addEmail.catchError((value)  {
-      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context, listen: false)
-          .setSuccessfullyRegisteredFun(false);
-      InfoDialog(
-          context: context,
-          callback: _AddEmail(personId),
-          title: value.toString(),
-          type:Constant.error
-      );
-    });
+      });
+    }
   }
 
   List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(
@@ -212,6 +224,9 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
                                 padding: EdgeInsets.all(10),
                                 child: emailTypeButton(),
                               ),
+
+                              showError==true && validateEmail(emailController.text).toString().isNotEmpty==true?Text(validateEmail(emailController.text),style: TextStyle(color: Colors.red),):Container(),
+                              SizedBox(height: 10,),
                               value.getHasErrorFun().toString().isNotEmpty ==
                                       true
                                   ? Text(

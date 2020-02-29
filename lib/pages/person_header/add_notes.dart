@@ -23,7 +23,7 @@ class _AddNote extends State<AddNote> implements ShouldImp {
   String personId;
 
   _AddNote(this.personId);
-  bool isApiLoaded;
+  bool showError=false;
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -34,38 +34,49 @@ class _AddNote extends State<AddNote> implements ShouldImp {
   }
 
   submitForm() {
-    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
-    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-    Provider.of<Auth>(context, listen: false).setHasErrorFun("");
-    var addNote =
-        addNoteApi(token: token, personId: personId, body: noteController.text);
-    addNote.then((value) async {
-      if(value==true) {
-        Provider.of<Auth>(context, listen: false).setSuccessfullyRegisteredFun(true);
+    if (noteController.text.isEmpty == true) {
+      setState(() {
+        showError = true;
+      });
+    }
+    else {
+      setState(() {
+        showError=false;
+      });
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+      var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
+      var addNote =
+      addNoteApi(token: token, personId: personId, body: noteController.text);
+      addNote.then((value) async {
+        if (value == true) {
+          Provider.of<Auth>(context, listen: false)
+              .setSuccessfullyRegisteredFun(true);
+          Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+          InfoDialog(
+              context: context,
+              callback: _AddNote(personId),
+              title: Constant.success,
+              type: Constant.success
+          );
+        }
+      });
+
+      addNote.catchError((value) async {
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(false);
+
+        Provider.of<Auth>(context, listen: false)
+            .setHasErrorFun(value.toString());
         InfoDialog(
             context: context,
             callback: _AddNote(personId),
-            title: Constant.success,
-            type:Constant.success
+            title: value.toString(),
+            type: Constant.error
         );
-      }
-    });
-
-    addNote.catchError((value) async {
-      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context, listen: false)
-          .setSuccessfullyRegisteredFun(false);
-
-      Provider.of<Auth>(context, listen: false)
-          .setHasErrorFun(value.toString());
-      InfoDialog(
-          context: context,
-          callback: _AddNote(personId),
-          title: value.toString(),
-          type:Constant.error
-      );
-    });
+      });
+    }
   }
   submitButton() {
     return
@@ -143,6 +154,10 @@ class _AddNote extends State<AddNote> implements ShouldImp {
             ),
           ],
         ),
+        SizedBox(height: 10,),
+        showError==true?Text(
+          "Note field is required!",style: TextStyle(color: Colors.red),
+        ):Container(),
         SizedBox(height: 20,),
         submitButton(),
       ],
@@ -186,6 +201,7 @@ class _AddNote extends State<AddNote> implements ShouldImp {
                             ],
                           ),
                         ),
+
                       ],
                     ),
                   ),

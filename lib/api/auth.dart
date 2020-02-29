@@ -1314,7 +1314,6 @@ updatePersonApi(
     @required name,
     @required birthDate}) async {
   String error;
-
   var params = {
     "id": id,
     "name": name,
