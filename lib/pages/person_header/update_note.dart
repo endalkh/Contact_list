@@ -119,7 +119,10 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
 
   }
   enterNotesTextFormField() {
-    return Row(
+    return
+    Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+   child:  Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Flexible(
@@ -157,7 +160,9 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
           ),
         ),
       ],
-    );
+    ),
+    ) ;
+
   }
 
   @override
@@ -168,6 +173,10 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
     value.getIsLoadingFun()==true?circularIndicator(context: context):SingleChildScrollView(
       child: Column(
         children: <Widget>[
+                        Text('Update Note', style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w400
+              ),),
           Padding(
             padding: EdgeInsets.all(10),
             child: enterNotesTextFormField(),
