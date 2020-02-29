@@ -101,36 +101,62 @@ class _LoginPageState extends State<SignInPage> {
       Provider.of<Auth>(context, listen: false).setHasErrorFun("");
     }
   }
-
-  button() {
-    return RaisedButton(
-        elevation: 0,
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        onPressed: () {
-          submitForm();
-        },
-        textColor: Colors.white,
-        padding: EdgeInsets.all(0.0),
-        child: Container(
-          alignment: Alignment.center,
-          width: getWidth(context),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              color: PRIMARY_COLOR
-            // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
-          ),
-          padding: const EdgeInsets.all(15.0),
-          child: Text('SIGN IN',
-              style: TextStyle(
-                  fontSize: 12,
-                  // fontWeight: FontWeight.w900,
-                  color: lightPrimary)),
-        ),
+  submitButton() {
+    return
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child:  RawMaterialButton(
+              onPressed: () {
+                submitForm();
+              },
+              child: new Icon(
+                Icons.arrow_forward,
+                color: TRIAL_COLOR,
+                size: 35.0,
+              ),
+              shape: new CircleBorder(),
+              elevation: 2.0,
+              fillColor:PRIMARY_COLOR,
+              padding: const EdgeInsets.all(15.0),
+            ),
+          )
 
 
-    );
+        ],
+      );
+
   }
+//  button() {
+//    return RaisedButton(
+//        elevation: 0,
+//        shape:
+//        RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+//        onPressed: () {
+//          submitForm();
+//        },
+//        textColor: Colors.white,
+//        padding: EdgeInsets.all(0.0),
+//        child: Container(
+//          alignment: Alignment.center,
+//          width: getWidth(context),
+//          decoration: BoxDecoration(
+//              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+//              color: PRIMARY_COLOR
+//            // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
+//          ),
+//          padding: const EdgeInsets.all(15.0),
+//          child: Text('SIGN IN',
+//              style: TextStyle(
+//                  fontSize: 12,
+//                  // fontWeight: FontWeight.w900,
+//                  color: lightPrimary)),
+//        ),
+//
+//
+//    );
+//  }
 
   emailTextFormField() {
     return Column(
@@ -309,14 +335,12 @@ class _LoginPageState extends State<SignInPage> {
           forgetPassTextRow(),
 
           SizedBox(
-            height: 10,
+            height: 20,
           ),
-          Container(
-            width: 150,
-            child: button(),
-          ),
+         submitButton(),
+
           SizedBox(
-            height: 10,
+            height: 20,
           ),
 
           signUpTextRow(),

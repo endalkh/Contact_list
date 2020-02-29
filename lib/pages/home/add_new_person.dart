@@ -47,7 +47,33 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
     super.initState();
   }
 
+  submitButton() {
+    return
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child:  RawMaterialButton(
+              onPressed: () {
+                submitForm();
+              },
+              child: new Icon(
+                Icons.arrow_forward,
+                color: TRIAL_COLOR,
+                size: 25.0,
+              ),
+              shape: new CircleBorder(),
+              elevation: 2.0,
+              fillColor:PRIMARY_COLOR,
+              padding: const EdgeInsets.all(15.0),
+            ),
+          )
 
+
+        ],
+      );
+
+  }
   submitForm(){
     if(fNameController.text.isEmpty){
       setState(() {
@@ -222,12 +248,11 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             onTap: () async {
               DateTime date = DateTime(1900);
               FocusScope.of(context).requestFocus(new FocusNode());
-
               date = await showDatePicker(
                   context: context,
-                  initialDate: Constant.initialDate.dateTime.toUtc(),
+                  initialDate:  DateTime.now().toUtc(),
                   firstDate: Constant.initialDate.dateTime.toUtc(),
-                  lastDate: Constant.finalDate.dateTime.toUtc()
+                  lastDate: DateTime.now().toUtc()
               );
               birthdayController.text = date.toUtc().toIso8601String();
             },
@@ -403,28 +428,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
     );
   }
 
-  submitButton() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        submitForm();
-      },
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: getWidth(context),
-        decoration: BoxDecoration(
-          color: PRIMARY_COLOR,
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
-        ),
-        padding: const EdgeInsets.all(15.0),
-        child: Text(Constant.SUBMIT, style: TextStyle(fontSize: 12)),
-      ),
-    );
-  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

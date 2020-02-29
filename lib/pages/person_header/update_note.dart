@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
+import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/dialog/confirmationDialog.dart';
 import 'package:flutter_app/pages/dialog/info_dialog.dart';
@@ -92,7 +93,33 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
       );
     });
   }
+  submitButton() {
+    return
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child:  RawMaterialButton(
+              onPressed: () {
+                submitForm();
+              },
+              child: new Icon(
+                Icons.arrow_forward,
+                color: TRIAL_COLOR,
+                size: 25.0,
+              ),
+              shape: new CircleBorder(),
+              elevation: 2.0,
+              fillColor:PRIMARY_COLOR,
+              padding: const EdgeInsets.all(15.0),
+            ),
+          )
 
+
+        ],
+      );
+
+  }
   enterNotesTextFormField() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -120,15 +147,7 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
                             .setEditNote(false);
                       },
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.check_circle,
-                        color: Colors.blue,
-                      ),
-                      onPressed: () {
-                        submitForm();
-                      },
-                    ),
+
                   ],
                 ),
                 hintText: "Enter Notes",
@@ -155,6 +174,8 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
             padding: EdgeInsets.all(10),
             child: enterNotesTextFormField(),
           ),
+          SizedBox(height: 20,),
+          submitButton(),
           value.getHasErrorFun().toString().isNotEmpty ==
               true
               ? Text(

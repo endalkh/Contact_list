@@ -133,12 +133,7 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
                   decoration: InputDecoration(
 
                     hintText: "+1(424) 341-3346",
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.check_circle,color: Colors.blue,),
-                      onPressed: (){
-                       submitForm();
-                      },
-                    ),
+
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -149,7 +144,33 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
           )),
     );
   }
+  submitButton() {
+    return
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child:  RawMaterialButton(
+              onPressed: () {
+                submitForm();
+              },
+              child: new Icon(
+                Icons.arrow_forward,
+                color: TRIAL_COLOR,
+                size: 25.0,
+              ),
+              shape: new CircleBorder(),
+              elevation: 2.0,
+              fillColor:PRIMARY_COLOR,
+              padding: const EdgeInsets.all(15.0),
+            ),
+          )
 
+
+        ],
+      );
+
+  }
   @override
   Widget build(BuildContext context) {
     return
@@ -159,8 +180,13 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
         SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(
+                  height: 10,
+                ),
                 Divider(),
-
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   'Additional Phone Number',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
@@ -187,6 +213,8 @@ class _AddPhone extends State<AddPhone> implements ShouldImp{
                     ],
                   ),
                 ),
+                SizedBox(height: 20,),
+                submitButton(),
               ],
             ),
 

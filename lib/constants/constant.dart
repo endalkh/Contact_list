@@ -68,7 +68,7 @@ class Constant{
 
   //Birthday Picker
   static  var initialDate=Jiffy()..subtract(years: 100);
-  static  var finalDate=Jiffy()..add(years: 18);
+  static  var finalDate=Jiffy()..subtract(years: 18);
 
 
 

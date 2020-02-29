@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/dialog/delete_update_dialog.dart';
 import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/dialog/loading_dialog.dart';
-import 'package:flutter_app/pages/home/add_new_person.dart';
 import 'package:flutter_app/pages/home/update_contacts.dart';
 import 'package:flutter_app/pages/person_header/person_header.dart';
 import 'package:flutter_app/pages/slider/slider.dart';

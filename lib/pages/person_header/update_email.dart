@@ -132,6 +132,33 @@ class _UpdateEmail extends State<UpdateEmail> {
       selectEmail = email;
     });
   }
+  submitButton() {
+    return
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child:  RawMaterialButton(
+              onPressed: () {
+                submitForm();
+              },
+              child: new Icon(
+                Icons.arrow_forward,
+                color: TRIAL_COLOR,
+                size: 25.0,
+              ),
+              shape: new CircleBorder(),
+              elevation: 2.0,
+              fillColor:PRIMARY_COLOR,
+              padding: const EdgeInsets.all(15.0),
+            ),
+          )
+
+
+        ],
+      );
+
+  }
 
   emailButton() {
     return Container(
@@ -167,12 +194,7 @@ class _UpdateEmail extends State<UpdateEmail> {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     hintText: "example@example.com",
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.check_circle, color: Colors.blue),
-                      onPressed: () {
-                        submitForm();
-                      },
-                    ),
+
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -197,28 +219,7 @@ class _UpdateEmail extends State<UpdateEmail> {
     );
   }
 
-  submitButton() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        submitForm();
-      },
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: getWidth(context),
-        decoration: BoxDecoration(
-          color: PRIMARY_COLOR,
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          // gradient: LinearGradient(colors: [PRIMARY_COLOR, SECONDARY_COLOR]),
-        ),
-        padding: const EdgeInsets.all(15.0),
-        child: Text(Constant.SUBMIT, style: TextStyle(fontSize: 12)),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -231,6 +232,8 @@ class _UpdateEmail extends State<UpdateEmail> {
             padding: EdgeInsets.all(10),
             child: emailButton(),
           ),
+          SizedBox(height: 20,),
+          submitButton(),
           value.getHasErrorFun().toString().isNotEmpty ==
               true
               ? Text(

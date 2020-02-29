@@ -10,7 +10,7 @@ import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
 class AddNote extends StatefulWidget {
-  String personId;
+  final String personId;
 
   AddNote({@required this.personId});
 
@@ -68,6 +68,33 @@ class _AddNote extends State<AddNote> implements ShouldImp {
       );
     });
   }
+  submitButton() {
+    return
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child:  RawMaterialButton(
+              onPressed: () {
+                submitForm();
+              },
+              child: new Icon(
+                Icons.arrow_forward,
+                color: TRIAL_COLOR,
+                size: 25.0,
+              ),
+              shape: new CircleBorder(),
+              elevation: 2.0,
+              fillColor:PRIMARY_COLOR,
+              padding: const EdgeInsets.all(15.0),
+            ),
+          )
+
+
+        ],
+      );
+
+  }
 
   enterNotesTextFormField() {
     return Column(
@@ -104,15 +131,7 @@ class _AddNote extends State<AddNote> implements ShouldImp {
                             noteController.clear();
                           },
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.check_circle,
-                            color: Colors.blue,
-                          ),
-                          onPressed: () {
-                            submitForm();
-                          },
-                        ),
+
                       ],
                     ),
                     hintText: "Enter Notes",
@@ -124,7 +143,9 @@ class _AddNote extends State<AddNote> implements ShouldImp {
               ),
             ),
           ],
-        )
+        ),
+        SizedBox(height: 20,),
+        submitButton(),
       ],
     );
   }

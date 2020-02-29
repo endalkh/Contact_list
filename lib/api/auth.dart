@@ -234,8 +234,6 @@ break;
 
 Future<List<GetAllContact>> getAllContactApi({token}) async {
   String error;
-
-
   try {
     final response = await http.get(
       API.CONTACT_LIST_API,
@@ -243,7 +241,6 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
         "Authorization": token,
       },
     );
-
     switch (response.statusCode) {
       case 200:
         var responseJson = await json.decode(response.body) as List;
@@ -280,7 +277,9 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
           return Future.error(error);
         }
     }
-  } on SocketException {
+  }
+
+  on SocketException {
     error = 'No Internet connection 😑';
     throw error;
   } on HttpException {

@@ -35,7 +35,7 @@ class Dashboard extends State<Home> implements ShouldImp {
         setState(() {
           personList=val;
         });
-        print(personList.length);
+
       });
     });
     super.initState();
@@ -71,6 +71,7 @@ class Dashboard extends State<Home> implements ShouldImp {
       title: Text(person.name),
       subtitle: Text(dateFormatter(person.birthDate)),
       trailing: _buildTrailingIcons(person),
+
     );
   }
 
@@ -150,7 +151,6 @@ class Dashboard extends State<Home> implements ShouldImp {
           type: Constant.error
       );
     });
-//    Navigator.pop(context);
 
   }
   pageTaped(page) {
