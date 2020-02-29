@@ -11,6 +11,7 @@ import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:provider/provider.dart';
 class SignUpPage extends StatelessWidget {
@@ -29,7 +30,7 @@ class SignUpScreen extends StatefulWidget {
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp{
   bool isLoading = false;
   bool showError=false;
   bool showBackendError=false;
@@ -404,6 +405,11 @@ setState(() {
           )
       ),
     );
+  }
+
+  @override
+  void changer({context, id}) {
+    // TODO: implement changer
   }
 
 

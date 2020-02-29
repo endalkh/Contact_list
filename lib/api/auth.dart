@@ -846,7 +846,6 @@ Future<JsonUser> loginApi({userId, password, context}) async {
   try {
     final response =
         await http.post(API.REGISTER_API, body: json.encode(params));
-
     switch (response.statusCode) {
       case 200:
         return true;
