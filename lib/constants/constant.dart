@@ -134,27 +134,22 @@ static  fontSize(type){
   switch(type){
     case XS:
       return 10.0;
-
     case S:
       return 12.0;
     case M:
       return 14.0;
-
     case L:
       return 18.0;
     case XL:
       return 22.0;
-
     case HX:
       return 40.0;
     case H1:
       return 38.0;
     case H2:
       return 36.0;
-
     case H3:
       return 34.0;
-
     case H4:
       return 30.0;
     case H5:
