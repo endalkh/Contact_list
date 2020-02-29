@@ -58,7 +58,6 @@ class _AddPhone extends State<AddPhone> implements ShouldImp {
       addPhone.then((value) async {
         if (value == true) {
           Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-          Provider.of<Auth>(context, listen: false).setEditPhone(false);
         }
       });
 
@@ -216,6 +215,5 @@ class _AddPhone extends State<AddPhone> implements ShouldImp {
   }
 
   @override
-  void changer({context, id}) {
-  }
+  void changer({context, id}) {}
 }
