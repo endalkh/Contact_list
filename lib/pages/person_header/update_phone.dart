@@ -89,7 +89,7 @@ class _UpdatePhone extends State<UpdatePhone> {
     var addPhone = updatePhoneApi(
         token: token,
         id: id,
-        type: phoneType.toString(),
+        type: selectPhone.name,
         number: phoneController.text);
     addPhone.then((value) async {
       Provider.of<Auth>(context, listen: false)
