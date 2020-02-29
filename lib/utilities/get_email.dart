@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:provider/provider.dart';

@@ -202,15 +202,13 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
                    SingleChildScrollView(
                     child: Column(
                       children: [
-                        SizedBox(height: 20,),
-                        Divider(),
                         Text(
                           'Additional Email Address',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Column(
@@ -250,6 +248,5 @@ class _AddEmail extends State<AddEmail> implements ShouldImp{
 
   @override
   void changer({context, id}) {
-    // TODO: implement changer
   }
 }

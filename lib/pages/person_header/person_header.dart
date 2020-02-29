@@ -113,6 +113,9 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
                   Text('Last Contacted: '+dateFormatter(snapshot.data.lastContact),
                     style: TextStyle(fontSize: 15),
                   ),
+                  Divider(
+                    
+                  ),
                 ],
               ),
             ),
@@ -133,13 +136,10 @@ PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
     }
         ),
 
-            // Divider(),
             Expanded(
               child: Center(
                 child: Container(
-
                     child: pageTaped(Provider.of<Auth>(context).getPersonHeaderTabFun(),
-
                 ),
               ),
             )

@@ -134,27 +134,22 @@ static  fontSize(type){
   switch(type){
     case XS:
       return 10.0;
-
     case S:
       return 12.0;
     case M:
       return 14.0;
-
     case L:
       return 18.0;
     case XL:
       return 22.0;
-
     case HX:
       return 40.0;
     case H1:
       return 38.0;
     case H2:
       return 36.0;
-
     case H3:
       return 34.0;
-
     case H4:
       return 30.0;
     case H5:
@@ -176,11 +171,11 @@ class PhoneType {
 
   static List<PhoneType> getPhones() {
     return <PhoneType>[
-      PhoneType(0, 'Mobile'),
-      PhoneType(1, 'Home'),
+      PhoneType(0, 'Home'),
+      PhoneType(1, 'Cell'),
       PhoneType(2, 'Work'),
       PhoneType(3, 'Fax'),
-      PhoneType(4, 'Line'),
+      PhoneType(4, 'Others'),
     ];
   }
 }
@@ -194,10 +189,10 @@ class EmailType {
 
   static List<EmailType> getEmails() {
     return <EmailType>[
-      EmailType(0, 'Gmail'),
-      EmailType(1, 'Icloud'),
-      EmailType(2, 'Yahoo'),
-      EmailType(3, 'Hotbird'),
+      EmailType(0, 'Personal'),
+      EmailType(1, 'Work'),
+      EmailType(2, 'Family'),
+      EmailType(3, 'Others'),
     ];
   }
 }

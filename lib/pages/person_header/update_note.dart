@@ -17,42 +17,35 @@ class UpdateNote extends StatefulWidget {
   _UpdateNote createState() => _UpdateNote(id);
 }
 
-class _UpdateNote extends State<UpdateNote> implements ShouldImp{
+class _UpdateNote extends State<UpdateNote> implements ShouldImp {
   TextEditingController noteController = TextEditingController();
 
   String id;
   _UpdateNote(this.id);
 
-
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
       Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
-
-      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
       Future<GetNoteList> noteApi = getNoteSingleApi(
-        token: Provider.of<Auth>(context,listen: false).getTokenFun(),
+        token: Provider.of<Auth>(context, listen: false).getTokenFun(),
         id: id,
       );
       noteApi.then((val) {
         noteController.text = val.body;
-        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false).setHasErrorFun("");
       });
       noteApi.catchError((val) {
-        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
-
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false)
+            .setHasErrorFun(val.toString());
       });
     });
     super.initState();
   }
-
-
-
 
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
@@ -63,7 +56,7 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
       body: noteController.text,
     );
 
-    updateNote.then((value)  {
+    updateNote.then((value) {
       if (value == true) {
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
@@ -72,8 +65,7 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
             context: context,
             callback: _UpdateNote(id),
             title: Constant.success,
-            type:Constant.success
-        );
+            type: Constant.success);
       }
     });
 
@@ -87,113 +79,114 @@ class _UpdateNote extends State<UpdateNote> implements ShouldImp{
           context: context,
           callback: _UpdateNote(id),
           title: value,
-          type:Constant.error
-      );
+          type: Constant.error);
     });
   }
+
   submitButton() {
-    return
-      Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child:  RawMaterialButton(
-              onPressed: () {
-                submitForm();
-              },
-              child: new Icon(
-                Icons.arrow_forward,
-                color: TRIAL_COLOR,
-                size: 25.0,
-              ),
-              shape: new CircleBorder(),
-              elevation: 2.0,
-              fillColor:PRIMARY_COLOR,
-              padding: const EdgeInsets.all(15.0),
-            ),
-          )
-
-
-        ],
-      );
-
-  }
-  enterNotesTextFormField() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Flexible(
-          child: Material(
-            borderRadius: BorderRadius.circular(10.0),
-            elevation: 12,
-            child: TextFormField(
-              controller: noteController,
-              keyboardType: TextInputType.text,
-              maxLines: 3,
-              minLines: 3,
-              decoration: InputDecoration(
-//                prefixIcon: Icon(Icons.note, size: 20),
-                suffixIcon: Column(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.cancel,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {
-                        Provider.of<Auth>(context, listen: false)
-                            .setEditNote(false);
-                      },
-                    ),
+        Expanded(
+          flex: 1,
+          child: RawMaterialButton(
+            onPressed: () {
+              submitForm();
+            },
+            child: new Icon(
+              Icons.arrow_forward,
+              color: TRIAL_COLOR,
+              size: 25.0,
+            ),
+            shape: new CircleBorder(),
+            elevation: 2.0,
+            fillColor: PRIMARY_COLOR,
+            padding: const EdgeInsets.all(15.0),
+          ),
+        )
+      ],
+    );
+  }
 
-                  ],
+  enterNotesTextFormField() {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Flexible(
+            child: Material(
+              borderRadius: BorderRadius.circular(10.0),
+              elevation: 12,
+              child: TextFormField(
+                controller: noteController,
+                keyboardType: TextInputType.text,
+                maxLines: 3,
+                minLines: 3,
+                decoration: InputDecoration(
+//                prefixIcon: Icon(Icons.note, size: 20),
+                  suffixIcon: Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.cancel,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          Provider.of<Auth>(context, listen: false)
+                              .setEditNote(false);
+                        },
+                      ),
+                    ],
+                  ),
+                  hintText: "Enter Notes",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide.none),
                 ),
-                hintText: "Enter Notes",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide.none),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-      Consumer<Auth>(
+    return Consumer<Auth>(
         builder: (BuildContext context, Auth value, Widget child) =>
-    value.getIsLoadingFun()==true?circularIndicator(context: context):SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: enterNotesTextFormField(),
-          ),
-          SizedBox(height: 20,),
-          submitButton(),
-          value.getHasErrorFun().toString().isNotEmpty ==
-              true
-              ? Text(
-            Provider.of<Auth>(context, listen: false)
-                .getHasErrorFun(),
-            style: TextStyle(
-              color: Colors.red,
-            ),
-          )
-              : Container(),
-        ],
-      ),
-    )
-    );
+            value.getIsLoadingFun() == true
+                ? circularIndicator(context: context)
+                : SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          'Update Note',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w400),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: enterNotesTextFormField(),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        submitButton(),
+                        value.getHasErrorFun().toString().isNotEmpty == true
+                            ? Text(
+                                Provider.of<Auth>(context, listen: false)
+                                    .getHasErrorFun(),
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              )
+                            : Container(),
+                      ],
+                    ),
+                  ));
   }
 
   @override
-  void changer({context, id}) {
-
-  }
-
-
+  void changer({context, id}) {}
 }

@@ -32,26 +32,26 @@ class _UpdatePhone extends State<UpdatePhone> {
     Future.delayed(Duration.zero, () {
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
 
-      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
 
       phoneDropdownMenuItems = phoneBuildDropdownMenuItems(phoneType);
 
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
       Future<GetPhone> phoneApi = getSinglePhoneApi(
-        token: Provider.of<Auth>(context,listen: false).getTokenFun(),
+        token: Provider.of<Auth>(context, listen: false).getTokenFun(),
         personId: id,
       );
 
-      phoneApi.then((val){
-        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+      phoneApi.then((val) {
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false).setHasErrorFun("");
         switch (val.type.toString()) {
-          case "Mobile":
+          case "Home":
             setState(() {
               selectPhone = phoneDropdownMenuItems[0].value;
             });
             break;
-          case "Home":
+          case "Cell":
             setState(() {
               selectPhone = phoneDropdownMenuItems[0].value;
             });
@@ -66,7 +66,7 @@ class _UpdatePhone extends State<UpdatePhone> {
               selectPhone = phoneDropdownMenuItems[0].value;
             });
             break;
-          case "Line":
+          case "Others":
             setState(() {
               selectPhone = phoneDropdownMenuItems[0].value;
             });
@@ -75,8 +75,9 @@ class _UpdatePhone extends State<UpdatePhone> {
         phoneController.text = val.number;
       });
       phoneApi.catchError((val) {
-        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false)
+            .setHasErrorFun(val.toString());
       });
     });
     super.initState();
@@ -159,7 +160,6 @@ class _UpdatePhone extends State<UpdatePhone> {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     hintText: "+1(424) 341-3346",
-
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -183,63 +183,65 @@ class _UpdatePhone extends State<UpdatePhone> {
           )),
     );
   }
+
   submitButton() {
-    return
-      Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child:  RawMaterialButton(
-              onPressed: () {
-                submitForm();
-              },
-              child: new Icon(
-                Icons.arrow_forward,
-                color: TRIAL_COLOR,
-                size: 25.0,
-              ),
-              shape: new CircleBorder(),
-              elevation: 2.0,
-              fillColor:PRIMARY_COLOR,
-              padding: const EdgeInsets.all(15.0),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: RawMaterialButton(
+            onPressed: () {
+              submitForm();
+            },
+            child: new Icon(
+              Icons.arrow_forward,
+              color: TRIAL_COLOR,
+              size: 25.0,
             ),
-          )
-
-
-        ],
-      );
-
+            shape: new CircleBorder(),
+            elevation: 2.0,
+            fillColor: PRIMARY_COLOR,
+            padding: const EdgeInsets.all(15.0),
+          ),
+        )
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<Auth>(
-      builder: (BuildContext context, Auth value, Widget child) =>
-          value.getIsLoadingFun() == true
-              ? circularIndicator(context: context)
-              : SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: phoneNumberButton(),
-                      ),
-SizedBox(height: 20,),
-                      submitButton(),
-                      value.getHasErrorFun().toString().isNotEmpty ==
-                          true
-                          ? Text(
-                        Provider.of<Auth>(context, listen: false)
-                            .getHasErrorFun(),
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      )
-                          : Container(),
-                    ],
+      builder: (BuildContext context, Auth value, Widget child) => value
+                  .getIsLoadingFun() ==
+              true
+          ? circularIndicator(context: context)
+          : SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    'Update Phone Number',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                   ),
-                ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: phoneNumberButton(),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  submitButton(),
+                  value.getHasErrorFun().toString().isNotEmpty == true
+                      ? Text(
+                          Provider.of<Auth>(context, listen: false)
+                              .getHasErrorFun(),
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
     );
   }
 }

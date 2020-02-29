@@ -1395,7 +1395,7 @@ updateNoteApi({@required token, @required id, @required body}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
+        // var responseJson = await json.decode(response.body);
 
         return true;
       case 201:
@@ -1637,9 +1637,8 @@ deleteNoteApi({@required token, @required id}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
 
-        return true;
+  return true;
       case 201:
         return true;
 

@@ -109,10 +109,9 @@ class _AddNote extends State<AddNote> implements ShouldImp {
   enterNotesTextFormField() {
     return Column(
       children: <Widget>[
-        Divider(),
         Text(
           'Additional Notes',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
         ),
         SizedBox(
           height: 10,
@@ -166,7 +165,6 @@ class _AddNote extends State<AddNote> implements ShouldImp {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Consumer<Auth>(
       builder: (BuildContext context, Auth value, Widget child) =>
           value.getIsLoadingFun() == true

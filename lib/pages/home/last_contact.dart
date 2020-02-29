@@ -19,7 +19,6 @@ class LastContact extends StatefulWidget{
 class _LastContact extends State<LastContact>{
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
       return  Scaffold(
         body:   Padding(
       padding: EdgeInsets.only(top: 10),

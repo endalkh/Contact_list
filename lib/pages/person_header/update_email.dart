@@ -24,7 +24,6 @@ class _UpdateEmail extends State<UpdateEmail> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-
       Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
 
       emailType = EmailType.getEmails();
@@ -33,60 +32,62 @@ class _UpdateEmail extends State<UpdateEmail> {
 
       Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(true);
       Future<GetEmail> emailApi = getSingleEmailApi(
-        token: Provider.of<Auth>(super.context,listen: false).getTokenFun(),
+        token: Provider.of<Auth>(super.context, listen: false).getTokenFun(),
         id: id,
       );
 
       emailApi.then((val) async {
-
-        Provider.of<Auth>(super.context, listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(super.context,listen: false).setHasErrorFun("");
+        Provider.of<Auth>(super.context, listen: false)
+            .setLoadingStateFun(false);
+        Provider.of<Auth>(super.context, listen: false).setHasErrorFun("");
 
         switch (val.type) {
-          case "Gmail":
+          case "Personal":
             setState(() {
               selectEmail = emailDropdownMenuItems[0].value;
             });
             break;
 
-          case "Icloud":
+          case "Work":
             setState(() {
               selectEmail = emailDropdownMenuItems[1].value;
             });
             break;
 
-          case "yahoo":
+          case "Family":
             setState(() {
               selectEmail = emailDropdownMenuItems[2].value;
             });
             break;
 
-          case "Hotbird":
+          case "Others":
             setState(() {
               selectEmail = emailDropdownMenuItems[3].value;
             });
             break;
-          default:{
-            setState(() {
-              selectEmail = emailDropdownMenuItems[0].value;
-            });
-          }
+          default:
+            {
+              setState(() {
+                selectEmail = emailDropdownMenuItems[0].value;
+              });
+            }
         }
         emailController.text = val.address;
       });
 
       emailApi.catchError((val) {
-
-        Provider.of<Auth>(super.context,listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(super.context,listen: false).setHasErrorFun(val.toString());
+        Provider.of<Auth>(super.context, listen: false)
+            .setLoadingStateFun(false);
+        Provider.of<Auth>(super.context, listen: false)
+            .setHasErrorFun(val.toString());
       });
-      });
+    });
     super.initState();
   }
+
   _UpdateEmail(this.id) {
     this.id = id;
   }
-
 
   submitForm() {
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
@@ -112,6 +113,7 @@ class _UpdateEmail extends State<UpdateEmail> {
           .setHasErrorFun(value.toString());
     });
   }
+
   List<DropdownMenuItem<EmailType>> emailBuildDropdownMenuItems(
       List emailTypes) {
     List<DropdownMenuItem<EmailType>> items = List();
@@ -131,32 +133,29 @@ class _UpdateEmail extends State<UpdateEmail> {
       selectEmail = email;
     });
   }
+
   submitButton() {
-    return
-      Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child:  RawMaterialButton(
-              onPressed: () {
-                submitForm();
-              },
-              child: new Icon(
-                Icons.arrow_forward,
-                color: TRIAL_COLOR,
-                size: 25.0,
-              ),
-              shape: new CircleBorder(),
-              elevation: 2.0,
-              fillColor:PRIMARY_COLOR,
-              padding: const EdgeInsets.all(15.0),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: RawMaterialButton(
+            onPressed: () {
+              submitForm();
+            },
+            child: new Icon(
+              Icons.arrow_forward,
+              color: TRIAL_COLOR,
+              size: 25.0,
             ),
-          )
-
-
-        ],
-      );
-
+            shape: new CircleBorder(),
+            elevation: 2.0,
+            fillColor: PRIMARY_COLOR,
+            padding: const EdgeInsets.all(15.0),
+          ),
+        )
+      ],
+    );
   }
 
   emailButton() {
@@ -193,7 +192,6 @@ class _UpdateEmail extends State<UpdateEmail> {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     hintText: "example@example.com",
-
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -218,34 +216,40 @@ class _UpdateEmail extends State<UpdateEmail> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return  Consumer<Auth>(
-        builder: (BuildContext context, Auth value, Widget child) =>
-    value.getIsLoadingFun()==true?circularIndicator(context: context):SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: emailButton(),
-          ),
-          SizedBox(height: 20,),
-          submitButton(),
-          value.getHasErrorFun().toString().isNotEmpty ==
+    return Consumer<Auth>(
+      builder: (BuildContext context, Auth value, Widget child) => value
+                  .getIsLoadingFun() ==
               true
-              ? Text(
-            Provider.of<Auth>(context, listen: false)
-                .getHasErrorFun(),
-            style: TextStyle(
-              color: Colors.red,
+          ? circularIndicator(context: context)
+          : SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    'Update Email',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: emailButton(),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  submitButton(),
+                  value.getHasErrorFun().toString().isNotEmpty == true
+                      ? Text(
+                          Provider.of<Auth>(context, listen: false)
+                              .getHasErrorFun(),
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        )
+                      : Container(),
+                ],
+              ),
             ),
-          )
-              : Container(),
-        ],
-      ),
-    ),
     );
   }
 }

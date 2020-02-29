@@ -349,7 +349,6 @@ class _LoginPageState extends State<SignInPage> {
   }
 
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body:Provider.of<Auth>(context).getIsLoadingFun() == true
           ? circularIndicator(context: context):

@@ -443,7 +443,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
       return WillPopScope(
         child:Consumer<Auth>(
           builder: (BuildContext context, Auth value, Widget child) =>
@@ -511,7 +510,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
 
   @override
   void changer({context, id}) {
-    // TODO: implement changer
   }
   }
 

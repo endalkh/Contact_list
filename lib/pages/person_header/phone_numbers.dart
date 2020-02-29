@@ -31,11 +31,10 @@ class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
         ):Provider.of<Auth>(context).getEditPhone()==true?UpdatePhone(id:Provider.of<Auth>(context).getId()):
        Column(
           children: <Widget>[
-            Divider(),
             Text(
               'Phone Numbers',
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
             ),
     Expanded(
            child: FutureBuilder <List<GetPhone>>(
@@ -52,7 +51,7 @@ class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
                         itemBuilder: (context, index) {
                           return  Container(
                                   margin: EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 10),
+                                      left: 10, right: 10),
                                   child: Card(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20.0),
@@ -63,13 +62,13 @@ class PhoneNumber extends StatelessWidget implements NoteDelAndEdit,ShouldImp{
                                           children: [
                                             ListTile(
                                               leading: IconButton(
-                                      icon: Icon(getPhoneNumberTypeIcon(snapshot.data[index].type),color: PRIMARY_COLOR,),
+                                              icon: Icon(getPhoneNumberTypeIcon(snapshot.data[index].type),color: PRIMARY_COLOR,),
                                                 onPressed:(){
                                                   UrlLauncher.launch("tel://"+getPhoneNumberTypeIcon(snapshot.data[index].type).toString());
                                                 },
 
                                     ),
-//
+                                    subtitle: Text(snapshot.data[index].type),
                                               title: Text(snapshot.data[index].number,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w400,
