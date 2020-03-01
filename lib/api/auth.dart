@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/api/api.dart';
+import 'package:flutter_app/api/error%20response.dart';
 import 'package:flutter_app/api/model/add_new_person.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/api/model/get_email.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/api/model/login.dart';
-import 'package:flutter_app/api/model/register.dart';
+import 'package:flutter_launcher_icons/main.dart';
 import 'package:http/http.dart' as http;
 
 /*================== All Get Api ===============================*/
@@ -25,43 +26,7 @@ Future<GetAllContact> getSingleContactApi({token, id}) async {
         "Authorization": token,
       },
     );
-    switch (response.statusCode) {
-      case 200:
-        var responseJson = await json.decode(response.body);
-        return GetAllContact.fromJson(responseJson);
-
-      case 201:
-        var responseJson = await json.decode(response.body);
-        return GetAllContact.fromJson(responseJson);
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
-      default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
-    }
+    return Future.error(errorMethod(response));
   } on SocketException {
     error = 'No Internet connection 😑';
     throw error;
@@ -95,38 +60,17 @@ Future<List<GetAllContact>> searchApi({token, query, context}) async {
             .toList();
         break;
       case 201:
-        var responseJson = await json.decode(response.body)["persons"] as List;
-        return responseJson
-            .map((data) => GetAllContact.fromJson(data))
-            .toList();
-        break;
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson =
+              await json.decode(response.body)["persons"] as List;
+          return responseJson
+              .map((data) => GetAllContact.fromJson(data))
+              .toList();
         }
         break;
 
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -154,43 +98,23 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body) as List;
-        return responseJson
-            .map((data) => GetAllContact.fromJson(data))
-            .toList();
+        {
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson
+              .map((data) => GetAllContact.fromJson(data))
+              .toList();
+        }
+        break;
       case 201:
-        var responseJson = await json.decode(response.body);
-        return responseJson
-            .map((data) => GetAllContact.fromJson(data))
-            .toList();
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body);
+          return responseJson
+              .map((data) => GetAllContact.fromJson(data))
+              .toList();
         }
         break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -219,43 +143,23 @@ Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body) as List;
-        return responseJson
-            .map((data) => GetAllContact.fromJson(data))
-            .toList();
+        {
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson
+              .map((data) => GetAllContact.fromJson(data))
+              .toList();
+        }
+        break;
       case 201:
-        var responseJson = await json.decode(response.body) as List;
-        return responseJson
-            .map((data) => GetAllContact.fromJson(data))
-            .toList();
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson
+              .map((data) => GetAllContact.fromJson(data))
+              .toList();
         }
         break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -285,43 +189,25 @@ Future<List<GetLastContact>> getLastContactApi({@required token}) async {
 
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body) as List;
-        return responseJson
-            .map((data) => GetLastContact.fromJson(data))
-            .toList();
+        {
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson
+              .map((data) => GetLastContact.fromJson(data))
+              .toList();
+        }
+        break;
+
       case 201:
-        var responseJson = await json.decode(response.body) as List;
-        return responseJson
-            .map((data) => GetLastContact.fromJson(data))
-            .toList();
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson
+              .map((data) => GetLastContact.fromJson(data))
+              .toList();
         }
         break;
 
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -351,39 +237,20 @@ Future<GetSinglePerson> getSinglePersonApi(
 
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
-        return GetSinglePerson.fromJson(responseJson);
+        {
+          var responseJson = await json.decode(response.body);
+          return GetSinglePerson.fromJson(responseJson);
+        }
+        break;
+
       case 201:
-        var responseJson = await json.decode(response.body);
-        return GetSinglePerson.fromJson(responseJson);
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body);
+          return GetSinglePerson.fromJson(responseJson);
         }
-        break;
 
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -423,33 +290,8 @@ Future<List<GetNoteList>> getNoteListApi({
         var responseJson = await json.decode(response.body) as List;
         return responseJson.map((data) => GetNoteList.fromJson(data)).toList();
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -479,40 +321,21 @@ Future<GetNoteList> getNoteSingleApi({@required token, @required id}) async {
 
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
+        {
+          var responseJson = await json.decode(response.body);
 
-        return GetNoteList.fromJson(responseJson);
+          return GetNoteList.fromJson(responseJson);
+        }
+        break;
       case 201:
-        var responseJson = await json.decode(response.body);
-        return GetNoteList.fromJson(responseJson);
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body);
+          return GetNoteList.fromJson(responseJson);
         }
         break;
 
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -542,40 +365,20 @@ Future<List<GetEmail>> getEmailListApi(
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body) as List;
-
-        return responseJson.map((data) => GetEmail.fromJson(data)).toList();
+        {
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson.map((data) => GetEmail.fromJson(data)).toList();
+        }
+        break;
       case 201:
-        var responseJson = await json.decode(response.body) as List;
-        return responseJson.map((data) => GetEmail.fromJson(data)).toList();
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson.map((data) => GetEmail.fromJson(data)).toList();
         }
         break;
 
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -604,40 +407,20 @@ Future<GetEmail> getSingleEmailApi({@required token, @required id}) async {
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
-
-        return GetEmail.fromJson(responseJson);
+        {
+          var responseJson = await json.decode(response.body);
+          return GetEmail.fromJson(responseJson);
+        }
+        break;
       case 201:
-        var responseJson = await json.decode(response.body);
-        return GetEmail.fromJson(responseJson);
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body);
+          return GetEmail.fromJson(responseJson);
         }
         break;
 
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -667,40 +450,20 @@ Future<List<GetPhone>> getPhoneListApi(
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body) as List;
-
-        return responseJson.map((data) => GetPhone.fromJson(data)).toList();
+        {
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson.map((data) => GetPhone.fromJson(data)).toList();
+        }
+        break;
       case 201:
-        var responseJson = await json.decode(response.body) as List;
-        return responseJson.map((data) => GetPhone.fromJson(data)).toList();
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson.map((data) => GetPhone.fromJson(data)).toList();
         }
         break;
 
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -729,39 +492,20 @@ Future<GetPhone> getSinglePhoneApi(
     );
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
-        return GetPhone.fromJson(responseJson);
+        {
+          var responseJson = await json.decode(response.body);
+          return GetPhone.fromJson(responseJson);
+        }
+        break;
       case 201:
-        var responseJson = await json.decode(response.body);
-        return GetPhone.fromJson(responseJson);
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body);
+          return GetPhone.fromJson(responseJson);
         }
         break;
 
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -783,42 +527,25 @@ Future<JsonUser> loginApi({userId, password, context}) async {
   var params = {
     "email": userId,
     "password": password,
-    "accept_tos": true,
-    "accept_privacy": true,
   };
   String error;
   try {
-    final response = await http.post(API.LOGIN_API, body: json.encode(params));
+    final response = await http.post(API.LOGIN_API,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: json.encode(params));
 
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body);
-        return JsonUser.fromJson(responseJson);
-
+        return JsonUser.fromJson(json.decode(response.body));
+        break;
       case 201:
-        var responseJson = await json.decode(response.body);
-        return JsonUser.fromJson(responseJson);
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-      case 401:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 403:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
+        return JsonUser.fromJson(json.decode(response.body));
+        break;
+
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -835,7 +562,7 @@ Future<JsonUser> loginApi({userId, password, context}) async {
   }
 }
 
- registerApi({userId, password, context}) async {
+registerApi({userId, password, context}) async {
   var params = {
     "email": userId,
     "password": password,
@@ -844,8 +571,11 @@ Future<JsonUser> loginApi({userId, password, context}) async {
   };
   String error;
   try {
-    final response =
-        await http.post(API.REGISTER_API, body: json.encode(params));
+    final response = await http.post(API.REGISTER_API,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: json.encode(params));
     switch (response.statusCode) {
       case 200:
         return true;
@@ -853,43 +583,8 @@ Future<JsonUser> loginApi({userId, password, context}) async {
       case 201:
         return true;
         break;
-      case 400:
-        error = json.decode(response.body);
-        break;
-      case 401:{
-        error = json.decode(response.body);
-        return Future.error(error);
-      }
-      break;
-      case 403:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-      case 404:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-      case 405:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-      case 500:
-        {
-          return Future.error("Ohhh No! There is a problem in our end");
-
-        }
-        break;
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -939,39 +634,20 @@ Future<AddNewPerson> addNewPersonApi(
         body: json.encode(params));
     switch (response.statusCode) {
       case 200:
-        var responseJson = await json.decode(response.body)["person"];
-        return AddNewPerson.fromJson(responseJson);
+        {
+          var responseJson = await json.decode(response.body)["person"];
+          return AddNewPerson.fromJson(responseJson);
+        }
+        break;
       case 201:
-        var responseJson = await json.decode(response.body);
-        return AddNewPerson.fromJson(responseJson);
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
         {
-          error = json.decode(response.body);
-          return Future.error(error);
+          var responseJson = await json.decode(response.body);
+          return AddNewPerson.fromJson(responseJson);
         }
         break;
 
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1011,34 +687,8 @@ addPhoneApi(
         return true;
       case 201:
         return true;
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1078,33 +728,8 @@ addEmailApi(
       case 201:
         return true;
 
-      case 400:
-        return Future.error(response.body);
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1140,33 +765,8 @@ addNoteApi({@required token, @required personId, @required body}) async {
       case 201:
         return true;
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1210,33 +810,8 @@ updatePhoneApi(
       case 201:
         return true;
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1277,34 +852,8 @@ updateEmailApi(
 
       case 201:
         return true;
-
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1348,33 +897,8 @@ updatePersonApi(
       case 201:
         return true;
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1408,39 +932,12 @@ updateNoteApi({@required token, @required id, @required body}) async {
     );
     switch (response.statusCode) {
       case 200:
-        // var responseJson = await json.decode(response.body);
-
         return true;
       case 201:
         return true;
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1475,33 +972,8 @@ deletePhoneApi({@required token, @required id}) async {
       case 201:
         return true;
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return errorMethod(response);
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1535,33 +1007,8 @@ deleteEmailApi({@required token, @required id}) async {
       case 201:
         return true;
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1595,33 +1042,8 @@ deletePersonApi({@required token, @required id}) async {
       case 201:
         return true;
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1650,38 +1072,12 @@ deleteNoteApi({@required token, @required id}) async {
     );
     switch (response.statusCode) {
       case 200:
-
-  return true;
+        return true;
       case 201:
         return true;
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body)["error"];
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
@@ -1709,36 +1105,10 @@ resetPasswordApi({@required email}) async {
         print(response.body);
         return true;
       case 201:
-
         return true;
 
-      case 400:
-        return Future.error("Sorry It was Bad Request! ");
-        break;
-
-      case 401:
-        {
-          error = json.decode(response.body);
-          return Future.error(error);
-        }
-        break;
-
-      case 403:
-        error = json.decode(response.body).toString();
-        return Future.error(error);
-      case 404:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 405:
-        error = json.decode(response.body);
-        return Future.error(error);
-      case 500:
-        return Future.error("Ohhh No! There is a problem in our end");
       default:
-        {
-          error = "An undefined Error happened.";
-          return Future.error(error);
-        }
+        return Future.error(errorMethod(response));
     }
   } on SocketException {
     error = 'No Internet connection 😑';
