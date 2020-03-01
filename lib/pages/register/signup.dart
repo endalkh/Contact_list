@@ -234,7 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
         children: <Widget>[
           Text(
             "Register",
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 30),
           ),
         ],
       ),
@@ -284,7 +284,7 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
               launchURL("https://relateapp.io/terms-of-service/");
             },
             child: Text(
-              "I accept all terms and conditions",
+              "I accept the Terms and Conditions",
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 color: isCheckBoxSelected == false ? Colors.red : PRIMARY_COLOR,
@@ -316,7 +316,7 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
             child: headerTextRow(),
           ),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           emailTextFormField(),
           SizedBox(
