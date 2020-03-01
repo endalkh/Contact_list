@@ -10,7 +10,7 @@ import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dar
 import 'package:provider/provider.dart';
 
 class UpdateNote extends StatefulWidget {
-  String id;
+  final id;
 
   UpdateNote({@required this.id});
 
