@@ -41,6 +41,8 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
   TextEditingController passwordController = TextEditingController();
   bool _secureText = true;
   bool isDark = false;
+  Color color=PRIMARY_COLOR;
+  bool termTextColor=false;
 
   _SignUpScreenState() {
     getTheme();
@@ -55,6 +57,7 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
   }
 
   submitForm() {
+
     var themeNotifierAuth = Provider.of<Auth>(context, listen: false);
     setState(() {
       showError = true;
@@ -66,7 +69,10 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
       if (checkBoxValue == false) {
         setState(() {
           isCheckBoxSelected = false;
+          color=Colors.red;
+          termTextColor=true;
         });
+
       } else {
         setState(() {
           isCheckBoxSelected = true;
@@ -283,6 +289,12 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
               onChanged: (bool newValue) {
                 setState(() {
                   checkBoxValue = newValue;
+                  if(newValue==false && termTextColor==true){
+                    color=Colors.red;
+                  }
+                  else{
+                    color=PRIMARY_COLOR;
+                  }
                 });
               })),
 
@@ -297,7 +309,7 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
                   "I accept the Terms and Conditions",
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    color: isCheckBoxSelected == false ? Colors.red : PRIMARY_COLOR,
+                    color: color,
                     fontSize: 12,
                   ),
                 ),

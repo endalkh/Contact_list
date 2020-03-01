@@ -5,7 +5,6 @@ import 'package:flutter_app/pages/home/home.dart';
 import 'package:flutter_app/pages/login/signin.dart';
 import 'package:flutter_app/pages/recover_password/recover_password.dart';
 import 'package:flutter_app/pages/register/signup.dart';
-import 'package:flutter_app/pages/register/termsAndCondition.dart';
 import 'package:flutter_app/pages/splash/splash_screen.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +30,7 @@ void main() async {
   );
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatefulWidget {
   bool logged;
   MyApp(logged) {
@@ -58,7 +58,6 @@ class _MyApp extends State<MyApp> {
           Constant.SIGN_IN: (context) => SignInPage(),
           Constant.SIGN_UP: (context) => SignUpScreen(),
           Constant.HOME: (context) => Home(),
-          Constant.TERMS_AND_CONDTION: (context) => TermsAndConditions(),
           Constant.RECOVER_PASSWORD: (context) => RecoverPassword(),
           Constant.CONTACT_SYNC: (context) => ContactListPage(),
         });

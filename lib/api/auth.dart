@@ -42,7 +42,6 @@ Future<GetAllContact> getSingleContactApi({token, id}) async {
       default:
         return Future.error(errorMethod(response));
     }
-
   } on SocketException {
     error = 'No Internet connection 😑';
     throw error;
@@ -810,7 +809,6 @@ updatePhoneApi(
     "number": number,
   };
 
-  print("number");
   try {
     final response = await http.put(
       API.ADD_PHONE_API,
@@ -1118,7 +1116,6 @@ resetPasswordApi({@required email}) async {
     );
     switch (response.statusCode) {
       case 200:
-        print(response.body);
         return true;
       case 201:
         return true;
