@@ -6,12 +6,12 @@ import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/login/signin.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
-import 'package:flutter_app/pages/register/termsAndCondition.dart';
 import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
+import 'package:flutter_app/utilities/launcher.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:provider/provider.dart';
 class SignUpPage extends StatelessWidget {
@@ -298,10 +298,8 @@ setState(() {
                 });
               }),
           FlatButton(
-            onPressed:()=>{
-            Navigator.push(context, SlideLeftRoute(
-            page: TermsAndConditions()
-            )),
+            onPressed:(){
+              launchURL("https://relateapp.io/terms-of-service/");
             },
             child: Text("I accept all terms and conditions",
               style: TextStyle(fontWeight: FontWeight.w400,

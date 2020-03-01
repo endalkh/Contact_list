@@ -854,7 +854,7 @@ Future<JsonUser> loginApi({userId, password, context}) async {
         return true;
         break;
       case 400:
-        return Future.error("Sorry It was Bad Request!");
+        error = json.decode(response.body);
         break;
       case 401:{
         error = json.decode(response.body);
