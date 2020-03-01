@@ -12,7 +12,6 @@ import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/api/model/get_single_person.dart';
 import 'package:flutter_app/api/model/last_contact.dart';
 import 'package:flutter_app/api/model/login.dart';
-import 'package:flutter_launcher_icons/main.dart';
 import 'package:http/http.dart' as http;
 
 /*================== All Get Api ===============================*/
