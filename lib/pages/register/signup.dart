@@ -330,7 +330,11 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
                         style: TextStyle(color: Colors.red))
                     : Container(),
           ),
-          acceptTermsTextRow(),
+          Container(
+            padding: EdgeInsets.only(left: 100),
+          child: acceptTermsTextRow(),
+
+          ),
           submitButton(),
           SizedBox(
             height: 10,
