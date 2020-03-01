@@ -33,11 +33,6 @@ class _LoginPageState extends State<SignInPage> {
   String emailError = "",
       passwordError = "";
 
-
-  _LoginPageState() {
-    getTheme();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -51,13 +46,7 @@ class _LoginPageState extends State<SignInPage> {
   }
 
 
-  getTheme() {
-    getSettingPref("dark").then((value) async {
-      setState(() {
-        isDark = value;
-      });
-    });
-  }
+
 
   showHide() {
     setState(() {

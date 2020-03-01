@@ -44,17 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
   Color color=PRIMARY_COLOR;
   bool termTextColor=false;
 
-  _SignUpScreenState() {
-    getTheme();
-  }
 
-  getTheme() {
-    getSettingPref("dark").then((value) async {
-      setState(() {
-        isDark = value;
-      });
-    });
-  }
 
   submitForm() {
 
@@ -348,12 +338,18 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
             height: 20,
           ),
           passwordTextFormField(),
+          SizedBox(
+            height: 10,
+          ),
           Consumer<Auth>(
             builder: (BuildContext context, Auth value, Widget child) =>
                 value.getRegisterErrorFun().toString().isNotEmpty == true
                     ? Text(value.getRegisterErrorFun(),
                         style: TextStyle(color: Colors.red))
                     : Container(),
+          ),
+          SizedBox(
+            height: 10,
           ),
             acceptTermsTextRow(),
 
