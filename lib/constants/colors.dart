@@ -8,7 +8,7 @@ const Color lightBG = Colors.white;
 const Color darkBG = Color(0xFF0A0E21);
 const Color COLOR_LINK = Colors.blue;
 
- final  Color TRIAL_COLOR = Colors.grey[200];
+final  Color TRIAL_COLOR = Colors.grey[200];
 
 
 

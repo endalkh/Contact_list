@@ -323,6 +323,9 @@ setState(() {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children:[
+                            SizedBox(
+                height: 20,
+              ),
             logo(context),
               SizedBox(
                 height: 10,
@@ -343,11 +346,6 @@ setState(() {
               ),
               passwordTextFormField(),
 
-
-              SizedBox(
-                height: 10,
-              ),
-
                 Consumer<Auth>(
                   builder: (BuildContext context, Auth value, Widget child) =>
                   value.getRegisterErrorFun().toString().isNotEmpty==true?Text(value.getRegisterErrorFun(),
@@ -355,22 +353,12 @@ setState(() {
                 ),
 
 
-
-              SizedBox(
-                height: 10,
-              ),
-
-
               acceptTermsTextRow(),
 
-
-              SizedBox(
-                height: 20,
-              ),
               submitButton(),
 
               SizedBox(
-                height: 20,
+                height: 10,
               ),
 
 
