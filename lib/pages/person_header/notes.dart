@@ -95,7 +95,7 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
                                                                 context:
                                                                     context,
                                                                 callback:
-                                                                    Note(),
+                                                                    Note(personId: personId,),
                                                                 id: snapshot
                                                                     .data[index]
                                                                     .id);
@@ -170,7 +170,7 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
       Navigator.of(context).pop();
       InfoDialog(
           context: context,
-          callback: Note(),
+          callback: Note(personId: personId,),
           title: Constant.error,
           type: Constant.error);
     });

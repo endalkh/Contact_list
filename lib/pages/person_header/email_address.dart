@@ -161,7 +161,7 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
         InfoDialog(
             context: context,
-            callback: _EmailAddress(),
+            callback: _EmailAddress(personId: personId),
             title: Constant.success,
             type:Constant.success
         );
@@ -173,7 +173,7 @@ class _EmailAddress extends State<EmailAddress> implements NoteDelAndEdit,Should
       Navigator.of(context).pop();
       InfoDialog(
           context: context,
-          callback: _EmailAddress(),
+          callback: _EmailAddress(personId: personId),
           title: Constant.error,
           type:Constant.error
       );
