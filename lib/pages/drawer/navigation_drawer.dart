@@ -11,6 +11,7 @@ import 'package:flutter_app/pages/widgets/custom_shape.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/get_email.dart';
+import 'package:flutter_app/utilities/launcher.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
@@ -183,7 +184,8 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
 
                   GestureDetector(
                     onTap: () {
-
+                      Navigator.pop(context);
+                     launchURL("https://relateapp.io/app/support/create-ticket");
                     },
                     child: _buildRow(Icons.help, "Help"),
                   ),

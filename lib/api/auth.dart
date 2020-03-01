@@ -25,7 +25,24 @@ Future<GetAllContact> getSingleContactApi({token, id}) async {
         "Authorization": token,
       },
     );
-    return Future.error(errorMethod(response));
+    switch (response.statusCode) {
+      case 200:
+        {
+          var responseJson = await json.decode(response.body);
+          return GetAllContact.fromJson(responseJson);
+        }
+        break;
+
+      case 201:
+        {
+          var responseJson = await json.decode(response.body);
+          return GetAllContact.fromJson(responseJson);
+        }
+
+      default:
+        return Future.error(errorMethod(response));
+    }
+
   } on SocketException {
     error = 'No Internet connection 😑';
     throw error;

@@ -265,7 +265,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                   firstDate: Constant.initialDate.dateTime.toUtc(),
                   lastDate: DateTime.now().toUtc()
               );
-              birthdayController.text = date.toUtc().toIso8601String();
+              birthdayController.text = dateFormatter(date);
             },
           ),
 

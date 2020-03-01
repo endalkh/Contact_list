@@ -267,10 +267,16 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
 
   acceptTermsTextRow() {
     return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child:Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Checkbox(
+          Expanded(
+            flex: 1,
+            child: Container(),
+          ),
+      Expanded (
+          flex: 1,
+          child:Checkbox(
               value: checkBoxValue,
               checkColor: TRIAL_COLOR,
               activeColor: PRIMARY_COLOR,
@@ -278,20 +284,27 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
                 setState(() {
                   checkBoxValue = newValue;
                 });
-              }),
-          FlatButton(
-            onPressed: () {
-              launchURL("https://relateapp.io/terms-of-service/");
-            },
-            child: Text(
-              "I accept the Terms and Conditions",
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                color: isCheckBoxSelected == false ? Colors.red : PRIMARY_COLOR,
-                fontSize: 12,
-              ),
-            ),
+              })),
+
+
+          Expanded (
+              flex: 5,
+              child:FlatButton(
+                onPressed: () {
+                  launchURL("https://relateapp.io/terms-of-service/");
+                },
+                child: Text(
+                  "I accept the Terms and Conditions",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: isCheckBoxSelected == false ? Colors.red : PRIMARY_COLOR,
+                    fontSize: 12,
+                  ),
+                ),
+              )
+
           ),
+
         ],
       ),
     );
@@ -330,11 +343,8 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
                         style: TextStyle(color: Colors.red))
                     : Container(),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 100),
-          child: acceptTermsTextRow(),
+            acceptTermsTextRow(),
 
-          ),
           submitButton(),
           SizedBox(
             height: 10,
