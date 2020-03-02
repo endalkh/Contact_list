@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 errorMethod(response){
+  print("res ${json.decode(response.body)}");
   switch (response.statusCode) {
     case 400:
       return json.decode(json.encode(response.body));

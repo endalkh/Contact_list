@@ -18,6 +18,8 @@ import 'package:provider/provider.dart';
 import 'package:rounded_letter/rounded_letter.dart';
 import 'package:rounded_letter/shape_type.dart';
 
+import '../login/signin.dart';
+
 
 class SideDrawer extends StatefulWidget implements ShouldImp{
   _SideDrawer createState() => _SideDrawer();
@@ -25,10 +27,16 @@ class SideDrawer extends StatefulWidget implements ShouldImp{
   @override
   void changer({context,id}) {
     signOut();
-    Navigator.pop(context);
-    Navigator.push(context, SlideLeftRoute(
-        page: SignInPage()
-    ));
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (BuildContext context) => SignInPage()),
+      ModalRoute.withName('/signIn'),
+    );
+
+//    Navigator.pop(context);
+//    Navigator.push(context, SlideLeftRoute(
+//        page: SignInPage()
+//    ));
 
   }
 }

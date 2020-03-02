@@ -39,6 +39,8 @@ Future<bool> getSettingPref(key) async {
 }
 
 signOut() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs?.clear();
   SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setString("accessToken", null);
   preferences.setString("refreshToken", null);
