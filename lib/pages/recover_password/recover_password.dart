@@ -9,18 +9,24 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
 import 'package:provider/provider.dart';
 
+import '../../utilities/validation/Validation.dart';
+
 class RecoverPassword extends StatefulWidget {
   _RecoverPassword createState() => _RecoverPassword();
 }
 class _RecoverPassword extends State<RecoverPassword> {
   TextEditingController emailController = TextEditingController();
   String message;
+  bool showError = false;
+  String emailError = "";
 
   @override
   void initState() {
-    setState(() {
-      message="";
+    Future.delayed(Duration.zero, () {
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
+      message = "";
     });
+
     super.initState();
   }
 
@@ -42,7 +48,14 @@ class _RecoverPassword extends State<RecoverPassword> {
             ),
           ),
         ),
+        SizedBox(
+          height: 5,
+        ),
+        (showError == true && emailError.isNotEmpty)
+            ? Text(emailError, style: TextStyle(color: Colors.red))
+            : Container(),
       ],
+
     );
   }
 
@@ -51,7 +64,7 @@ class _RecoverPassword extends State<RecoverPassword> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
-      submitForm();
+        submitForm();
       },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
@@ -96,16 +109,19 @@ class _RecoverPassword extends State<RecoverPassword> {
               ),
             ),
 
-             Padding(
-               padding: EdgeInsets.only(left: 25,right: 20),
-               child:  message.isNotEmpty==true?Text(message,
-                   style: TextStyle(color: Colors.green)):Container(),
-             ),
+            Padding(
+              padding: EdgeInsets.only(left: 25, right: 20),
+              child: message.isNotEmpty == true ? Text(message,
+                  style: TextStyle(color: Colors.green)) : Container(),
+            ),
 
-              Consumer<Auth>(
+            Consumer<Auth>(
               builder: (BuildContext context, Auth value, Widget child) =>
-              value.getHasErrorFun().toString().isNotEmpty==true?Text(value.getHasErrorFun(),
-                  style: TextStyle(color: Colors.red)):Container(),
+              value
+                  .getHasErrorFun()
+                  .toString()
+                  .isNotEmpty == true ? Text(value.getHasErrorFun(),
+                  style: TextStyle(color: Colors.red)) : Container(),
             ),
             SizedBox(height: 20,),
             Container(
@@ -123,31 +139,37 @@ class _RecoverPassword extends State<RecoverPassword> {
     return Scaffold(
       appBar: headerNav(context: context, title: Constant.RECOVERPASSWORD),
       body: Provider.of<Auth>(context).getIsLoadingFun() == true
-          ? circularIndicator(context: context): resetPassword(),
+          ? circularIndicator(context: context) : resetPassword(),
     );
   }
 
   void submitForm() {
-    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-
-    var reset=resetPasswordApi(
-        email: emailController.text
-    );
-    reset.then((val){
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-     setState(() {
-       message="A password reset email has been sent. Please check your email.";
-     });
+    setState(() {
+      showError = true;
+      emailError = validateEmail(emailController.text);
     });
-    reset.catchError((val){
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context,listen: false).setHasErrorFun(val.toString());
-      setState(() {
-        message="";
+
+    if (emailError.isEmpty && showError) {
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+
+      var reset = resetPasswordApi(
+          email: emailController.text
+      );
+      reset.then((val) {
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        setState(() {
+          message =
+          "A password reset email has been sent. Please check your email.";
+        });
       });
-    });
-
-
-
+      reset.catchError((val) {
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false).setHasErrorFun(
+            val.toString());
+        setState(() {
+          message = "";
+        });
+      });
+    }
   }
 }
