@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
 import 'package:flutter_app/pages/dialog/info_dialog.dart';
 import 'package:flutter_app/pages/login/signin.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
 import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
-import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
+import 'package:flutter_app/pages/widgets/clip_shape.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/launcher.dart';
@@ -371,13 +370,8 @@ class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
               child: Column(
               children: <Widget>[
                 Provider.of<AppState>(context).getTheme() == Constant.lightTheme
-                    ? CustomPaint(
-                        child: Container(
-                          height: 200.0,
-                        ),
-                        painter: CurvePainter(),
-                      )
-                    : SizedBox(
+                    ? clipShape(context)
+                    :  SizedBox(
                         height: 100,
                       ),
                 forms(),

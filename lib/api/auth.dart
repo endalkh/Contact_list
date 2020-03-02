@@ -148,7 +148,6 @@ Future<List<GetAllContact>> getAllContactApi({token}) async {
 
 Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
   String error;
-
   try {
     final response = await http.get(
       API.UPCOMING_BIRTHDAY_API,
@@ -542,13 +541,12 @@ Future<JsonUser> loginApi({userId, password, context}) async {
   var params = {
     "email": userId,
     "password": password,
+    "accept_tos": true,
+    "accept_privacy": true,
   };
   String error;
   try {
     final response = await http.post(API.LOGIN_API,
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: json.encode(params));
 
     switch (response.statusCode) {

@@ -9,7 +9,7 @@ import 'package:flutter_app/pages/recover_password/recover_password.dart';
 import 'package:flutter_app/pages/register/signup.dart';
 import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
-import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
+import 'package:flutter_app/pages/widgets/clip_shape.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:provider/provider.dart';
@@ -33,10 +33,6 @@ class _LoginPageState extends State<SignInPage> {
   String emailError = "",
       passwordError = "";
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -319,12 +315,9 @@ class _LoginPageState extends State<SignInPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Provider.of<AppState>(context).getTheme()==Constant.lightTheme?CustomPaint(
-            child: Container(
-              height: 200.0,
-            ),
-            painter: CurvePainter(),
-          ):SizedBox(height: 100,),
+          Provider.of<AppState>(context).getTheme()==Constant.lightTheme?
+          clipShape(context)
+          :SizedBox(height: 100,),
           Padding(
             padding: EdgeInsets.only(bottom: 20),
             child: forms(),
