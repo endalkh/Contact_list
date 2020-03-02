@@ -29,19 +29,21 @@ class Home extends StatefulWidget{
 class Dashboard extends State<Home> implements ShouldImp {
   List<GetAllContact> personList=[];
 
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () {
-      getAllContactApi(
-        token: Provider.of<Auth>(context, listen: false).getTokenFun(),
-      ).then((val){
-        setState(() {
-          personList=val;
-        });
 
+
+  @override
+  void didChangeDependencies() {
+    getAllContactApi(
+      token: Provider.of<Auth>(context, listen: false).getTokenFun(),
+    ).then((val){
+      setState(() {
+        personList=val;
       });
+
+    }).catchError((ex){
+      print(ex);
     });
-    super.initState();
+    super.didChangeDependencies();
   }
 
   List<GetAllContact> filterPersonsByQueryPerson(String query) {
@@ -191,9 +193,9 @@ class Dashboard extends State<Home> implements ShouldImp {
   void onTabTapped(int index) {
     Provider.of<Auth>(context,listen: false).setHomePageTabFun(index);
   }
+
   @override
   Widget build(BuildContext context) {
-
     return  Scaffold(
       appBar:  SearchBar(
         defaultBar: AppBar(

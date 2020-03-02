@@ -152,9 +152,7 @@ Future<List<GetAllContact>> getUpComingBirthdayApi({token}) async {
   try {
     final response = await http.get(
       API.UPCOMING_BIRTHDAY_API,
-      headers: {
-        "Authorization": token,
-      },
+      headers: {'Authorization': 'Bearer $token'},
     );
     switch (response.statusCode) {
       case 200:
@@ -545,11 +543,11 @@ Future<JsonUser> loginApi({userId, password, context}) async {
     "accept_tos": true,
     "accept_privacy": true,
   };
+
   String error;
   try {
     final response = await http.post(API.LOGIN_API,
         body: json.encode(params));
-
     switch (response.statusCode) {
       case 200:
         return JsonUser.fromJson(json.decode(response.body));
@@ -561,16 +559,17 @@ Future<JsonUser> loginApi({userId, password, context}) async {
       default:
         return Future.error(errorMethod(response));
     }
-  } on SocketException {
+  }
+  on SocketException catch(_){
     error = 'No Internet connection 😑';
     throw error;
-  } on HttpException {
+  } on HttpException catch(_){
     error = "Couldn't find the post 😱";
     throw error;
-  } on FormatException {
+  } on FormatException catch(_){
     error = "Bad response format 👎";
     throw error;
-  } on Exception {
+  } on Exception catch(_) {
     error = "We have not idea what happend!";
     throw error;
   }
