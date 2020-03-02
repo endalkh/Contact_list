@@ -30,6 +30,8 @@ class API {
   static const String UPDATE_PHONE_API = COMMON_API + "phone-number";
   static const String DELETE_PHONE_API = COMMON_API + "phone-number";
 
+  static const String PHONE_SYNC = COMMON_API + "";
+
   static const String ADD_NOTE_API = COMMON_API + "note";
   static const String UPDATE_NOTE_API = COMMON_API + "note";
   static const String DELETE_NOTE_API = COMMON_API + "note";

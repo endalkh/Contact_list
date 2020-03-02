@@ -6,6 +6,7 @@ import 'package:flutter_app/api/api.dart';
 import 'package:flutter_app/api/error%20response.dart';
 import 'package:flutter_app/api/model/add_new_person.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
+import 'package:flutter_app/api/model/contact_sync.dart';
 import 'package:flutter_app/api/model/get_email.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
 import 'package:flutter_app/api/model/get_phone.dart';
@@ -1117,6 +1118,46 @@ resetPasswordApi({@required email}) async {
         return true;
       case 201:
         return true;
+
+      default:
+        return Future.error(errorMethod(response));
+    }
+  } on SocketException {
+    error = 'No Internet connection 😑';
+    throw error;
+  } on HttpException {
+    error = "Couldn't find the request 😱";
+    throw error;
+  } on FormatException {
+    error = "Bad response format 👎";
+    throw error;
+  } on Exception {
+    error = "We have not idea what happend!";
+    throw error;
+  }
+}
+
+Future<List<ContactSync>> phoneSync({@required id}) async {
+  String error;
+  try {
+    final response = await http.get(
+      API.PHONE_SYNC + "id=" + id,
+    );
+    switch (response.statusCode) {
+      case 200:
+        {
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson.map((data) => ContactSync.fromJson(data))
+              .toList();
+        }
+        break;
+
+      case 201:
+        {
+          var responseJson = await json.decode(response.body) as List;
+          return responseJson.map((data) => ContactSync.fromJson(data))
+              .toList();
+        }
 
       default:
         return Future.error(errorMethod(response));
