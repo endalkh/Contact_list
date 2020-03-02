@@ -1,3 +1,4 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
@@ -142,12 +143,7 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit,ShouldImp{
       if(value==true) {
         Navigator.of(context).pop();
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-        InfoDialog(
-            context: context,
-            callback: _Contacts(),
-            title: Constant.success,
-            type:Constant.success
-        );
+
       }
     });
 
