@@ -134,9 +134,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             title: Constant.error,
             type:Constant.error
         );
-
-
-
       });
     }
 
