@@ -1,3 +1,4 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
@@ -75,6 +76,18 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
       );
 
   }
+  saveContactToPhone() {
+  Contact contact = Contact();
+    contact.givenName = fNameController.text;
+    contact.middleName = lNameController.text;
+    // contact.birthday = dateFormatterBack(birthdayController.text);
+    // contact.emails = emailController.text as Iterable<Item>;
+    // contact.phones = phoneController.text as Iterable<Item>;
+    // contact.notes = addNoteController.text;
+    ContactsService.addContact(contact);
+
+  }
+
   submitForm(){
     if(
     validateEmailForAddPerson(emailController.text).toString().isNotEmpty==true||
@@ -102,9 +115,10 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
           lName: lNameController.text,
           birthday: birthdayController.text.isEmpty||birthdayController==null?null:dateFormatterBack(birthdayController.text),
           token:token ,
-          notes: addNoteController.text
-
+          notes: addNoteController.text,
       );
+  saveContactToPhone();
+
       addNewPerson.then((value) {
         Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
 
@@ -115,6 +129,9 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             title: Constant.success,
             type:Constant.success
         );
+// =========================Saving Contact To Phone =========================================
+
+// ==================================================================
         Navigator.pop(context);
         Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(0);
         Navigator.push(
@@ -201,7 +218,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 10,),
-
 
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -294,7 +310,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
       ],
     );
   }
-
   enterNotesTextFormField() {
     return Column(
       children: <Widget>[
