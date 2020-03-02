@@ -127,7 +127,7 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
                                                                     _handleOnTap(snapshot.data[index].id);
                                                                   },
                                                                   child: Icon(
-                                                                    _isExpanded
+                                                                    _isExpanded && listId==snapshot.data[index].id
                                                                         ? Icons
                                                                         .expand_less
                                                                         : Icons
