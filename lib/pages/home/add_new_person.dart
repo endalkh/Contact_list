@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddNewPersonScreen extends StatefulWidget{
@@ -129,9 +131,8 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             title: Constant.success,
             type:Constant.success
         );
-// =========================Saving Contact To Phone =========================================
 
-// ==================================================================
+
         Navigator.pop(context);
         Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(0);
         Navigator.push(
@@ -395,6 +396,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                 child: TextFormField(
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
+
                   decoration: InputDecoration(
                     hintText: "+1(424) 341-3346",
                     border: OutlineInputBorder(
@@ -525,4 +527,3 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
   void changer({context, id}) {
   }
   }
-

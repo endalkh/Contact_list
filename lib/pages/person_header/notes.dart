@@ -14,12 +14,23 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/abstract_classes/note_del_and_edit.dart';
 import 'package:provider/provider.dart';
-import '../../utilities/date_formater.dart';
 
-class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
+class Note extends StatefulWidget {
   final String personId;
 
   Note({@required this.personId});
+
+  _Note createState() => _Note(
+        personId: personId,
+      );
+}
+
+class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
+  String personId;
+  bool readMore = false;
+  bool _isExpanded = false;
+
+  _Note({@required this.personId});
 
   @override
   Widget build(BuildContext context) {
@@ -69,41 +80,84 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
                                                   true
                                               ? Container()
                                               : Column(children: [
-                                                  ExpansionTile(
-                                                    title: Text(dateFormatter(
-                                                        snapshot.data[index]
-                                                            .createdAt)),
-                                                    children: <Widget>[
-                                                      Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10,
-                                                                right: 5,
-                                                                bottom: 10),
-                                                        child: ListTile(
-                                                          title: Text(
-                                                            snapshot.data[index]
-                                                                .body,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 17),
-                                                          ),
-                                                          onLongPress: () {
-                                                            DeleteAndEditNotesDialog(
-                                                                context:
-                                                                    context,
-                                                                callback:
-                                                                    Note(personId: personId,),
-                                                                id: snapshot
+                                                  ListTile(
+                                                      onLongPress: () {
+                                                        DeleteAndEditNotesDialog(
+                                                            context: context,
+                                                            callback: _Note(
+                                                              personId:
+                                                                  personId,
+                                                            ),
+                                                            id: snapshot
+                                                                .data[index]
+                                                                .id);
+                                                      },
+                                                      title: Column(
+                                                        children: <Widget>[
+                                                          LayoutBuilder(builder:
+                                                              (context, size) {
+                                                            final span = TextSpan(
+                                                                text: snapshot
                                                                     .data[index]
-                                                                    .id);
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                                    .body
+                                                                    .toString());
+                                                            final tp = TextPainter(
+                                                                text: span,
+                                                                textDirection:
+                                                                    TextDirection
+                                                                        .ltr,
+                                                                maxLines: 1);
+                                                            tp.layout(
+                                                                maxWidth: size
+                                                                    .maxWidth);
+
+                                                            if (tp
+                                                                .didExceedMaxLines) {
+                                                              return Column(
+                                                                children: <
+                                                                    Widget>[
+                                                                  new Text(
+                                                                    snapshot
+                                                                        .data[
+                                                                            index]
+                                                                        .body,
+                                                                    maxLines:
+                                                                        _isExpanded
+                                                                            ? null
+                                                                            : 1,
+                                                                  ),
+                                                                  Material(
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              20)),
+                                                                      elevation:
+                                                                          0.5,
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            _handleOnTap,
+                                                                        child:
+                                                                            Icon(
+                                                                          _isExpanded
+                                                                              ? Icons.expand_less
+                                                                              : Icons.expand_more,
+                                                                          color: Colors
+                                                                              .grey
+                                                                              .withOpacity(0.6),
+                                                                        ),
+                                                                      ))
+                                                                ],
+                                                              );
+                                                            } else {
+                                                              return Text(
+                                                                  snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .body);
+                                                            }
+                                                          }),
+                                                        ],
+                                                      )),
                                                 ]),
                                         ),
                                       ),
@@ -139,9 +193,15 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
     );
   }
 
+  void _handleOnTap() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
+
   @override
-  editNote({id, context, contextDialog})  {
-     Provider.of<Auth>(context, listen: false).setEditNote(true);
+  editNote({id, context, contextDialog}) {
+    Provider.of<Auth>(context, listen: false).setEditNote(true);
     Provider.of<Auth>(context, listen: false).setId(id);
     Navigator.pop(context);
     return null;
@@ -161,7 +221,6 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
       if (value == true) {
         Navigator.of(context).pop();
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-
       }
     });
 
@@ -170,7 +229,9 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
       Navigator.of(context).pop();
       InfoDialog(
           context: context,
-          callback: Note(personId: personId,),
+          callback: _Note(
+            personId: personId,
+          ),
           title: Constant.error,
           type: Constant.error);
     });
