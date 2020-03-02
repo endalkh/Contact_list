@@ -110,34 +110,46 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
                                                       if (tp.didExceedMaxLines) {
                                                         return Column(
                                                           children: <Widget>[
-                                                            Text(
-                                                              snapshot
-                                                                  .data[index]
-                                                                  .body,
-                                                              maxLines: _isExpanded && listId==snapshot.data[index].id ? null : 1,
-                                                            ),
-                                                            Material(
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius.circular(
-                                                                        20)),
-                                                                elevation: 0.5,
-                                                                child: InkWell(
-                                                                  onTap:() {
-                                                                    _handleOnTap(snapshot.data[index].id);
-                                                                  },
-                                                                  child: Icon(
-                                                                    _isExpanded && listId==snapshot.data[index].id
-                                                                        ? Icons
-                                                                        .expand_less
-                                                                        : Icons
-                                                                        .expand_more,
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .withOpacity(
-                                                                        0.6),
+                                                              Row(
+                                                                children: <Widget>[
+
+                                                                  Expanded(
+                                                                    flex:9,
+                                                                    child: Text(
+                                                                      snapshot
+                                                                          .data[index]
+                                                                          .body,
+                                                                      maxLines: _isExpanded && listId==snapshot.data[index].id ? null : 1,
+                                                                    ),
                                                                   ),
-                                                                ))
+                                                            Expanded(
+                                                              flex:1,
+                                                              child:       Material(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(
+                                                                          20)),
+                                                                  elevation: 0.5,
+                                                                  child: InkWell(
+                                                                    onTap:() {
+                                                                      _handleOnTap(snapshot.data[index].id);
+                                                                    },
+                                                                    child: Icon(
+                                                                      _isExpanded==true && listId==snapshot.data[index].id
+                                                                          ? Icons
+                                                                          .expand_less
+                                                                          : Icons
+                                                                          .expand_more,
+                                                                      color: Colors
+                                                                          .blue,
+                                                                    ),
+                                                                  )),
+                                                            )
+                                                                ],
+                                                              ),
+
+
+
                                                           ],
                                                         );
                                                       } else {
