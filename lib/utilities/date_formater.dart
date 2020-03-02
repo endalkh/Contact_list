@@ -9,7 +9,7 @@ else if(date.toString().isEmpty){
 }
 else{
     final dateFormatter = DateFormat('yyyy-MM-dd');
-    final dateString = dateFormatter.format(DateTime.now());
+    final dateString = dateFormatter.format(date);
   return dateString;
 }
 }
