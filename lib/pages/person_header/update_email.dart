@@ -7,6 +7,9 @@ import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:provider/provider.dart';
 
+import '../../utilities/validation/Validation.dart';
+import '../../utilities/validation/Validation.dart';
+
 class UpdateEmail extends StatefulWidget {
   final String id;
 
@@ -21,6 +24,7 @@ class _UpdateEmail extends State<UpdateEmail> {
   EmailType selectEmail;
   List<EmailType> emailType;
   String id;
+  bool showError=false;
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -90,29 +94,41 @@ class _UpdateEmail extends State<UpdateEmail> {
   }
 
   submitForm() {
-    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
-    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-    var updateEmail = updateEmailApi(
-        token: token,
-        id: id,
-        type: selectEmail.name,
-        address: emailController.text);
-    updateEmail.then((value) async {
-      if (value == true) {
-        Provider.of<Auth>(context, listen: false)
-            .setSuccessfullyRegisteredFun(true);
-        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(context, listen: false).setEditEmail(false);
-      }
-    });
+    if (validateEmail(emailController.text)
+        .toString()
+        .isNotEmpty == true) {
+      setState(() {
+        showError = true;
+      });
+    }
+    else {
+      setState(() {
+        showError = false;
+      });
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+      var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+      var updateEmail = updateEmailApi(
+          token: token,
+          id: id,
+          type: selectEmail.name,
+          address: emailController.text);
+      updateEmail.then((value) async {
+        if (value == true) {
+          Provider.of<Auth>(context, listen: false)
+              .setSuccessfullyRegisteredFun(true);
+          Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+          Provider.of<Auth>(context, listen: false).setEditEmail(false);
+        }
+      });
 
-    updateEmail.catchError((value) async {
-      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context, listen: false)
-          .setSuccessfullyRegisteredFun(false);
-      Provider.of<Auth>(context, listen: false)
-          .setHasErrorFun(value.toString());
-    });
+      updateEmail.catchError((value) async {
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(false);
+        Provider.of<Auth>(context, listen: false)
+            .setHasErrorFun(value.toString());
+      });
+    }
   }
 
   List<DropdownMenuItem<EmailType>> emailBuildDropdownMenuItems(
@@ -234,20 +250,27 @@ class _UpdateEmail extends State<UpdateEmail> {
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: emailButton(),
+
+                  ),
+                  showError == true &&
+                      validateEmail(emailController.text)
+                          .toString()
+                          .isNotEmpty ==
+                          true
+                      ? Text(
+                    validateEmail(emailController.text),
+                    style: TextStyle(color: Colors.red),
+                  )
+                      : Container(),
+                  SizedBox(
+                    height: 20,
                   ),
                   SizedBox(
                     height: 20,
                   ),
+
                   submitButton(),
-                  value.getHasErrorFun().toString().isNotEmpty == true
-                      ? Text(
-                          Provider.of<Auth>(context, listen: false)
-                              .getHasErrorFun(),
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        )
-                      : Container(),
+
                 ],
               ),
             ),

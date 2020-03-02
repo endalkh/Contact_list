@@ -6,6 +6,8 @@ import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:provider/provider.dart';
 
+import '../../utilities/validation/Validation.dart';
+
 class UpdatePhone extends StatefulWidget {
   final String id;
 
@@ -22,6 +24,7 @@ class _UpdatePhone extends State<UpdatePhone> {
   List<PhoneType> phoneType = PhoneType.getPhones();
 
   String id;
+  bool showError = false;
 
   _UpdatePhone(this.id) {
     this.id = id;
@@ -84,28 +87,39 @@ class _UpdatePhone extends State<UpdatePhone> {
   }
 
   submitForm() {
-    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
-    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-    var addPhone = updatePhoneApi(
-        token: token,
-        id: id,
-        type: selectPhone.name,
-        number: phoneController.text);
+    if (validatePhone(phoneController.text)
+        .toString()
+        .isNotEmpty == true) {
+      setState(() {
+        showError = true;
+      });
+    } else {
+      setState(() {
+        showError = false;
+      });
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+      var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+      var addPhone = updatePhoneApi(
+          token: token,
+          id: id,
+          type: selectPhone.name,
+          number: phoneController.text);
 
-    addPhone.then((value) async {
-      Provider.of<Auth>(context, listen: false)
-          .setSuccessfullyRegisteredFun(true);
-      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context, listen: false).setEditPhone(false);
-    });
+      addPhone.then((value) async {
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(true);
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false).setEditPhone(false);
+      });
 
-    addPhone.catchError((value) async {
-      Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-      Provider.of<Auth>(context, listen: false)
-          .setSuccessfullyRegisteredFun(false);
-      Provider.of<Auth>(context, listen: false)
-          .setHasErrorFun(value.toString());
-    });
+      addPhone.catchError((value) async {
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(false);
+        Provider.of<Auth>(context, listen: false)
+            .setHasErrorFun(value.toString());
+      });
+    }
   }
 
   List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(
@@ -228,19 +242,24 @@ class _UpdatePhone extends State<UpdatePhone> {
                     padding: EdgeInsets.all(10),
                     child: phoneNumberButton(),
                   ),
+
+
+                  showError == true &&
+                      validatePhone(phoneController.text)
+                          .toString()
+                          .isNotEmpty ==
+                          true
+                      ? Text(
+                    validatePhone(phoneController.text),
+                    style: TextStyle(color: Colors.red),
+                  )
+                      : Container(),
                   SizedBox(
                     height: 20,
                   ),
                   submitButton(),
-                  value.getHasErrorFun().toString().isNotEmpty == true
-                      ? Text(
-                          Provider.of<Auth>(context, listen: false)
-                              .getHasErrorFun(),
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        )
-                      : Container(),
+
+
                 ],
               ),
             ),
