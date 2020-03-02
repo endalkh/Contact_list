@@ -1,3 +1,4 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
@@ -103,8 +104,9 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
           birthday: birthdayController.text.isEmpty||birthdayController==null?null:dateFormatterBack(birthdayController.text),
           token:token ,
           notes: addNoteController.text
-
       );
+
+
       addNewPerson.then((value) {
         Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
 
@@ -115,6 +117,9 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             title: Constant.success,
             type:Constant.success
         );
+// =========================Saving Contact To Phone =========================================
+
+// ==================================================================
         Navigator.pop(context);
         Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(0);
         Navigator.push(
@@ -294,7 +299,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
       ],
     );
   }
-
   enterNotesTextFormField() {
     return Column(
       children: <Widget>[
