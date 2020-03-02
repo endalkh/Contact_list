@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import '../../utilities/date_formater.dart';
 
 class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
+
   final String personId;
 
   Note({@required this.personId});
@@ -37,8 +38,7 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
                     ),
                     Text(
                       'Notes',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                      style:TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                     ),
                     SizedBox(
                       height: 10,
@@ -70,9 +70,12 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
                                               ? Container()
                                               : Column(children: [
                                                   ExpansionTile(
-                                                    title: Text(dateFormatter(
+                                                    title: Text(
+                                                      dateFormatter(
                                                         snapshot.data[index]
-                                                            .createdAt)),
+                                                            .createdAt)
+                                                            
+                                                            ),
                                                     children: <Widget>[
                                                       Container(
                                                         padding:
@@ -85,9 +88,7 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
                                                             snapshot.data[index]
                                                                 .body,
                                                             style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
+                                                                fontWeight:FontWeight.w400,
                                                                 fontSize: 17),
                                                           ),
                                                           onLongPress: () {
@@ -95,7 +96,7 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
                                                                 context:
                                                                     context,
                                                                 callback:
-                                                                    Note(personId: personId,),
+                                                                    Note(personId: personId),
                                                                 id: snapshot
                                                                     .data[index]
                                                                     .id);
@@ -155,8 +156,7 @@ class Note extends StatelessWidget implements NoteDelAndEdit, ShouldImp {
       id: id,
       token: token,
     );
-    LoadingDialog(context: context, title: "please wait.....");
-
+    LoadingDialog(context: context, title: "Please Wait .....");
     deletePhone.then((value) async {
       if (value == true) {
         Navigator.of(context).pop();

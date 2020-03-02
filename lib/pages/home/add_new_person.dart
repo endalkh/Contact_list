@@ -52,7 +52,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
   submitButton() {
     return
       Row(
-        children: <Widget>[
+        children:[
           Expanded(
             flex: 1,
             child:  RawMaterialButton(
@@ -70,8 +70,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
               padding: const EdgeInsets.all(15.0),
             ),
           )
-
-
         ],
       );
 
@@ -107,7 +105,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
       Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
       var token=Provider.of<Auth>(context,listen: false).getTokenFun();
       var addNewPerson =  addNewPersonApi(
-         emailType: selectEmail.name,
+          emailType: selectEmail.name,
           email: emailController.text,
           phoneType: selectPhone.name,
           phone: phoneController.text,
@@ -184,7 +182,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
     }
     return items;
   }
-
+  
   phoneOnChangeDropdownItem(PhoneType phone) {
     setState(() {
       selectPhone = phone;
@@ -263,7 +261,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.timer, size: 20),
               hintText: "Date of Birth",
-
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none),
@@ -281,12 +278,9 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
               birthdayController.text = dateFormatter(date);
             },
           ),
-
         ),
 
         Padding(padding: EdgeInsets.all(5)),
-
-
 
       ],
     );
