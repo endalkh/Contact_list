@@ -80,7 +80,7 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit, ShouldImp {
                                             ),
                                             subtitle: Text(
                                               dateFormatter(snapshot
-                                                  .data[index].birthDate),
+                                                  .data[index].birthDate).toString(),
                                               style: TextStyle(fontSize: 15),
                                             ),
                                             onLongPress: () {

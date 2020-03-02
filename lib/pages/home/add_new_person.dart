@@ -270,7 +270,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
             ),
 
             onTap: () async {
-              DateTime date = DateTime(1900);
+              var date = DateTime(1900);
               FocusScope.of(context).requestFocus(new FocusNode());
               date = await showDatePicker(
                   context: context,
