@@ -193,10 +193,20 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
   }
 
   void _handleOnTap(listId) {
-    setState(() {
-      this.listId=listId;
-      _isExpanded = !_isExpanded;
-    });
+    if(_isExpanded==true && listId==this.listId){
+      setState(() {
+        _isExpanded =false;
+        this.listId=listId;
+      });
+    }
+    else{
+      setState(() {
+        this.listId=listId;
+        _isExpanded = true;
+      });
+    }
+
+
   }
 
   @override
