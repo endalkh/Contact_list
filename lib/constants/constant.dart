@@ -34,9 +34,10 @@ class Constant{
   static const String RECOVERPASSWORD="Recover Password";
   static const String SIGNIN="Sign in";
   static const String SIGNUP ="Sign up";
-  static const String PASSWORDRESETDESC ="It's ok, we all forget out password sometimes. "
+  static const String PASSWORDRESETDESC ="  It's ok, We all forget our password sometimes. "
       "Fill out your email to get a reset link sent to your email. "
-      "You also might consider getting a password manager like 1Password or Bitwarden";
+      "  \n \n"
+      "     You also might consider getting a password manager like 1Password or Bitwarden";
   static const String XS="XS";
   static const String S="S";
   static const String M="M";
