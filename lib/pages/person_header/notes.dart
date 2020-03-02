@@ -29,6 +29,7 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
   String personId;
   bool readMore = false;
   bool _isExpanded = false;
+  String listId="" ;
 
   _Note({@required this.personId});
 
@@ -67,8 +68,6 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
                                   itemCount: snapshot.data.length,
                                   itemBuilder: (context, index) {
                                     return Container(
-                                      margin:
-                                          EdgeInsets.only(left: 10, right: 10),
                                       child: Card(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -81,83 +80,72 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
                                               ? Container()
                                               : Column(children: [
                                                   ListTile(
-                                                      onLongPress: () {
-                                                        DeleteAndEditNotesDialog(
-                                                            context: context,
-                                                            callback: _Note(
-                                                              personId:
-                                                                  personId,
-                                                            ),
-                                                            id: snapshot
-                                                                .data[index]
-                                                                .id);
-                                                      },
-                                                      title: Column(
-                                                        children: <Widget>[
-                                                          LayoutBuilder(builder:
-                                                              (context, size) {
-                                                            final span = TextSpan(
-                                                                text: snapshot
-                                                                    .data[index]
-                                                                    .body
-                                                                    .toString());
-                                                            final tp = TextPainter(
-                                                                text: span,
-                                                                textDirection:
-                                                                    TextDirection
-                                                                        .ltr,
-                                                                maxLines: 1);
-                                                            tp.layout(
-                                                                maxWidth: size
-                                                                    .maxWidth);
+                                                    onLongPress: () {
+                                                      DeleteAndEditNotesDialog(
+                                                          context: context,
+                                                          callback: _Note(
+                                                            personId: personId,
+                                                          ),
+                                                          id: snapshot
+                                                              .data[index].id);
+                                                    },
+                                                    title: LayoutBuilder(
+                                                        builder:
+                                                            (context, size) {
 
-                                                            if (tp
-                                                                .didExceedMaxLines) {
-                                                              return Column(
-                                                                children: <
-                                                                    Widget>[
-                                                                  new Text(
-                                                                    snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .body,
-                                                                    maxLines:
-                                                                        _isExpanded
-                                                                            ? null
-                                                                            : 1,
+                                                      final span = TextSpan(
+                                                          text: snapshot
+                                                              .data[index].body
+                                                              .toString());
+
+                                                      final tp = TextPainter(
+                                                          text: span,
+                                                          textDirection:
+                                                              TextDirection.ltr,
+                                                          maxLines: 1);
+                                                      tp.layout(
+                                                          maxWidth:
+                                                              size.maxWidth);
+
+                                                      if (tp.didExceedMaxLines) {
+                                                        return Column(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              snapshot
+                                                                  .data[index]
+                                                                  .body,
+                                                              maxLines: _isExpanded && listId==snapshot.data[index].id ? null : 1,
+                                                            ),
+                                                            Material(
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(
+                                                                        20)),
+                                                                elevation: 0.5,
+                                                                child: InkWell(
+                                                                  onTap:() {
+                                                                    _handleOnTap(snapshot.data[index].id);
+                                                                  },
+                                                                  child: Icon(
+                                                                    _isExpanded
+                                                                        ? Icons
+                                                                        .expand_less
+                                                                        : Icons
+                                                                        .expand_more,
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .withOpacity(
+                                                                        0.6),
                                                                   ),
-                                                                  Material(
-                                                                      shape: RoundedRectangleBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              20)),
-                                                                      elevation:
-                                                                          0.5,
-                                                                      child:
-                                                                          InkWell(
-                                                                        onTap:
-                                                                            _handleOnTap,
-                                                                        child:
-                                                                            Icon(
-                                                                          _isExpanded
-                                                                              ? Icons.expand_less
-                                                                              : Icons.expand_more,
-                                                                          color: Colors
-                                                                              .grey
-                                                                              .withOpacity(0.6),
-                                                                        ),
-                                                                      ))
-                                                                ],
-                                                              );
-                                                            } else {
-                                                              return Text(
-                                                                  snapshot
-                                                                      .data[
-                                                                          index]
-                                                                      .body);
-                                                            }
-                                                          }),
-                                                        ],
-                                                      )),
+                                                                ))
+                                                          ],
+                                                        );
+                                                      } else {
+                                                        return Text(snapshot
+                                                            .data[index].body);
+                                                      }
+                                                    }),
+                                                  ),
                                                 ]),
                                         ),
                                       ),
@@ -193,8 +181,9 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
     );
   }
 
-  void _handleOnTap() {
+  void _handleOnTap(listId) {
     setState(() {
+      this.listId=listId;
       _isExpanded = !_isExpanded;
     });
   }
