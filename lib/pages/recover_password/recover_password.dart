@@ -14,6 +14,7 @@ import '../../utilities/validation/Validation.dart';
 class RecoverPassword extends StatefulWidget {
   _RecoverPassword createState() => _RecoverPassword();
 }
+
 class _RecoverPassword extends State<RecoverPassword> {
   TextEditingController emailController = TextEditingController();
   String message;
@@ -61,7 +62,7 @@ class _RecoverPassword extends State<RecoverPassword> {
 
   button() {
     return RaisedButton(
-      elevation: 0,
+      elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
         submitForm();
@@ -83,53 +84,69 @@ class _RecoverPassword extends State<RecoverPassword> {
   resetPassword() {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      Constant.PASSWORDRESETDESC,
-                      style: TextStyle(
-                        fontSize: 17,
+            Text("Reset your Password",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 26
+            ),),
+        Card(
+            shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(20.0),
+  ),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        Constant.PASSWORDRESETDESC,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: emailTextFormField(),
-                  ),
-                ],
+                    emailTextFormField(),
+                  ],
+                ),
               ),
-            ),
 
-            Padding(
-              padding: EdgeInsets.only(left: 25, right: 20),
-              child: message.isNotEmpty == true ? Text(message,
-                  style: TextStyle(color: Colors.green)) : Container(),
-            ),
+              Padding(
+                padding: EdgeInsets.only(left: 25, right: 20),
+                child: message.isNotEmpty == true
+                    ? Text(message, style: TextStyle(color: Colors.green))
+                    : Container(),
+              ),
 
-            Consumer<Auth>(
-              builder: (BuildContext context, Auth value, Widget child) =>
-              value
-                  .getHasErrorFun()
-                  .toString()
-                  .isNotEmpty == true ? Text(value.getHasErrorFun(),
-                  style: TextStyle(color: Colors.red)) : Container(),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              width: 200,
-              child: button(),
-            )
-          ],
+              Consumer<Auth>(
+                builder: (BuildContext context, Auth value, Widget child) =>
+                    value.getHasErrorFun().toString().isNotEmpty == true
+                        ? Text(value.getHasErrorFun(),
+                            style: TextStyle(color: Colors.red))
+                        : Container(),
+              ),
+              // SizedBox(height: 15,),
+              Container(
+                width: 200,
+                child: button(),
+              ),
+              SizedBox(
+                height: 10,
+              )
+            ],
+          ),
         ),
+          ]
+        ),
+
+        margin: EdgeInsets.all(20),
       ),
     );
   }
@@ -139,7 +156,8 @@ class _RecoverPassword extends State<RecoverPassword> {
     return Scaffold(
       appBar: headerNav(context: context, title: Constant.RECOVERPASSWORD),
       body: Provider.of<Auth>(context).getIsLoadingFun() == true
-          ? circularIndicator(context: context) : resetPassword(),
+          ? circularIndicator(context: context)
+          : resetPassword(),
     );
   }
 

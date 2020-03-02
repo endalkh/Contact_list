@@ -21,110 +21,113 @@ import 'package:rounded_letter/rounded_letter.dart';
 import 'package:rounded_letter/shape_type.dart';
 
 class Contacts extends StatefulWidget {
-  _Contacts createState()=>_Contacts();
-
+  _Contacts createState() => _Contacts();
 }
-class _Contacts extends State<Contacts> implements NoteDelAndEdit,ShouldImp{
+
+class _Contacts extends State<Contacts> implements NoteDelAndEdit, ShouldImp {
   List<GetAllContact> allContact;
 
   @override
   Widget build(BuildContext context) {
-    return  Provider.of<Auth>(context).getEditContact()==true?
-     UpdateContact(id:Provider.of<Auth>(context).getId())
+    return Provider.of<Auth>(context).getEditContact() == true
+        ? UpdateContact(id: Provider.of<Auth>(context).getId())
         : Scaffold(
-      body:
-
-      Padding(
-    padding: EdgeInsets.only(top: 10),
-
-      child: FutureBuilder <List<GetAllContact>> (
-        future: getAllContactApi(
-            token: Provider.of<Auth>(context).getTokenFun()
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return  SingleChildScrollView(
-                child: Container(
-
-                 margin: EdgeInsets.only(left: 10,right: 10),
-                    child: Column(
-                    children: [
-                SizedBox(height: 5,),
-                Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                      },
-                      child: Container(
-                        child: ListTile(
-                            leading: RoundedLetter(
-                              text: getRoundLetter(snapshot.data[index].name.toString().toUpperCase()),
-                              shapeType: ShapeType.circle,
-                              shapeColor: PRIMARY_COLOR,
-                              shapeSize: 40,
-                              fontSize: 20,
-                              borderWidth: 1,
-                              borderColor: Color.fromARGB(255, 0, 0, 0),
+            body: Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: FutureBuilder<List<GetAllContact>>(
+                future: getAllContactApi(
+                    token: Provider.of<Auth>(context).getTokenFun()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return SingleChildScrollView(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 10, right: 10),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                      ),
+                                      child: InkWell(
+                                        onTap: () {},
+                                        child: Container(
+                                          child: ListTile(
+                                            leading: RoundedLetter(
+                                              text: getRoundLetter(snapshot
+                                                  .data[index].name
+                                                  .toString()
+                                                  .toUpperCase()),
+                                              shapeType: ShapeType.circle,
+                                              shapeColor: PRIMARY_COLOR,
+                                              shapeSize: 40,
+                                              fontSize: 20,
+                                              borderWidth: 1,
+                                              borderColor:
+                                                  Color.fromARGB(255, 0, 0, 0),
+                                            ),
+                                            title: Text(
+                                              snapshot.data[index].name,
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            subtitle: Text(
+                                              dateFormatter(snapshot
+                                                  .data[index].birthDate),
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                            onLongPress: () {
+                                              DeleteAndEditNotesDialog(
+                                                  context: context,
+                                                  callback: _Contacts(),
+                                                  id: snapshot.data[index].id);
+                                            },
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  SlideLeftRoute(
+                                                      page: PersonHeaderScreen(
+                                                    personId:
+                                                        snapshot.data[index].id,
+                                                  )));
+                                            },
+                                          ),
+                                        ),
+                                      )),
+                                ],
+                              ),
                             ),
-                            title:Text(snapshot.data[index].name,style: TextStyle(
-                              fontSize: 20,
-                            ),),
-
-                            subtitle: Text(dateFormatter(snapshot.data[index].birthDate),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          onLongPress: (){
-                            DeleteAndEditNotesDialog(context: context,callback:_Contacts(),id: snapshot.data[index].id );
-                          },
-                          onTap: (){
-                            Navigator.push(context, SlideLeftRoute(page: PersonHeaderScreen(personId:snapshot.data[index].id,)));
-
-                          },
-
-                        ),
-
+                          );
+                        });
+                  } else if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Center(
+                      child: Text(
+                        snapshot.error.toString(),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w900),
                       ),
-                    )),
-
-],
-                  ),
-
-                ),
-                  );
-                }
-            );
-          }
-          else if (snapshot.hasError) {
-            print(snapshot.error);
-            return Center(
-              child: Text(snapshot.error.toString(),style: TextStyle(
-                fontSize: 20,fontWeight: FontWeight.w900
-              ),),
-            );
-          }
-          return circularIndicator(context: context);
-
-        },
-
-      ),
-      ),
-    );
+                    );
+                  }
+                  return circularIndicator(context: context);
+                },
+              ),
+            ),
+          );
   }
-
-
-
 
   @override
   editNote({id, context, contextDialog}) {
-
-    Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-    Provider.of<Auth>(context,listen: false).setEditContact(true);
-    Provider.of<Auth>(context,listen: false).setId(id);
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    Provider.of<Auth>(context, listen: false).setEditContact(true);
+    Provider.of<Auth>(context, listen: false).setId(id);
     Navigator.pop(context);
     return null;
   }
@@ -137,13 +140,12 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit,ShouldImp{
       id: id,
       token: token,
     );
-    LoadingDialog(context: context,title: "please wait.....");
+    LoadingDialog(context: context, title: "please wait.....");
 
     deleteNote.then((value) async {
-      if(value==true) {
+      if (value == true) {
         Navigator.of(context).pop();
         Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-
       }
     });
 
@@ -153,12 +155,8 @@ class _Contacts extends State<Contacts> implements NoteDelAndEdit,ShouldImp{
           context: context,
           callback: _Contacts(),
           title: Constant.error,
-          type:Constant.error
-      );
+          type: Constant.error);
     });
-
   }
-
-
-  }
+}
 //}
