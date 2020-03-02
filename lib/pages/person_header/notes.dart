@@ -67,7 +67,9 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
                                   shrinkWrap: true,
                                   itemCount: snapshot.data.length,
                                   itemBuilder: (context, index) {
-                                    return Container(
+                                    return Padding(
+                                      padding: EdgeInsets.only(left: 10,right: 10),
+                                      child:Container(
                                       child: Card(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -135,13 +137,10 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
                                                                       _handleOnTap(snapshot.data[index].id);
                                                                     },
                                                                     child: Icon(
-                                                                      _isExpanded==true && listId==snapshot.data[index].id
-                                                                          ? Icons
-                                                                          .expand_less
-                                                                          : Icons
-                                                                          .expand_more,
-                                                                      color: Colors
-                                                                          .blue,
+                                                                      _isExpanded && listId==snapshot.data[index].id
+                                                                          ? Icons.expand_less
+                                                                          : Icons.expand_more,
+                                                                      color: Colors.blue,
                                                                     ),
                                                                   )),
                                                             )
@@ -161,7 +160,7 @@ class _Note extends State<Note> implements NoteDelAndEdit, ShouldImp {
                                                 ]),
                                         ),
                                       ),
-                                    );
+                                    ));
                                   });
                             } else if (snapshot.hasError) {
                               return Center(
