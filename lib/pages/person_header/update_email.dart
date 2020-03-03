@@ -8,7 +8,6 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:provider/provider.dart';
 
 import '../../utilities/validation/Validation.dart';
-import '../../utilities/validation/Validation.dart';
 
 class UpdateEmail extends StatefulWidget {
   final String id;

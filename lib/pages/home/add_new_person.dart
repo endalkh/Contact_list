@@ -12,7 +12,6 @@ import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
 import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddNewPersonScreen extends StatefulWidget{
