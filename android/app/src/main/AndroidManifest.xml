@@ -6,7 +6,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Contact List"
-        android:icon="@mipmap/launcher_icon">
+        >
 
         <activity
             android:name=".MainActivity"

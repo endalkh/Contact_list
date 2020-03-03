@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 dateFormatter(date){
+  date=date.toString();
   if(date==null){
     return "";
   }
