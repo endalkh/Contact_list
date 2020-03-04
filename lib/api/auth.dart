@@ -1136,11 +1136,16 @@ resetPasswordApi({@required email}) async {
   }
 }
 
-Future<List<ContactSync>> phoneSync({@required id}) async {
+/*=============Phone Sync============================*/
+
+Future<List<ContactSync>> phoneSyncApi({@required token}) async {
   String error;
   try {
     final response = await http.get(
-      API.PHONE_SYNC + "id=" + id,
+      API.PHONE_SYNC,
+      headers: {
+        "Authorization": token,
+      },
     );
     switch (response.statusCode) {
       case 200:

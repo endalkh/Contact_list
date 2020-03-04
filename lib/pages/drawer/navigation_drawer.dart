@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
@@ -208,11 +211,17 @@ class _SideDrawer extends State<SideDrawer> implements ShouldImp {
               Divider(),
               ListTile(
                 onTap: () {
-                  ConfirmationDialog(
-                      context: context,
-                      title: "Are you sure to logout?",
-                      callback: _SideDrawer());
+                  var x=phoneSyncApi(token: Provider.of<Auth>(context,listen: false).getTokenFun());
+                  x.then((value){
+
+                  });
+
                 },
+//                  ConfirmationDialog(
+//                      context: context,
+//                      title: "Are you sure to logout?",
+//                      callback: _SideDrawer());
+//                },
                 title: _buildRow(Icons.exit_to_app, "Logout"),
               ),
             ],
