@@ -49,14 +49,16 @@ class _ContactListPageState extends State<ContactListPage> {
      contactSync.then((val){
         for (int i = 0; i < val.length; i++) {
           val[i].phone.asMap().forEach((index, value) {
-            if (matchingContacts(value.number) == true) {
-              print("mached ${value.number}");
-              i++;
-            }
-            else {
-              // don't look at me! remove print and replace your functionality 😂😜😀
-              // you can add other phones to your phone 😂😜😀 happy coding 🤓
-              i++;
+            if (value.number.length>0 || value.number != null) {
+              if (matchingContacts(value.number) == true) {
+                print("mached ${value.number}");
+                i++;
+              }
+              else {
+                // don't look at me! remove print and replace your functionality 😂😜😀
+                // you can add other phones to your phone 😂😜😀 happy coding 🤓
+                i++;
+              }
             }
           });
        }
