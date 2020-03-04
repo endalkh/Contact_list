@@ -50,10 +50,14 @@ class _ContactListPageState extends State<ContactListPage> {
         for (int i = 0; i < val.length; i++) {
           val[i].phone.asMap().forEach((index, value) {
             if (matchingContacts(value.number) == true) {
-              print(value.number);
-//              i++;
+              print("mached ${value.number}");
+              i++;
             }
-
+            else {
+              // don't look at me! remove print and replace your functionality 😂😜😀
+              // you can add other phones to your phone 😂😜😀 happy coding 🤓
+              i++;
+            }
           });
        }
 
@@ -91,7 +95,6 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   matchingContacts(phone) {
-    print("hello phone : $phone");
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
