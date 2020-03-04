@@ -39,6 +39,7 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
    addAllContact()  {
+
     var contactSync = phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     );
@@ -47,15 +48,17 @@ class _ContactListPageState extends State<ContactListPage> {
         for (int i = 0; i < val.length; i++) {
           val[i].phone.asMap().forEach((index, value) {
               if (matchingContacts(value.number) == true) {
-                print("mached ${value.number}");
+                print("mached ${val[i].name}");
                 i++;
               }
               else {
+                //add contacts
                 // don't look at me! remove print and replace your functionality 😂😜😀
                 // you can add other phones to your phone 😂😜😀 happy coding 🤓
                 i++;
               }
           });
+
        }
 
 
@@ -67,21 +70,12 @@ class _ContactListPageState extends State<ContactListPage> {
     });
   }
 
-  updateContact() async {
-    Contact user = _contacts
-        .toList()
-        .firstWhere((contact) => contact.familyName.startsWith("John"));
-    user.avatar = null;
-    await ContactsService.updateContact(user);
-    refreshContacts();
-  }
 
   matchingContacts(phone) {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (prefixRemover(f.value) == prefixRemover(phone) &&
-            (phone != null || phone != "")) {
+        if (prefixRemover(f.value) == prefixRemover(phone) && (phone != null || phone != "")) {
           result = true;
         } else {
           result = false;
@@ -91,6 +85,15 @@ class _ContactListPageState extends State<ContactListPage> {
       if (result == true) break;
     }
     return result;
+  }
+
+  updateContact() async {
+    Contact user = _contacts
+        .toList()
+        .firstWhere((contact) => contact.familyName.startsWith("John"));
+    user.avatar = null;
+    await ContactsService.updateContact(user);
+    refreshContacts();
   }
 
   Future<PermissionStatus> _getContactPermission() async {
