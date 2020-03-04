@@ -43,7 +43,12 @@ class _ContactListPageState extends State<ContactListPage> {
        contactSync.then((val){
       for(int i=0;i<val.length;i++){
         val[i].phone.asMap().forEach((index,value){
-          matchingContacts(value.number);
+         if(matchingContacts(value.number)==true){
+           print(value.number);
+         }
+         else{
+        print(val[i].name);
+         }
 
         });
   val[i].email.asMap().forEach((index,value){
@@ -67,14 +72,15 @@ class _ContactListPageState extends State<ContactListPage> {
 
 
 
-  matchingContacts(phone) {
+  bool matchingContacts(phone) {
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
      if(prefixRemover(f.value)==prefixRemover(phone) && (phone!=null||phone!="")){
-       print("matched $phone ${f.value}");
+       print("similiar $phone ${f.value}");
+       return true;
      }
      else{
-
+    return false;
     // you can add other phones to your phone 😂😜😀 happy coding 🤓
      }
 
