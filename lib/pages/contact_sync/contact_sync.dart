@@ -49,7 +49,11 @@ class _ContactListPageState extends State<ContactListPage> {
      contactSync.then((val){
         for (int i = 0; i < val.length; i++) {
           val[i].phone.asMap().forEach((index, value) {
-          print(value.number);
+            if (matchingContacts(value.number) == true) {
+              print(value.number);
+//              i++;
+            }
+
           });
        }
 
