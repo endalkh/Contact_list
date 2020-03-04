@@ -87,6 +87,7 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   matchingContacts(phone) {
+    print("hello phone : $phone");
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
@@ -135,67 +136,67 @@ class _ContactListPageState extends State<ContactListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Contact Sync",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => MatchedContactsPage()));
-              },
-              child: Icon(Icons.merge_type, color: Colors.white),
-            )
-          ],
+      appBar: AppBar(
+        title: Text(
+          "Contact Sync",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
         ),
-        body: SafeArea(
-          child: _contacts != null
-              ? ListView.builder(
-                  itemCount: _contacts?.length ?? 0,
-                  itemBuilder: (BuildContext context, int index) {
-                    Contact c = _contacts?.elementAt(index);
-                    return Card(
-                      margin: EdgeInsets.only(
-                          left: 15, right: 15, bottom: 3, top: 3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  ContactDetailsPage(c)));
-                        },
-                        leading: (c.avatar != null && c.avatar.length > 0)
-                            ? CircleAvatar(
-                                backgroundImage: MemoryImage(c.avatar))
-                            : CircleAvatar(
-                                child: Text(
-                                  c.initials(),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => MatchedContactsPage()));
+            },
+            child: Icon(Icons.merge_type, color: Colors.white),
+          )
+        ],
+      ),
+      body: SafeArea(
+        child: _contacts != null
+            ? ListView.builder(
+                itemCount: _contacts?.length ?? 0,
+                itemBuilder: (BuildContext context, int index) {
+                  Contact c = _contacts?.elementAt(index);
+                  return Card(
+                    margin:
+                        EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                ContactDetailsPage(c)));
+                      },
+                      leading: (c.avatar != null && c.avatar.length > 0)
+                          ? CircleAvatar(backgroundImage: MemoryImage(c.avatar))
+                          : CircleAvatar(
+                              child: Text(
+                                c.initials(),
+                                style: TextStyle(
+                                  color: Colors.white,
                                 ),
-                                backgroundColor: PRIMARY_COLOR,
                               ),
-                        title: Text(c.displayName ?? ""),
-                      ),
-                    );
-                  },
-                )
-              : Center(
-                  child: circularIndicator(context: context),
-                ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => {
-            addAllContact(),
-          },
-          backgroundColor: PRIMARY_COLOR,
-          child: Icon(Icons.add),
-        ));
+                              backgroundColor: PRIMARY_COLOR,
+                            ),
+                      title: Text(c.displayName ?? ""),
+                    ),
+                  );
+                },
+              )
+            : Center(
+                child: circularIndicator(context: context),
+              ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          addAllContact(),
+        },
+        backgroundColor: PRIMARY_COLOR,
+        child: Icon(Icons.add),
+      ),
+    );
   }
 }
 
@@ -569,62 +570,89 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
           "Matched Contacts",
           style: TextStyle(
             color: Colors.white,
+            fontWeight: FontWeight.w400,
           ),
         ),
-        actions: <Widget>[
-          // FlatButton(
-          //   onPressed: () {
-          //   },
-          //   child: Icon(Icons.save, color: Colors.white),
-          // )
-        ],
       ),
-      body: ListView.builder(
-        itemCount: 6,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: ExpansionTile(
-              title: ListTile(
-                title: Text(
-                  "John Doe",
-                ),
-                subtitle: Text(
-                  "from Relate",
-                  style: TextStyle(fontSize: 12),
-                ),
+      body: Container(
+        margin: EdgeInsets.only(top: 15),
+        child: ListView.builder(
+          itemCount: 8,
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
               ),
-              children: <Widget>[
-                Divider(),
-                Container(
-                    margin:
-                        EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 3,
-                          child: ListTile(
-                            title: Text(
-                              "John Doe",
-                            ),
-                            subtitle: Text(
-                              "from Phone",
-                              style: TextStyle(fontSize: 12),
-                            ),
+              child: ExpansionTile(
+                backgroundColor: PRIMARY_COLOR,
+                title: ListTile(
+                  title: Text(
+                    "John Doe",
+                    style: TextStyle(
+                      fontSize: 19
+                    ),
+                  ),
+                ),
+                children: [
+                  Column(
+                    children: <Widget>[
+                      Card(
+                        margin: EdgeInsets.only(left: 15, right: 15),
+                        elevation: 0,
+                        child: ListTile(
+
+                          title: Row(
+                            children: [
+                              Text(
+                                "From Relate"),
+                              Container(
+                                margin: EdgeInsets.only(left: 200),
+                                height: 30,
+                                width: 30,
+                                child: FloatingActionButton(
+                                  onPressed: () => {},
+                                  backgroundColor: PRIMARY_COLOR,
+                                  child: Icon(Icons.save, size: 15),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Expanded(
-                          child: submitButton(),
-                        )
-                      ],
-                    )),
-              ],
-            ),
-          );
-        },
+                      ),
+                      Divider(),
+                      Card(
+                        margin: EdgeInsets.only(left: 15, right: 15),
+                        elevation: 0,
+                        child: ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                "From Phone",
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 200),
+                                height: 30,
+                                width: 30,
+                                child: FloatingActionButton(
+                                  onPressed: () => {},
+                                  backgroundColor: PRIMARY_COLOR,
+                                  child: Icon(Icons.save, size: 15),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            );
+          },
+        ),
+
+
       ),
     );
   }
