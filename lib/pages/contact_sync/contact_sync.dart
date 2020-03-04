@@ -37,30 +37,29 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   addAllContact() async {
-            var contactSync= phoneSyncApi(
-           token: Provider.of<Auth>(context,listen: false).getTokenFun(),
-         );
-       contactSync.then((val){
-      for(int i=0;i<val.length;i++){
-        val[i].phone.asMap().forEach((index,value){
-         if(matchingContacts(value.number)==true){
-           print(value.number);
-           i++;
-         }
-         else{
-           print(val[i].name);
-           i++;
-
-         }
-
+    var contactSync = phoneSyncApi(
+      token: Provider.of<Auth>(context, listen: false).getTokenFun(),
+    );
+    contactSync.then((val) {
+      for (int i = 0; i < val.length; i++) {
+        val[i].phone.asMap().forEach((index, value) {
+          if (value.number.length>0 || value.number != null) {
+            if (matchingContacts(value.number) == true) {
+              print(value.number.length);
+              print("hello");
+              i++;
+            } else {
+              print(val[i].name);
+              i++;
+            }
+          }
         });
 //  val[i].email.asMap().forEach((index,value){
 //
 //        });
 
       }
-           });
-
+    });
   }
 
   updateContact() async {
@@ -72,28 +71,22 @@ class _ContactListPageState extends State<ContactListPage> {
     refreshContacts();
   }
 
-
-
-
-   matchingContacts(phone) {
-    bool result=false;
+  matchingContacts(phone) {
+    bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-     if(prefixRemover(f.value)==prefixRemover(phone) && (phone!=null||phone!="")){
-       debugPrint("similiar $phone ${f.value}");
-       result=true;
-     }
-
-     else{
-       result=false;
-    // you can add other phones to your phone 😂😜😀 happy coding 🤓
-     }
+        if (prefixRemover(f.value) == prefixRemover(phone) &&
+            (phone != null || phone != "")) {
+          result = true;
+        } else {
+          result = false;
+          // you can add other phones to your phone 😂😜😀 happy coding 🤓
+        }
       });
-      if(result==true) break;
+      if (result == true) break;
     }
     return result;
   }
-
 
   Future<PermissionStatus> _getContactPermission() async {
     PermissionStatus permission = await PermissionHandler()
@@ -127,23 +120,22 @@ class _ContactListPageState extends State<ContactListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Contact Sync",
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w400
+        appBar: AppBar(
+          title: Text(
+            "Contact Sync",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => MatchedContactsPage()));
+              },
+              child: Icon(Icons.merge_type, color: Colors.white),
+            )
+          ],
         ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => MatchedContactsPage()));
-            },
-            child: Icon(Icons.merge_type, color: Colors.white),
-          )
-        ],
-      ),        body: SafeArea(
+        body: SafeArea(
           child: _contacts != null
               ? ListView.builder(
                   itemCount: _contacts?.length ?? 0,
@@ -530,31 +522,30 @@ class MatchedContactsPage extends StatefulWidget {
 }
 
 class _MatchedContactsPageState extends State<MatchedContactsPage> {
-   submitButton() {
-    return
-      Row(
-        children:[
-          Expanded(
-            flex: 1,
-            child:  RawMaterialButton(
-              onPressed: () {
-                // submitForm();
-              },
-              child: new Icon(
-                Icons.add,
-                color: TRIAL_COLOR,
-                size: 15.0,
-              ),
-              shape: new CircleBorder(),
-              elevation: 2.0,
-              fillColor:PRIMARY_COLOR,
-              padding: const EdgeInsets.all(15.0),
+  submitButton() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: RawMaterialButton(
+            onPressed: () {
+              // submitForm();
+            },
+            child: new Icon(
+              Icons.add,
+              color: TRIAL_COLOR,
+              size: 15.0,
             ),
-          )
-        ],
-      );
-
+            shape: new CircleBorder(),
+            elevation: 2.0,
+            fillColor: PRIMARY_COLOR,
+            padding: const EdgeInsets.all(15.0),
+          ),
+        )
+      ],
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -574,61 +565,52 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
         ],
       ),
       body: ListView.builder(
-                  itemCount: 6,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      margin: EdgeInsets.only(
-                          left: 15, right: 15, bottom: 3, top: 3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: ExpansionTile(
-                        title: ListTile(
-                          title: Text("John Doe",
-                          ),
-                          subtitle: Text("from Relate",
-                          style: TextStyle(
-                            fontSize: 12
-                          ),),
-                        ),
-                        children: <Widget>[
-                          Divider(),
-                          Container(
-                      margin: EdgeInsets.only(
-                          left: 15, right: 15, bottom: 3, top: 3),
-                            child:  Row(
-                              
-                              children: <Widget>[
-                                Expanded(
-                                  flex:3,
-                                   child:ListTile(
-                          title: Text("John Doe",
-                          ),
-                          subtitle: Text("from Phone",
-                          style: TextStyle(
-                            fontSize: 12
-                          ),
-                          ),
-
-                        ),
-                                ),
-                                Expanded(
-                                  child: submitButton(),
-                                  
-                                  )
-                            ],
-                            
-                            )
-                            
-                       
-                      
-                          ),
-
-                        ],
-                      ),
-                    );
-                  },
+        itemCount: 6,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: ExpansionTile(
+              title: ListTile(
+                title: Text(
+                  "John Doe",
                 ),
+                subtitle: Text(
+                  "from Relate",
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+              children: <Widget>[
+                Divider(),
+                Container(
+                    margin:
+                        EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 3,
+                          child: ListTile(
+                            title: Text(
+                              "John Doe",
+                            ),
+                            subtitle: Text(
+                              "from Phone",
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: submitButton(),
+                        )
+                      ],
+                    )),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
