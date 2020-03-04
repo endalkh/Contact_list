@@ -66,15 +66,25 @@ matchingContacts("90394389");
     refreshContacts();
   }
 
+
   matchingContacts(phone) {
+//    String pattern = r'(^([+1]+[0-9]{10}$)';
+     String plusPattern=r'(^\+?[0-9]{10-13}$)';
+//    RegExp regExp = new RegExp(pattern);
+//    RegExp regExp = new RegExp(pattern);
+
   for(int i=0;i<_contacts.length;i++){
-   
-     Map.fromIterable(_contacts.elementAt(i).,
-    key: (item) => item.toString(),
-    value: (item) => item * item){
-      print("hello world");
-    };
-  // print(_contacts.elementAt(i).phones);
+  _contacts.elementAt(i).phones.forEach((f){
+
+     String number=f.value.replaceAll(RegExp(r'[^\w\s\g]+'),'');
+    number= number.replaceAll(RegExp(' '),'');
+     RegExp regExp = new RegExp(plusPattern);
+     if(regExp.hasMatch(number)){
+       number= number.replaceAll(RegExp(r'\+'),'');
+       print(number);
+     }
+
+   });
   }
   }
 
