@@ -36,21 +36,24 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   addAllContact() async{
-    print("clicked");
-           var contactSync= phoneSyncApi(
-          token: Provider.of<Auth>(context,listen: false).getTokenFun(),
-        );
-      contactSync.then((val){
-     for(int i=0;i<val.length;i++){
-       print(val[i].name);
-       print(" ");
-       val[i].phone.asMap().forEach((index,value){
-         print(value.number);
-       });
-
-       print(" ");
-     }
-          });
+//            var contactSync= phoneSyncApi(
+//           token: Provider.of<Auth>(context,listen: false).getTokenFun(),
+//         );
+//       contactSync.then((val){
+//      for(int i=0;i<val.length;i++){
+//        print(val[i].name);
+//        print(" ");
+//        val[i].phone.asMap().forEach((index,value){
+//          print(value.number);
+//        });
+//  val[i].email.asMap().forEach((index,value){
+//          print(value.type);
+//           print(value.address);
+//        });
+//        print(" ");
+//      }
+//           });
+matchingContacts("90394389");
 
   }
 
@@ -63,9 +66,16 @@ class _ContactListPageState extends State<ContactListPage> {
     refreshContacts();
   }
 
-  matchingContacts() {
-
-
+  matchingContacts(phone) {
+  for(int i=0;i<_contacts.length;i++){
+   
+     Map.fromIterable(_contacts.elementAt(i).,
+    key: (item) => item.toString(),
+    value: (item) => item * item){
+      print("hello world");
+    };
+  // print(_contacts.elementAt(i).phones);
+  }
   }
 
   syncronizationApptoPhone() {
