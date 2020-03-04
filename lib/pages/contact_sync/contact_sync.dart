@@ -45,15 +45,18 @@ class _ContactListPageState extends State<ContactListPage> {
         val[i].phone.asMap().forEach((index,value){
          if(matchingContacts(value.number)==true){
            print(value.number);
+           i++;
          }
          else{
-        print(val[i].name);
+           print(val[i].name);
+           i++;
+
          }
 
         });
-  val[i].email.asMap().forEach((index,value){
-
-        });
+//  val[i].email.asMap().forEach((index,value){
+//
+//        });
 
       }
            });
@@ -72,20 +75,23 @@ class _ContactListPageState extends State<ContactListPage> {
 
 
 
-  bool matchingContacts(phone) {
+   matchingContacts(phone) {
+    bool result=false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
      if(prefixRemover(f.value)==prefixRemover(phone) && (phone!=null||phone!="")){
-       print("similiar $phone ${f.value}");
-       return true;
-     }
-     else{
-    return false;
-    // you can add other phones to your phone 😂😜😀 happy coding 🤓
+       debugPrint("similiar $phone ${f.value}");
+       result=true;
      }
 
+     else{
+       result=false;
+    // you can add other phones to your phone 😂😜😀 happy coding 🤓
+     }
       });
+      if(result==true) break;
     }
+    return result;
   }
 
 
