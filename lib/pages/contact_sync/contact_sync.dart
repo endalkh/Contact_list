@@ -36,29 +36,37 @@ class _ContactListPageState extends State<ContactListPage> {
     }
   }
 
-  addAllContact() async {
+  Future addAllContact() async {
     var contactSync = phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     );
-    contactSync.then((val) {
-      for (int i = 0; i < val.length; i++) {
-        val[i].phone.asMap().forEach((index, value) {
-          if (value.number.length>0 || value.number != null) {
-            if (matchingContacts(value.number) == true) {
-              print(value.number.length);
-              print("hello");
-              i++;
-            } else {
-              print(val[i].name);
-              i++;
-            }
-          }
-        });
-//  val[i].email.asMap().forEach((index,value){
-//
-//        });
 
-      }
+
+     contactSync.then((val) async{
+       for (int i = 0; i < val.length; i++) {
+         print(val[i].name);
+       };
+//      for (int i = 0; i < val.length; i++) {
+//
+//        val[i].phone.asMap().forEach((index, value) {
+//          if (value.number.length>0 || value.number != null) {
+//            if (matchingContacts(value.number) == true) {
+//              print(value.number);
+//              i++;
+//            } else {
+//              print(val[i].name);
+//              // don't look at me! remove print and replace your functionality 😂😜😀
+//
+//              // you can add other phones to your phone 😂😜😀 happy coding 🤓
+//              i++;
+//            }
+//          }
+//        });
+////  val[i].email.asMap().forEach((index,value){
+////
+////        });
+//
+//      }
     });
   }
 
@@ -80,7 +88,7 @@ class _ContactListPageState extends State<ContactListPage> {
           result = true;
         } else {
           result = false;
-          // you can add other phones to your phone 😂😜😀 happy coding 🤓
+
         }
       });
       if (result == true) break;
