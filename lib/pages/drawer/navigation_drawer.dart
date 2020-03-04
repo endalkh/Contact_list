@@ -211,17 +211,11 @@ class _SideDrawer extends State<SideDrawer> implements ShouldImp {
               Divider(),
               ListTile(
                 onTap: () {
-                  var x=phoneSyncApi(token: Provider.of<Auth>(context,listen: false).getTokenFun());
-                  x.then((value){
-
-                  });
-
+                  ConfirmationDialog(
+                      context: context,
+                      title: "Are you sure to logout?",
+                      callback: _SideDrawer());
                 },
-//                  ConfirmationDialog(
-//                      context: context,
-//                      title: "Are you sure to logout?",
-//                      callback: _SideDrawer());
-//                },
                 title: _buildRow(Icons.exit_to_app, "Logout"),
               ),
             ],
