@@ -14,11 +14,6 @@ class ContactSync {
 
     this.phone=phone;
     this.email=email;
-
-
-
-
-
   }
 
   factory ContactSync.fromJson(Map<String, dynamic> parsedJson) {
