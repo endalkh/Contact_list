@@ -63,6 +63,19 @@ class _ContactListPageState extends State<ContactListPage> {
     refreshContacts();
   }
 
+  matchingContacts() {
+
+
+  }
+
+  syncronizationApptoPhone() {
+  Contact contact = Contact();
+
+  }
+  syncronizationPhonetoApp() {
+    
+  }
+
   Future<PermissionStatus> _getContactPermission() async {
     PermissionStatus permission = await PermissionHandler()
         .checkPermissionStatus(PermissionGroup.contacts);
@@ -317,7 +330,6 @@ class ItemsTile extends StatelessWidget {
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
           ),
         ),
-
         Column(
           children: _items
               .map(
@@ -477,7 +489,6 @@ class _UpdateContactsPageState extends State<UpdateContactsPage> {
                   contact.phones = [Item(label: "mobile", value: v)],
                 ),
               ),
-
             ],
           ),
         ),
