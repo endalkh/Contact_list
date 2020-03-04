@@ -42,10 +42,10 @@ class _ContactListPageState extends State<ContactListPage> {
     );
 
 
-     contactSync.then((val) async{
-       for (int i = 0; i < val.length; i++) {
-         print(val[i].name);
-       };
+     contactSync.then((val){
+        for (int i = 0; i < val.length; i++) {
+          print(val[i].name);
+       }
 //      for (int i = 0; i < val.length; i++) {
 //
 //        val[i].phone.asMap().forEach((index, value) {
