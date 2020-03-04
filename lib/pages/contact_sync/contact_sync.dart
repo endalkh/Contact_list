@@ -70,7 +70,7 @@ class _ContactListPageState extends State<ContactListPage> {
   matchingContacts(phone) {
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-     if(prefixRemover(f.value)==prefixRemover(phone)){
+     if(prefixRemover(f.value)==prefixRemover(phone) && (phone!=null||phone!="")){
        print("matched $phone ${f.value}");
      }
      else{
