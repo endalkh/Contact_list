@@ -2,7 +2,9 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/api/auth.dart';
+import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/api/model/contact_sync.dart';
+import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
@@ -42,10 +44,15 @@ class _ContactListPageState extends State<ContactListPage> {
     );
 
 
+
+
      contactSync.then((val){
         for (int i = 0; i < val.length; i++) {
-          print(val[i].name);
+          val[i].phone.asMap().forEach((index, value) {
+          print(value.number);
+          });
        }
+
 //      for (int i = 0; i < val.length; i++) {
 //
 //        val[i].phone.asMap().forEach((index, value) {
