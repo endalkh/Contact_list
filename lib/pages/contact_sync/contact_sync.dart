@@ -7,6 +7,7 @@ import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/phone_prefix.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -35,25 +36,22 @@ class _ContactListPageState extends State<ContactListPage> {
     }
   }
 
-  addAllContact() async{
-//            var contactSync= phoneSyncApi(
-//           token: Provider.of<Auth>(context,listen: false).getTokenFun(),
-//         );
-//       contactSync.then((val){
-//      for(int i=0;i<val.length;i++){
-//        print(val[i].name);
-//        print(" ");
-//        val[i].phone.asMap().forEach((index,value){
-//          print(value.number);
-//        });
-//  val[i].email.asMap().forEach((index,value){
-//          print(value.type);
-//           print(value.address);
-//        });
-//        print(" ");
-//      }
-//           });
-matchingContacts("90394389");
+  addAllContact() async {
+            var contactSync= phoneSyncApi(
+           token: Provider.of<Auth>(context,listen: false).getTokenFun(),
+         );
+       contactSync.then((val){
+      for(int i=0;i<val.length;i++){
+        val[i].phone.asMap().forEach((index,value){
+          matchingContacts(value.number);
+
+        });
+  val[i].email.asMap().forEach((index,value){
+
+        });
+
+      }
+           });
 
   }
 
@@ -67,34 +65,22 @@ matchingContacts("90394389");
   }
 
 
+
+
   matchingContacts(phone) {
-//    String pattern = r'(^([+1]+[0-9]{10}$)';
-     String plusPattern=r'(^\+?[0-9]{10-13}$)';
-//    RegExp regExp = new RegExp(pattern);
-//    RegExp regExp = new RegExp(pattern);
-
-  for(int i=0;i<_contacts.length;i++){
-  _contacts.elementAt(i).phones.forEach((f){
-
-     String number=f.value.replaceAll(RegExp(r'[^\w\s\g]+'),'');
-    number= number.replaceAll(RegExp(' '),'');
-     RegExp regExp = new RegExp(plusPattern);
-     if(regExp.hasMatch(number)){
-       number= number.replaceAll(RegExp(r'\+'),'');
-       print(number);
+    for (int i = 0; i < _contacts.length; i++) {
+      _contacts.elementAt(i).phones.forEach((f) {
+     if(prefixRemover(f.value)==prefixRemover(phone)){
+       print("matched $phone ${f.value}");
+     }
+     else{
+    // you can add other phones to your phone 😂😜😀 happy coding 🤓
      }
 
-   });
-  }
+      });
+    }
   }
 
-  syncronizationApptoPhone() {
-  Contact contact = Contact();
-
-  }
-  syncronizationPhonetoApp() {
-    
-  }
 
   Future<PermissionStatus> _getContactPermission() async {
     PermissionStatus permission = await PermissionHandler()
@@ -102,8 +88,8 @@ matchingContacts("90394389");
     if (permission != PermissionStatus.granted &&
         permission != PermissionStatus.disabled) {
       Map<PermissionGroup, PermissionStatus> permissionStatus =
-      await PermissionHandler()
-          .requestPermissions([PermissionGroup.contacts]);
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.contacts]);
       return permissionStatus[PermissionGroup.contacts] ??
           PermissionStatus.unknown;
     } else {
@@ -128,53 +114,53 @@ matchingContacts("90394389");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: headerNav(title: "Contact Sync", context: context),
-      body: SafeArea(
-        child: _contacts != null
-            ? ListView.builder(
-          itemCount: _contacts?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            Contact c = _contacts?.elementAt(index);
-            return Card(
-              margin:
-              EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: ListTile(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          ContactDetailsPage(c)));
-                },
-                leading: (c.avatar != null && c.avatar.length > 0)
-                    ? CircleAvatar(backgroundImage: MemoryImage(c.avatar))
-                    : CircleAvatar(
-                  child: Text(
-                    c.initials(),
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  backgroundColor: PRIMARY_COLOR,
+        appBar: headerNav(title: "Contact Sync", context: context),
+        body: SafeArea(
+          child: _contacts != null
+              ? ListView.builder(
+                  itemCount: _contacts?.length ?? 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    Contact c = _contacts?.elementAt(index);
+                    return Card(
+                      margin: EdgeInsets.only(
+                          left: 15, right: 15, bottom: 3, top: 3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ContactDetailsPage(c)));
+                        },
+                        leading: (c.avatar != null && c.avatar.length > 0)
+                            ? CircleAvatar(
+                                backgroundImage: MemoryImage(c.avatar))
+                            : CircleAvatar(
+                                child: Text(
+                                  c.initials(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                backgroundColor: PRIMARY_COLOR,
+                              ),
+                        title: Text(c.displayName ?? ""),
+                      ),
+                    );
+                  },
+                )
+              : Center(
+                  child: circularIndicator(context: context),
                 ),
-                title: Text(c.displayName ?? ""),
-              ),
-            );
-          },
-        )
-            : Center(
-          child: circularIndicator(context: context),
         ),
-      ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => {
-addAllContact(),
+            addAllContact(),
           },
           backgroundColor: PRIMARY_COLOR,
           child: Icon(Icons.add),
-        )
-    );
+        ));
   }
 }
 
@@ -184,7 +170,6 @@ class AddContactPage extends StatefulWidget {
 }
 
 class _AddContactPageState extends State<AddContactPage> {
-
   Contact contact = Contact();
   PostalAddress address = PostalAddress(label: "Home");
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -227,13 +212,13 @@ class _AddContactPageState extends State<AddContactPage> {
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Phone'),
                 onSaved: (v) =>
-                contact.phones = [Item(label: "mobile", value: v)],
+                    contact.phones = [Item(label: "mobile", value: v)],
                 keyboardType: TextInputType.phone,
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'E-mail'),
                 onSaved: (v) =>
-                contact.emails = [Item(label: "work", value: v)],
+                    contact.emails = [Item(label: "work", value: v)],
                 keyboardType: TextInputType.emailAddress,
               ),
             ],
@@ -242,7 +227,6 @@ class _AddContactPageState extends State<AddContactPage> {
       ),
     );
   }
-
 }
 
 class ContactDetailsPage extends StatelessWidget {
@@ -260,9 +244,8 @@ class ContactDetailsPage extends StatelessWidget {
           IconButton(
               color: Colors.white,
               icon: Icon(Icons.delete),
-              onPressed: () =>
-                  ContactsService.deleteContact(_contact).then(
-                        (_) {
+              onPressed: () => ContactsService.deleteContact(_contact).then(
+                    (_) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => ContactListPage()));
                     },
@@ -270,15 +253,13 @@ class ContactDetailsPage extends StatelessWidget {
           IconButton(
             color: Colors.white,
             icon: Icon(Icons.update),
-            onPressed: () =>
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        UpdateContactsPage(
-                          contact: _contact,
-                        ),
-                  ),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => UpdateContactsPage(
+                  contact: _contact,
                 ),
+              ),
+            ),
           ),
         ],
       ),
@@ -353,8 +334,7 @@ class ItemsTile extends StatelessWidget {
         Column(
           children: _items
               .map(
-                (i) =>
-                Padding(
+                (i) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -366,7 +346,7 @@ class ItemsTile extends StatelessWidget {
                     ),
                   ),
                 ),
-          )
+              )
               .toList(),
         ),
       ],
@@ -397,7 +377,6 @@ class _UpdateContactsPageState extends State<UpdateContactsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         title: Text(
           "Update Contact",
@@ -506,14 +485,13 @@ class _UpdateContactsPageState extends State<UpdateContactsPage> {
                   ),
                   initialValue: contact.suffix ?? "",
                   onSaved: (v) =>
-                  contact.phones = [Item(label: "mobile", value: v)],
+                      contact.phones = [Item(label: "mobile", value: v)],
                 ),
               ),
             ],
           ),
         ),
       ),
-
     );
   }
 }
