@@ -577,7 +577,7 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: ExpansionTile(
-                backgroundColor: PRIMARY_COLOR,
+                // backgroundColor: PRIMARY_COLOR,
                 title: ListTile(
                   title: Text(
                     "John Doe",
@@ -646,6 +646,21 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
 
 
       ),
+    );
+  }
+}
+
+
+class MatchedContactsDetail extends StatefulWidget {
+  @override
+  _MatchedContactsDetailState createState() => _MatchedContactsDetailState();
+}
+
+class _MatchedContactsDetailState extends State<MatchedContactsDetail> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
     );
   }
 }
