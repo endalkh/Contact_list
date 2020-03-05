@@ -51,6 +51,7 @@ class _ContactListPageState extends State<ContactListPage> {
                 i++;
               }
               else {
+
                 //call method for add contacts
                 // don't look at me! remove print and replace your functionality 😂😜😀
                 // you can add other phones to your phone 😂😜😀 happy coding 🤓
@@ -62,12 +63,8 @@ class _ContactListPageState extends State<ContactListPage> {
 
        }
 
-
-
-//  val[i].email.asMap().forEach((index,value){
-//
-//        });
-    });
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => MatchedContactsPage()));    });
 
 
      List<ContactSync> con=Provider.of<Auth>(context,listen: false).getContactSync();
@@ -78,7 +75,6 @@ class _ContactListPageState extends State<ContactListPage> {
        con[i].phone.map((f){
 
        });
-
        con[i].email.map((f){
          print(f.address);
        });
@@ -86,7 +82,6 @@ class _ContactListPageState extends State<ContactListPage> {
 
      }
   }
-
   matchingContacts(phone) {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
@@ -546,6 +541,8 @@ class MatchedContactsPage extends StatefulWidget {
 }
 
 class _MatchedContactsPageState extends State<MatchedContactsPage> {
+  
+ 
   submitButton() {
     return Row(
       children: [
@@ -583,11 +580,15 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
         ),
       ),
       body: Container(
+
         margin: EdgeInsets.only(top: 15),
         child: ListView.builder(
-          itemCount: 8,
+          itemCount: Provider.of<Auth>(context,listen: false).getContactSync().length,
           itemBuilder: (BuildContext context, int index) {
-            return Card(
+            return Column(
+children: <Widget>[
+  Provider.of<Auth>(context).getContactSync().map(index,values){
+            Card(
               margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
@@ -595,7 +596,7 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
               child: ExpansionTile(
                 title: ListTile(
                   title: Text(
-                    "John Doe",
+          
                     style: TextStyle(fontSize: 19),
                   ),
                 ),
@@ -652,6 +653,11 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                 ],
               ),
             );
+  });
+],
+            );
+            
+
           },
         ),
       ),

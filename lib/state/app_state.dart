@@ -274,7 +274,7 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  getContactSync() {
+  List<ContactSync> getContactSync() {
     return this.contactSync;
   }
 }
