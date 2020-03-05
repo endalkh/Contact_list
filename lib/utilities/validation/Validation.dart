@@ -49,7 +49,7 @@ validatePassword(String value) {
 validateFirstNameForAddPerson(String value) {
   if (value.isEmpty) {
     // The form is empty
-    return "first name field is required!";
+    return "First Name field is required!";
   }
   // This is just a regular expression for email addresses
   String p = "[a-zA-Z]{3,256}";
@@ -60,6 +60,17 @@ validateFirstNameForAddPerson(String value) {
   }
   return 'Please enter valid name';
 }
+
+validateBirthday(String value) {
+  if (value.isEmpty) {
+    // The form is empty
+    return "Birthday is a required field!";
+  }
+  else{
+    return "";
+  }
+}
+
 validateLastNameForAddPerson(String value) {
   if (value.isEmpty) {
     // The form is empty
