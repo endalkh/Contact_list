@@ -35,9 +35,8 @@ class _ContactListPageState extends State<ContactListPage> {
     }
   }
 
-   addAllContact()async{
-
-      Provider.of<Auth>(context,listen: false).clearContactSync();
+  addAllContact() async {
+    Provider.of<Auth>(context, listen: false).clearContactSync();
 
     var contactSync = phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
@@ -202,7 +201,7 @@ class _ContactListPageState extends State<ContactListPage> {
           addAllContact(),
         },
         backgroundColor: PRIMARY_COLOR,
-        child: Icon(Icons.add),
+        child: Icon(Icons.sync, color: Colors.white,),
       ),
     );
   }
@@ -585,92 +584,96 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
       body: Container(
         margin: EdgeInsets.only(top: 15),
         child: ListView.builder(
-          itemCount: 8,
+          itemCount:
+              Provider.of<Auth>(context, listen: false).getContactSync().length,
           itemBuilder: (BuildContext context, int index) {
 
             return Column(
-children: <Widget>[
-
-          Column(
-          children: Provider.of<Auth>(context).getContactSync()
-              .map(
-                (i) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
-           child: Card(
-              margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: ExpansionTile(
-                title: ListTile(
-
-                  title: Text( i.name,
-                    style: TextStyle(fontSize: 19),
-                  ),
-                ),
-                children: [
-                  Column(
-                    children: [
-                      Card(
-                        margin: EdgeInsets.only(left: 15, right: 15),
-                        elevation: 0,
-                        child: ListTile(
-                          title: Row(
-                            children: [
-                              Text("From Relate"),
-                              Container(
-                                margin: EdgeInsets.only(left: 200),
-                                height: 30,
-                                width: 30,
-                                child: FloatingActionButton(
-                                  onPressed: () => {},
-                                  backgroundColor: PRIMARY_COLOR,
-                                  child: Icon(Icons.save, size: 15),
+              children: <Widget>[
+                Column(
+                  children: Provider.of<Auth>(context)
+                      .getContactSync()
+                      .map(
+                        (i) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          child: Card(
+                            margin: EdgeInsets.only(
+                                left: 15, right: 15, bottom: 3, top: 3),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: ExpansionTile(
+                              title: ListTile(
+                                title: Text(
+                                  i.name,
+                                  style: TextStyle(fontSize: 19),
                                 ),
                               ),
-                            ],
+                              children: [
+                                Column(
+                                  children: [
+                                    Card(
+                                      margin:
+                                          EdgeInsets.only(left: 15, right: 15),
+                                      elevation: 0,
+                                      child: ListTile(
+                                        title: Row(
+                                          children: [
+                                            Text("From Relate"),
+                                            Container(
+                                              margin:
+                                                  EdgeInsets.only(left: 200),
+                                              height: 30,
+                                              width: 30,
+                                              child: FloatingActionButton(
+                                                onPressed: () => {},
+                                                backgroundColor: PRIMARY_COLOR,
+                                                child:
+                                                    Icon(Icons.save, size: 15),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Card(
+                                      margin:
+                                          EdgeInsets.only(left: 15, right: 15),
+                                      elevation: 0,
+                                      child: ListTile(
+                                        title: Row(
+                                          children: [
+                                            Text(
+                                              "From Phone",
+                                            ),
+                                            Container(
+                                              margin:
+                                                  EdgeInsets.only(left: 200),
+                                              height: 30,
+                                              width: 30,
+                                              child: FloatingActionButton(
+                                                onPressed: () => {},
+                                                backgroundColor: PRIMARY_COLOR,
+                                                child:
+                                                    Icon(Icons.save, size: 15),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Divider(),
-                      Card(
-                        margin: EdgeInsets.only(left: 15, right: 15),
-                        elevation: 0,
-                        child: ListTile(
-                          title: Row(
-                            children: [
-                              Text(
-                                "From Phone",
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 200),
-                                height: 30,
-                                width: 30,
-                                child: FloatingActionButton(
-                                  onPressed: () => {},
-                                  backgroundColor: PRIMARY_COLOR,
-                                  child: Icon(Icons.save, size: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-
-            ),
+                      )
+                      .toList(),
                 ),
-              )
-              .toList(),
-        ),
-
-],
+              ],
             );
-            
-
           },
         ),
       ),
