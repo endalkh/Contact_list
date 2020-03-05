@@ -207,8 +207,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
   }
 
   personalInformation() {
-    Contact contact = Contact();
-
     return Column(
       children: [
         new RawMaterialButton(
@@ -350,7 +348,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
   }
 
   enterNotesTextFormField() {
-    Contact contact = Contact();
     return Column(
       children: <Widget>[
         Text(
@@ -400,7 +397,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
   }
 
   phoneNumberButton() {
-    Contact contact = Contact();
     return Container(
       height: 55,
       decoration: BoxDecoration(
@@ -433,7 +429,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    hintText: "+1(424) 341-3346",
+                    hintText: "+1(000) 000-0000",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
@@ -493,7 +489,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
 
   @override
   Widget build(BuildContext context) {
-    Contact contact = Contact();
     return WillPopScope(
       child: Consumer<Auth>(
         builder: (BuildContext context, Auth value, Widget child) =>

@@ -45,10 +45,6 @@ class _ContactListPageState extends State<ContactListPage> {
           if (matchingContacts(value.number) == true) {
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
           } else {
-            //call method for add contacts
-            // don't look at me! remove print and replace your functionality 😂😜😀
-            // you can add other phones to your phone 😂😜😀 happy coding 🤓
-
           }
         });
       }
