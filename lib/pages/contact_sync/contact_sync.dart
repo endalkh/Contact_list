@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/api/auth.dart';
-import 'package:flutter_app/api/model/contact_sync.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
@@ -66,9 +63,10 @@ class _ContactListPageState extends State<ContactListPage> {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (prefixRemover(f.value) == prefixRemover(phone)) {
+        if (prefixRemover(f.value) == prefixRemover(phone) && (phone!=null && phone!="")) {
           result = true;
-        } else {
+        }
+        else {
           result = false;
         }
       });
@@ -557,6 +555,7 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                               i.name,
                               style: TextStyle(fontSize: 19),
                             ),
+                            subtitle: Text(i.phone[0].number),
                           ),
                           children: [
                             Column(
