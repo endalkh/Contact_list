@@ -510,7 +510,7 @@ class _UpdateContactsPageState extends State<UpdateContactsPage> {
                         borderSide: BorderSide.none),
                   ),
                   initialValue: contact.middleName ?? "",
-                  onSaved: (v) => contact.middleName = v,
+                  // onSaved: (v) => contact.middleName = v,
                 ),
               ),
               SizedBox(
