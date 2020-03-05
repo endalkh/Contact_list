@@ -49,14 +49,14 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
     super.initState();
   }
 
-  submitButton(Contact contact) {
+  submitButton() {
     return Row(
       children: [
         Expanded(
           flex: 1,
           child: RawMaterialButton(
             onPressed: () {
-              ContactsService.addContact(contact);
+              // ContactsService.addContact();
               submitForm();
             },
             child: new Icon(
@@ -78,10 +78,9 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
     Contact contact = Contact();
     contact.givenName = fNameController.text;
     contact.middleName = lNameController.text;
-    // contact.birthday = dateFormatterBack(birthdayController.text);
+    contact.birthday = DateTime.now();
     // contact.emails = emailController.text as Iterable<Item>;
     // contact.phones = phoneController.text as Iterable<Item>;
-    // contact.notes = addNoteController.text;
     ContactsService.addContact(contact);
   }
 
@@ -122,9 +121,10 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
         token: token,
         notes: addNoteController.text,
       );
-      saveContactToPhone();
+
 
       addNewPerson.then((value) {
+              saveContactToPhone();
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
 
@@ -240,7 +240,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none),
             ),
-            onSaved: (v) => contact.givenName = v,
           ),
         ),
         showError == true &&
@@ -267,7 +266,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none),
             ),
-            onSaved: (v) => contact.familyName = v,
           ),
         ),
         showError == true &&
@@ -388,8 +386,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
                   ),
-                  onSaved: (v) =>
-                      contact.emails = [Item(label: "work", value: v)],
                 ),
               ),
             ),
@@ -438,7 +434,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
                   ),
-                  onSaved: (v) => contact.givenName = v,
                       // contact.phones = [Item(label: "mobile", value: v)],
                 ),
               )
@@ -538,7 +533,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                                 ),
                                 Container(
                                   width: 150,
-                                  child: submitButton(contact),
+                                  child: submitButton(),
                                 ),
                                 SizedBox(
                                   height: 40,
