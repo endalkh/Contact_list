@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,39 +37,62 @@ class _ContactListPageState extends State<ContactListPage> {
     }
   }
 
-  addAllContact() async {
-   await Provider.of<Auth>(context, listen: false).clearContactSync();
+  Future addAllContact()  async{
 
-    var contactSync = phoneSyncApi(
+    await Provider.of<Auth>(context, listen: false).clearContactSync();
+
+     await phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
-    );
+    ).then((val) {
+      for (int i = 0; i < val.length; i++) {
+        val[i].phone.asMap().forEach((index, value) {
+          if (matchingContacts(value.number) == true) {
+            Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
+            print("hello world");
+          }
+          else {
+            //call method for add contacts
+            // don't look at me! remove print and replace your functionality 😂😜😀
+            // you can add other phones to your phone 😂😜😀 happy coding 🤓
 
-    await contactSync.then((val){
-        for (int i = 0; i < val.length; i++) {
-          val[i].phone.asMap().forEach((index, value) {
-              if (matchingContacts(value.number)==true) {
-                Provider.of<Auth>(context,listen: false).setContactSync(val[i]);
-              }
-              else {
-                //call method for add contacts
-                // don't look at me! remove print and replace your functionality 😂😜😀
-                // you can add other phones to your phone 😂😜😀 happy coding 🤓
+          }
+        });
 
-              }
-          });
-
-
-
-       }
-
-
-
-//  val[i].email.asMap().forEach((index,value){
-//
-//        });
-
-
+      }
     });
+
+     Navigator.of(context).push(MaterialPageRoute(
+    builder: (BuildContext context) => MatchedContactsPage()));
+
+//     contact.then((val){
+//        for (int i = 0; i < val.length; i++) {
+//          val[i].phone.asMap().forEach((index, value) {
+//              if (matchingContacts(value.number)==true) {
+//                Provider.of<Auth>(context,listen: false).setContactSync(val[i]);
+//              }
+//              else {
+//                //call method for add contacts
+//                // don't look at me! remove print and replace your functionality 😂😜😀
+//                // you can add other phones to your phone 😂😜😀 happy coding 🤓
+//
+//              }
+//          });
+//
+//if(i==val.length-1){
+//  setState(() {
+//    isFinished=true;
+//  });
+//}
+//       }
+//
+//
+//
+////  val[i].email.asMap().forEach((index,value){
+////
+////        });
+//
+//
+//    });
 
 
 //     List<ContactSync> con=Provider.of<Auth>(context,listen: false).getContactSync();
@@ -82,8 +107,7 @@ class _ContactListPageState extends State<ContactListPage> {
 //
 //
 //     }
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => MatchedContactsPage()));
+
   }
 
   matchingContacts(phone) {
@@ -544,29 +568,6 @@ class MatchedContactsPage extends StatefulWidget {
 }
 
 class _MatchedContactsPageState extends State<MatchedContactsPage> {
-  submitButton() {
-    return Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: RawMaterialButton(
-            onPressed: () {
-              // submitForm();
-            },
-            child: new Icon(
-              Icons.add,
-              color: TRIAL_COLOR,
-              size: 15.0,
-            ),
-            shape: new CircleBorder(),
-            elevation: 2.0,
-            fillColor: PRIMARY_COLOR,
-            padding: const EdgeInsets.all(15.0),
-          ),
-        )
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -582,17 +583,10 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
       ),
       body: Container(
         margin: EdgeInsets.only(top: 15),
-        child: ListView.builder(
-          itemCount:
-              Provider.of<Auth>(context, listen: false).getContactSync().length,
-          itemBuilder: (BuildContext context, int index) {
-
-            return Column(
+        child: Column(
               children: <Widget>[
                 Column(
-                  children: Provider.of<Auth>(context)
-                      .getContactSync()
-                      .map(
+                  children:Provider.of<Auth>(context).getContactSync().map(
                         (i) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 0.0),
                           child: Card(
@@ -618,18 +612,23 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                                       child: ListTile(
                                         title: Row(
                                           children: [
-                                            Text("From Relate"),
-                                            Container(
-                                              margin:
-                                                  EdgeInsets.only(left: 200),
+                                            Expanded(
+                                              flex:7,
+                                              child: Text("From Relate"),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                            child:Container(
                                               height: 30,
                                               width: 30,
                                               child: FloatingActionButton(
                                                 onPressed: () => {},
                                                 backgroundColor: PRIMARY_COLOR,
+                                                foregroundColor: Colors.white,
                                                 child:
                                                     Icon(Icons.save, size: 15),
                                               ),
+                                            ),
                                             ),
                                           ],
                                         ),
@@ -643,21 +642,24 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                                       child: ListTile(
                                         title: Row(
                                           children: [
-                                            Text(
-                                              "From Phone",
+                                          Expanded(
+                                          flex:7,
+                                          child: Text("From Phone"),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child:Container(
+                                            height: 30,
+                                            width: 30,
+                                            child: FloatingActionButton(
+                                              onPressed: () => {},
+                                              backgroundColor: PRIMARY_COLOR,
+                                              foregroundColor: Colors.white,
+                                              child:
+                                              Icon(Icons.save, size: 15),
                                             ),
-                                            Container(
-                                              margin:
-                                                  EdgeInsets.only(left: 200),
-                                              height: 30,
-                                              width: 30,
-                                              child: FloatingActionButton(
-                                                onPressed: () => {},
-                                                backgroundColor: PRIMARY_COLOR,
-                                                child:
-                                                    Icon(Icons.save, size: 15),
-                                              ),
-                                            ),
+                                          ),
+                                        ),
                                           ],
                                         ),
                                       ),
@@ -672,9 +674,8 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                       .toList(),
                 ),
               ],
-            );
-          },
-        ),
+            ),
+
       ),
     );
   }

@@ -52,6 +52,7 @@ class _MyApp extends State<MyApp> {
     AppState themeNotifier = Provider.of<AppState>(context);
     return MaterialApp(
       showSemanticsDebugger: false,
+        debugShowCheckedModeBanner: false,
         initialRoute: logged == true ? Constant.HOME : Constant.SPLASH_SCREEN,
         theme: themeNotifier.getTheme(),
         routes: {

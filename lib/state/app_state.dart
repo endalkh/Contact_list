@@ -255,22 +255,23 @@ class Auth with ChangeNotifier {
   getPersonList() {
     return personList;
   }
+  clearContactSync() {
+    contactSync.clear();
+    notifyListeners();
+  }
 
   setContactSync(ContactSync val) {
     contactSync.add(val);
     notifyListeners();
   }
 
-  clearContactSync() {
-    contactSync.removeWhere((item) => item != null);
-    notifyListeners();
-  }
+
 
   notifier() {
     notifyListeners();
   }
 
   List<ContactSync> getContactSync() {
-    return this.contactSync;
+    return contactSync;
   }
 }
