@@ -53,6 +53,7 @@ class _MyApp extends State<MyApp> {
     return MaterialApp(
       showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
+
         initialRoute: logged == true ? Constant.HOME : Constant.SPLASH_SCREEN,
         theme: themeNotifier.getTheme(),
         routes: {
