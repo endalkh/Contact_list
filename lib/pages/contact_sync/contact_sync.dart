@@ -110,10 +110,8 @@ class _ContactListPageState extends State<ContactListPage> {
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
         if (prefixRemover(f.value) == prefixRemover(phone)) {
-          i++;
           result = true;
         } else {
-          i++;
           result = false;
         }
       });

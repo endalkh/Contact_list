@@ -14,12 +14,11 @@ import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
 import 'package:provider/provider.dart';
 
-class AddNewPersonScreen extends StatefulWidget{
-  _AddNewPerson createState()=>_AddNewPerson();
+class AddNewPersonScreen extends StatefulWidget {
+  _AddNewPerson createState() => _AddNewPerson();
 }
 
-class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
-
+class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
   TextEditingController fNameController = TextEditingController();
   TextEditingController lNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -34,7 +33,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
   List<DropdownMenuItem<EmailType>> emailDropdownMenuItems;
   PhoneType selectPhone;
   EmailType selectEmail;
-  bool showError=false;
+  bool showError = false;
 
   @override
   void initState() {
@@ -43,40 +42,40 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
       emailDropdownMenuItems = emailBuildDropdownMenuItems(emailType);
       selectPhone = phoneDropdownMenuItems[0].value;
       selectEmail = emailDropdownMenuItems[0].value;
-      birthdayController.text='';
-      Provider.of<Auth>(context,listen: false).setHasErrorFun("");
+      birthdayController.text = '';
+      Provider.of<Auth>(context, listen: false).setHasErrorFun("");
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
     });
     super.initState();
   }
 
-  submitButton() {
-    return
-      Row(
-        children:[
-          Expanded(
-            flex: 1,
-            child:  RawMaterialButton(
-              onPressed: () {
-                submitForm();
-              },
-              child: new Icon(
-                Icons.arrow_forward,
-                color: TRIAL_COLOR,
-                size: 25.0,
-              ),
-              shape: new CircleBorder(),
-              elevation: 2.0,
-              fillColor:PRIMARY_COLOR,
-              padding: const EdgeInsets.all(15.0),
+  submitButton(Contact contact) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: RawMaterialButton(
+            onPressed: () {
+              ContactsService.addContact(contact);
+              submitForm();
+            },
+            child: new Icon(
+              Icons.arrow_forward,
+              color: TRIAL_COLOR,
+              size: 25.0,
             ),
-          )
-        ],
-      );
-
+            shape: new CircleBorder(),
+            elevation: 2.0,
+            fillColor: PRIMARY_COLOR,
+            padding: const EdgeInsets.all(15.0),
+          ),
+        )
+      ],
+    );
   }
+
   saveContactToPhone() {
-  Contact contact = Contact();
+    Contact contact = Contact();
     contact.givenName = fNameController.text;
     contact.middleName = lNameController.text;
     // contact.birthday = dateFormatterBack(birthdayController.text);
@@ -84,75 +83,83 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
     // contact.phones = phoneController.text as Iterable<Item>;
     // contact.notes = addNoteController.text;
     ContactsService.addContact(contact);
-
   }
 
-  submitForm(){
-    if(
-    validateEmailForAddPerson(emailController.text).toString().isNotEmpty==true||
-    validateFirstNameForAddPerson(fNameController.text).toString().isNotEmpty==true||
-    validateLastNameForAddPerson(lNameController.text).toString().isNotEmpty==true||
-    validatePhoneForAddPerson(phoneController.text).toString().isNotEmpty==true
-
-    ){
+  submitForm() {
+    if (validateEmailForAddPerson(emailController.text)
+                .toString()
+                .isNotEmpty ==
+            true ||
+        validateFirstNameForAddPerson(fNameController.text)
+                .toString()
+                .isNotEmpty ==
+            true ||
+        validateLastNameForAddPerson(lNameController.text)
+                .toString()
+                .isNotEmpty ==
+            true ||
+        validatePhoneForAddPerson(phoneController.text).toString().isNotEmpty ==
+            true) {
       setState(() {
-        showError=true;
+        showError = true;
       });
-    }
-    else{
+    } else {
       setState(() {
-        showError=false;
+        showError = false;
       });
-      Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
-      var token=Provider.of<Auth>(context,listen: false).getTokenFun();
-      var addNewPerson =  addNewPersonApi(
-          emailType: selectEmail.name,
-          email: emailController.text,
-          phoneType: selectPhone.name,
-          phone: phoneController.text,
-          fName: fNameController.text,
-          lName: lNameController.text,
-          birthday: birthdayController.text.isEmpty||birthdayController==null?null:dateFormatterBack(birthdayController.text),
-          token:token ,
-          notes: addNoteController.text,
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+      var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+      var addNewPerson = addNewPersonApi(
+        emailType: selectEmail.name,
+        email: emailController.text,
+        phoneType: selectPhone.name,
+        phone: phoneController.text,
+        fName: fNameController.text,
+        lName: lNameController.text,
+        birthday: birthdayController.text.isEmpty || birthdayController == null
+            ? null
+            : dateFormatterBack(birthdayController.text),
+        token: token,
+        notes: addNoteController.text,
       );
-  saveContactToPhone();
+      saveContactToPhone();
 
       addNewPerson.then((value) {
-        Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(true);
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(true);
 
-        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
         InfoDialog(
             context: context,
             callback: _AddNewPerson(),
             title: Constant.success,
-            type:Constant.success
-        );
-
+            type: Constant.success);
 
         Navigator.pop(context);
-        Provider.of<Auth>(context,listen: false).setPersonHeaderTabFun(0);
+        Provider.of<Auth>(context, listen: false).setPersonHeaderTabFun(0);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PersonHeaderScreen(personId: value.id,)),
+          MaterialPageRoute(
+              builder: (context) => PersonHeaderScreen(
+                    personId: value.id,
+                  )),
         );
       });
 
       addNewPerson.catchError((value) {
-        Provider.of<Auth>(context,listen: false).setLoadingStateFun(false);
-        Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
+        Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(false);
 
-        Provider.of<Auth>(context,listen: false).setHasErrorFun(value.toString());
+        Provider.of<Auth>(context, listen: false)
+            .setHasErrorFun(value.toString());
         InfoDialog(
             context: context,
             callback: _AddNewPerson(),
             title: Constant.error,
-            type:Constant.error
-        );
+            type: Constant.error);
       });
     }
-
-
   }
 
   List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(
@@ -182,7 +189,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
     }
     return items;
   }
-  
+
   phoneOnChangeDropdownItem(PhoneType phone) {
     setState(() {
       selectPhone = phone;
@@ -194,7 +201,10 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
       selectEmail = email;
     });
   }
+
   personalInformation() {
+    Contact contact = Contact();
+
     return Column(
       children: [
         new RawMaterialButton(
@@ -206,17 +216,17 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
           ),
           shape: new CircleBorder(),
           elevation: 2.0,
-          fillColor:PRIMARY_COLOR,
+          fillColor: PRIMARY_COLOR,
           padding: const EdgeInsets.all(15.0),
         ),
-
         Padding(padding: EdgeInsets.all(5)),
         Text(
           'Personal Information',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 10,),
-
+        SizedBox(
+          height: 10,
+        ),
         Material(
           borderRadius: BorderRadius.circular(10.0),
           elevation: 12,
@@ -230,9 +240,19 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none),
             ),
+            onSaved: (v) => contact.givenName = v,
           ),
         ),
-        showError==true && validateFirstNameForAddPerson(fNameController.text).toString().isNotEmpty==true?Text(validateFirstNameForAddPerson(fNameController.text),style: TextStyle(color: Colors.red),):Container(),
+        showError == true &&
+                validateFirstNameForAddPerson(fNameController.text)
+                        .toString()
+                        .isNotEmpty ==
+                    true
+            ? Text(
+                validateFirstNameForAddPerson(fNameController.text),
+                style: TextStyle(color: Colors.red),
+              )
+            : Container(),
         Padding(padding: EdgeInsets.all(5)),
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -247,10 +267,19 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none),
             ),
+            onSaved: (v) => contact.familyName = v,
           ),
         ),
-        showError==true && validateLastNameForAddPerson(lNameController.text).toString().isNotEmpty==true?Text(validateLastNameForAddPerson(lNameController.text),style: TextStyle(color: Colors.red),):Container(),
-
+        showError == true &&
+                validateLastNameForAddPerson(lNameController.text)
+                        .toString()
+                        .isNotEmpty ==
+                    true
+            ? Text(
+                validateLastNameForAddPerson(lNameController.text),
+                style: TextStyle(color: Colors.red),
+              )
+            : Container(),
         Padding(padding: EdgeInsets.all(5)),
         Material(
           borderRadius: BorderRadius.circular(10.0),
@@ -265,26 +294,23 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none),
             ),
-
             onTap: () async {
               var date = DateTime(1900);
               FocusScope.of(context).requestFocus(new FocusNode());
               date = await showDatePicker(
                   context: context,
-                  initialDate:  DateTime.now().toUtc(),
+                  initialDate: DateTime.now().toUtc(),
                   firstDate: Constant.initialDate.dateTime.toUtc(),
-                  lastDate: DateTime.now().toUtc()
-              );
-              birthdayController.text = dateFormatter(date);
+                  lastDate: DateTime.now().toUtc());
+                  birthdayController.text = dateFormatter(date);
             },
           ),
         ),
-
         Padding(padding: EdgeInsets.all(5)),
-
       ],
     );
   }
+
   contactInfo() {
     return Column(
       children: [
@@ -294,29 +320,49 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
         ),
         Padding(padding: EdgeInsets.all(5)),
         phoneNumberButton(),
-        showError==true && validatePhoneForAddPerson(phoneController.text).toString().isNotEmpty==true?Text(validatePhoneForAddPerson(phoneController.text),style: TextStyle(color: Colors.red),):Container(),
-
+        showError == true &&
+                validatePhoneForAddPerson(phoneController.text)
+                        .toString()
+                        .isNotEmpty ==
+                    true
+            ? Text(
+                validatePhoneForAddPerson(phoneController.text),
+                style: TextStyle(color: Colors.red),
+              )
+            : Container(),
         Padding(padding: EdgeInsets.all(5)),
         emailTypeButton(),
-        showError==true && validateEmailForAddPerson(emailController.text).toString().isNotEmpty==true?Text(validateEmailForAddPerson(emailController.text),style: TextStyle(color: Colors.red),):Container(),
-
+        showError == true &&
+                validateEmailForAddPerson(emailController.text)
+                        .toString()
+                        .isNotEmpty ==
+                    true
+            ? Text(
+                validateEmailForAddPerson(emailController.text),
+                style: TextStyle(color: Colors.red),
+              )
+            : Container(),
         Padding(padding: EdgeInsets.all(5)),
       ],
     );
   }
+
   enterNotesTextFormField() {
+    Contact contact = Contact();
     return Column(
       children: <Widget>[
         Text(
           'Additional Notes',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Flexible(
-              child:Material(
+              child: Material(
                 borderRadius: BorderRadius.circular(10.0),
                 elevation: 12,
                 child: TextFormField(
@@ -327,13 +373,14 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                     suffixIcon: Column(
                       children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.clear,color: Colors.red,),
-                          onPressed: (){
+                          icon: Icon(
+                            Icons.clear,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
                             addNoteController.clear();
                           },
                         )
-
-
                       ],
                     ),
                     hintText: "Enter Notes",
@@ -341,23 +388,19 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
                   ),
+                  onSaved: (v) =>
+                      contact.emails = [Item(label: "work", value: v)],
                 ),
               ),
             ),
-
-
-
           ],
         )
       ],
     );
-
-
-
-
   }
 
   phoneNumberButton() {
+    Contact contact = Contact();
     return Container(
       height: 55,
       decoration: BoxDecoration(
@@ -389,13 +432,14 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
                 child: TextFormField(
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
-
                   decoration: InputDecoration(
                     hintText: "+1(424) 341-3346",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
                   ),
+                  onSaved: (v) => contact.givenName = v,
+                      // contact.phones = [Item(label: "mobile", value: v)],
                 ),
               )
             ],
@@ -448,75 +492,74 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp{
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-      return WillPopScope(
-        child:Consumer<Auth>(
-          builder: (BuildContext context, Auth value, Widget child) =>
-          value.getIsLoadingFun()==true?circularIndicator(context: context):
-          Scaffold(
-            appBar: headerNav(title: Constant.ADD_NEW_PERSON),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: personalInformation(),
-                        ),
-
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          child: contactInfo(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                          child: enterNotesTextFormField(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: 150,
-                          child: submitButton(),
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                      ],
+    Contact contact = Contact();
+    return WillPopScope(
+      child: Consumer<Auth>(
+        builder: (BuildContext context, Auth value, Widget child) =>
+            value.getIsLoadingFun() == true
+                ? circularIndicator(context: context)
+                : Scaffold(
+                    appBar: headerNav(title: Constant.ADD_NEW_PERSON),
+                    body: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: personalInformation(),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  child: contactInfo(),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 5),
+                                  child: enterNotesTextFormField(),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  width: 150,
+                                  child: submitButton(contact),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
-
-            ),
-          ),
-        ),
-        onWillPop: (){
-          Provider.of<Auth>(context,listen: false).setHasErrorFun("");
-          Provider.of<Auth>(context,listen: false).setSuccessfullyRegisteredFun(false);
-          return Future(()=>true);
-        },
-      );
-    }
+      ),
+      onWillPop: () {
+        Provider.of<Auth>(context, listen: false).setHasErrorFun("");
+        Provider.of<Auth>(context, listen: false)
+            .setSuccessfullyRegisteredFun(false);
+        return Future(() => true);
+      },
+    );
+  }
 
   @override
-  void changer({context, id}) {
-  }
-  }
+  void changer({context, id}) {}
+}
