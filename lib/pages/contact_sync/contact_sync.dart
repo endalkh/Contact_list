@@ -79,7 +79,6 @@ class _ContactListPageState extends State<ContactListPage> {
           result = true;
         } else {
           result = false;
-
         }
       });
       if (result == true) break;
@@ -581,9 +580,7 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                 title: ListTile(
                   title: Text(
                     "John Doe",
-                    style: TextStyle(
-                      fontSize: 19
-                    ),
+                    style: TextStyle(fontSize: 19),
                   ),
                 ),
                 children: [
@@ -593,11 +590,9 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                         margin: EdgeInsets.only(left: 15, right: 15),
                         elevation: 0,
                         child: ListTile(
-
                           title: Row(
                             children: [
-                              Text(
-                                "From Relate"),
+                              Text("From Relate"),
                               Container(
                                 margin: EdgeInsets.only(left: 200),
                                 height: 30,
@@ -643,13 +638,10 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
             );
           },
         ),
-
-
       ),
     );
   }
 }
-
 
 class MatchedContactsDetail extends StatefulWidget {
   @override
@@ -659,8 +651,6 @@ class MatchedContactsDetail extends StatefulWidget {
 class _MatchedContactsDetailState extends State<MatchedContactsDetail> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-    );
+    return Container();
   }
 }
