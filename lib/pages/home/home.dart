@@ -27,7 +27,7 @@ class Home extends StatefulWidget{
   Dashboard createState()=>Dashboard();
 }
 class Dashboard extends State<Home> implements ShouldImp {
-  List<GetAllContact> personList=[];
+
 
 
 
@@ -36,9 +36,7 @@ class Dashboard extends State<Home> implements ShouldImp {
     getAllContactApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     ).then((val){
-      setState(() {
-        personList=val;
-      });
+      Provider.of<Auth>(context,listen: false).setPersonList(val);
 
     }).catchError((ex){
       print(ex);
@@ -48,7 +46,7 @@ class Dashboard extends State<Home> implements ShouldImp {
 
   List<GetAllContact> filterPersonsByQueryPerson(String query) {
 
-   return personList.where(
+   return Provider.of<Auth>(context,listen: false).getPersonList().where(
             (person) => person.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
   }
@@ -146,8 +144,9 @@ class Dashboard extends State<Home> implements ShouldImp {
             title: Constant.success,
             type: Constant.success
         );
-
-        Navigator.pushNamed(context, Constant.HOME);
+        Provider.of<Auth>(context,listen: false).removePersonList(id);
+        Provider.of<Auth>(context, listen: false).notifier();
+//        Navigator.pushNamed(context, Constant.HOME);
         Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
 
         Provider.of<Auth>(context,listen: false).setHomePageTabFun(0);

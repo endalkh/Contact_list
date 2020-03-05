@@ -38,26 +38,29 @@ class _ContactListPageState extends State<ContactListPage> {
     }
   }
 
-   addAllContact()  {
+   addAllContact()async{
 
+      Provider.of<Auth>(context,listen: false).clearContactSync();
     var contactSync = phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     );
 
-     contactSync.then((val){
+    await contactSync.then((val){
         for (int i = 0; i < val.length; i++) {
           val[i].phone.asMap().forEach((index, value) {
               if (matchingContacts(value.number) == true) {
-                print("mached ${val[i].name}");
+              Provider.of<Auth>(context,listen: false).setContactSync(val[i]);
                 i++;
               }
               else {
-                //add contacts
+                //call method for add contacts
                 // don't look at me! remove print and replace your functionality 😂😜😀
                 // you can add other phones to your phone 😂😜😀 happy coding 🤓
                 i++;
               }
           });
+
+
 
        }
 
@@ -68,6 +71,23 @@ class _ContactListPageState extends State<ContactListPage> {
 
 
     });
+
+
+     List<ContactSync> con=Provider.of<Auth>(context,listen: false).getContactSync();
+     for(int i=0;i<con.length;i++){
+       print (con[i].id);
+       print (con[i].name);
+       print (con[i].birthday);
+       con[i].phone.map((f){
+         print(f.number);
+       });
+
+       con[i].email.map((f){
+         print(f.address);
+       });
+
+
+     }
   }
 
 

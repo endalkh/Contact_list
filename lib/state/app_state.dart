@@ -1,11 +1,12 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/model/contact_list.dart';
+import 'package:flutter_app/api/model/contact_sync.dart';
 import 'package:flutter_app/api/model/get_notes.dart';
 import 'package:flutter_app/api/model/login.dart';
 import 'package:flutter_app/constants/constant.dart';
 import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
-import 'package:loader_search_bar/loader_search_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppState with ChangeNotifier {
@@ -74,7 +75,7 @@ class Auth with ChangeNotifier {
   bool isPersonForSearch = true;
   List<GetAllContact> personList = [];
   List<GetNoteList> noteList = [];
-  AutoActive autoActive = AutoActive.off;
+  List<ContactSync> contactSync = [];
 
   getIsLogged() async {
     final pref = await SharedPreferences.getInstance();
@@ -240,21 +241,40 @@ class Auth with ChangeNotifier {
   }
 
   clearPersonList() {
-    this.personList.clear();
+    this.personList.removeWhere((item) => item != null);
     notifyListeners();
   }
 
   removePersonList(id) {
-    this.personList.removeWhere((item) => item.id == id);
+    this.personList.removeWhere((item) => item !=null );
     notifyListeners();
   }
 
-  setAutoActive(val) {
-    this.autoActive = val;
+  setPersonList(List<GetAllContact> val) {
+   personList=val;
     notifyListeners();
   }
 
-  getAutoActive() {
-    return this.autoActive;
+  getPersonList() {
+    return personList;
+  }
+
+  setContactSync(ContactSync val) {
+    contactSync.add(val);
+
+    notifyListeners();
+  }
+
+  clearContactSync() {
+    this.contactSync.removeWhere((item) => item != null);
+    notifyListeners();
+  }
+
+  notifier() {
+    notifyListeners();
+  }
+
+  getContactSync() {
+    return this.contactSync;
   }
 }
