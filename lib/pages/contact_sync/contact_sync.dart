@@ -76,7 +76,7 @@ class _ContactListPageState extends State<ContactListPage> {
        print (con[i].name);
        print (con[i].birthday);
        con[i].phone.map((f){
-         print(f.number);
+
        });
 
        con[i].email.map((f){

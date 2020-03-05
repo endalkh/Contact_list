@@ -145,7 +145,6 @@ class Dashboard extends State<Home> implements ShouldImp {
             type: Constant.success
         );
         Provider.of<Auth>(context,listen: false).removePersonList(id);
-        Provider.of<Auth>(context, listen: false).notifier();
 //        Navigator.pushNamed(context, Constant.HOME);
         Provider.of<Auth>(context,listen: false).setLoadingStateFun(true);
 
