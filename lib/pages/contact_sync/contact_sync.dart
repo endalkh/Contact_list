@@ -587,15 +587,20 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
           itemBuilder: (BuildContext context, int index) {
             return Column(
 children: <Widget>[
-  Provider.of<Auth>(context).getContactSync().map(index,values){
-            Card(
+
+          Column(
+          children: Provider.of<Auth>(context).getContactSync()
+              .map(
+                (i) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
+           child: Card(
               margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: ExpansionTile(
                 title: ListTile(
-                  title: Text(
+                  title: Text( i.name,
           
                     style: TextStyle(fontSize: 19),
                   ),
@@ -652,8 +657,12 @@ children: <Widget>[
                   )
                 ],
               ),
-            );
-  });
+            ),
+                ),
+              )
+              .toList(),
+        ),
+
 ],
             );
             
