@@ -78,8 +78,13 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
     Contact contact = Contact();
     contact.givenName = fNameController.text;
     contact.middleName = lNameController.text;
-     contact.phones= [Item(label: selectPhone.name, value: phoneController.text)];
-     contact.emails= [Item(label: selectEmail.name, value: emailController.text)];
+    contact.birthday = DateTime.now();//addNoteController.text;
+    contact.phones = [
+      Item(label: selectPhone.name, value: phoneController.text)
+    ];
+    contact.emails = [
+      Item(label: selectEmail.name, value: emailController.text)
+    ];
 
     ContactsService.addContact(contact);
   }
@@ -122,9 +127,8 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
         notes: addNoteController.text,
       );
 
-
       addNewPerson.then((value) {
-              saveContactToPhone();
+        saveContactToPhone();
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
 
@@ -300,7 +304,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                   initialDate: DateTime.now().toUtc(),
                   firstDate: Constant.initialDate.dateTime.toUtc(),
                   lastDate: DateTime.now().toUtc());
-                  birthdayController.text = dateFormatter(date);
+              birthdayController.text = dateFormatter(date);
             },
           ),
         ),
@@ -434,7 +438,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none),
                   ),
-                      // contact.phones = [Item(label: "mobile", value: v)],
+                  // contact.phones = [Item(label: "mobile", value: v)],
                 ),
               )
             ],
