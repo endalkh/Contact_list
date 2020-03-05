@@ -523,7 +523,7 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
         Contact contact = Contact();
     contact.givenName = add.name;
     contact.phones=  add.phone.map((f) => Item(label: f.type, value:f.number)).toList();
-
+    contact.emails=  add.email.map((f) => Item(label: f.type, value:f.address)).toList();
 
     ContactsService.addContact(contact);
   }

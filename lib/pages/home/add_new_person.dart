@@ -78,7 +78,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
     Contact contact = Contact();
     contact.givenName = fNameController.text;
     contact.middleName = lNameController.text;
-    contact.birthday = DateTime.now();//addNoteController.text;
     contact.phones = [
       Item(label: selectPhone.name, value: phoneController.text)
     ];
@@ -120,9 +119,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
         phone: phoneController.text,
         fName: fNameController.text,
         lName: lNameController.text,
-        birthday: birthdayController.text.isEmpty || birthdayController == null
-            ? null
-            : dateFormatterBack(birthdayController.text),
+        birthday: dateFormatterBack(birthdayController.text),
         token: token,
         notes: addNoteController.text,
       );
