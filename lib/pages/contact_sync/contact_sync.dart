@@ -45,15 +45,14 @@ class _ContactListPageState extends State<ContactListPage> {
     await contactSync.then((val){
         for (int i = 0; i < val.length; i++) {
           val[i].phone.asMap().forEach((index, value) {
-              if (matchingContacts(value.number) == true) {
-              Provider.of<Auth>(context,listen: false).setContactSync(val[i]);
-                i++;
+              if (matchingContacts(value.number)) {
+                Provider.of<Auth>(context,listen: false).setContactSync(val[i]);
               }
               else {
                 //call method for add contacts
                 // don't look at me! remove print and replace your functionality 😂😜😀
                 // you can add other phones to your phone 😂😜😀 happy coding 🤓
-                i++;
+
               }
           });
 
@@ -66,6 +65,8 @@ class _ContactListPageState extends State<ContactListPage> {
 //  val[i].email.asMap().forEach((index,value){
 //
 //        });
+
+
     });
 
 
@@ -84,16 +85,19 @@ class _ContactListPageState extends State<ContactListPage> {
 
 
      }
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => MatchedContactsPage()));
   }
 
   matchingContacts(phone) {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (prefixRemover(f.value) == prefixRemover(phone) &&
-            (phone != null || phone != "")) {
+        if (prefixRemover(f.value) == prefixRemover(phone)) {
+          i++;
           result = true;
         } else {
+          i++;
           result = false;
         }
       });
