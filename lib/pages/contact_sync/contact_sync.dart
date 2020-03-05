@@ -2,11 +2,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/api/auth.dart';
-import 'package:flutter_app/api/model/contact_list.dart';
-import 'package:flutter_app/api/model/contact_sync.dart';
-import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/phone_prefix.dart';
@@ -38,44 +34,38 @@ class _ContactListPageState extends State<ContactListPage> {
     }
   }
 
-   addAllContact()  {
-
+  addAllContact() {
     var contactSync = phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     );
 
-     contactSync.then((val){
-        for (int i = 0; i < val.length; i++) {
-          val[i].phone.asMap().forEach((index, value) {
-              if (matchingContacts(value.number) == true) {
-                print("mached ${val[i].name}");
-                i++;
-              }
-              else {
-                //add contacts
-                // don't look at me! remove print and replace your functionality 😂😜😀
-                // you can add other phones to your phone 😂😜😀 happy coding 🤓
-                i++;
-              }
-          });
-
-       }
-
+    contactSync.then((val) {
+      for (int i = 0; i < val.length; i++) {
+        val[i].phone.asMap().forEach((index, value) {
+          if (matchingContacts(value.number) == true) {
+            print("mached ${val[i].name}");
+            i++;
+          } else {
+            //add contacts
+            // don't look at me! remove print and replace your functionality 😂😜😀
+            // you can add other phones to your phone 😂😜😀 happy coding 🤓
+            i++;
+          }
+        });
+      }
 
 //  val[i].email.asMap().forEach((index,value){
 //
 //        });
-
-
     });
   }
-
 
   matchingContacts(phone) {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (prefixRemover(f.value) == prefixRemover(phone) && (phone != null || phone != "")) {
+        if (prefixRemover(f.value) == prefixRemover(phone) &&
+            (phone != null || phone != "")) {
           result = true;
         } else {
           result = false;
@@ -576,7 +566,6 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: ExpansionTile(
-                // backgroundColor: PRIMARY_COLOR,
                 title: ListTile(
                   title: Text(
                     "John Doe",
@@ -585,7 +574,7 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                 ),
                 children: [
                   Column(
-                    children: <Widget>[
+                    children: [
                       Card(
                         margin: EdgeInsets.only(left: 15, right: 15),
                         elevation: 0,
@@ -640,17 +629,5 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
         ),
       ),
     );
-  }
-}
-
-class MatchedContactsDetail extends StatefulWidget {
-  @override
-  _MatchedContactsDetailState createState() => _MatchedContactsDetailState();
-}
-
-class _MatchedContactsDetailState extends State<MatchedContactsDetail> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
