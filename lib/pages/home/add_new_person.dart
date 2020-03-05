@@ -75,13 +75,12 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
   }
 
   saveContactToPhone() {
-    DateTime bd=DateTime.now();
     Contact contact = Contact();
     contact.givenName = fNameController.text;
     contact.middleName = lNameController.text;
-
      contact.phones= [Item(label: selectPhone.name, value: phoneController.text)];
      contact.emails= [Item(label: selectEmail.name, value: emailController.text)];
+
     ContactsService.addContact(contact);
   }
 
