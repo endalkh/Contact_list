@@ -37,7 +37,6 @@ class _ContactListPageState extends State<ContactListPage> {
 
   Future addAllContact() async {
     await Provider.of<Auth>(context, listen: false).clearContactSync();
-
     await phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     ).then((val) {
@@ -45,7 +44,7 @@ class _ContactListPageState extends State<ContactListPage> {
         val[i].phone.asMap().forEach((index, value) {
           if (matchingContacts(value.number,val[i].name) == true) {
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
-          } else {}
+          }
         });
       }
     });
@@ -58,10 +57,13 @@ class _ContactListPageState extends State<ContactListPage> {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if ((_contacts.elementAt(i).displayName.toString()!=name.toString()) &&
+        if (!(_contacts.elementAt(i).displayName.toLowerCase().contains(name.toString().toLowerCase())) &&
             (prefixRemover(f.value) == prefixRemover(phone) ) &&
-            (phone!=null && phone!="")) {
-          print("${_contacts.elementAt(i).displayName} $name");
+            (phone!=null && phone!="")
+        ) {
+          print(_contacts.elementAt(i).displayName);
+          print(" ");
+          print(name);
           result = true;
         } else {
           result = false;
