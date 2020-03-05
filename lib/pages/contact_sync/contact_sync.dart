@@ -60,7 +60,10 @@ class _ContactListPageState extends State<ContactListPage> {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (prefixRemover(f.value) == prefixRemover(phone) &&  (phone!=null && phone!="") && _contacts.elementAt(i).displayName!=name ) {
+        if ((_contacts.elementAt(i).displayName.toString()!=name.toString()) &&
+            (prefixRemover(f.value) == prefixRemover(phone) ) &&
+            (phone!=null && phone!="")) {
+          print("${_contacts.elementAt(i).displayName} $name");
           result = true;
         }
         else {
