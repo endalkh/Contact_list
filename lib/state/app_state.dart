@@ -245,16 +245,6 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  removePersonList(id) {
-    this.personList.removeWhere((item){
-        print(item.id);
-        print(" ");
-        print(id);
-
-
-    } );
-    notifyListeners();
-  }
 
   setPersonList(List<GetAllContact> val) {
 
@@ -268,12 +258,11 @@ class Auth with ChangeNotifier {
 
   setContactSync(ContactSync val) {
     contactSync.add(val);
-
     notifyListeners();
   }
 
   clearContactSync() {
-    this.contactSync.removeWhere((item) => item != null);
+    contactSync.removeWhere((item) => item != null);
     notifyListeners();
   }
 

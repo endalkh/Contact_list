@@ -36,7 +36,7 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   addAllContact() async {
-    Provider.of<Auth>(context, listen: false).clearContactSync();
+   await Provider.of<Auth>(context, listen: false).clearContactSync();
 
     var contactSync = phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
@@ -45,7 +45,7 @@ class _ContactListPageState extends State<ContactListPage> {
     await contactSync.then((val){
         for (int i = 0; i < val.length; i++) {
           val[i].phone.asMap().forEach((index, value) {
-              if (matchingContacts(value.number)) {
+              if (matchingContacts(value.number)==true) {
                 Provider.of<Auth>(context,listen: false).setContactSync(val[i]);
               }
               else {
@@ -70,21 +70,18 @@ class _ContactListPageState extends State<ContactListPage> {
     });
 
 
-     List<ContactSync> con=Provider.of<Auth>(context,listen: false).getContactSync();
-     for(int i=0;i<con.length;i++){
-       print (con[i].id);
-       print (con[i].name);
-       print (con[i].birthday);
-       con[i].phone.map((f){
-
-       });
-
-       con[i].email.map((f){
-         print(f.address);
-       });
-
-
-     }
+//     List<ContactSync> con=Provider.of<Auth>(context,listen: false).getContactSync();
+//     for(int i=0;i<con.length;i++){
+//       con[i].phone.map((f){
+//
+//       });
+//
+//       con[i].email.map((f){
+//         print(f.address);
+//       });
+//
+//
+//     }
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => MatchedContactsPage()));
   }
@@ -93,11 +90,9 @@ class _ContactListPageState extends State<ContactListPage> {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (prefixRemover(f.value) == prefixRemover(phone)) {
-          i++;
+        if (prefixRemover(f.value).toString() == prefixRemover(phone)) {
           result = true;
         } else {
-          i++;
           result = false;
         }
       });
