@@ -587,15 +587,24 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
         child: ListView.builder(
           itemCount: 8,
           itemBuilder: (BuildContext context, int index) {
-            return Card(
+
+            return Column(
+children: <Widget>[
+
+          Column(
+          children: Provider.of<Auth>(context).getContactSync()
+              .map(
+                (i) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
+           child: Card(
               margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: ExpansionTile(
                 title: ListTile(
-                  title: Text(
-                    "John Doe",
+
+                  title: Text( i.name,
                     style: TextStyle(fontSize: 19),
                   ),
                 ),
@@ -651,7 +660,17 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                   )
                 ],
               ),
+
+            ),
+                ),
+              )
+              .toList(),
+        ),
+
+],
             );
+            
+
           },
         ),
       ),
