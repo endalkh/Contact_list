@@ -1,3 +1,4 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 
 class AddPhone extends StatefulWidget {
   final String personId;
+
   AddPhone({@required this.personId});
 
   _AddPhone createState() => _AddPhone(personId);
@@ -37,7 +39,16 @@ class _AddPhone extends State<AddPhone> implements ShouldImp {
     });
     super.initState();
   }
+  addContactOnPhone() {
+      Iterable<Contact> _contacts;
 
+    DateTime bd =DateTime.now();
+    Contact contact = _contacts.toList()
+        .firstWhere((contact) => contact.familyName.startsWith(personId));
+     contact.phones= [Item(label: selectPhone.name, value: phoneController.text)];
+    ContactsService.addContact(contact);
+
+  }
   submitForm() {
     if (validatePhone(phoneController.text).toString().isNotEmpty == true) {
       setState(() {
@@ -59,6 +70,7 @@ class _AddPhone extends State<AddPhone> implements ShouldImp {
         if (value == true) {
           Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
           Provider.of<Auth>(context, listen: false).setAddPhone(false);
+          addContactOnPhone();
         }
       });
 
@@ -74,6 +86,8 @@ class _AddPhone extends State<AddPhone> implements ShouldImp {
       });
     }
   }
+
+  
 
   List<DropdownMenuItem<PhoneType>> phoneBuildDropdownMenuItems(
       List phoneTypes) {

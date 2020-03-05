@@ -529,7 +529,8 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
           ),
         ),
       ),
-      body: Container(
+      body: SingleChildScrollView(
+      child: Container(
         margin: EdgeInsets.only(top: 15),
         child: Column(
           children: <Widget>[
@@ -623,6 +624,8 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
           ],
         ),
       ),
+      ), 
+
     );
   }
 }

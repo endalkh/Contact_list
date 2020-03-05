@@ -72,7 +72,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_web/ios"
 
 SPEC CHECKSUMS:
-  contacts_service: d212985196c101372bb55c42f41dae7be59ab811
+  contacts_service: 64ebf2a313b34bff0acf668efac52ae402ba9be0
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
