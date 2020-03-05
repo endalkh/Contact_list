@@ -47,7 +47,6 @@ class _ContactListPageState extends State<ContactListPage> {
         val[i].phone.asMap().forEach((index, value) {
           if (matchingContacts(value.number) == true) {
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
-            print("hello world");
           } else {
             //call method for add contacts
             // don't look at me! remove print and replace your functionality 😂😜😀
@@ -61,48 +60,6 @@ class _ContactListPageState extends State<ContactListPage> {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => MatchedContactsPage()));
 
-//     contact.then((val){
-//        for (int i = 0; i < val.length; i++) {
-//          val[i].phone.asMap().forEach((index, value) {
-//              if (matchingContacts(value.number)==true) {
-//                Provider.of<Auth>(context,listen: false).setContactSync(val[i]);
-//              }
-//              else {
-//                //call method for add contacts
-//                // don't look at me! remove print and replace your functionality 😂😜😀
-//                // you can add other phones to your phone 😂😜😀 happy coding 🤓
-//
-//              }
-//          });
-//
-//if(i==val.length-1){
-//  setState(() {
-//    isFinished=true;
-//  });
-//}
-//       }
-//
-//
-//
-////  val[i].email.asMap().forEach((index,value){
-////
-////        });
-//
-//
-//    });
-
-//     List<ContactSync> con=Provider.of<Auth>(context,listen: false).getContactSync();
-//     for(int i=0;i<con.length;i++){
-//       con[i].phone.map((f){
-//
-//       });
-//
-//       con[i].email.map((f){
-//         print(f.address);
-//       });
-//
-//
-//     }
   }
 
   matchingContacts(phone) {
