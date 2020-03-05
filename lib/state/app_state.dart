@@ -93,7 +93,7 @@ class Auth with ChangeNotifier {
     return isLoading;
   }
 
-  void setLoadingStateFun(loading) async {
+  void setLoadingStateFun(loading) {
     this.isLoading = loading;
     notifyListeners();
   }
@@ -246,12 +246,19 @@ class Auth with ChangeNotifier {
   }
 
   removePersonList(id) {
-    this.personList.removeWhere((item) => item !=null );
+    this.personList.removeWhere((item){
+        print(item.id);
+        print(" ");
+        print(id);
+
+
+    } );
     notifyListeners();
   }
 
   setPersonList(List<GetAllContact> val) {
-   personList=val;
+
+
     notifyListeners();
   }
 
