@@ -45,15 +45,13 @@ class _ContactListPageState extends State<ContactListPage> {
         val[i].phone.asMap().forEach((index, value) {
           if (matchingContacts(value.number,val[i].name) == true) {
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
-          } else {
-          }
+          } else {}
         });
       }
     });
 
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => MatchedContactsPage()));
-
   }
 
   matchingContacts(phone,name) {
@@ -62,8 +60,7 @@ class _ContactListPageState extends State<ContactListPage> {
       _contacts.elementAt(i).phones.forEach((f) {
         if (prefixRemover(f.value) == prefixRemover(phone) &&  (phone!=null && phone!="") && _contacts.elementAt(i).displayName!=name ) {
           result = true;
-        }
-        else {
+        } else {
           result = false;
         }
       });
@@ -522,11 +519,14 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
    addToPhone(ContactSync add) {
         Contact contact = Contact();
     contact.givenName = add.name;
-    contact.phones=  add.phone.map((f) => Item(label: f.type, value:f.number)).toList();
-    contact.emails=  add.email.map((f) => Item(label: f.type, value:f.address)).toList();
+    contact.phones =
+        add.phone.map((f) => Item(label: f.type, value: f.number)).toList();
+    contact.emails =
+        add.email.map((f) => Item(label: f.type, value: f.address)).toList();
 
     ContactsService.addContact(contact);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -540,103 +540,106 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
         ),
       ),
       body: SingleChildScrollView(
-      child: Container(
-        margin: EdgeInsets.only(top: 15),
-        child: Column(
-          children: <Widget>[
-            Column(
-              children: Provider.of<Auth>(context)
-                  .getContactSync()
-                  .map(
-                    (i) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                      child: Card(
-                        margin: EdgeInsets.only(
-                            left: 15, right: 15, bottom: 3, top: 3),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: ExpansionTile(
-                          title: ListTile(
-                            title: Text(
-                              i.name,
-                              style: TextStyle(fontSize: 19),
-                            ),
+        child: Container(
+          margin: EdgeInsets.only(top: 15),
+          child: Column(
+            children: <Widget>[
+              Column(
+                children: Provider.of<Auth>(context)
+                    .getContactSync()
+                    .map(
+                      (i) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                        child: Card(
+                          margin: EdgeInsets.only(
+                              left: 15, right: 15, bottom: 3, top: 3),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
-                          children: [
-                            Column(
-                              children: [
-                                Card(
-                                  margin: EdgeInsets.only(left: 15, right: 15),
-                                  elevation: 0,
-                                  child: ListTile(
-                                    title: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 7,
-                                          child: Text("From Relate"),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            height: 30,
-                                            width: 30,
-                                            child: FloatingActionButton(
-                                              onPressed: () => {
-                                                addToPhone(i),
-                                              },
-                                              backgroundColor: PRIMARY_COLOR,
-                                              foregroundColor: Colors.white,
-                                              child: Icon(Icons.save, size: 15),
+                          child: ExpansionTile(
+                            title: ListTile(
+                              title: Text(
+                                i.name,
+                                style: TextStyle(fontSize: 19),
+                              ),
+                            ),
+                            children: [
+                              Column(
+                                children: [
+                                  Card(
+                                    margin:
+                                        EdgeInsets.only(left: 15, right: 15),
+                                    elevation: 0,
+                                    child: ListTile(
+                                      title: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 7,
+                                            child: Text("From Relate"),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              height: 30,
+                                              width: 30,
+                                              child: FloatingActionButton(
+                                                onPressed: () => {
+                                                  addToPhone(i),
+                                                },
+                                                backgroundColor: PRIMARY_COLOR,
+                                                foregroundColor: Colors.white,
+                                                child:
+                                                    Icon(Icons.save, size: 15),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Divider(),
-                                Card(
-                                  margin: EdgeInsets.only(left: 15, right: 15),
-                                  elevation: 0,
-                                  child: ListTile(
-                                    title: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 7,
-                                          child: Text("From Phone"),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            height: 30,
-                                            width: 30,
-                                            child: FloatingActionButton(
-                                              onPressed: () => {},
-                                              backgroundColor: PRIMARY_COLOR,
-                                              foregroundColor: Colors.white,
-                                              child: Icon(Icons.save, size: 15),
+                                  Divider(),
+                                  Card(
+                                    margin:
+                                        EdgeInsets.only(left: 15, right: 15),
+                                    elevation: 0,
+                                    child: ListTile(
+                                      title: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 7,
+                                            child: Text("From Phone"),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              height: 30,
+                                              width: 30,
+                                              child: FloatingActionButton(
+                                                onPressed: () => {},
+                                                backgroundColor: PRIMARY_COLOR,
+                                                foregroundColor: Colors.white,
+                                                child:
+                                                    Icon(Icons.save, size: 15),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )
-                          ],
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ],
+                    )
+                    .toList(),
+              ),
+            ],
+          ),
         ),
       ),
-      ), 
-
     );
   }
 }

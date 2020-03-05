@@ -102,11 +102,14 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                 .isNotEmpty ==
             true ||
         validatePhoneForAddPerson(phoneController.text).toString().isNotEmpty ==
-            true) {
+            true || validateBirthday(birthdayController.text).toString().isNotEmpty ==true){
       setState(() {
         showError = true;
       });
-    } else {
+    } 
+    
+    
+    else {
       setState(() {
         showError = false;
       });
@@ -234,7 +237,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.person, size: 20),
-              hintText: "First Name",
+              hintText: "First Name (Required)",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none),
@@ -286,7 +289,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
             keyboardType: TextInputType.datetime,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.timer, size: 20),
-              hintText: "Date of Birth",
+              hintText: "Date of Birth (Required)",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none),
@@ -303,6 +306,16 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
             },
           ),
         ),
+                showError == true &&
+                validateBirthday(birthdayController.text)
+                        .toString()
+                        .isNotEmpty ==
+                    true
+            ? Text(
+                validateBirthday(birthdayController.text),
+                style: TextStyle(color: Colors.red),
+              )
+            : Container(),
         Padding(padding: EdgeInsets.all(5)),
       ],
     );
