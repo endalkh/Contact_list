@@ -519,24 +519,11 @@ class MatchedContactsPage extends StatefulWidget {
 
 class _MatchedContactsPageState extends State<MatchedContactsPage> {
 
-//Iterable<Item> iteratePhone(phones){
-//
-//return
-//}
    addToPhone(ContactSync add) {
         Contact contact = Contact();
     contact.givenName = add.name;
     contact.phones=  add.phone.map((f) => Item(label: f.type, value:f.number)).toList();
-  // Item(label: f.type, value:f.number),
-  // Item(label: f.type, value:f.number),
-  // ];
-    // });
-    // contact.phones = [
 
-    // ];
-    // contact.emails = [
-    //   Item(label: selectEmail.name, value: emailController.text)
-    // ];
 
     ContactsService.addContact(contact);
   }
