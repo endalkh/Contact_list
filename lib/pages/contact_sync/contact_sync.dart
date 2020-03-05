@@ -2,11 +2,8 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/api/auth.dart';
-import 'package:flutter_app/api/model/contact_list.dart';
 import 'package:flutter_app/api/model/contact_sync.dart';
-import 'package:flutter_app/api/model/get_phone.dart';
 import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/pages/appbar/AppBar.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/phone_prefix.dart';
@@ -41,6 +38,7 @@ class _ContactListPageState extends State<ContactListPage> {
    addAllContact()async{
 
       Provider.of<Auth>(context,listen: false).clearContactSync();
+
     var contactSync = phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     );
@@ -65,11 +63,10 @@ class _ContactListPageState extends State<ContactListPage> {
        }
 
 
+
 //  val[i].email.asMap().forEach((index,value){
 //
 //        });
-
-
     });
 
 
@@ -90,16 +87,15 @@ class _ContactListPageState extends State<ContactListPage> {
      }
   }
 
-
   matchingContacts(phone) {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (prefixRemover(f.value) == prefixRemover(phone) && (phone != null || phone != "")) {
+        if (prefixRemover(f.value) == prefixRemover(phone) &&
+            (phone != null || phone != "")) {
           result = true;
         } else {
           result = false;
-
         }
       });
       if (result == true) break;
@@ -597,27 +593,22 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: ExpansionTile(
-                backgroundColor: PRIMARY_COLOR,
                 title: ListTile(
                   title: Text(
                     "John Doe",
-                    style: TextStyle(
-                      fontSize: 19
-                    ),
+                    style: TextStyle(fontSize: 19),
                   ),
                 ),
                 children: [
                   Column(
-                    children: <Widget>[
+                    children: [
                       Card(
                         margin: EdgeInsets.only(left: 15, right: 15),
                         elevation: 0,
                         child: ListTile(
-
                           title: Row(
                             children: [
-                              Text(
-                                "From Relate"),
+                              Text("From Relate"),
                               Container(
                                 margin: EdgeInsets.only(left: 200),
                                 height: 30,
@@ -663,8 +654,6 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
             );
           },
         ),
-
-
       ),
     );
   }
