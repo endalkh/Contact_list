@@ -121,13 +121,13 @@ class _ContactListPageState extends State<ContactListPage> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
         ),
         actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => MatchedContactsPage()));
-            },
-            child: Icon(Icons.merge_type, color: Colors.white),
-          )
+          // FlatButton(
+          //   onPressed: () {
+          //     Navigator.of(context).push(MaterialPageRoute(
+          //         builder: (BuildContext context) => MatchedContactsPage()));
+          //   },
+          //   child: Icon(Icons.merge_type, color: Colors.white),
+          // )
         ],
       ),
       body: SafeArea(
