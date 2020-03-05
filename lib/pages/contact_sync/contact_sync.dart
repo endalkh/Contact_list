@@ -43,7 +43,7 @@ class _ContactListPageState extends State<ContactListPage> {
     ).then((val) {
       for (int i = 0; i < val.length; i++) {
         val[i].phone.asMap().forEach((index, value) {
-          if (matchingContacts(value.number) == true) {
+          if (matchingContacts(value.number,val[i].name) == true) {
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
           } else {
           }
@@ -56,11 +56,11 @@ class _ContactListPageState extends State<ContactListPage> {
 
   }
 
-  matchingContacts(phone) {
+  matchingContacts(phone,name) {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (prefixRemover(f.value) == prefixRemover(phone) && (phone!=null && phone!="")) {
+        if (prefixRemover(f.value) == prefixRemover(phone) &&  (phone!=null && phone!="") && _contacts.elementAt(i).displayName!=name ) {
           result = true;
         }
         else {
