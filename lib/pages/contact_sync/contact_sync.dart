@@ -2,6 +2,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/api/auth.dart';
+import 'package:flutter_app/api/model/contact_sync.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
@@ -517,6 +518,28 @@ class MatchedContactsPage extends StatefulWidget {
 }
 
 class _MatchedContactsPageState extends State<MatchedContactsPage> {
+
+Iterable<Item> iteratePhone(phones){
+
+return 
+}
+   addToPhone(ContactSync add) {
+        Contact contact = Contact();
+    contact.givenName = add.name;
+    contact.phones= add.phone.map(f)=>[Item(label: f.type, value:f.number)];
+  // Item(label: f.type, value:f.number),
+  // Item(label: f.type, value:f.number),
+  // ];
+    // });
+    // contact.phones = [
+
+    // ];
+    // contact.emails = [
+    //   Item(label: selectEmail.name, value: emailController.text)
+    // ];
+
+    ContactsService.addContact(contact);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -552,7 +575,6 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                               i.name,
                               style: TextStyle(fontSize: 19),
                             ),
-                            subtitle: Text(i.phone[0].number),
                           ),
                           children: [
                             Column(
@@ -573,7 +595,9 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
                                             height: 30,
                                             width: 30,
                                             child: FloatingActionButton(
-                                              onPressed: () => {},
+                                              onPressed: () => {
+                                                addToPhone(i),
+                                              },
                                               backgroundColor: PRIMARY_COLOR,
                                               foregroundColor: Colors.white,
                                               child: Icon(Icons.save, size: 15),
