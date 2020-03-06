@@ -36,7 +36,7 @@ class _ContactListPageState extends State<ContactListPage> {
         phoneType: 'mobile',
         phone: '+251921258848',
         fName: user.familyName,
-        lName: 'Yohannes',
+        lName: user.givenName,
         birthday: '2011-11-11T00:00:00Z',
         token: token,
         // notes: addNoteController.text,
