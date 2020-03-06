@@ -24,6 +24,36 @@ class _ContactListPageState extends State<ContactListPage> {
     refreshContacts();
   }
 
+  savePhoneContactstoApp() {
+
+    print('Clicked');
+
+    
+      //   Contact user = _contacts;
+
+      // Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+      // var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+      // var addNewPerson = addNewPersonApi(
+      //   emailType: 'response',
+      //   email: 'email',
+      //   phoneType: 'mobile',
+      //   phone: '+251921258848',
+      //   fName: user.givenName,
+      //   lName: user.familyName,
+      //   birthday: DateTime.now(),
+      //   token: token,
+      //   // notes: addNoteController.text,
+      // );
+
+      // addNewPerson.then((value) {
+      //   print('object');
+      // });
+      // addNewPerson.catchError((value) {
+      //   print('error');
+
+      // });
+  }
+
   refreshContacts() async {
     PermissionStatus permissionStatus = await _getContactPermission();
     if (permissionStatus == PermissionStatus.granted) {
@@ -177,7 +207,8 @@ class _ContactListPageState extends State<ContactListPage> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          addAllContact(),
+          // addAllContact(),
+          savePhoneContactstoApp(),
         },
         backgroundColor: PRIMARY_COLOR,
         child: Icon(

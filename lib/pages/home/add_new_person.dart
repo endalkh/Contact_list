@@ -73,20 +73,6 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
     );
   }
 
-//  saveContactToPhone() {
-//    Contact contact = Contact();
-//    contact.givenName = fNameController.text;
-//    contact.middleName = lNameController.text;
-//    contact.phones = [
-//      Item(label: selectPhone.name, value: phoneController.text)
-//    ];
-//    contact.emails = [
-//      Item(label: selectEmail.name, value: emailController.text)
-//    ];
-//
-//    ContactsService.addContact(contact);
-//  }
-
   submitForm() {
     if (validateEmailForAddPerson(emailController.text)
                 .toString()
@@ -113,10 +99,9 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
         showError = false;
       });
 
-
+      
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
       var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-      
       var addNewPerson = addNewPersonApi(
         emailType: selectEmail.name,
         email: emailController.text,

@@ -49,13 +49,13 @@ class _AddContactPageState extends State<AddContactPage> {
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Phone'),
                 onSaved: (v) =>
-                contact.phones = [Item(label: "mobile", value: v)],
+                    contact.phones = [Item(label: "mobile", value: v)],
                 keyboardType: TextInputType.phone,
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'E-mail'),
                 onSaved: (v) =>
-                contact.emails = [Item(label: "work", value: v)],
+                    contact.emails = [Item(label: "work", value: v)],
                 keyboardType: TextInputType.emailAddress,
               ),
 
