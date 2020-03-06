@@ -111,17 +111,19 @@ class _ContactListPageState extends State<ContactListPage> {
   matchingContacts(phone, name) {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
-      _contacts.elementAt(i).phones.forEach((f) {
-        if ((_contacts.elementAt(i).givenName != name) &&
-            (prefixRemover(f.value) == prefixRemover(phone)) &&
-            (phone != null && phone != "")) {
 
-        } else {
 
-          result = false;
-        }
-      });
-      if (result == true) break;
+//      _contacts.elementAt(i).phones.forEach((f) {
+//        if ((_contacts.elementAt(i).givenName != name) &&
+//            (prefixRemover(f.value) == prefixRemover(phone)) &&
+//            (phone != null && phone != "")) {
+//
+//        } else {
+//
+//          result = false;
+//        }
+//      });
+
     }
     return result;
   }
