@@ -26,11 +26,16 @@ class _ContactListPageState extends State<ContactListPage> {
 
   savePhoneContactstoApp(_contacts) {
     Contact user = _contacts;
-
+    String type,phone;
+   for(int i=0;i<user.phones.length;i++){
+  phone=user.phones.elementAt(i).value;
+  type=user.phones.elementAt(i).label;
+   }
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+  
     var addNewPerson = addNewPersonApi(
-      emailType: 'response',
+      emailType: 'Work',
       email: 'email',
       phoneType: 'mobile',
       phone: '+251921258848',
@@ -69,19 +74,24 @@ class _ContactListPageState extends State<ContactListPage> {
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     ).then((val) {
       for (int i = 0; i < val.length; i++) {
-        bool flag = true;
-        val[i].phone.asMap().forEach((index, value) {
-          var res = matchingContacts(value.number, val[i].name);
+        print(val.length);
+        bool flag=true;
+        for(int j=0;j<val[i].phone.asMap().length;j++){
+          print(val[i].phone[j].number);
+           bool res = matchingContacts(val[i].phone[j].number, val[i].name);
+            
           if (res == true) {
-            flag = false;
+             setState(() {
+               flag = false;
+             });
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
+             break;
           }
-
-        });
+        }
+        
             
             
-            if (flag == true && _contacts.elementAt(i).displayName != val[i].name) {
-              print(" ${_contacts.elementAt(i).displayName} ${val[i].name}" );
+            if (flag == true) {
             contact.displayName = val[i].name;
             contact.givenName=val[i].name;
             contact.birthday= DateTime.parse('2011-11-11T00:00:00Z');
@@ -103,20 +113,21 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   matchingContacts(phone, name) {
-    bool result = false;
+    bool result=false;
     for (int i = 0; i < _contacts.length; i++) {
-      _contacts.elementAt(i).phones.forEach((f) {
-        if ((_contacts.elementAt(i).givenName != name) &&
-            (prefixRemover(f.value) == prefixRemover(phone)) &&
-            (phone != null && phone != "")) {
-
-          result = true;
-        } else {
-
-          result = false;
+for(int j=0;j<_contacts.elementAt(i).phones.length;j++){
+  if ((_contacts.elementAt(i).displayName != name) && (prefixRemover(_contacts.elementAt(i).phones.elementAt(i).value) == prefixRemover(phone)) ) {
+          setState(() {
+             result = true;
+          });
+         break;
+        } 
+        else{
+           setState(() {
+             result = false;
+          });
         }
-      });
-      if (result == true) break;
+}
     }
     return result;
   }
