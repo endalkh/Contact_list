@@ -27,13 +27,19 @@ class _ContactListPageState extends State<ContactListPage> {
   savePhoneContactstoApp(_contacts) {
     Contact user = _contacts;
 
+    String type, phone;
+   for(int i=0;i<user.phones.length;i++){
+  phone=user.phones.elementAt(i).value;
+  type=user.phones.elementAt(i).label;
+  break;
+   }
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
     var addNewPerson = addNewPersonApi(
       emailType: 'response',
       email: 'email',
-      phoneType: 'mobile',
-      phone: '+251921258848',
+      phoneType: type,
+      phone: phone,
       fName: user.familyName,
       lName: user.givenName,
       birthday: '2011-11-11T00:00:00Z',
