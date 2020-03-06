@@ -115,35 +115,34 @@
 //     }
 //   }
 
-//   savePhoneContactstoApp() {
+//   savePhoneContactstoApp(_contacts) {
 
 //     print('Clicked');
-//       //   Contact user = _contacts;
 
-//       // Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
-//       // var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-//       // var addNewPerson = addNewPersonApi(
-//       //   emailType: 'response',
-//       //   email: 'email',
-//       //   phoneType: 'mobile',
-//       //   phone: '+251921258848',
-//       //   fName: user.givenName,
-//       //   lName: user.familyName,
-//       //   birthday: DateTime.now(),
-//       //   token: token,
-//       //   // notes: addNoteController.text,
-//       // );
+    
+//         Contact user = _contacts;
 
-//       // addNewPerson.then((value) {
-//       //   print('object');
+//       Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+//       var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+//       var addNewPerson = addNewPersonApi(
+//         emailType: 'response',
+//         email: 'email',
+//         phoneType: 'mobile',
+//         phone: '+251921258848',
+//         fName: user.givenName,
+//         lName: user.familyName,
+//         birthday: DateTime.now(),
+//         token: token,
+//         // notes: addNoteController.text,
+//       );
 
-//       // });
+//       addNewPerson.then((value) {
+//         print('object');
+//       });
+//       addNewPerson.catchError((value) {
+//         print('error');
 
-//       // addNewPerson.catchError((value) {
-
-//       //   print('error');
-
-//       // });
+//       });
 //   }
 
 //   @override
@@ -198,7 +197,7 @@
 //       floatingActionButton: FloatingActionButton(
 //         onPressed: () => {
 //           // addAllContact(),
-//           savePhoneContactstoApp()
+//           savePhoneContactstoApp(_contacts)
 //         },
 //         backgroundColor: PRIMARY_COLOR,
 //         child: Icon(

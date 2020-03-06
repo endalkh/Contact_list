@@ -7,6 +7,7 @@ import 'package:flutter_app/pages/contact_sync/contact_detail.dart';
 import 'package:flutter_app/pages/contact_sync/match_contact.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/phone_prefix.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -24,34 +25,30 @@ class _ContactListPageState extends State<ContactListPage> {
     refreshContacts();
   }
 
-  savePhoneContactstoApp() {
+  savePhoneContactstoApp(_contacts) {
+        Contact user = _contacts;
 
-    print('Clicked');
+      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+      var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+      var addNewPerson = addNewPersonApi(
+        emailType: 'response',
+        email: 'email',
+        phoneType: 'mobile',
+        phone: '+251921258848',
+        fName: user.familyName,
+        lName: 'Yohannes',
+        birthday: '2011-11-11T00:00:00Z',
+        token: token,
+        // notes: addNoteController.text,
+      );
 
-    
-      //   Contact user = _contacts;
+      addNewPerson.then((value) {
+        print('object');
+      });
+      addNewPerson.catchError((value) {
+        print('error');
 
-      // Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
-      // var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-      // var addNewPerson = addNewPersonApi(
-      //   emailType: 'response',
-      //   email: 'email',
-      //   phoneType: 'mobile',
-      //   phone: '+251921258848',
-      //   fName: user.givenName,
-      //   lName: user.familyName,
-      //   birthday: DateTime.now(),
-      //   token: token,
-      //   // notes: addNoteController.text,
-      // );
-
-      // addNewPerson.then((value) {
-      //   print('object');
-      // });
-      // addNewPerson.catchError((value) {
-      //   print('error');
-
-      // });
+      });
   }
 
   refreshContacts() async {
@@ -208,7 +205,7 @@ class _ContactListPageState extends State<ContactListPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           // addAllContact(),
-          savePhoneContactstoApp(),
+          savePhoneContactstoApp(_contacts?.elementAt(0)),
         },
         backgroundColor: PRIMARY_COLOR,
         child: Icon(
