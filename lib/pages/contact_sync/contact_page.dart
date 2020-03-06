@@ -25,29 +25,28 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   savePhoneContactstoApp(_contacts) {
-        Contact user = _contacts;
+    Contact user = _contacts;
 
-      Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
-      var token = Provider.of<Auth>(context, listen: false).getTokenFun();
-      var addNewPerson = addNewPersonApi(
-        emailType: 'response',
-        email: 'email',
-        phoneType: 'mobile',
-        phone: '+251921258848',
-        fName: user.familyName,
-        lName: user.givenName,
-        birthday: '2011-11-11T00:00:00Z',
-        token: token,
-        // notes: addNoteController.text,
-      );
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+    var addNewPerson = addNewPersonApi(
+      emailType: 'response',
+      email: 'email',
+      phoneType: 'mobile',
+      phone: '+251921258848',
+      fName: user.familyName,
+      lName: user.givenName,
+      birthday: '2011-11-11T00:00:00Z',
+      token: token,
+      // notes: addNoteController.text,
+    );
 
-      addNewPerson.then((value) {
-        print('object');
-      });
-      addNewPerson.catchError((value) {
-        print('error');
-
-      });
+    addNewPerson.then((value) {
+      print('object');
+    });
+    addNewPerson.catchError((value) {
+      print('error');
+    });
   }
 
   refreshContacts() async {
@@ -63,16 +62,28 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   Future addAllContact() async {
+    Contact contact = new Contact();
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     await Provider.of<Auth>(context, listen: false).clearContactSync();
     await phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     ).then((val) {
       for (int i = 0; i < val.length; i++) {
+        bool flag = true;
         val[i].phone.asMap().forEach((index, value) {
           var res = matchingContacts(value.number, val[i].name);
           if (res == true) {
+            flag = false;
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
+          }
+          if (flag == true) {
+            contact.displayName = val[i].name;
+//             // contact.displayName=val[i].name;
+            contact.phones = val[i]
+                .phone
+                .map((f) => Item(label: f.type, value: f.number))
+                .toList();
+            ContactsService.addContact(contact);
           }
         });
       }
