@@ -76,16 +76,25 @@ class _ContactListPageState extends State<ContactListPage> {
             flag = false;
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
           }
-          if (flag == true) {
+
+        });
+            
+            
+            if (flag == true && _contacts.elementAt(i).displayName != val[i].name) {
+              print(" ${_contacts.elementAt(i).displayName} ${val[i].name}" );
             contact.displayName = val[i].name;
-//             // contact.displayName=val[i].name;
+            contact.givenName=val[i].name;
+            contact.birthday= DateTime.parse('2011-11-11T00:00:00Z');
             contact.phones = val[i]
                 .phone
                 .map((f) => Item(label: f.type, value: f.number))
                 .toList();
+                            contact.emails = val[i]
+                .email
+                .map((f) => Item(label: f.type, value: f.address))
+                .toList();
             ContactsService.addContact(contact);
           }
-        });
       }
     });
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
@@ -94,15 +103,17 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   matchingContacts(phone, name) {
+  
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if ((_contacts.elementAt(i).displayName != name) &&
+        if ((_contacts.elementAt(i).givenName != name) &&
             (prefixRemover(f.value) == prefixRemover(phone)) &&
             (phone != null && phone != "")) {
 
           result = true;
         } else {
+
           result = false;
         }
       });
