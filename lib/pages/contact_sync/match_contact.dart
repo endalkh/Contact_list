@@ -11,16 +11,18 @@ class MatchedContactsPage extends StatefulWidget {
 }
 
 class _MatchedContactsPageState extends State<MatchedContactsPage> {
-
+Iterable<Contact> _contacts;
   addToPhone(ContactSync add) {
-    Contact contact = Contact();
-    contact.givenName = add.name;
+  
+    Contact contact = _contacts
+        .toList()
+        .firstWhere((contact) => contact.givenName.startsWith(add.name));
+         contact.displayName = add.name;
     contact.phones =
         add.phone.map((f) => Item(label: f.type, value: f.number)).toList();
     contact.emails =
         add.email.map((f) => Item(label: f.type, value: f.address)).toList();
-
-    ContactsService.addContact(contact);
+    ContactsService.updateContact(contact);
   }
 
   @override

@@ -204,8 +204,8 @@ class _ContactListPageState extends State<ContactListPage> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          // addAllContact(),
-          savePhoneContactstoApp(_contacts?.elementAt(0)),
+          addAllContact(),
+          // savePhoneContactstoApp(_contacts?.elementAt(0)),
         },
         backgroundColor: PRIMARY_COLOR,
         child: Icon(
