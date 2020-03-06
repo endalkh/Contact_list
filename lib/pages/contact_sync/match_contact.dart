@@ -13,13 +13,17 @@ class MatchedContactsPage extends StatefulWidget {
 class _MatchedContactsPageState extends State<MatchedContactsPage> {
   Iterable<Contact> _contacts;
 
-  addToPhone(ContactSync add) async{
-    _contacts=await ContactsService.getContacts();
-    Contact contact = _contacts.toList().firstWhere((contact) => contact.givenName.startsWith(add.name));
+  addToPhone(ContactSync add) async {
+    _contacts = await ContactsService.getContacts();
+    Contact contact = _contacts
+        .toList()
+        .firstWhere((contact) => contact.givenName.startsWith(add.name));
     contact.displayName = add.name;
-    contact.birthday=DateTime.parse(add.birthday);
-    contact.phones = add.phone.map((f) => Item(label: f.type, value: f.number)).toList();
-    contact.emails = add.email.map((f) => Item(label: f.type, value: f.address)).toList();
+    contact.birthday = DateTime.parse(add.birthday);
+    contact.phones =
+        add.phone.map((f) => Item(label: f.type, value: f.number)).toList();
+    contact.emails =
+        add.email.map((f) => Item(label: f.type, value: f.address)).toList();
     ContactsService.updateContact(contact);
   }
 
