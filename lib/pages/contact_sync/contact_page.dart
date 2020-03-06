@@ -54,7 +54,7 @@ class _ContactListPageState extends State<ContactListPage> {
     if (permissionStatus == PermissionStatus.granted) {
       var contacts = await ContactsService.getContacts();
       setState(() {
-        _contacts = contacts;
+        _contacts = contacts!=null?contacts:[];
       });
     } else {
       _handleInvalidPermissions(permissionStatus);
@@ -103,7 +103,6 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   matchingContacts(phone, name) {
-  
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
