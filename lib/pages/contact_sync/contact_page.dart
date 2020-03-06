@@ -17,7 +17,6 @@ class ContactListPage extends StatefulWidget {
 
 class _ContactListPageState extends State<ContactListPage> {
   Iterable<Contact> _contacts;
-
   @override
   initState() {
     super.initState();
@@ -37,6 +36,8 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   Future addAllContact() async {
+
+     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     await Provider.of<Auth>(context, listen: false).clearContactSync();
     await phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
@@ -49,6 +50,7 @@ class _ContactListPageState extends State<ContactListPage> {
         });
       }
     });
+     Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
 
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => MatchedContactsPage()));
@@ -58,7 +60,7 @@ class _ContactListPageState extends State<ContactListPage> {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (!(_contacts.elementAt(i).displayName.toLowerCase().contains(name.toString().toLowerCase())) &&
+        if (!(_contacts.elementAt(i).displayName==name) &&
             (prefixRemover(f.value) == prefixRemover(phone) ) &&
             (phone!=null && phone!="")
         ) {
@@ -131,7 +133,8 @@ class _ContactListPageState extends State<ContactListPage> {
           )
         ],
       ),
-      body: SafeArea(
+      body:Provider.of<Auth>(context).getIsLoadingFun()==true?circularIndicator(context: context):
+      SafeArea(
         child: _contacts != null
             ? ListView.builder(
           itemCount: _contacts?.length ?? 0,
