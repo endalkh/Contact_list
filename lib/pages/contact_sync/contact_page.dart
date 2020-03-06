@@ -50,11 +50,11 @@ class _ContactListPageState extends State<ContactListPage> {
         });
       }
     });
-     Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => MatchedContactsPage()));
   }
+
 
   matchingContacts(phone,name) {
     bool result = false;
@@ -64,7 +64,6 @@ class _ContactListPageState extends State<ContactListPage> {
             (prefixRemover(f.value) == prefixRemover(phone) ) &&
             (phone!=null && phone!="")
         ) {
-          print(_contacts.elementAt(i).displayName);
           print(" ");
           print(name);
           result = true;
