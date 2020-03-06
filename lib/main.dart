@@ -49,13 +49,13 @@ class _MyApp extends State<MyApp> {
 
   @override
   build(context) {
-    AppState themeNotifier = Provider.of<AppState>(context);
+//    AppState themeNotifier = Provider.of<AppState>(context);
     return MaterialApp(
       showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
 
         initialRoute: logged == true ? Constant.HOME : Constant.SPLASH_SCREEN,
-        theme: themeNotifier.getTheme(),
+//        theme: themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),
           Constant.SIGN_IN: (context) => SignInPage(),

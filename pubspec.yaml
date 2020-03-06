@@ -19,7 +19,7 @@ dependencies:
   intl: ^0.16.0
   url_launcher: ^5.4.2
   loader_search_bar: ^1.0.3+3
-  contacts_service: ^0.3.10
+  flutter_contact: ^0.4.7+10
   flutter_launcher_icons: "^0.7.3"
   permission_handler:
   font_awesome_flutter:

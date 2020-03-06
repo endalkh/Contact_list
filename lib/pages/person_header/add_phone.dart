@@ -1,4 +1,3 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
@@ -40,13 +39,13 @@ class _AddPhone extends State<AddPhone> implements ShouldImp {
     super.initState();
   }
   addContactOnPhone() {
-      Iterable<Contact> _contacts;
-
-    DateTime bd =DateTime.now();
-    Contact contact = _contacts.toList()
-        .firstWhere((contact) => contact.familyName.startsWith(personId));
-     contact.phones= [Item(label: selectPhone.name, value: phoneController.text)];
-    ContactsService.addContact(contact);
+//      Iterable<Contact> _contacts;
+//
+//    DateTime bd =DateTime.now();
+//    Contact contact = _contacts.toList()
+//        .firstWhere((contact) => contact.familyName.startsWith(personId));
+//     contact.phones= [Item(label: selectPhone.name, value: phoneController.text)];
+//    ContactsService.addContact(contact);
 
   }
   submitForm() {

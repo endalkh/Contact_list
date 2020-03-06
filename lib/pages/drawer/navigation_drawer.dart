@@ -14,7 +14,7 @@ import 'package:flutter_app/utilities/get_email.dart';
 import 'package:flutter_app/utilities/launcher.dart';
 import 'package:flutter_app/utilities/round_letter_getter/get_round_letter.dart';
 import 'package:flutter_app/utilities/validation/get_size.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as ProviderState;
 import 'package:rounded_letter/rounded_letter.dart';
 import 'package:rounded_letter/shape_type.dart';
 
@@ -177,11 +177,12 @@ class _SideDrawer extends State<SideDrawer> implements ShouldImp {
                     Text(
                       "Dark mode",
                     ),
+
                     Switch(
-                      value: Provider.of<AppState>(context).getTheme() ==
-                              Constant.lightTheme
-                          ? false
-                          : true,
+//                      value: Provider.of<AppState>(context).getTheme() ==
+//                              Constant.lightTheme
+//                          ? false
+//                          : true,
                       onChanged: (value) async {
                         setState(() {
                           isDark = !isDark;
@@ -190,14 +191,14 @@ class _SideDrawer extends State<SideDrawer> implements ShouldImp {
                             value: isDark,
                           );
                         });
-
-                        if (isDark == true) {
-                          Provider.of<AppState>(context, listen: false)
-                              .setDark();
-                        } else {
-                          Provider.of<AppState>(context, listen: false)
-                              .setLight();
-                        }
+//
+//                        if (isDark == true) {
+//                          ProviderState.of<AppState>(context, listen: false)
+//                              .setDark();
+//                        } else {
+//                          ProviderState.of<AppState>(context, listen: false)
+//                              .setLight();
+//                        }
                       },
                       activeTrackColor: PRIMARY_COLOR,
                       activeColor: SECONDARY_COLOR,

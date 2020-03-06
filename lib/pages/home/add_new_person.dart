@@ -1,4 +1,3 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/api/auth.dart';
@@ -74,19 +73,19 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
     );
   }
 
-  saveContactToPhone() {
-    Contact contact = Contact();
-    contact.givenName = fNameController.text;
-    contact.middleName = lNameController.text;
-    contact.phones = [
-      Item(label: selectPhone.name, value: phoneController.text)
-    ];
-    contact.emails = [
-      Item(label: selectEmail.name, value: emailController.text)
-    ];
-
-    ContactsService.addContact(contact);
-  }
+//  saveContactToPhone() {
+//    Contact contact = Contact();
+//    contact.givenName = fNameController.text;
+//    contact.middleName = lNameController.text;
+//    contact.phones = [
+//      Item(label: selectPhone.name, value: phoneController.text)
+//    ];
+//    contact.emails = [
+//      Item(label: selectEmail.name, value: emailController.text)
+//    ];
+//
+//    ContactsService.addContact(contact);
+//  }
 
   submitForm() {
     if (validateEmailForAddPerson(emailController.text)
@@ -128,7 +127,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
       );
 
       addNewPerson.then((value) {
-        saveContactToPhone();
+//        saveContactToPhone();
         Provider.of<Auth>(context, listen: false)
             .setSuccessfullyRegisteredFun(true);
 
