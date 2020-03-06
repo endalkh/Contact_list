@@ -38,8 +38,8 @@ class _ContactListPageState extends State<ContactListPage> {
     var addNewPerson = addNewPersonApi(
       emailType: 'Work',
       email: 'email',
-      phoneType: user.l,
-      phone: user.phone,
+      phoneType: type,
+      phone: phone,
       fName: user.familyName,
       lName: user.givenName,
       birthday: '2011-11-11T00:00:00Z',
