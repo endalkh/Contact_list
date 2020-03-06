@@ -1,153 +1,89 @@
-import 'dart:typed_data';
-
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_contact/contacts.dart';
+import 'package:flutter_app/pages/contact_sync/contact_page.dart';
+import 'package:flutter_app/pages/contact_sync/items_tile.dart';
+import 'package:flutter_app/pages/contact_sync/update_contact.dart';
 
+class ContactDetailsPage extends StatelessWidget {
+  ContactDetailsPage(this._contact);
 
-class ContactDetailsPage extends StatefulWidget {
-    ContactDetailsPage(this._contact, this._groups);
+  final Contact _contact;
 
-    final Contact _contact;
-    final Iterable<Group> _groups;
-
-    @override
-    _ContactDetailsPageState createState() => _ContactDetailsPageState();
-}
-
-class _ContactDetailsPageState extends State<ContactDetailsPage> {
-    Contact _contact;
-    bool _avatarZoomed = false;
-    double _avatarSize = 150.0;
-    Uint8List _avatarData;
-
-    @override
-    void initState() {
-        super.initState();
-        _contact = widget._contact;
-        Future.value(_contact.getOrFetchAvatar()).then((_) {
-            setState(() {
-                if (mounted) {
-                    _avatarData = _;
-                }
-            });
-        });
-    }
-
-    _toggleAvatarSize(BuildContext context) {
-        setState(() {
-            if (!_avatarZoomed) {
-                _avatarSize = MediaQuery.of(context).size.width;
-                _avatarZoomed = true;
-            } else {
-                _avatarZoomed = false;
-                _avatarSize = 150.0;
-            }
-        });
-    }
-
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-                appBar: AppBar(
-                title: Text(widget._contact.displayName ?? ""),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_contact.displayName ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400, color: Colors.white)),
         actions: <Widget>[
-//          IconButton(
-//            icon: Icon(Icons.share),
-//            onPressed: () => shareVCFCard(context, contact: _contact),
-//          ),
-        IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => Contacts.deleteContact(widget._contact),
-        ),
-        IconButton(
-                icon: Icon(Icons.update),
-                onPressed: () async {
-            await Navigator.of(context).push(
-                    MaterialPageRoute(
-                            builder: (context) => UpdateContactsPage(
-                    contact: widget._contact,
+          IconButton(
+              color: Colors.white,
+              icon: Icon(Icons.delete),
+              onPressed: () => ContactsService.deleteContact(_contact).then(
+                    (_) {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => ContactListPage()));
+                },
+              )),
+          IconButton(
+            color: Colors.white,
+            icon: Icon(Icons.update),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => UpdateContactsPage(
+                  contact: _contact,
+                ),
+              ),
             ),
-            ),
-            );
-        },
-        ),
+          ),
         ],
-        ),
-        body: SafeArea(
+      ),
+      body: SafeArea(
         child: ListView(
-        children: <Widget>[
-        if (widget._contact.hasAvatar == true)
-            GestureDetector(
-                    key: Key("contact-avatar-${_contact.identifier}"),
-                    onTap: () => _toggleAvatarSize(context),
-        child: AnimatedContainer(
-        width: _avatarSize,
-        height: _avatarSize,
-        child: Container(
-        width: _avatarSize,
-        height: _avatarSize,
-        decoration: BoxDecoration(
-        image: DecorationImage(
-        fit: BoxFit.cover,
-        image: MemoryImage(_avatarData ?? [])),
-        ),
-        ),
-        duration: Duration(milliseconds: 300),
-        ),
-        ),
-        ListTile(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              child: Text(
+                "Personal Informations",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: ListTile(
                 title: Text("Name"),
-                trailing: Text(widget._contact.givenName ?? ""),
-        ),
-        ListTile(
-                title: Text("Middle name"),
-                trailing: Text(widget._contact.middleName ?? ""),
-        ),
-        ListTile(
+                trailing: Text(_contact.givenName ?? '--'),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: ListTile(
+                title: Text("MiddleName"),
+                trailing: Text(_contact.middleName ?? "--"),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: ListTile(
                 title: Text("Family name"),
-                trailing: Text(widget._contact.familyName ?? ""),
+                trailing: Text(_contact.familyName ?? "--"),
+              ),
+            ),
+            // AddressesTile(_contact.postalAddresses),
+            ItemsTile("Phones", _contact.phones),
+            ItemsTile("Emails", _contact.emails)
+          ],
         ),
-        ListTile(
-                title: Text("Prefix"),
-                trailing: Text(widget._contact.prefix ?? ""),
-        ),
-        ListTile(
-                title: Text("Suffix"),
-                trailing: Text(widget._contact.suffix ?? ""),
-        ),
-        ListTile(
-                title: Text("Company"),
-                trailing: Text(widget._contact.company ?? ""),
-        ),
-        ListTile(
-                title: Text("Job"),
-                trailing: Text(widget._contact.jobTitle ?? ""),
-        ),
-        ListTile(
-                title: Text("Note"),
-                trailing: Text(widget._contact.note ?? ""),
-        ),
-        AddressesTile(widget._contact.postalAddresses),
-        ItemsTile(
-                widget._contact, "Phones", widget._contact.phones, onChange),
-        ItemsTile(widget._contact, "Social Profiles",
-                widget._contact.socialProfiles, onChange),
-        DatesTile(widget._contact, widget._contact.dates, onChange),
-        ItemsTile(widget._contact, "URLs", widget._contact.urls, onChange),
-        ItemsTile(
-                widget._contact, "Emails", widget._contact.emails, onChange),
-        GroupsTile(groups: widget._groups)
-        ],
-        ),
-        ),
-        );
-    }
-
-    onChange() async {
-        final refreshed = await Contacts.getContact(_contact.identifier);
-        setState(() {
-            this._contact = refreshed;
-        });
-    }
+      ),
+    );
+  }
 }

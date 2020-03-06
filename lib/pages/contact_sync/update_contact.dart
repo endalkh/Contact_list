@@ -1,9 +1,12 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contact/contacts.dart';
+import 'package:flutter_app/pages/contact_sync/contact_page.dart';
 
 class UpdateContactsPage extends StatefulWidget {
   UpdateContactsPage({@required this.contact});
+
   final Contact contact;
+
   @override
   _UpdateContactsPageState createState() => _UpdateContactsPageState();
 }
@@ -23,7 +26,12 @@ class _UpdateContactsPageState extends State<UpdateContactsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Update Contact"),
+        title: Text(
+          "Update Contact",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -33,7 +41,10 @@ class _UpdateContactsPageState extends State<UpdateContactsPage> {
             onPressed: () async {
               _formKey.currentState.save();
               contact.postalAddresses = [address];
-              await Contacts.updateContact(contact);
+              await ContactsService.updateContact(contact).then((_) {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => ContactListPage()));
+              });
             },
           ),
         ],
@@ -44,82 +55,86 @@ class _UpdateContactsPageState extends State<UpdateContactsPage> {
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              TextFormField(
-                initialValue: contact.givenName ?? "",
-                decoration: const InputDecoration(labelText: 'First name'),
-                onSaved: (v) => contact.givenName = v,
+              SizedBox(
+                height: 30,
               ),
-              TextFormField(
-                initialValue: contact.middleName ?? "",
-                decoration: const InputDecoration(labelText: 'Middle name'),
-                onSaved: (v) => contact.middleName = v,
+              Material(
+                borderRadius: BorderRadius.circular(10.0),
+                elevation: 12,
+                child: TextFormField(
+                  // controller: fNameController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.person, size: 20),
+                    hintText: "First Name",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none),
+                  ),
+                  initialValue: contact.givenName ?? "",
+                  onSaved: (v) => contact.givenName = v,
+                ),
               ),
-              TextFormField(
-                initialValue: contact.familyName ?? "",
-                decoration: const InputDecoration(labelText: 'Last name'),
-                onSaved: (v) => contact.familyName = v,
+              SizedBox(
+                height: 10,
               ),
-              TextFormField(
-                initialValue: contact.prefix ?? "",
-                decoration: const InputDecoration(labelText: 'Prefix'),
-                onSaved: (v) => contact.prefix = v,
+              Material(
+                borderRadius: BorderRadius.circular(10.0),
+                elevation: 12,
+                child: TextFormField(
+                  // controller: fNameController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.person, size: 20),
+                    hintText: "Middle Name",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none),
+                  ),
+                  initialValue: contact.middleName ?? "",
+                  // onSaved: (v) => contact.middleName = v,
+                ),
               ),
-              TextFormField(
-                initialValue: contact.suffix ?? "",
-                decoration: const InputDecoration(labelText: 'Suffix'),
-                onSaved: (v) => contact.suffix = v,
+              SizedBox(
+                height: 10,
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Phone'),
-                onSaved: (v) =>
-                contact.phones = [Item(label: "mobile", value: v)],
-                keyboardType: TextInputType.phone,
+              Material(
+                borderRadius: BorderRadius.circular(10.0),
+                elevation: 12,
+                child: TextFormField(
+                  // controller: fNameController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.person, size: 20),
+                    hintText: "Last Name",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none),
+                  ),
+                  initialValue: contact.familyName ?? "",
+                  onSaved: (v) => contact.familyName = v,
+                ),
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'E-mail'),
-                onSaved: (v) =>
-                contact.emails = [Item(label: "work", value: v)],
-                keyboardType: TextInputType.emailAddress,
+              SizedBox(
+                height: 10,
               ),
-              TextFormField(
-                initialValue: contact.company ?? "",
-                decoration: const InputDecoration(labelText: 'Company'),
-                onSaved: (v) => contact.company = v,
-              ),
-              TextFormField(
-                initialValue: contact.jobTitle ?? "",
-                decoration: const InputDecoration(labelText: 'Job'),
-                onSaved: (v) => contact.jobTitle = v,
-              ),
-              TextFormField(
-                initialValue: contact.note ?? "",
-                decoration: const InputDecoration(labelText: 'Note'),
-                onSaved: (v) => contact.note = v,
-              ),
-              TextFormField(
-                initialValue: address.street ?? "",
-                decoration: const InputDecoration(labelText: 'Street'),
-                onSaved: (v) => address.street = v,
-              ),
-              TextFormField(
-                initialValue: address.city ?? "",
-                decoration: const InputDecoration(labelText: 'City'),
-                onSaved: (v) => address.city = v,
-              ),
-              TextFormField(
-                initialValue: address.region ?? "",
-                decoration: const InputDecoration(labelText: 'Region'),
-                onSaved: (v) => address.region = v,
-              ),
-              TextFormField(
-                initialValue: address.postcode ?? "",
-                decoration: const InputDecoration(labelText: 'Postal code'),
-                onSaved: (v) => address.postcode = v,
-              ),
-              TextFormField(
-                initialValue: address.country ?? "",
-                decoration: const InputDecoration(labelText: 'Country'),
-                onSaved: (v) => address.country = v,
+              Material(
+                borderRadius: BorderRadius.circular(10.0),
+                elevation: 12,
+                child: TextFormField(
+                  // controller: fNameController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.person, size: 20),
+                    hintText: "Phone",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none),
+                  ),
+                  initialValue: contact.suffix ?? "",
+                  onSaved: (v) =>
+                  contact.phones = [Item(label: "mobile", value: v)],
+                ),
               ),
             ],
           ),

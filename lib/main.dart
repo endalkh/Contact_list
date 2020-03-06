@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/contact_sync/contact_sync.dart';
+import 'package:flutter_app/pages/contact_sync/contact_page.dart';
 import 'package:flutter_app/pages/home/home.dart';
 import 'package:flutter_app/pages/login/signin.dart';
 import 'package:flutter_app/pages/recover_password/recover_password.dart';
@@ -49,13 +49,13 @@ class _MyApp extends State<MyApp> {
 
   @override
   build(context) {
-//    AppState themeNotifier = Provider.of<AppState>(context);
+    AppState themeNotifier = Provider.of<AppState>(context);
     return MaterialApp(
       showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
 
         initialRoute: logged == true ? Constant.HOME : Constant.SPLASH_SCREEN,
-//        theme: themeNotifier.getTheme(),
+        theme: themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),
           Constant.SIGN_IN: (context) => SignInPage(),
