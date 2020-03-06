@@ -58,6 +58,13 @@ class _AddContactPageState extends State<AddContactPage> {
                 contact.emails = [Item(label: "work", value: v)],
                 keyboardType: TextInputType.emailAddress,
               ),
+
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Birthday'),
+                onSaved: (v) =>
+                contact.emails = [Item(label: "work", value: v)],
+                keyboardType: TextInputType.datetime,
+              ),
             ],
           ),
         ),

@@ -96,19 +96,19 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
                 .toString()
                 .isNotEmpty ==
             true ||
-        validateLastNameForAddPerson(lNameController.text)
+        validateLastNameForAddPerson(
+                    lNameController.text)
                 .toString()
                 .isNotEmpty ==
             true ||
         validatePhoneForAddPerson(phoneController.text).toString().isNotEmpty ==
-            true || validateBirthday(birthdayController.text).toString().isNotEmpty ==true){
+            true ||
+        validateBirthday(birthdayController.text).toString().isNotEmpty ==
+            true) {
       setState(() {
         showError = true;
       });
-    } 
-    
-    
-    else {
+    } else {
       setState(() {
         showError = false;
       });
@@ -305,7 +305,7 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
             },
           ),
         ),
-                showError == true &&
+        showError == true &&
                 validateBirthday(birthdayController.text)
                         .toString()
                         .isNotEmpty ==

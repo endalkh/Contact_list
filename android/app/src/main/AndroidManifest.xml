@@ -6,7 +6,10 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Relate"
+<<<<<<< HEAD
         android:debuggable="false"
+=======
+>>>>>>> blav
         >
 
         <activity
