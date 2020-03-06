@@ -17,6 +17,7 @@ class ContactListPage extends StatefulWidget {
 
 class _ContactListPageState extends State<ContactListPage> {
   Iterable<Contact> _contacts;
+
   @override
   initState() {
     super.initState();
@@ -36,15 +37,15 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   Future addAllContact() async {
-
-     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
+    Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     await Provider.of<Auth>(context, listen: false).clearContactSync();
     await phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
     ).then((val) {
       for (int i = 0; i < val.length; i++) {
         val[i].phone.asMap().forEach((index, value) {
-          if (matchingContacts(value.number,val[i].name) == true) {
+          var res = matchingContacts(value.number, val[i].name);
+          if (res == true) {
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
           }
         });
@@ -55,17 +56,18 @@ class _ContactListPageState extends State<ContactListPage> {
         builder: (BuildContext context) => MatchedContactsPage()));
   }
 
-
-  matchingContacts(phone,name) {
+  matchingContacts(phone, name) {
     bool result = false;
     for (int i = 0; i < _contacts.length; i++) {
       _contacts.elementAt(i).phones.forEach((f) {
-        if (!(_contacts.elementAt(i).displayName==name) &&
-            (prefixRemover(f.value) == prefixRemover(phone) ) &&
-            (phone!=null && phone!="")
-        ) {
-          print(" ");
+        if ((_contacts.elementAt(i).displayName != name) &&
+            (prefixRemover(f.value) == prefixRemover(phone)) &&
+            (phone != null && phone != "")) {
+          print(_contacts.elementAt(i).displayName);
+          print(phone);
+          print(f.value);
           print(name);
+          print(" ");
           result = true;
         } else {
           result = false;
@@ -91,8 +93,8 @@ class _ContactListPageState extends State<ContactListPage> {
     if (permission != PermissionStatus.granted &&
         permission != PermissionStatus.disabled) {
       Map<PermissionGroup, PermissionStatus> permissionStatus =
-      await PermissionHandler()
-          .requestPermissions([PermissionGroup.contacts]);
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.contacts]);
       return permissionStatus[PermissionGroup.contacts] ??
           PermissionStatus.unknown;
     } else {
@@ -132,45 +134,47 @@ class _ContactListPageState extends State<ContactListPage> {
           )
         ],
       ),
-      body:Provider.of<Auth>(context).getIsLoadingFun()==true?circularIndicator(context: context):
-      SafeArea(
-        child: _contacts != null
-            ? ListView.builder(
-          itemCount: _contacts?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            Contact c = _contacts?.elementAt(index);
-            return Card(
-              margin:
-              EdgeInsets.only(left: 15, right: 15, bottom: 3, top: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: ListTile(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          ContactDetailsPage(c)));
-                },
-                leading: (c.avatar != null && c.avatar.length > 0)
-                    ? CircleAvatar(backgroundImage: MemoryImage(c.avatar))
-                    : CircleAvatar(
-                  child: Text(
-                    c.initials(),
-                    style: TextStyle(
-                      color: Colors.white,
+      body: Provider.of<Auth>(context).getIsLoadingFun() == true
+          ? circularIndicator(context: context)
+          : SafeArea(
+              child: _contacts != null
+                  ? ListView.builder(
+                      itemCount: _contacts?.length ?? 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        Contact c = _contacts?.elementAt(index);
+                        return Card(
+                          margin: EdgeInsets.only(
+                              left: 15, right: 15, bottom: 3, top: 3),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ContactDetailsPage(c)));
+                            },
+                            leading: (c.avatar != null && c.avatar.length > 0)
+                                ? CircleAvatar(
+                                    backgroundImage: MemoryImage(c.avatar))
+                                : CircleAvatar(
+                                    child: Text(
+                                      c.initials(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    backgroundColor: PRIMARY_COLOR,
+                                  ),
+                            title: Text(c.displayName ?? ""),
+                          ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: circularIndicator(context: context),
                     ),
-                  ),
-                  backgroundColor: PRIMARY_COLOR,
-                ),
-                title: Text(c.displayName ?? ""),
-              ),
-            );
-          },
-        )
-            : Center(
-          child: circularIndicator(context: context),
-        ),
-      ),
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           addAllContact(),
