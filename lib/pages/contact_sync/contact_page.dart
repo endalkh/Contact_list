@@ -7,7 +7,6 @@ import 'package:flutter_app/pages/contact_sync/contact_detail.dart';
 import 'package:flutter_app/pages/contact_sync/match_contact.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
-import 'package:flutter_app/utilities/date_formater.dart';
 import 'package:flutter_app/utilities/phone_prefix.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -90,11 +89,7 @@ class _ContactListPageState extends State<ContactListPage> {
         if ((_contacts.elementAt(i).displayName != name) &&
             (prefixRemover(f.value) == prefixRemover(phone)) &&
             (phone != null && phone != "")) {
-          print(_contacts.elementAt(i).displayName);
-          print(phone);
-          print(f.value);
-          print(name);
-          print(" ");
+
           result = true;
         } else {
           result = false;
@@ -129,7 +124,7 @@ class _ContactListPageState extends State<ContactListPage> {
     }
   }
 
-  void _handleInvalidPermissions(PermissionStatus permissionStatus) {
+   _handleInvalidPermissions(PermissionStatus permissionStatus) {
     if (permissionStatus == PermissionStatus.denied) {
       throw new PlatformException(
           code: "PERMISSION_DENIED",
