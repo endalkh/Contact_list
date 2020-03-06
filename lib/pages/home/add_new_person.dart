@@ -112,8 +112,11 @@ class _AddNewPerson extends State<AddNewPersonScreen> implements ShouldImp {
       setState(() {
         showError = false;
       });
+
+
       Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
       var token = Provider.of<Auth>(context, listen: false).getTokenFun();
+      
       var addNewPerson = addNewPersonApi(
         emailType: selectEmail.name,
         email: emailController.text,
