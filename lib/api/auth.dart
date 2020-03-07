@@ -1148,11 +1148,9 @@ Future<List<ContactSync>> phoneSyncApi({@required token}) async {
       },
     );
     switch (response.statusCode) {
-      case 200:
-        {
+      case 200:{
           var responseJson = await json.decode(response.body) as List;
-          return responseJson.map((data) => ContactSync.fromJson(data))
-              .toList();
+          return responseJson.map((data) => ContactSync.fromJson(data)).toList();
         }
         break;
 

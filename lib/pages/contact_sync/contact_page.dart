@@ -2,6 +2,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/api/auth.dart';
+import 'package:flutter_app/api/model/contact_sync.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/contact_sync/contact_detail.dart';
 import 'package:flutter_app/pages/contact_sync/match_contact.dart';
@@ -28,11 +29,11 @@ class _ContactListPageState extends State<ContactListPage> {
     Contact user = _contacts;
 
     String type, phone;
-   for(int i=0;i<user.phones.length;i++){
-  phone=user.phones.elementAt(i).value;
-  type=user.phones.elementAt(i).label;
-  break;
-   }
+    for (int i = 0; i < user.phones.length; i++) {
+      phone = user.phones.elementAt(i).value;
+      type = user.phones.elementAt(i).label;
+      break;
+    }
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     var token = Provider.of<Auth>(context, listen: false).getTokenFun();
     var addNewPerson = addNewPersonApi(
@@ -60,7 +61,7 @@ class _ContactListPageState extends State<ContactListPage> {
     if (permissionStatus == PermissionStatus.granted) {
       var contacts = await ContactsService.getContacts();
       setState(() {
-        _contacts = contacts!=null?contacts:[];
+        _contacts = contacts != null ? contacts : [];
       });
     } else {
       _handleInvalidPermissions(permissionStatus);
@@ -69,38 +70,49 @@ class _ContactListPageState extends State<ContactListPage> {
 
   Future addAllContact() async {
     Contact contact = new Contact();
+    var cons = await ContactsService.getContacts();
+
+    _contacts=  cons!=null?cons:[];
+
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(true);
     await Provider.of<Auth>(context, listen: false).clearContactSync();
-    await phoneSyncApi(
+    phoneSyncApi(
       token: Provider.of<Auth>(context, listen: false).getTokenFun(),
-    ).then((val) {
+    ).then((List<ContactSync> val) {
+      int res;
+
+      Provider.of<Auth>(context, listen: false).clearContactSync();
+
       for (int i = 0; i < val.length; i++) {
-        bool flag = true;
-        val[i].phone.asMap().forEach((index, value) {
-          var res = matchingContacts(value.number, val[i].name);
-          if (res == true) {
-            flag = false;
+        for (int j = 0; j < val[i].phone.asMap().length; j++) {
+          res = matchingContacts(val[i].phone[j].number, val[i].name);
+          if (res == 0) {
             Provider.of<Auth>(context, listen: false).setContactSync(val[i]);
+            break;
           }
 
-        });
-            
-            
-            if (flag == true && _contacts.elementAt(i).displayName != val[i].name) {
-              print(" ${_contacts.elementAt(i).displayName} ${val[i].name}" );
-            contact.displayName = val[i].name;
-            contact.givenName=val[i].name;
-            contact.birthday= DateTime.parse('2011-11-11T00:00:00Z');
-            contact.phones = val[i]
-                .phone
-                .map((f) => Item(label: f.type, value: f.number))
-                .toList();
-                            contact.emails = val[i]
-                .email
-                .map((f) => Item(label: f.type, value: f.address))
-                .toList();
-            ContactsService.addContact(contact);
+          if (res == 1) {
+
+            break;
           }
+
+
+
+        }
+        if(res==-1){
+          contact.displayName = val[i].name;
+          contact.givenName = val[i].name;
+          contact.birthday = DateTime.parse('2011-11-11T00:00:00Z');
+          contact.phones = val[i]
+              .phone
+              .map((f) => Item(label: f.type, value: f.number))
+              .toList();
+          contact.emails = val[i]
+              .email
+              .map((f) => Item(label: f.type, value: f.address))
+              .toList();
+          ContactsService.addContact(contact);
+        }
       }
     });
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
@@ -109,22 +121,35 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   matchingContacts(phone, name) {
-    bool result = false;
-    for (int i = 0; i < _contacts.length; i++) {
-
-
-//      _contacts.elementAt(i).phones.forEach((f) {
-//        if ((_contacts.elementAt(i).givenName != name) &&
-//            (prefixRemover(f.value) == prefixRemover(phone)) &&
-//            (phone != null && phone != "")) {
-//
-//        } else {
-//
-//          result = false;
-//        }
-//      });
-
+    int result;
+    if(phone==null|| phone==""){
+      result=-1;
     }
+    else {
+      for (int i = 0; i < _contacts.length; i++) {
+        for (int j = 0; j < _contacts.elementAt(i).phones.length; j++) {
+          if (prefixRemover(_contacts.elementAt(i).phones.elementAt(j).value) == prefixRemover(phone)) {
+
+            if (name != _contacts.elementAt(i).displayName) {
+              result = 0;
+              break;
+            }
+            else if (name == _contacts
+                .elementAt(i)
+                .displayName) {
+              result = 1;
+              break;
+            }
+          }
+          else {
+            result = -1;
+          }
+        }
+
+        if (result == 0 || result == 1) break;
+      }
+    }
+
     return result;
   }
 
@@ -152,7 +177,7 @@ class _ContactListPageState extends State<ContactListPage> {
     }
   }
 
-   _handleInvalidPermissions(PermissionStatus permissionStatus) {
+  _handleInvalidPermissions(PermissionStatus permissionStatus) {
     if (permissionStatus == PermissionStatus.denied) {
       throw new PlatformException(
           code: "PERMISSION_DENIED",
