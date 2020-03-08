@@ -6,6 +6,7 @@ import 'package:flutter_app/api/model/contact_sync.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/pages/contact_sync/contact_detail.dart';
 import 'package:flutter_app/pages/contact_sync/match_contact.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/phone_prefix.dart';
@@ -116,8 +117,14 @@ class _ContactListPageState extends State<ContactListPage> {
       }
     });
     Provider.of<Auth>(context, listen: false).setLoadingStateFun(false);
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => MatchedContactsPage()));
+    if(Provider.of<Auth>(context, listen: false).getContactSync().length>0) {
+      Navigator.push(
+          context,
+          SlideLeftRoute(
+              page: MatchedContactsPage(
+              )));
+
+    }
   }
 
   matchingContacts(phone, name) {

@@ -54,7 +54,7 @@ class _MyApp extends State<MyApp> {
       showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
 
-        initialRoute: logged == true ? Constant.HOME : Constant.SPLASH_SCREEN,
+        initialRoute: logged == true ? Constant.HOME : Constant.HOME,
         theme: themeNotifier.getTheme(),
         routes: {
           Constant.SPLASH_SCREEN: (context) => SPlashBackground(),

@@ -26,7 +26,6 @@ class PhoneNumber extends StatefulWidget{
 class _PhoneNumber extends State<PhoneNumber> implements NoteDelAndEdit,ShouldImp{
  String personId;
   _PhoneNumber({@required this.personId});
-   BuildContext context;
 
   @override
   void initState() {

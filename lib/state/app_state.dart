@@ -260,6 +260,11 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
+ removeContactSync(ContactSync val) {
+    contactSync.remove(val);
+    notifyListeners();
+  }
+
   setContactSync(ContactSync val) {
     contactSync.add(val);
     notifyListeners();

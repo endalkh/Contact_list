@@ -2,6 +2,8 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/model/contact_sync.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:flutter_app/pages/contact_sync/contact_page.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_app/utilities/phone_prefix.dart';
 import 'package:provider/provider.dart';
@@ -20,38 +22,40 @@ class _MatchedContactsPageState extends State<MatchedContactsPage> {
     Contact contact;
     bool terminate = false;
     for (int i = 0; i < _contacts.length; i++) {
-      for (int j = 0; j < _contacts
-          .elementAt(i)
-          .phones
-          .length; j++) {
+      for (int j = 0; j < _contacts.elementAt(i).phones.length; j++) {
         for (int k = 0; k < add.phone.length; k++) {
-          if (prefixRemover(add.phone
-              .elementAt(k)
-              .number) == prefixRemover(_contacts
-              .elementAt(i)
-              .phones
-              .elementAt(j)
-              .value)) {
+          if (prefixRemover(add.phone.elementAt(k).number) ==
+              prefixRemover(_contacts.elementAt(i).phones.elementAt(j).value)) {
             terminate = true;
+            contact = _contacts.elementAt(i);
+            contact.displayName = add.name;
+            contact.givenName = add.name;
+            Iterable<Item> res = add.phone
+                .map((f) => Item(label: f.type, value: f.number))
+                .toList();
+
+            contact.phones = res;
+
+            ContactsService.updateContact(contact);
+            Provider.of<Auth>(context, listen: false).removeContactSync(add);
+            if (Provider.of<Auth>(context, listen: false)
+                    .getContactSync()
+                    .length ==
+                0) {
+              Navigator.push(context, SlideLeftRoute(page: ContactListPage()));
+            }
+            print("==done ");
             break;
           }
         }
-        if (terminate = true) {
-          ;
+        if (terminate == true) {
+          break;
         }
-//     if(terminate=true) break;
-
+      }
+      if (terminate == true) {
+        break;
       }
 
-//    print(contact.displayName);
-
-//    contact.displayName = add.name;
-//    contact.birthday = DateTime.parse(add.birthday);
-//    contact.phones =
-//        add.phone.map((f) => Item(label: f.type, value: f.number)).toList();
-//    contact.emails =
-//        add.email.map((f) => Item(label: f.type, value: f.address)).toList();
-//    ContactsService.updateContact(contact);
     }
   }
 

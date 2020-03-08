@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 
 class PersonHeaderScreen extends StatefulWidget {
   final String personId;
-  PersonHeaderScreen({Key key, @required this.personId}) : super(key: key);
+  PersonHeaderScreen({Key key, @required this.personId});
   _PersonHeaderScreen createState()=>_PersonHeaderScreen(personId: personId,);
 }
 
