@@ -1,48 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constants/colors.dart';
-import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/widgets/custom_shape.dart';
 
-clipShape({ height,width}) {
+import '../../constants/colors.dart';
+import '../../utilities/validation/get_size.dart';
+import 'custom_shape.dart';
+
+clipShape(context) {
   return Stack(
     children: <Widget>[
       Opacity(
-        opacity: 0.5,
+        opacity: 0.75,
         child: ClipPath(
           clipper: CustomShapeClipper(),
           child: Container(
-            height:170,
+            height: getHeight(context)*0.2,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [PRIMARY_COLOR, SECONDARY_COLOR]
-              ),
+              color: PRIMARY_COLOR,
+
             ),
           ),
         ),
       ),
       Opacity(
-        opacity: 0.5,
+        opacity: 0.6,
         child: ClipPath(
           clipper: CustomShapeClipper2(),
           child: Container(
-            height: 120,
+            height: getHeight(context)*0.2,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [PRIMARY_COLOR, SECONDARY_COLOR]
-              ),
+              color: PRIMARY_COLOR.withOpacity(0.5),
+
             ),
           ),
         ),
       ),
-      Container(
-        alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.only(top: 10),
-        child: Image.asset(
-          'assets/images/login.png',
-          height: height/3.5,
-          width: width/3.5,
-        ),
-      ),
+
     ],
   );
 }

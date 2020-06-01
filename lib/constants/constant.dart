@@ -1,42 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/colors.dart';
+import 'package:jiffy/jiffy.dart';
 
 class Constant{
   String appName = "Contact Managment";
  // routes constant
-  static String SIGN_IN ='signIn';
-  static String SIGN_UP ='signUp';
-  static String SUBMIT ='Submit';
-  static String SPLASH_SCREEN ='splashscreen';
-  static String HOME ='home';
-  static String SEARCH="search";
-  static String SETTING="SETTING";
-  static String DIALOGE_PAGE="DIALOGEPAGE";
-  static String PROFILE="Profile";
-  static String ABOUT_US="ABOUT_US";
-  static String PICK_PROFILE_PICHTURE="PICK_PROFILE_PICHTURE";
-  static String TERMS_AND_CONDTION="TERMS_AND_CONDTION";
-  static String SUCCESS="Success";
-  static String CONTACT_INFO="ContactInformation";
-  static String NOTES="Notes";
-  static String DASHBOARD="Dashboard";
-  static String RECOVER_PASSWORD="Recover_password";
-  static String PERSON_HEADER="person_header";
-  static String SEARCH_DISPLAY="search_display";
+  static const String SIGN_IN ='signIn';
+  static const String SIGN_UP ='signUp';
+  static const String SUBMIT ='Submit';
+  static const String SPLASH_SCREEN ='splashscreen';
+  static const String HOME ='home';
+  static const String SEARCH="search";
+  static const String SETTING="Settings";
+  static const String DIALOG_PAGE="Dialogue Page";
+  static const String PROFILE="Profile";
+  static const String ABOUT_US="About Us";
+  static const String PICK_PROFILE_PICHTURE="Pick Profile Picture";
+  static const String TERMS_AND_CONDTION="Terms and Conditions";
+  static const String SUCCESS="Success";
+  static const String CONTACT_INFO="ContactInformation";
+  static const String NOTES="Notes";
+  static const String DASHBOARD="Dashboard";
+  static const String RECOVER_PASSWORD="Recover_password";
+  static const String PERSON_HEADER="person_header";
+  static const String SEARCH_DISPLAY="search_display";
+  static const String  CONTACT_SYNC="search_display";
 
 // labels
-  static String ADD_NEW_PERSON="Add new Person";
-  static String LAST_CONTACT="Last Contact";
-  static String UPCOMING_BIRTHDAYS="Upcoming Birthdays";
-  static String RESETPASSWORD="Reset Password";
-  static String RECOVERPASSWORD="Recover Password";
-  static String SIGNIN="Sign in";
-  static String SIGNUP ="Sign up";
-  static String PASSWORDRESETDESC ="It's ok, we all forget out password sometimes. "
+  static const String ADD_NEW_PERSON="Add new Person";
+  static const String LAST_CONTACT="Last Contact";
+  static const String UPCOMING_BIRTHDAYS="Upcoming Birthdays";
+  static const String RESETPASSWORD="Reset Your Password";
+  static const String RECOVERPASSWORD="Recover Password";
+  static const String SIGNIN="Sign in";
+  static const String SIGNUP ="Sign up";
+  static const String PASSWORDRESETDESC ="  It's ok, We all forget our password sometimes. "
       "Fill out your email to get a reset link sent to your email. "
-      "You also might consider getting a password manager like 1Password or Bitwarden";
-
-  //font
+      "  \n \n"
+      "     You also might consider getting a password manager like 1Password or Bitwarden";
   static const String XS="XS";
   static const String S="S";
   static const String M="M";
@@ -51,58 +52,34 @@ class Constant{
   static const String HX="HX";
 
 
+//alert Messages
+  static const String success="Your request done successfuly";
+  static const String error="Unable to perform the action!";
+
+  // Icon type
+  static const String successIcon="success";
+  static const String errorIcon="error";
+  static const String warningIcon="warning";
+  static const String infoIcon="info";
 
 
 
 
-  static List<String> images = [
-    'https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849825_1280.jpg',
-    'https://cdn.pixabay.com/photo/2014/05/02/21/50/home-office-336377_1280.jpg',
-    'https://images.pexels.com/photos/801816/pexels-photo-801816.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-    'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F4.jpg?alt=media',
-    'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F5.jpg?alt=media',
-    'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F6.jpg?alt=media',
-    'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F7.jpg?alt=media',
-  ];
-  static final ThemeData darkTheme1 = ThemeData(
-    scaffoldBackgroundColor: Colors.black,
-    appBarTheme: AppBarTheme(
-      color: Colors.black,
-      iconTheme: IconThemeData(
-        color: Colors.white,
-      ),
-    ),
-    colorScheme: ColorScheme.light(
-      primary: Colors.black,
-      onPrimary: Colors.black,
-      primaryVariant: Colors.black,
-      secondary: Colors.red,
-    ),
-    cardTheme: CardTheme(
-      color: Colors.black,
-    ),
-    iconTheme: IconThemeData(
-      color: Colors.white54,
-    ),
-    textTheme: TextTheme(
-      title: TextStyle(
-        color: Colors.white,
-        fontSize: 20.0,
-      ),
-      subtitle: TextStyle(
-        color: Colors.white70,
-        fontSize: 18.0,
-      ),
-    ),
-  );
+
+
+  //Birthday Picker
+  static  var initialDate=Jiffy()..subtract(years: 100);
+  static  var finalDate=Jiffy()..subtract(years: 18);
+
+
+
+
 
   static ThemeData lightTheme = ThemeData(
-
     fontFamily: "TimesNewRoman",
-    backgroundColor: lightBG,
+    backgroundColor: TRIAL_COLOR,
     primaryColor: lightPrimary,
-    accentColor:  lightAccent,
-    cursorColor: lightAccent,
+
 indicatorColor: PRIMARY_COLOR,
 brightness: Brightness.light,
 bottomAppBarTheme: BottomAppBarTheme(
@@ -110,7 +87,7 @@ bottomAppBarTheme: BottomAppBarTheme(
   color: Colors.red,
   elevation: 0,
 ),
-//    scaffoldBackgroundColor: lightBG,
+   scaffoldBackgroundColor: TRIAL_COLOR,
     appBarTheme: AppBarTheme(
       color: PRIMARY_COLOR,
       elevation: 0,
@@ -129,10 +106,15 @@ bottomAppBarTheme: BottomAppBarTheme(
     brightness: Brightness.dark,
     backgroundColor: darkBG,
     primaryColor: darkPrimary,
-    accentColor: darkAccent,
+
 
 //    scaffoldBackgroundColor: darkBG,
-    cursorColor: darkAccent,
+textTheme: TextTheme(
+      title: TextStyle(
+        color: Colors.white,
+        fontSize: 20.0,
+      ),
+),
     appBarTheme: AppBarTheme(
       elevation: 0,
       textTheme: TextTheme(
@@ -174,27 +156,22 @@ static  fontSize(type){
   switch(type){
     case XS:
       return 10.0;
-
     case S:
       return 12.0;
     case M:
       return 14.0;
-
     case L:
       return 18.0;
     case XL:
       return 22.0;
-
     case HX:
       return 40.0;
     case H1:
       return 38.0;
     case H2:
       return 36.0;
-
     case H3:
       return 34.0;
-
     case H4:
       return 30.0;
     case H5:
@@ -216,12 +193,11 @@ class PhoneType {
 
   static List<PhoneType> getPhones() {
     return <PhoneType>[
-      PhoneType(0, 'Type'),
-      PhoneType(1, 'Apple'),
-      PhoneType(2, 'Google'),
-      PhoneType(3, 'Samsung'),
-      PhoneType(4, 'Sony'),
-      PhoneType(5, 'LG'),
+      PhoneType(0, 'Home'),
+      PhoneType(1, 'Cell'),
+      PhoneType(2, 'Work'),
+      PhoneType(3, 'Fax'),
+      PhoneType(4, 'Others'),
     ];
   }
 }
@@ -235,12 +211,10 @@ class EmailType {
 
   static List<EmailType> getEmails() {
     return <EmailType>[
-      EmailType(0, 'Type'),
-      EmailType(1, 'Apple'),
-      EmailType(2, 'Google'),
-      EmailType(3, 'Samsung'),
-      EmailType(4, 'Sony'),
-      EmailType(5, 'LG'),
+      EmailType(0, 'Personal'),
+      EmailType(1, 'Work'),
+      EmailType(2, 'Family'),
+      EmailType(3, 'Others'),
     ];
   }
 }

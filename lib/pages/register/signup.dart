@@ -2,97 +2,102 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/api/auth.dart';
 import 'package:flutter_app/constants/colors.dart';
 import 'package:flutter_app/constants/constant.dart';
-import 'package:flutter_app/pages/SharedPreference/shared_preference.dart';
-import 'package:flutter_app/pages/animation/animate.dart';
+import 'package:flutter_app/pages/dialog/info_dialog.dart';
+import 'package:flutter_app/pages/login/signin.dart';
 import 'package:flutter_app/pages/logo/logo.dart';
-import 'package:flutter_app/pages/widgets/back_button.dart';
-import 'package:flutter_app/pages/widgets/cutter_ratio_container.dart';
+import 'package:flutter_app/pages/slider/slider.dart';
+import 'package:flutter_app/pages/widgets/circularProgressBar.dart';
+import 'package:flutter_app/pages/widgets/clip_shape.dart';
+import 'package:flutter_app/state/app_state.dart';
+import 'package:flutter_app/utilities/abstract_classes/confirmation_abstract.dart';
+import 'package:flutter_app/utilities/launcher.dart';
 import 'package:flutter_app/utilities/validation/Validation.dart';
-import 'package:flutter_app/utilities/validation/get_size.dart';
+import 'package:provider/provider.dart';
+
 class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       body: SignUpScreen(),
     );
   }
 }
+
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key key}) : super(key: key);
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends State<SignUpScreen> implements ShouldImp {
   bool isLoading = false;
-  bool showError=false;
-  bool showBackendError=false;
+  bool showError = false;
+  bool showBackendError = false;
   bool checkBoxValue = false;
-  bool isCheckBoxSelected=true;
-  String emailError="",passwordError="";
+  bool isCheckBoxSelected = true;
+  String emailError = "", passwordError = "";
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _secureText = true;
-  bool isDark=false;
+  bool isDark = false;
+  Color color=PRIMARY_COLOR;
+  bool termTextColor=false;
 
-  _SignInScreenState(){
-    getTheme();
-  }
 
-  getTheme() {
-    getSettingPref("dark").then((value)async{
-      setState(() {
-        isDark=value;
-      });
-    });
-  }
 
-  submitForm(){
+  submitForm() {
+
+    var themeNotifierAuth = Provider.of<Auth>(context, listen: false);
     setState(() {
-      showError=true;
-      emailError=validateEmail(usernameController.text);
-      passwordError=validatePassword(passwordController.text);
+      showError = true;
+      emailError = validateEmail(usernameController.text);
+      passwordError = validatePassword(passwordController.text);
     });
+    Provider.of<Auth>(context, listen: false).setRegisterErrorFun("");
+    if (emailError.isEmpty && passwordError.isEmpty && showError) {
+      if (checkBoxValue == false) {
+        setState(() {
+          isCheckBoxSelected = false;
+          color=Colors.red;
+          termTextColor=true;
+        });
 
-    if(emailError.isEmpty  && passwordError.isEmpty && showError){
-      if(checkBoxValue==false){
-setState(() {
-  isCheckBoxSelected=false;
-});
-      }
-      else if(checkBoxValue==true) {
+      } else {
         setState(() {
           isCheckBoxSelected = true;
         });
+        themeNotifierAuth.setLoadingStateFun(true);
+        var _registerModel = registerApi(
+          userId: usernameController.text,
+          password: passwordController.text,
+          context: context,
+        );
+        _registerModel.then((value) {
+          if (value == true) {
+            themeNotifierAuth.setLoadingStateFun(false);
+            InfoDialog(
+                context: context,
+                callback: _SignUpScreenState(),
+                title:
+                    "A confirmation email has been sent. Please check your email.",
+                type: Constant.success);
+          }
+        });
+
+        _registerModel.catchError((value) {
+          themeNotifierAuth.setHasErrorFun(value);
+          themeNotifierAuth.setLoadingStateFun(false);
+        });
       }
-        else{
-          Navigator.pushNamed(context, Constant.HOME);
-      }
-
-
-//      setState(() {
-//        isLoading=true;
-//      });
-//      loginApi(
-//        userId:usernameController.text,
-//        password:passwordController.text,
-//        context:context,
-//      );
-//      setState(() {
-//        isLoading=false;
-//      });
-
-
-
     }
   }
+
   showHide() {
     setState(() {
       _secureText = !_secureText;
     });
   }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -111,59 +116,60 @@ setState(() {
             controller: usernameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email, size: 20,color: PRIMARY_COLOR,),
+              prefixIcon: Icon(
+                Icons.email,
+                size: 20,
+                color: PRIMARY_COLOR,
+              ),
               hintText: "Email",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none
-              ),
+                  borderSide: BorderSide.none),
             ),
-
           ),
-
         ),
-
-        SizedBox(height: 5,),
-        (showError==true && emailError.isNotEmpty)?
-        Text(emailError,style: TextStyle(
-            color: Colors.red)
-        ):Container(),
+        SizedBox(
+          height: 5,
+        ),
+        (showError == true && emailError.isNotEmpty)
+            ? Text(emailError, style: TextStyle(color: Colors.red))
+            : Container(),
       ],
     );
   }
+
   passwordTextFormField() {
     return Column(
-      children: <Widget>[
+      children: [
         Material(
           borderRadius: BorderRadius.circular(30.0),
           elevation: 11,
           child: TextFormField(
-            obscureText:_secureText ,
+            obscureText: _secureText,
             controller: passwordController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.lock, size: 20,color: PRIMARY_COLOR),
+              prefixIcon: Icon(Icons.lock, size: 20, color: PRIMARY_COLOR),
               hintText: "Password",
               suffixIcon: IconButton(
+                focusColor: PRIMARY_COLOR,
                 onPressed: showHide,
-                icon: Icon(_secureText
-                    ? Icons.visibility_off
-                    : Icons.visibility),
+                icon:
+                    Icon(_secureText ? Icons.visibility_off : Icons.visibility),
               ),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none
-              ),
+                  borderSide: BorderSide.none),
             ),
           ),
         ),
-        (showError==true && passwordError.isNotEmpty)?
-        Text(passwordError,style: TextStyle(
-            color: Colors.red)
-        ):Container(),
+        (showError == true && passwordError.isNotEmpty)
+            ? Text(passwordError, style: TextStyle(color: Colors.red))
+            : Container(),
       ],
     );
   }
+
   forgetPassTextRow() {
     return Container(
       child: Row(
@@ -171,15 +177,13 @@ setState(() {
         children: <Widget>[
           Text(
             "Forgot your password?",
-            style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12),
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
           ),
           SizedBox(
             width: 5,
           ),
           GestureDetector(
-            onTap: () {
-              print("Routing");
-            },
+            onTap: () {},
             child: Text(
               "Recover",
               style: TextStyle(
@@ -190,6 +194,7 @@ setState(() {
       ),
     );
   }
+
   signUpTextRow() {
     return Container(
       child: Row(
@@ -197,169 +202,185 @@ setState(() {
         children: <Widget>[
           Text(
             "Don't have an account?",
-            style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12),
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
           ),
           SizedBox(
             width: 5,
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(Constant.SIGN_IN);
-              print("Routing to Sign up screen");
+              Provider.of<Auth>(context, listen: false).setRegisterErrorFun("");
+
+              Navigator.push(context, SlideLeftRoute(page: SignInPage()));
             },
             child: Text(
               "Sign in",
-              style: TextStyle(
-                  fontWeight: FontWeight.w800, fontSize:  17),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
             ),
           )
         ],
       ),
     );
   }
+
   headerTextRow() {
     return Container(
       child: Row(
         children: <Widget>[
           Text(
-            "REGISTER",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30),
+            "Register",
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 30),
           ),
-
-
         ],
       ),
     );
   }
-  button() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-       submitForm();
-      },
-      padding: EdgeInsets.all(0.0),
-      child: Container(
 
-        alignment: Alignment.center,
-        width:  get_width(context),
-        decoration: BoxDecoration(
-         gradient: LinearGradient(
-           colors: [PRIMARY_COLOR,SECONDARY_COLOR]
-         ),
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        ),
-        padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN Up',style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.w900)),
-      ),
+  submitButton() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: RawMaterialButton(
+            onPressed: () {
+              submitForm();
+            },
+            child: new Icon(
+              Icons.arrow_forward,
+              color: TRIAL_COLOR,
+              size: 35.0,
+            ),
+            shape: new CircleBorder(),
+            elevation: 2.0,
+            fillColor: PRIMARY_COLOR,
+            padding: const EdgeInsets.all(15.0),
+          ),
+        )
+      ],
     );
   }
+
   acceptTermsTextRow() {
     return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child:Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Checkbox(
+          Expanded(
+            flex: 1,
+            child: Container(),
+          ),
+      Expanded (
+          flex: 1,
+          child:Checkbox(
               value: checkBoxValue,
+              checkColor: TRIAL_COLOR,
+              activeColor: PRIMARY_COLOR,
               onChanged: (bool newValue) {
                 setState(() {
                   checkBoxValue = newValue;
+                  if(newValue==false && termTextColor==true){
+                    color=Colors.red;
+                  }
+                  else{
+                    color=PRIMARY_COLOR;
+                  }
                 });
-              }),
-          FlatButton(
-            onPressed:()=>{
-              Navigator.pushNamed(context, Constant.TERMS_AND_CONDTION),
-            },
-            child: Text("I accept all terms and conditions",
-              style: TextStyle(fontWeight: FontWeight.w400,
-                  color: isCheckBoxSelected==false?Colors.red:PRIMARY_COLOR,
-                  fontSize:12,
+              })),
 
 
-              ),
-            ),
+          Expanded (
+              flex: 5,
+              child:FlatButton(
+                onPressed: () {
+                  launchURL("https://relateapp.io/terms-of-service/");
+                },
+                child: Text(
+                  "I accept the Terms and Conditions",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: color,
+                    fontSize: 12,
+                  ),
+                ),
+              )
+
           ),
+
         ],
       ),
+    );
+  }
+
+  forms() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          logo(context),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 10),
+            child: headerTextRow(),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          emailTextFormField(),
+          SizedBox(
+            height: 20,
+          ),
+          passwordTextFormField(),
+          SizedBox(
+            height: 10,
+          ),
+          Consumer<Auth>(
+            builder: (BuildContext context, Auth value, Widget child) =>
+                value.getRegisterErrorFun().toString().isNotEmpty == true
+                    ? Text(value.getRegisterErrorFun(),
+                        style: TextStyle(color: Colors.red))
+                    : Container(),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+            acceptTermsTextRow(),
+
+          submitButton(),
+          SizedBox(
+            height: 10,
+          ),
+          signUpTextRow(),
+        ],
+      ),
+    );
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Provider.of<Auth>(context).getIsLoadingFun() == true
+          ? circularIndicator(context: context)
+          : SingleChildScrollView(
+              child: Column(
+              children: <Widget>[
+                Provider.of<AppState>(context).getTheme() == Constant.lightTheme
+                    ? clipShape(context)
+                    :  SizedBox(
+                        height: 100,
+                      ),
+                forms(),
+              ],
+            )),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(),
-                ),
-                FadeIn(2,logo()),
-                SizedBox(
-                  height: 20,
-                ),
-
-                FadeIn(2.5,headerTextRow(),),
-                SizedBox(
-                  height: 20,
-                ),
-                FadeIn(3,emailTextFormField()),
-                SizedBox(
-                  height: 20,
-                ),
-                FadeIn(3.5,passwordTextFormField(),),
-
-
-                SizedBox(
-                  height: 20,
-                ),
-
-
-                FadeIn(4.0,acceptTermsTextRow(),),
-                SizedBox(
-                  height: 10,
-                ),
-
-                FadeIn(4.5, button(),),
-
-                SizedBox(
-                  height: 10,
-                ),
-
-                FadeIn(4.5,  signUpTextRow(),),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(),
-                ),
-
-
-
-
-              ],
-            ),
-          ),
-
-
-          isDark==true?Container():
-          Positioned(
-              top: -MediaQuery.of(context).size.height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: CutterRatioContainer())
-        ],
-      ),
-    );
+  void changer({context, id}) {
   }
-
-
-
-
-
 }
-
