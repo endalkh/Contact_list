@@ -75,6 +75,7 @@ pageTaped(page) {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return WillPopScope(
       onWillPop: (){
         Navigator.push(context, SlideRightRoute(
@@ -106,6 +107,93 @@ pageTaped(page) {
                 Icons.person,
                 color: TRIAL_COLOR,
                 size: 35.0,
+=======
+    return SafeArea(
+      child: Scaffold(
+        appBar: headerNav(context: context,title: getTitle()),
+          body: Column(
+            children: <Widget>[
+
+              SizedBox(height: 10,),
+            Material(
+
+              child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  child:Column(
+//                    crossAxisAlignment: CrossAxisAlignment.center,
+//                    mainAxisAlignment: MainAxisAlignment.center,
+
+                    children: <Widget>[
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+//                        mainAxisAlignment: MainAxisAlignment.center,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                        Expanded(
+                          flex:6,
+                          child: Text("Name",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900
+                            ),
+
+                          ),
+                        ),
+
+                          Expanded(
+                            flex:8,
+                            child: Text("Endalk Belete"),
+                          )
+                        ],
+                      ),
+                      Divider(),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+//                        mainAxisAlignment: MainAxisAlignment.center,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            flex:6,
+                            child: Text("BirthDay",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900
+                              ),
+
+                            ),
+                          ),
+                          Expanded(
+                            flex:8,
+                            child: Text("1995-01-20"),
+                          )
+                        ],
+                      ),
+                      Divider(),
+                Row(
+                mainAxisSize: MainAxisSize.max,
+//                        mainAxisAlignment: MainAxisAlignment.center,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    flex:6,
+                    child: Text("Last Contact",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w900
+                      ),
+
+                    ),
+                  ),
+                  Expanded(
+                    flex:8,
+                    child: Text("1995-01-20"),
+                  )
+                ],
+              ),
+                    ],
+                  )
+
+>>>>>>> origin/master
               ),
               shape: new CircleBorder(),
               elevation: 2.0,

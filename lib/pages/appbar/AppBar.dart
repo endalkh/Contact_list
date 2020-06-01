@@ -7,6 +7,7 @@ AppBar headerNav({context,String title}){
     iconTheme: new IconThemeData(color: TRIAL_COLOR),
     title: Text(title,
       style: TextStyle(
+<<<<<<< HEAD
           fontSize: Constant.fontSize(10),
           fontWeight: FontWeight.w500,
           color: Colors.white
@@ -14,6 +15,21 @@ AppBar headerNav({context,String title}){
       ),
     ),
 
+=======
+          fontSize: Constant.fontSize(Constant.XL),
+          fontWeight: FontWeight.w900
+      ),
+    ),
+    actions: <Widget>[
+      new IconButton(
+        onPressed: () {
+          Search(context);
+        },
+        tooltip: 'Search',
+        icon: new Icon(Icons.search,color: PRIMARY_COLOR,),
+      )
+    ],
+>>>>>>> origin/master
   );
 }
 
